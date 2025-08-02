@@ -29,7 +29,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 }) => {
   return (
     <TooltipProvider>
-      <div className="h-full bg-sidebar text-sidebar-foreground flex flex-col border-r border-sidebar-border">
+      <div className="h-full bg-background text-foreground flex flex-col border-r border-border">
         {/* Header */}
         <div className={cn("border-b border-sidebar-border", collapsed ? "p-2" : "p-4")}>
           <div className={cn("flex items-center mb-4", collapsed ? "justify-center" : "justify-between")}>
