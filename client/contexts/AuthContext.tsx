@@ -50,22 +50,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = localStorage.getItem("authToken");
         const savedUser = localStorage.getItem("currentUser");
 
+        console.log("Checking auth status - token:", !!token, "savedUser:", !!savedUser);
+
         if (token && savedUser) {
-          // Verify token is still valid
-          const response = await apiService.verifyToken();
-          if (response.success && response.data) {
-            setUser(response.data);
-          } else {
-            // Token is invalid, clear storage
+          try {
+            // Parse saved user data
+            const userData = JSON.parse(savedUser);
+
+            // Verify token is still valid with server
+            const response = await apiService.verifyToken();
+            if (response.success && response.data) {
+              console.log("Token verification successful");
+              setUser(response.data);
+            } else {
+              console.log("Token verification failed:", response.error);
+              // Token is invalid, clear storage
+              localStorage.removeItem("authToken");
+              localStorage.removeItem("currentUser");
+              setUser(null);
+            }
+          } catch (parseError) {
+            console.error("Error parsing saved user data:", parseError);
+            // Clear corrupted data
             localStorage.removeItem("authToken");
             localStorage.removeItem("currentUser");
+            setUser(null);
           }
+        } else {
+          console.log("No auth token or saved user found");
+          setUser(null);
         }
       } catch (error) {
         console.error("Auth check failed:", error);
         // Clear potentially corrupted data
         localStorage.removeItem("authToken");
         localStorage.removeItem("currentUser");
+        setUser(null);
       } finally {
         setIsLoading(false);
       }
