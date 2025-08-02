@@ -304,4 +304,66 @@
       opacity: 0.9;
     }
   }
+
+  /* Alternative wave styles */
+
+  /* Style 2: Dot pulses */
+  .wave-container.dots .wave-bar {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    animation: dotPulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% {
+      transform: scale(0.6);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 1;
+    }
+  }
+
+  /* Style 3: Fluid bars */
+  .wave-container.fluid .wave-bar {
+    width: 2px;
+    height: 6px;
+    border-radius: 2px;
+    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary) / 0.6));
+    animation: fluidWave 0.8s ease-in-out infinite;
+  }
+
+  @keyframes fluidWave {
+    0%, 100% {
+      transform: scaleY(0.4) rotate(0deg);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scaleY(2.5) rotate(2deg);
+      opacity: 1;
+    }
+  }
+
+  /* Style 4: Ripple effect */
+  .wave-container.ripple .wave-bar {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    animation: rippleWave 1.5s ease-out infinite;
+  }
+
+  @keyframes rippleWave {
+    0% {
+      transform: scale(0.5);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2.5);
+      opacity: 0;
+    }
+  }
 }

@@ -87,6 +87,14 @@
       "type": "audio/webm",
       "url": "/api/files/dd28c54c-1974-4f42-9b7b-06c4b44543c0.webm",
       "uploadedAt": "2025-08-02T17:24:53.271Z"
+    },
+    {
+      "id": "2b00dd8c-c79d-47ab-9f3d-0c0606ff3461",
+      "name": "voice-message-1754155542590.webm",
+      "size": 61019,
+      "type": "audio/webm",
+      "url": "/api/files/d335cbd8-3c32-420e-a19d-e4e4720a4644.webm",
+      "uploadedAt": "2025-08-02T17:25:41.196Z"
     }
   ]
 }

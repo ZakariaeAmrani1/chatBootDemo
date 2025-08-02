@@ -116,6 +116,15 @@
       "updatedAt": "2025-08-02T17:24:55.192Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "4e347313-fcbd-406d-827e-b3ce2297387c",
+      "title": "🎤 Voice message",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:25:41.281Z",
+      "updatedAt": "2025-08-02T17:25:44.044Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -418,6 +427,30 @@
       "type": "assistant",
       "content": "I'd be happy to help you with a voice message. What would you like me to say?",
       "timestamp": "2025-08-02T17:24:55.192Z"
+    },
+    {
+      "id": "3c944cf5-3e2c-4e2e-a69a-1b48fa6c34b7",
+      "chatId": "4e347313-fcbd-406d-827e-b3ce2297387c",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:25:41.355Z",
+      "attachments": [
+        {
+          "id": "2b00dd8c-c79d-47ab-9f3d-0c0606ff3461",
+          "name": "voice-message-1754155542590.webm",
+          "size": 61019,
+          "type": "audio/webm",
+          "url": "/api/files/d335cbd8-3c32-420e-a19d-e4e4720a4644.webm",
+          "uploadedAt": "2025-08-02T17:25:41.196Z"
+        }
+      ]
+    },
+    {
+      "id": "4fce4ba2-2ca8-48dc-9cbe-7ae539c36453",
+      "chatId": "4e347313-fcbd-406d-827e-b3ce2297387c",
+      "type": "assistant",
+      "content": "What would you like to record as a voice message?",
+      "timestamp": "2025-08-02T17:25:44.044Z"
     }
   ]
 }
