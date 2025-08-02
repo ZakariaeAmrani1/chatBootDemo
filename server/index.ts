@@ -67,5 +67,10 @@ export function createServer() {
   app.get("/api/models", getModels);
   app.post("/api/models", addModel);
 
+  // Authentication API routes
+  app.post("/api/auth/login", loginUser);
+  app.post("/api/auth/register", registerUser);
+  app.get("/api/auth/verify", verifyUserToken);
+
   return app;
 }
