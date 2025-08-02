@@ -4,6 +4,7 @@ import {
   User,
   CreateChatRequest,
   SendMessageRequest,
+  MessageFeedbackRequest,
   ApiResponse,
   FileAttachment,
   DataStats,
@@ -72,6 +73,21 @@ class ApiService {
   async deleteChat(chatId: string): Promise<ApiResponse<null>> {
     return this.request<null>(`/chats/${chatId}`, {
       method: "DELETE",
+    });
+  }
+
+  async sendMessageFeedback(
+    request: MessageFeedbackRequest,
+  ): Promise<
+    ApiResponse<{ messageId: string; liked: boolean; disliked: boolean }>
+  > {
+    return this.request<{
+      messageId: string;
+      liked: boolean;
+      disliked: boolean;
+    }>("/messages/feedback", {
+      method: "POST",
+      body: JSON.stringify(request),
     });
   }
 

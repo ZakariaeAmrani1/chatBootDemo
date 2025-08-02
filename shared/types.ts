@@ -41,6 +41,8 @@ export interface Message {
   timestamp: string;
   attachments?: FileAttachment[];
   isThinking?: boolean;
+  liked?: boolean;
+  disliked?: boolean;
 }
 
 export interface Chat {
@@ -73,6 +75,11 @@ export interface SendMessageRequest {
   chatId: string;
   message: string;
   attachments?: File[];
+}
+
+export interface MessageFeedbackRequest {
+  messageId: string;
+  action: "like" | "dislike" | "removelike" | "removedislike";
 }
 
 export interface ApiResponse<T> {

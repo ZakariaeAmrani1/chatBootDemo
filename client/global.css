@@ -230,19 +230,16 @@
     gap: calc(1rem * 1.25);
   }
 
-  /* Typewriter cursor animation */
-  @keyframes blink {
+  /* Custom zoom pulse animation for thinking indicator */
+  @keyframes zoom-pulse {
     0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
     50% {
+      transform: scale(1.8);
       opacity: 1;
     }
-    51%,
-    100% {
-      opacity: 0;
-    }
-  }
-
-  .typewriter-cursor {
-    animation: blink 1s infinite;
   }
 }

@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
-import TypewriterText from "@/components/TypewriterText";
+import FadeInText from "@/components/FadeInText";
 import type { Message } from "@shared/types";
 
 interface ChatAreaProps {
@@ -16,6 +18,7 @@ interface ChatAreaProps {
   isThinking?: boolean;
   isLoading?: boolean;
   error?: string | null;
+  onRegenerateMessage?: (messageId: string) => void;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -25,8 +28,167 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   isThinking = false,
   isLoading = false,
   error = null,
+  onRegenerateMessage,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
+  // Copy message content to clipboard
+  const handleCopy = async (content: string) => {
+    // Fallback function using older method
+    const fallbackCopy = () => {
+      const textArea = document.createElement("textarea");
+      textArea.value = content;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+        return successful;
+      } catch (err) {
+        document.body.removeChild(textArea);
+        throw err;
+      }
+    };
+
+    try {
+      // Try modern clipboard API first, but always fall back if it fails
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(content);
+        } catch (clipboardError) {
+          // If clipboard API fails (permissions, etc.), use fallback
+          console.log(
+            "Clipboard API failed, using fallback:",
+            clipboardError.message,
+          );
+          const success = fallbackCopy();
+          if (!success) {
+            throw new Error("Fallback copy method failed");
+          }
+        }
+      } else {
+        // No modern clipboard API available, use fallback
+        const success = fallbackCopy();
+        if (!success) {
+          throw new Error("Copy command not supported");
+        }
+      }
+
+      toast({
+        title: "Copied to clipboard",
+        description: "Message content has been copied.",
+      });
+    } catch (error) {
+      console.error("Copy failed:", error);
+      toast({
+        title: "Failed to copy",
+        description:
+          "Could not copy message to clipboard. Please select and copy manually.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle thumbs up
+  const handleLike = async (messageId: string) => {
+    const message = messages.find((m) => m.id === messageId);
+    if (!message) return;
+
+    const action = message.liked ? "removelike" : "like";
+
+    try {
+      const response = await apiService.sendMessageFeedback({
+        messageId,
+        action,
+      });
+
+      if (response.success) {
+        toast({
+          title: action === "like" ? "Message liked" : "Like removed",
+          description: "Your feedback has been recorded.",
+        });
+        // The message state will be updated when the chat is refreshed
+        // For immediate UI feedback, you might want to trigger a refresh
+      } else {
+        throw new Error(response.error || "Failed to update feedback");
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to update feedback",
+        description: "Could not save your feedback. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle thumbs down
+  const handleDislike = async (messageId: string) => {
+    const message = messages.find((m) => m.id === messageId);
+    if (!message) return;
+
+    const action = message.disliked ? "removedislike" : "dislike";
+
+    try {
+      const response = await apiService.sendMessageFeedback({
+        messageId,
+        action,
+      });
+
+      if (response.success) {
+        toast({
+          title: action === "dislike" ? "Message disliked" : "Dislike removed",
+          description: "Your feedback has been recorded.",
+        });
+        // The message state will be updated when the chat is refreshed
+      } else {
+        throw new Error(response.error || "Failed to update feedback");
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to update feedback",
+        description: "Could not save your feedback. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle regenerate message
+  const handleRegenerate = (messageId: string) => {
+    if (onRegenerateMessage) {
+      onRegenerateMessage(messageId);
+    } else {
+      toast({
+        title: "Regeneration not available",
+        description: "Message regeneration is not implemented yet.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle share message
+  const handleShare = async (content: string) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "AI Message",
+          text: content,
+        });
+      } catch (error) {
+        // User cancelled or error occurred, fallback to clipboard
+        await handleCopy(content);
+      }
+    } else {
+      // Fallback to clipboard if Web Share API is not available
+      await handleCopy(content);
+    }
+  };
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -120,11 +282,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 {message.content && (
                   <div className="text-foreground">
                     {message.type === "assistant" ? (
-                      <TypewriterText
-                        text={message.content}
-                        speed={120}
-                        className="block"
-                      />
+                      <FadeInText text={message.content} delay={50} />
                     ) : (
                       <p className="whitespace-pre-wrap leading-relaxed">
                         {message.content}
@@ -140,20 +298,32 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={() => handleCopy(message.content)}
+                    title="Copy message"
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    className={cn(
+                      "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
+                      message.liked && "text-green-600 hover:text-green-700",
+                    )}
+                    onClick={() => handleLike(message.id)}
+                    title="Like message"
                   >
                     <ThumbsUp className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    className={cn(
+                      "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
+                      message.disliked && "text-red-600 hover:text-red-700",
+                    )}
+                    onClick={() => handleDislike(message.id)}
+                    title="Dislike message"
                   >
                     <ThumbsDown className="h-4 w-4" />
                   </Button>
@@ -161,6 +331,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={() => handleRegenerate(message.id)}
+                    title="Regenerate response"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
@@ -168,6 +340,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={() => handleShare(message.content)}
+                    title="Share message"
                   >
                     <Share className="h-4 w-4" />
                   </Button>
@@ -195,22 +369,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             </Avatar>
             <div className="flex-1 max-w-3xl mr-12">
               <div className="bg-transparent rounded-2xl px-6 py-4">
-                <div className="flex items-end gap-2 text-muted-foreground">
-                  <span className="text-sm">thinking</span>
-                  <div className="flex gap-1 items-end">
-                    <div
-                      className="w-1 h-1 bg-current rounded-full animate-bounce"
-                      style={{ animationDelay: "0ms" }}
-                    ></div>
-                    <div
-                      className="w-1 h-1 bg-current rounded-full animate-bounce"
-                      style={{ animationDelay: "150ms" }}
-                    ></div>
-                    <div
-                      className="w-1 h-1 bg-current rounded-full animate-bounce"
-                      style={{ animationDelay: "300ms" }}
-                    ></div>
-                  </div>
+                <div className="flex items-center justify-start text-muted-foreground">
+                  <div
+                    className="w-2 h-2 bg-current rounded-full transform-gpu"
+                    style={{
+                      animation: "zoom-pulse 1.5s ease-in-out infinite",
+                      transformOrigin: "center",
+                    }}
+                  ></div>
                 </div>
               </div>
             </div>
