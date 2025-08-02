@@ -660,7 +660,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     : "min-h-screen bg-background";
 
   const contentClasses = isModal
-    ? "bg-background rounded-lg w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] overflow-hidden"
+    ? "bg-background rounded-lg w-full max-w-4xl h-[85vh] md:h-[80vh] overflow-hidden flex flex-col"
     : "w-full";
 
   return (
