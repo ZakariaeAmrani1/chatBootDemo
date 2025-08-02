@@ -6,6 +6,23 @@ export interface User {
   avatar?: string;
   createdAt: string;
   settings: UserSettings;
+  passwordHash?: string; // Only used server-side
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  displayName: string;
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  user: Omit<User, 'passwordHash'>; // Don't expose password hash
+  token: string;
 }
 
 export interface UserSettings {
