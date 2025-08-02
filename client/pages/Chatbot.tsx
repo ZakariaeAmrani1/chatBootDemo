@@ -12,21 +12,28 @@ import { apiService } from "@/services/api";
 import { Chat, Message, FileAttachment } from "@shared/types";
 
 const Chatbot = () => {
-  const [chats, setChats] = useState<Chat[]>([
-    {
-      id: "1",
-      title: "New chat",
-      messages: [],
-      createdAt: new Date(),
-    },
-  ]);
-  const [currentChatId, setCurrentChatId] = useState<string>("1");
+  const [chatState, setChatState] = useState<ChatState>({
+    chats: [],
+    currentChat: null,
+    messages: [],
+    isLoading: false,
+    isThinking: false,
+    error: null,
+  });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
 
-  const currentChat = chats.find((chat) => chat.id === currentChatId);
+  // Subscribe to chat service state changes
+  useEffect(() => {
+    const unsubscribe = chatService.subscribe(setChatState);
+
+    // Load initial chats
+    chatService.loadChats();
+
+    return unsubscribe;
+  }, []);
 
   const createNewChat = () => {
     const newChat: Chat = {
