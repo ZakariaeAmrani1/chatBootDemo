@@ -422,7 +422,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 {/* Voice Recording */}
                 <div className="relative flex items-center gap-2">
                   {isRecording && (
-                    <div className="flex items-center gap-2 text-xs text-red-500 font-medium">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
                       <div className="flex items-center gap-1">
                         <div className="wave-container">
                           <div className="wave-bar"></div>
