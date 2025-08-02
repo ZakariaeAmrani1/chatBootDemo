@@ -55,15 +55,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Parse saved user data
             const userData = JSON.parse(savedUser);
 
-            // Verify token is still valid with server
-            const response = await apiService.verifyToken();
-            if (response.success && response.data) {
-              setUser(response.data);
-            } else {
-              // Token is invalid, clear storage
-              localStorage.removeItem("authToken");
-              localStorage.removeItem("currentUser");
-              setUser(null);
+            // Try to verify token with server
+            try {
+              const response = await apiService.verifyToken();
+              if (response.success && response.data) {
+                setUser(response.data);
+              } else if (response.error?.includes("Network error") || response.error?.includes("Failed to fetch")) {
+                // Network error - assume user is still valid but can't verify right now
+                console.warn("Could not verify token due to network error, using cached user data");
+                setUser(userData);
+              } else {
+                // Token is invalid, clear storage
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("currentUser");
+                setUser(null);
+              }
+            } catch (networkError) {
+              // Network failure - use cached user data temporarily
+              console.warn("Network error during token verification, using cached user data:", networkError);
+              setUser(userData);
             }
           } catch (parseError) {
             console.error("Error parsing saved user data:", parseError);
