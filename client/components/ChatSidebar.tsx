@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MessageSquare,
   Plus,
@@ -28,6 +28,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import { apiService } from "@/services/api";
 
 import { cn } from "@/lib/utils";
 import type { Chat, User } from "@shared/types";
@@ -42,6 +45,7 @@ interface ChatSidebarProps {
   onToggleCollapse: () => void;
   onOpenSettings?: () => void;
   onDeleteChat?: (chatId: string) => void;
+  onUpdateChat?: (chatId: string, updates: Partial<Chat>) => void;
   isLoading?: boolean;
   user?: User | null;
 }
