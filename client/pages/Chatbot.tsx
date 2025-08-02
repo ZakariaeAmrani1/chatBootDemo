@@ -153,9 +153,9 @@ const Chatbot = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
-        {/* Header */}
-        <header className="flex items-center justify-between p-4 border-b border-border bg-background">
+      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen">
+        {/* Header - Fixed */}
+        <header className="flex items-center justify-between p-4 border-b border-border bg-background sticky top-0 z-10">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
@@ -180,13 +180,17 @@ const Chatbot = () => {
           </div>
         </header>
 
-        {/* Chat area */}
-        <div className="flex-1 flex flex-col min-h-0">
+        {/* Chat area - Scrollable */}
+        <div className="flex-1 overflow-hidden">
           <ChatArea
             messages={currentChat?.messages || []}
             selectedModel={selectedModel}
             onModelChange={setSelectedModel}
           />
+        </div>
+
+        {/* Chat Input - Fixed at bottom */}
+        <div className="sticky bottom-0 z-10">
           <ChatInput onSendMessage={addMessage} />
         </div>
       </div>
