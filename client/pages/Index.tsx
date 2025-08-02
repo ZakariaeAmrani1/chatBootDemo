@@ -32,6 +32,11 @@ export default function Index() {
       </div>
 
       <div className="text-center relative z-10">
+        {/* Theme Toggle */}
+        <div className="absolute top-8 right-8">
+          <ThemeToggle />
+        </div>
+
         <div className="bg-background/80 backdrop-blur-xl rounded-3xl shadow-2xl p-12 max-w-2xl mx-auto border border-border/20">
           <div className="relative mb-8">
             <div className="w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-blue-500/25 hover:scale-110 transition-transform duration-500">
