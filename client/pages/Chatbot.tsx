@@ -34,34 +34,34 @@ const Chatbot = () => {
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [selectedVersion, setSelectedVersion] = useState("Chatboot V3");
+  const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
 
   // Version configurations with colors
   const versions = [
     {
       name: "V1",
-      fullName: "Chatboot V1",
+      fullName: "ChatNova V1",
       color: "text-slate-600",
       bgColor: "bg-slate-50",
       borderColor: "border-slate-200"
     },
     {
       name: "V2",
-      fullName: "Chatboot V2",
+      fullName: "ChatNova V2",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200"
     },
     {
       name: "V3",
-      fullName: "Chatboot V3",
+      fullName: "ChatNova V3",
       color: "text-purple-600",
       bgColor: "bg-purple-50",
       borderColor: "border-purple-200"
     },
     {
       name: "V4",
-      fullName: "Chatboot V4",
+      fullName: "ChatNova V4",
       color: "text-orange-600",
       bgColor: "bg-orange-50",
       borderColor: "border-orange-200"
