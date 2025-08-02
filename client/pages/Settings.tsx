@@ -71,8 +71,10 @@ const Settings: React.FC<SettingsProps> = ({
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
   const [user, setUser] = useState<UserType | null>(null);
+  const [dataStats, setDataStats] = useState<DataStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Load user data on mount
