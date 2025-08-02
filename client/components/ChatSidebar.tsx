@@ -46,26 +46,34 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 }) => {
   return (
     <TooltipProvider>
-      <div className="h-full bg-background text-foreground flex flex-col border-r border-border">
+      <div className="h-full bg-background text-foreground flex flex-col border-r border-border shadow-sm">
         {/* Header */}
         <div
-          className={cn("border-b border-border", collapsed ? "p-2" : "p-4")}
+          className={cn(
+            "border-b border-border bg-background/50 backdrop-blur-sm",
+            collapsed ? "p-3" : "p-5"
+          )}
         >
           <div
             className={cn(
-              "flex items-center mb-4",
+              "flex items-center mb-6",
               collapsed ? "justify-center" : "justify-between",
             )}
           >
             {!collapsed && (
-              <h2 className="text-lg font-semibold text-foreground">ChatGPT</h2>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
+                  <MessageSquare className="h-4 w-4 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-foreground tracking-tight">ChatGPT</h2>
+              </div>
             )}
             <div className="flex items-center gap-1">
               {!collapsed && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-accent"
+                  className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200"
                   onClick={onCloseSidebar}
                 >
                   <X className="h-4 w-4" />
@@ -76,7 +84,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-muted-foreground hover:text-foreground hover:bg-accent hidden lg:flex"
+                    className="text-muted-foreground hover:text-foreground hover:bg-accent hidden lg:flex rounded-lg transition-all duration-200"
                     onClick={onToggleCollapse}
                   >
                     {collapsed ? (
@@ -98,10 +106,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <TooltipTrigger asChild>
                 <Button
                   onClick={onNewChat}
-                  className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10 px-2"
+                  className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-12 px-3 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md"
                   variant="outline"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-5 w-5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right">New chat</TooltipContent>
@@ -109,10 +117,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           ) : (
             <Button
               onClick={onNewChat}
-              className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border"
+              className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-12 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md font-medium"
               variant="outline"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-5 w-5 mr-3" />
               New chat
             </Button>
           )}
