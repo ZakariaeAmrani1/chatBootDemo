@@ -144,6 +144,18 @@ const Chatbot = () => {
     await chatService.deleteChat(chatId);
   };
 
+  const handleUpdateChat = async (chatId: string, updates: Partial<Chat>) => {
+    try {
+      const response = await apiService.updateChat(chatId, updates);
+      if (response.success) {
+        // Refresh chats to show updated title
+        chatService.loadChats();
+      }
+    } catch (error) {
+      console.error("Failed to update chat:", error);
+    }
+  };
+
   const handleRefresh = () => {
     // Reload chats after clearing history
     chatService.loadChats();
