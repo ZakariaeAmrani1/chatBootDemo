@@ -20,14 +20,26 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
@@ -37,56 +49,61 @@ interface SettingsProps {
   isModal?: boolean;
 }
 
-type SettingsSection = 
-  | "overview" 
-  | "profile" 
-  | "appearance" 
-  | "notifications" 
-  | "privacy" 
-  | "chat" 
-  | "data" 
-  | "language" 
-  | "voice" 
+type SettingsSection =
+  | "overview"
+  | "profile"
+  | "appearance"
+  | "notifications"
+  | "privacy"
+  | "chat"
+  | "data"
+  | "language"
+  | "voice"
   | "accessibility";
 
-const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) => {
-  const [activeSection, setActiveSection] = useState<SettingsSection>("overview");
+const Settings: React.FC<SettingsProps> = ({
+  onClose,
+  onBack,
+  isModal = true,
+}) => {
+  const [activeSection, setActiveSection] =
+    useState<SettingsSection>("overview");
   const [settings, setSettings] = useState({
     // Profile settings
     displayName: "User",
     email: "user@example.com",
     bio: "",
-    
+
     // Appearance settings
     theme: "system",
     fontSize: "medium",
     density: "comfortable",
-    
+
     // Notification settings
     emailNotifications: true,
     pushNotifications: true,
     soundEnabled: true,
-    
+
     // Privacy settings
     dataCollection: true,
     analytics: false,
     shareUsage: false,
-    
+
     // Chat settings
     autoSave: true,
     messageHistory: true,
     showTimestamps: true,
     enterToSend: true,
-    
+
     // Language settings
     language: "english",
     region: "us",
-    
+
     // Voice settings
     voiceEnabled: false,
     voiceModel: "natural",
     speechRate: [1],
-    
+
     // Accessibility settings
     highContrast: false,
     reducedMotion: false,
@@ -94,7 +111,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
   });
 
   const updateSetting = (key: string, value: any) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
   const settingsMenu = [
@@ -114,7 +131,9 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div className="hidden md:block">
         <h2 className="text-2xl font-bold text-foreground mb-2">Settings</h2>
-        <p className="text-muted-foreground">Manage your account settings and preferences.</p>
+        <p className="text-muted-foreground">
+          Manage your account settings and preferences.
+        </p>
       </div>
 
       <div className="grid gap-3 md:gap-4 grid-cols-1 md:grid-cols-2">
@@ -130,7 +149,9 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <Icon className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                    <CardTitle className="text-sm md:text-base">{section.label}</CardTitle>
+                    <CardTitle className="text-sm md:text-base">
+                      {section.label}
+                    </CardTitle>
                   </div>
                   <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                 </div>
@@ -146,17 +167,21 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Profile</h3>
-        <p className="text-sm text-muted-foreground">Manage your personal information and preferences.</p>
+        <p className="text-sm text-muted-foreground">
+          Manage your personal information and preferences.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
             U
           </div>
-          <Button variant="outline" size="sm">Change Avatar</Button>
+          <Button variant="outline" size="sm">
+            Change Avatar
+          </Button>
         </div>
-        
+
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="displayName">Display Name</Label>
@@ -176,7 +201,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
             />
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="bio">Bio</Label>
           <Textarea
@@ -188,9 +213,9 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
           />
         </div>
       </div>
-      
+
       <Separator />
-      
+
       <div className="space-y-4">
         <h4 className="font-medium">Account Actions</h4>
         <div className="space-y-2">
@@ -215,9 +240,11 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Appearance</h3>
-        <p className="text-sm text-muted-foreground">Customize how the interface looks and feels.</p>
+        <p className="text-sm text-muted-foreground">
+          Customize how the interface looks and feels.
+        </p>
       </div>
-      
+
       <div className="space-y-6">
         <div className="space-y-3">
           <Label>Theme</Label>
@@ -239,10 +266,13 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
             ))}
           </div>
         </div>
-        
+
         <div className="space-y-3">
           <Label>Font Size</Label>
-          <Select value={settings.fontSize} onValueChange={(value) => updateSetting("fontSize", value)}>
+          <Select
+            value={settings.fontSize}
+            onValueChange={(value) => updateSetting("fontSize", value)}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -254,10 +284,13 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
             </SelectContent>
           </Select>
         </div>
-        
+
         <div className="space-y-3">
           <Label>Display Density</Label>
-          <Select value={settings.density} onValueChange={(value) => updateSetting("density", value)}>
+          <Select
+            value={settings.density}
+            onValueChange={(value) => updateSetting("density", value)}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -276,40 +309,54 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Notifications</h3>
-        <p className="text-sm text-muted-foreground">Configure how you receive notifications.</p>
+        <p className="text-sm text-muted-foreground">
+          Configure how you receive notifications.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Email Notifications</Label>
-            <p className="text-sm text-muted-foreground">Receive notifications via email</p>
+            <p className="text-sm text-muted-foreground">
+              Receive notifications via email
+            </p>
           </div>
           <Switch
             checked={settings.emailNotifications}
-            onCheckedChange={(checked) => updateSetting("emailNotifications", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("emailNotifications", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Push Notifications</Label>
-            <p className="text-sm text-muted-foreground">Receive browser notifications</p>
+            <p className="text-sm text-muted-foreground">
+              Receive browser notifications
+            </p>
           </div>
           <Switch
             checked={settings.pushNotifications}
-            onCheckedChange={(checked) => updateSetting("pushNotifications", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("pushNotifications", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Sound Effects</Label>
-            <p className="text-sm text-muted-foreground">Play sounds for notifications</p>
+            <p className="text-sm text-muted-foreground">
+              Play sounds for notifications
+            </p>
           </div>
           <Switch
             checked={settings.soundEnabled}
-            onCheckedChange={(checked) => updateSetting("soundEnabled", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("soundEnabled", checked)
+            }
           />
         </div>
       </div>
@@ -320,36 +367,46 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Privacy & Security</h3>
-        <p className="text-sm text-muted-foreground">Control your privacy and security settings.</p>
+        <p className="text-sm text-muted-foreground">
+          Control your privacy and security settings.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Data Collection</Label>
-            <p className="text-sm text-muted-foreground">Allow collection of usage data</p>
+            <p className="text-sm text-muted-foreground">
+              Allow collection of usage data
+            </p>
           </div>
           <Switch
             checked={settings.dataCollection}
-            onCheckedChange={(checked) => updateSetting("dataCollection", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("dataCollection", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Analytics</Label>
-            <p className="text-sm text-muted-foreground">Help improve the service with analytics</p>
+            <p className="text-sm text-muted-foreground">
+              Help improve the service with analytics
+            </p>
           </div>
           <Switch
             checked={settings.analytics}
             onCheckedChange={(checked) => updateSetting("analytics", checked)}
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Share Usage Data</Label>
-            <p className="text-sm text-muted-foreground">Share anonymized usage patterns</p>
+            <p className="text-sm text-muted-foreground">
+              Share anonymized usage patterns
+            </p>
           </div>
           <Switch
             checked={settings.shareUsage}
@@ -357,15 +414,17 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
           />
         </div>
       </div>
-      
+
       <Separator />
-      
+
       <div className="space-y-4">
         <h4 className="font-medium">Security</h4>
         <Button variant="outline" className="w-full justify-start">
           <Shield className="h-4 w-4 mr-2" />
           Two-Factor Authentication
-          <Badge variant="secondary" className="ml-auto">Disabled</Badge>
+          <Badge variant="secondary" className="ml-auto">
+            Disabled
+          </Badge>
         </Button>
         <Button variant="outline" className="w-full justify-start">
           <Key className="h-4 w-4 mr-2" />
@@ -379,47 +438,61 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Chat Settings</h3>
-        <p className="text-sm text-muted-foreground">Customize your chat experience.</p>
+        <p className="text-sm text-muted-foreground">
+          Customize your chat experience.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Auto-save Chats</Label>
-            <p className="text-sm text-muted-foreground">Automatically save chat conversations</p>
+            <p className="text-sm text-muted-foreground">
+              Automatically save chat conversations
+            </p>
           </div>
           <Switch
             checked={settings.autoSave}
             onCheckedChange={(checked) => updateSetting("autoSave", checked)}
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Message History</Label>
-            <p className="text-sm text-muted-foreground">Keep chat history across sessions</p>
+            <p className="text-sm text-muted-foreground">
+              Keep chat history across sessions
+            </p>
           </div>
           <Switch
             checked={settings.messageHistory}
-            onCheckedChange={(checked) => updateSetting("messageHistory", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("messageHistory", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Show Timestamps</Label>
-            <p className="text-sm text-muted-foreground">Display message timestamps</p>
+            <p className="text-sm text-muted-foreground">
+              Display message timestamps
+            </p>
           </div>
           <Switch
             checked={settings.showTimestamps}
-            onCheckedChange={(checked) => updateSetting("showTimestamps", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("showTimestamps", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Enter to Send</Label>
-            <p className="text-sm text-muted-foreground">Send messages with Enter key</p>
+            <p className="text-sm text-muted-foreground">
+              Send messages with Enter key
+            </p>
           </div>
           <Switch
             checked={settings.enterToSend}
@@ -434,14 +507,18 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Data & Storage</h3>
-        <p className="text-sm text-muted-foreground">Manage your data and storage preferences.</p>
+        <p className="text-sm text-muted-foreground">
+          Manage your data and storage preferences.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Storage Usage</CardTitle>
-            <CardDescription>Current storage usage for your account</CardDescription>
+            <CardDescription>
+              Current storage usage for your account
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -465,7 +542,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
             </div>
           </CardContent>
         </Card>
-        
+
         <div className="space-y-2">
           <Button variant="outline" className="w-full justify-start">
             <Download className="h-4 w-4 mr-2" />
@@ -484,13 +561,18 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Language & Region</h3>
-        <p className="text-sm text-muted-foreground">Set your language and regional preferences.</p>
+        <p className="text-sm text-muted-foreground">
+          Set your language and regional preferences.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Language</Label>
-          <Select value={settings.language} onValueChange={(value) => updateSetting("language", value)}>
+          <Select
+            value={settings.language}
+            onValueChange={(value) => updateSetting("language", value)}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -504,10 +586,13 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
             </SelectContent>
           </Select>
         </div>
-        
+
         <div className="space-y-2">
           <Label>Region</Label>
-          <Select value={settings.region} onValueChange={(value) => updateSetting("region", value)}>
+          <Select
+            value={settings.region}
+            onValueChange={(value) => updateSetting("region", value)}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -529,26 +614,35 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Voice & Speech</h3>
-        <p className="text-sm text-muted-foreground">Configure voice and speech settings.</p>
+        <p className="text-sm text-muted-foreground">
+          Configure voice and speech settings.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Voice Input</Label>
-            <p className="text-sm text-muted-foreground">Enable voice-to-text input</p>
+            <p className="text-sm text-muted-foreground">
+              Enable voice-to-text input
+            </p>
           </div>
           <Switch
             checked={settings.voiceEnabled}
-            onCheckedChange={(checked) => updateSetting("voiceEnabled", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("voiceEnabled", checked)
+            }
           />
         </div>
-        
+
         {settings.voiceEnabled && (
           <>
             <div className="space-y-2">
               <Label>Voice Model</Label>
-              <Select value={settings.voiceModel} onValueChange={(value) => updateSetting("voiceModel", value)}>
+              <Select
+                value={settings.voiceModel}
+                onValueChange={(value) => updateSetting("voiceModel", value)}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -559,7 +653,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="space-y-3">
               <Label>Speech Rate</Label>
               <div className="px-2">
@@ -588,40 +682,54 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-2">Accessibility</h3>
-        <p className="text-sm text-muted-foreground">Configure accessibility features.</p>
+        <p className="text-sm text-muted-foreground">
+          Configure accessibility features.
+        </p>
       </div>
-      
+
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>High Contrast</Label>
-            <p className="text-sm text-muted-foreground">Increase contrast for better visibility</p>
+            <p className="text-sm text-muted-foreground">
+              Increase contrast for better visibility
+            </p>
           </div>
           <Switch
             checked={settings.highContrast}
-            onCheckedChange={(checked) => updateSetting("highContrast", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("highContrast", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Reduced Motion</Label>
-            <p className="text-sm text-muted-foreground">Minimize animations and transitions</p>
+            <p className="text-sm text-muted-foreground">
+              Minimize animations and transitions
+            </p>
           </div>
           <Switch
             checked={settings.reducedMotion}
-            onCheckedChange={(checked) => updateSetting("reducedMotion", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("reducedMotion", checked)
+            }
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label>Screen Reader Support</Label>
-            <p className="text-sm text-muted-foreground">Optimize for screen readers</p>
+            <p className="text-sm text-muted-foreground">
+              Optimize for screen readers
+            </p>
           </div>
           <Switch
             checked={settings.screenReader}
-            onCheckedChange={(checked) => updateSetting("screenReader", checked)}
+            onCheckedChange={(checked) =>
+              updateSetting("screenReader", checked)
+            }
           />
         </div>
       </div>
@@ -676,9 +784,13 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
                   return (
                     <Button
                       key={item.id}
-                      variant={activeSection === item.id ? "secondary" : "ghost"}
+                      variant={
+                        activeSection === item.id ? "secondary" : "ghost"
+                      }
                       className="w-full justify-start"
-                      onClick={() => setActiveSection(item.id as SettingsSection)}
+                      onClick={() =>
+                        setActiveSection(item.id as SettingsSection)
+                      }
                     >
                       <Icon className="h-4 w-4 mr-3" />
                       {item.label}
@@ -710,7 +822,10 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
                   </Button>
                 )}
                 <h1 className="text-lg md:text-xl font-semibold">
-                  {activeSection === "overview" ? "Settings" : settingsMenu.find(item => item.id === activeSection)?.label || "Settings"}
+                  {activeSection === "overview"
+                    ? "Settings"
+                    : settingsMenu.find((item) => item.id === activeSection)
+                        ?.label || "Settings"}
                 </h1>
               </div>
               <Button variant="ghost" size="sm" onClick={onClose}>
@@ -729,9 +844,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-4 md:p-6 min-h-0">
-              <div className="h-full">
-                {renderContent()}
-              </div>
+              <div className="h-full">{renderContent()}</div>
             </div>
 
             {/* Footer */}

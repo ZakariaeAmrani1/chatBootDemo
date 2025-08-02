@@ -177,7 +177,11 @@ const Chatbot = () => {
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
             <ThemeToggle />
-            <Button variant="ghost" size="sm" onClick={() => setSettingsOpen(true)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSettingsOpen(true)}
+            >
               <Settings className="h-4 w-4" />
             </Button>
           </div>
@@ -200,10 +204,7 @@ const Chatbot = () => {
 
       {/* Settings Modal */}
       {settingsOpen && (
-        <SettingsPage
-          onClose={() => setSettingsOpen(false)}
-          isModal={true}
-        />
+        <SettingsPage onClose={() => setSettingsOpen(false)} isModal={true} />
       )}
     </div>
   );

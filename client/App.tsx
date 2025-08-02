@@ -24,7 +24,15 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/chat" element={<Chatbot />} />
-            <Route path="/settings" element={<Settings onClose={() => window.history.back()} isModal={false} />} />
+            <Route
+              path="/settings"
+              element={
+                <Settings
+                  onClose={() => window.history.back()}
+                  isModal={false}
+                />
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

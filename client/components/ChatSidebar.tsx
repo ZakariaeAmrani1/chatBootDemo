@@ -53,7 +53,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         <div
           className={cn(
             "border-b border-border bg-background/50 backdrop-blur-sm",
-            collapsed ? "p-2" : "p-4"
+            collapsed ? "p-2" : "p-4",
           )}
         >
           <div
@@ -67,7 +67,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
                   <MessageSquare className="h-3 w-3 text-white" />
                 </div>
-                <h2 className="text-lg font-semibold text-foreground tracking-tight">ChatGPT</h2>
+                <h2 className="text-lg font-semibold text-foreground tracking-tight">
+                  ChatGPT
+                </h2>
               </div>
             )}
             <div className="flex items-center gap-1">
@@ -134,8 +136,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             {chats.length === 0 && !collapsed && (
               <div className="px-3 py-6 text-center">
                 <MessageSquare className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">No conversations yet</p>
-                <p className="text-xs text-muted-foreground/70 mt-1">Start a new chat to begin</p>
+                <p className="text-sm text-muted-foreground">
+                  No conversations yet
+                </p>
+                <p className="text-xs text-muted-foreground/70 mt-1">
+                  Start a new chat to begin
+                </p>
               </div>
             )}
             {chats.map((chat) =>
@@ -143,19 +149,21 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Tooltip key={chat.id}>
                   <TooltipTrigger asChild>
                     <div
-              className={cn(
-                "flex items-center justify-center p-2 rounded-md cursor-pointer transition-colors",
-                "hover:bg-muted/50",
-                currentChatId === chat.id
-                  ? "bg-muted"
-                  : "",
-              )}
+                      className={cn(
+                        "flex items-center justify-center p-2 rounded-md cursor-pointer transition-colors",
+                        "hover:bg-muted/50",
+                        currentChatId === chat.id ? "bg-muted" : "",
+                      )}
                       onClick={() => onChatSelect(chat.id)}
                     >
-                      <MessageSquare className={cn(
-                        "h-4 w-4 transition-colors",
-                        currentChatId === chat.id ? "text-accent-foreground" : "text-muted-foreground"
-                      )} />
+                      <MessageSquare
+                        className={cn(
+                          "h-4 w-4 transition-colors",
+                          currentChatId === chat.id
+                            ? "text-accent-foreground"
+                            : "text-muted-foreground",
+                        )}
+                      />
                     </div>
                   </TooltipTrigger>
                   <TooltipContent side="right">{chat.title}</TooltipContent>
@@ -166,9 +174,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   className={cn(
                     "group relative flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
                     "hover:bg-muted/50",
-                    currentChatId === chat.id
-                      ? "bg-muted"
-                      : "",
+                    currentChatId === chat.id ? "bg-muted" : "",
                   )}
                   onClick={() => onChatSelect(chat.id)}
                 >
@@ -262,7 +268,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <TooltipContent side="right">
                   <div className="text-left">
                     <p className="font-semibold">User</p>
-                    <p className="text-xs text-muted-foreground">user@example.com</p>
+                    <p className="text-xs text-muted-foreground">
+                      user@example.com
+                    </p>
                   </div>
                 </TooltipContent>
               </Tooltip>
