@@ -78,8 +78,14 @@ class ApiService {
 
   async sendMessageFeedback(
     request: MessageFeedbackRequest,
-  ): Promise<ApiResponse<{ messageId: string; liked: boolean; disliked: boolean }>> {
-    return this.request<{ messageId: string; liked: boolean; disliked: boolean }>("/messages/feedback", {
+  ): Promise<
+    ApiResponse<{ messageId: string; liked: boolean; disliked: boolean }>
+  > {
+    return this.request<{
+      messageId: string;
+      liked: boolean;
+      disliked: boolean;
+    }>("/messages/feedback", {
       method: "POST",
       body: JSON.stringify(request),
     });

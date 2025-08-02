@@ -37,18 +37,18 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const handleCopy = async (content: string) => {
     // Fallback function using older method
     const fallbackCopy = () => {
-      const textArea = document.createElement('textarea');
+      const textArea = document.createElement("textarea");
       textArea.value = content;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      textArea.style.top = '-999999px';
-      textArea.style.opacity = '0';
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      textArea.style.opacity = "0";
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
 
       try {
-        const successful = document.execCommand('copy');
+        const successful = document.execCommand("copy");
         document.body.removeChild(textArea);
         return successful;
       } catch (err) {
@@ -64,17 +64,20 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           await navigator.clipboard.writeText(content);
         } catch (clipboardError) {
           // If clipboard API fails (permissions, etc.), use fallback
-          console.log('Clipboard API failed, using fallback:', clipboardError.message);
+          console.log(
+            "Clipboard API failed, using fallback:",
+            clipboardError.message,
+          );
           const success = fallbackCopy();
           if (!success) {
-            throw new Error('Fallback copy method failed');
+            throw new Error("Fallback copy method failed");
           }
         }
       } else {
         // No modern clipboard API available, use fallback
         const success = fallbackCopy();
         if (!success) {
-          throw new Error('Copy command not supported');
+          throw new Error("Copy command not supported");
         }
       }
 
@@ -83,10 +86,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         description: "Message content has been copied.",
       });
     } catch (error) {
-      console.error('Copy failed:', error);
+      console.error("Copy failed:", error);
       toast({
         title: "Failed to copy",
-        description: "Could not copy message to clipboard. Please select and copy manually.",
+        description:
+          "Could not copy message to clipboard. Please select and copy manually.",
         variant: "destructive",
       });
     }
@@ -94,7 +98,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
   // Handle thumbs up
   const handleLike = async (messageId: string) => {
-    const message = messages.find(m => m.id === messageId);
+    const message = messages.find((m) => m.id === messageId);
     if (!message) return;
 
     const action = message.liked ? "removelike" : "like";
@@ -126,7 +130,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
   // Handle thumbs down
   const handleDislike = async (messageId: string) => {
-    const message = messages.find(m => m.id === messageId);
+    const message = messages.find((m) => m.id === messageId);
     if (!message) return;
 
     const action = message.disliked ? "removedislike" : "dislike";
@@ -278,10 +282,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 {message.content && (
                   <div className="text-foreground">
                     {message.type === "assistant" ? (
-                      <FadeInText
-                        text={message.content}
-                        delay={50}
-                      />
+                      <FadeInText text={message.content} delay={50} />
                     ) : (
                       <p className="whitespace-pre-wrap leading-relaxed">
                         {message.content}
@@ -307,7 +308,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     size="sm"
                     className={cn(
                       "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
-                      message.liked && "text-green-600 hover:text-green-700"
+                      message.liked && "text-green-600 hover:text-green-700",
                     )}
                     onClick={() => handleLike(message.id)}
                     title="Like message"
@@ -319,7 +320,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     size="sm"
                     className={cn(
                       "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
-                      message.disliked && "text-red-600 hover:text-red-700"
+                      message.disliked && "text-red-600 hover:text-red-700",
                     )}
                     onClick={() => handleDislike(message.id)}
                     title="Dislike message"
@@ -369,12 +370,13 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             <div className="flex-1 max-w-3xl mr-12">
               <div className="bg-transparent rounded-2xl px-6 py-4">
                 <div className="flex items-center justify-start text-muted-foreground">
-                  <div className="w-2 h-2 bg-current rounded-full transform-gpu"
-                       style={{
-                         animation: 'zoom-pulse 1.5s ease-in-out infinite',
-                         transformOrigin: 'center'
-                       }}>
-                  </div>
+                  <div
+                    className="w-2 h-2 bg-current rounded-full transform-gpu"
+                    style={{
+                      animation: "zoom-pulse 1.5s ease-in-out infinite",
+                      transformOrigin: "center",
+                    }}
+                  ></div>
                 </div>
               </div>
             </div>

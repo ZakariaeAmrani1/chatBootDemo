@@ -15,10 +15,12 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
 
     // Get current chats data
     const chatsData = await dataManager.getChats();
-    
+
     // Find the message
-    const messageIndex = chatsData.messages.findIndex(msg => msg.id === messageId);
-    
+    const messageIndex = chatsData.messages.findIndex(
+      (msg) => msg.id === messageId,
+    );
+
     if (messageIndex === -1) {
       return res.status(404).json({
         success: false,
@@ -27,7 +29,7 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
     }
 
     const message = chatsData.messages[messageIndex];
-    
+
     // Update message based on action
     switch (action) {
       case "like":
@@ -53,7 +55,7 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
 
     // Update the message in the array
     chatsData.messages[messageIndex] = message;
-    
+
     // Save updated data
     await dataManager.saveChats(chatsData);
 
