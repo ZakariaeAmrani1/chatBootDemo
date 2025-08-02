@@ -374,9 +374,11 @@ const Chatbot = () => {
                     key={version.fullName}
                     onClick={() => setSelectedVersion(version.fullName)}
                     className={cn(
-                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200",
-                      "hover:bg-muted/60",
-                      selectedVersion === version.fullName && version.bgColor,
+                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 border",
+                      "hover:bg-muted/30",
+                      selectedVersion === version.fullName
+                        ? `bg-transparent ${version.borderColor}`
+                        : "border-transparent hover:border-muted",
                     )}
                   >
                     <span
