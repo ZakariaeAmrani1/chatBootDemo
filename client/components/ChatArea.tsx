@@ -33,6 +33,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   error = null,
   onRegenerateMessage,
   onMessageUpdate,
+  user,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
