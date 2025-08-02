@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { MessageSquare, Plus, Settings, Share2, Menu, X } from "lucide-react";
+import { MessageSquare, Plus, Settings, Share2, Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
@@ -28,6 +34,7 @@ const Chatbot = () => {
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [selectedVersion, setSelectedVersion] = useState("Chatboot Pro");
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
