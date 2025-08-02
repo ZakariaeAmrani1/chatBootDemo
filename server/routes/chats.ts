@@ -125,13 +125,13 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Simulate AI thinking and response
-      setTimeout(() => {
+      // Generate AI response
+      setTimeout(async () => {
         const aiMessage: Message = {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: generateAIResponse(message),
+          content: await generateAIResponse(message, userId),
           timestamp: new Date().toISOString(),
         };
 
