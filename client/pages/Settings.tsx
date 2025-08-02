@@ -802,6 +802,50 @@ const Settings: React.FC<SettingsProps> = ({
     ? "bg-background rounded-lg w-full max-w-4xl h-[85vh] md:h-[80vh] overflow-hidden flex flex-col"
     : "w-full";
 
+  if (isLoading) {
+    return (
+      <div className={containerClasses}>
+        <div className={contentClasses}>
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading settings...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={containerClasses}>
+        <div className={contentClasses}>
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <p className="text-destructive mb-4">Error: {error}</p>
+              <Button onClick={loadUserData}>Try Again</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className={containerClasses}>
+        <div className={contentClasses}>
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <p className="text-muted-foreground">No user data found</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={containerClasses}>
       <div className={contentClasses}>
