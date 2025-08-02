@@ -424,6 +424,17 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        onOpenChange={setDeleteConfirmOpen}
+        title="Delete Chat"
+        description="Are you sure you want to delete this chat? This action cannot be undone and will permanently remove all messages in this conversation."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDeleteConfirm}
+        destructive={true}
+      />
     </TooltipProvider>
   );
 };
