@@ -1,4 +1,4 @@
-import { Chat, Message, User, CreateChatRequest, SendMessageRequest, ApiResponse, FileAttachment } from '@shared/types';
+import { Chat, Message, User, CreateChatRequest, SendMessageRequest, ApiResponse, FileAttachment, DataStats } from '@shared/types';
 
 const API_BASE = '/api';
 
