@@ -732,12 +732,16 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
 
             {/* Footer */}
             {activeSection !== "overview" && (
-              <div className="border-t border-border p-4 flex-shrink-0">
-                <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setActiveSection("overview")}>
+              <div className="border-t border-border p-3 md:p-4 flex-shrink-0">
+                <div className="flex flex-col-reverse md:flex-row md:justify-end space-y-2 space-y-reverse md:space-y-0 md:space-x-2">
+                  <Button
+                    variant="outline"
+                    className="w-full md:w-auto"
+                    onClick={() => setActiveSection("overview")}
+                  >
                     Cancel
                   </Button>
-                  <Button>Save Changes</Button>
+                  <Button className="w-full md:w-auto">Save Changes</Button>
                 </div>
               </div>
             )}
