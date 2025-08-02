@@ -1,29 +1,4 @@
 {
-  "chats": [
-    {
-      "id": "96e494a5-a3a5-405d-adac-5c61c7a4dbbf",
-      "title": "hello",
-      "model": "gpt-4",
-      "createdAt": "2025-08-02T14:36:17.550Z",
-      "updatedAt": "2025-08-02T14:36:22.852Z",
-      "messageCount": 2,
-      "userId": "user-1"
-    }
-  ],
-  "messages": [
-    {
-      "id": "fd92310c-e905-4e2e-a7f3-c06a4576c3cb",
-      "chatId": "96e494a5-a3a5-405d-adac-5c61c7a4dbbf",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-02T14:36:21.351Z"
-    },
-    {
-      "id": "280f32e4-e975-4082-9e55-d1a103dfb888",
-      "chatId": "96e494a5-a3a5-405d-adac-5c61c7a4dbbf",
-      "type": "assistant",
-      "content": "Hello! It's great to meet you. How can I assist you today?",
-      "timestamp": "2025-08-02T14:36:22.852Z"
-    }
-  ]
+  "chats": [],
+  "messages": []
 }
