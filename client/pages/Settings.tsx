@@ -71,7 +71,8 @@ type SettingsSection =
   | "data"
   | "language"
   | "voice"
-  | "accessibility";
+  | "accessibility"
+  | "app";
 
 const Settings: React.FC<SettingsProps> = ({
   onClose,
