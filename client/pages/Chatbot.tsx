@@ -166,13 +166,7 @@ const Chatbot = () => {
 
   const handleMessageUpdate = (messageId: string, updates: Partial<Message>) => {
     // Update the message in the chatService state
-    const currentState = chatService.getState();
-    const updatedMessages = currentState.messages.map(msg =>
-      msg.id === messageId ? { ...msg, ...updates } : msg
-    );
-
-    // Update the state directly in chatService
-    chatService['setState']({ messages: updatedMessages });
+    chatService.updateMessage(messageId, updates);
   };
 
   return (
