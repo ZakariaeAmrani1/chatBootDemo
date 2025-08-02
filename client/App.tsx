@@ -22,7 +22,10 @@ const queryClient = new QueryClient();
 
 // Protected Route Component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  // Debug authentication state
+  console.log("ProtectedRoute - isAuthenticated:", isAuthenticated, "isLoading:", isLoading, "user:", user);
 
   if (isLoading) {
     return (
@@ -31,13 +34,16 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
             <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
           </div>
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-muted-foreground">Checking authentication...</p>
         </div>
       </div>
     );
   }
 
-  if (!isAuthenticated) {
+  // Additional token check
+  const token = localStorage.getItem("authToken");
+  if (!isAuthenticated || !user || !token) {
+    console.log("Redirecting to login - not authenticated");
     return <Navigate to="/login" replace />;
   }
 
