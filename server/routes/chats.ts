@@ -168,7 +168,7 @@ export const createChat: RequestHandler = (req, res) => {
 // Send a message to an existing chat
 export const sendMessage: RequestHandler = (req, res) => {
   try {
-    const { chatId, message } = req.body as SendMessageRequest;
+    const { chatId, message, attachments } = req.body as SendMessageRequest;
     const now = new Date().toISOString();
 
     // Check if chat exists
