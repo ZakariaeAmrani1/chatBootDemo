@@ -171,11 +171,11 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
-  const handleClearChatHistory = async () => {
-    if (!confirm('Are you sure you want to clear all chat history? This action cannot be undone.')) {
-      return;
-    }
+  const handleClearChatHistory = () => {
+    setShowConfirmDialog(true);
+  };
 
+  const handleConfirmClear = async () => {
     setIsClearing(true);
     setError(null);
 
@@ -184,7 +184,7 @@ const Settings: React.FC<SettingsProps> = ({
       if (response.success) {
         // Reload data stats to show updated sizes
         await loadDataStats();
-        alert('Chat history cleared successfully');
+        setShowSuccessDialog(true);
       } else {
         setError(response.error || 'Failed to clear chat history');
       }
@@ -193,6 +193,12 @@ const Settings: React.FC<SettingsProps> = ({
     } finally {
       setIsClearing(false);
     }
+  };
+
+  const handleSuccessClose = () => {
+    // Close settings modal and refresh the page
+    onClose();
+    onRefresh?.();
   };
 
   const settingsMenu = [
