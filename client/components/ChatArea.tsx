@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import FadeInText from "@/components/FadeInText";
@@ -31,8 +32,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const [likedMessages, setLikedMessages] = useState<Set<string>>(new Set());
-  const [dislikedMessages, setDislikedMessages] = useState<Set<string>>(new Set());
 
   // Copy message content to clipboard
   const handleCopy = async (content: string) => {
@@ -94,45 +93,66 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   };
 
   // Handle thumbs up
-  const handleLike = (messageId: string) => {
-    const newLiked = new Set(likedMessages);
-    const newDisliked = new Set(dislikedMessages);
+  const handleLike = async (messageId: string) => {
+    const message = messages.find(m => m.id === messageId);
+    if (!message) return;
 
-    if (likedMessages.has(messageId)) {
-      newLiked.delete(messageId);
-    } else {
-      newLiked.add(messageId);
-      newDisliked.delete(messageId); // Remove from disliked if present
+    const action = message.liked ? "removelike" : "like";
+
+    try {
+      const response = await apiService.sendMessageFeedback({
+        messageId,
+        action,
+      });
+
+      if (response.success) {
+        toast({
+          title: action === "like" ? "Message liked" : "Like removed",
+          description: "Your feedback has been recorded.",
+        });
+        // The message state will be updated when the chat is refreshed
+        // For immediate UI feedback, you might want to trigger a refresh
+      } else {
+        throw new Error(response.error || "Failed to update feedback");
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to update feedback",
+        description: "Could not save your feedback. Please try again.",
+        variant: "destructive",
+      });
     }
-
-    setLikedMessages(newLiked);
-    setDislikedMessages(newDisliked);
-
-    toast({
-      title: newLiked.has(messageId) ? "Message liked" : "Like removed",
-      description: "Your feedback has been recorded.",
-    });
   };
 
   // Handle thumbs down
-  const handleDislike = (messageId: string) => {
-    const newLiked = new Set(likedMessages);
-    const newDisliked = new Set(dislikedMessages);
+  const handleDislike = async (messageId: string) => {
+    const message = messages.find(m => m.id === messageId);
+    if (!message) return;
 
-    if (dislikedMessages.has(messageId)) {
-      newDisliked.delete(messageId);
-    } else {
-      newDisliked.add(messageId);
-      newLiked.delete(messageId); // Remove from liked if present
+    const action = message.disliked ? "removedislike" : "dislike";
+
+    try {
+      const response = await apiService.sendMessageFeedback({
+        messageId,
+        action,
+      });
+
+      if (response.success) {
+        toast({
+          title: action === "dislike" ? "Message disliked" : "Dislike removed",
+          description: "Your feedback has been recorded.",
+        });
+        // The message state will be updated when the chat is refreshed
+      } else {
+        throw new Error(response.error || "Failed to update feedback");
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to update feedback",
+        description: "Could not save your feedback. Please try again.",
+        variant: "destructive",
+      });
     }
-
-    setLikedMessages(newLiked);
-    setDislikedMessages(newDisliked);
-
-    toast({
-      title: newDisliked.has(messageId) ? "Message disliked" : "Dislike removed",
-      description: "Your feedback has been recorded.",
-    });
   };
 
   // Handle regenerate message
@@ -287,7 +307,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     size="sm"
                     className={cn(
                       "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
-                      likedMessages.has(message.id) && "text-green-600 hover:text-green-700"
+                      message.liked && "text-green-600 hover:text-green-700"
                     )}
                     onClick={() => handleLike(message.id)}
                     title="Like message"
@@ -299,7 +319,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     size="sm"
                     className={cn(
                       "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
-                      dislikedMessages.has(message.id) && "text-red-600 hover:text-red-700"
+                      message.disliked && "text-red-600 hover:text-red-700"
                     )}
                     onClick={() => handleDislike(message.id)}
                     title="Dislike message"
