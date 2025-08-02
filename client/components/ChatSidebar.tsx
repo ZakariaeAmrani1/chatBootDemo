@@ -312,8 +312,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <HelpCircle className="h-4 w-4 mr-3" />
                   Help & FAQ
                 </Button>
-
-                <ThemeSelector collapsed={collapsed} />
               </div>
 
               <Separator className="my-2 bg-border/50" />
