@@ -33,6 +33,7 @@ interface ChatSidebarProps {
   onCloseSidebar: () => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
+  onOpenSettings?: () => void;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
