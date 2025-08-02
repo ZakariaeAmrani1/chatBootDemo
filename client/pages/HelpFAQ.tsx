@@ -70,15 +70,15 @@ const HelpFAQ: React.FC = () => {
   const faqs = [
     {
       category: "getting-started",
-      question: "How do I get started with Chatboot?",
+      question: "How do I get started with ChatNova?",
       answer:
-        "Getting started is easy! Simply create an account, and you can begin chatting immediately. Type your questions or requests in the chat box, and Chatboot will respond. You can ask about anything from writing help to coding assistance to general knowledge questions.",
+        "Getting started is easy! Simply create an account, and you can begin chatting immediately. Type your questions or requests in the chat box, and ChatNova will respond. You can ask about anything from writing help to coding assistance to general knowledge questions.",
     },
     {
       category: "getting-started",
-      question: "What can I use Chatboot for?",
+      question: "What can I use ChatNova for?",
       answer:
-        "Chatboot can help with a wide variety of tasks including writing and editing, coding and programming, research and analysis, creative brainstorming, language translation, math and problem-solving, and much more. It's designed to be a versatile AI assistant for both personal and professional use.",
+        "ChatNova can help with a wide variety of tasks including writing and editing, coding and programming, research and analysis, creative brainstorming, language translation, math and problem-solving, and much more. It's designed to be a versatile AI assistant for both personal and professional use.",
     },
     {
       category: "features",
@@ -88,9 +88,9 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "features",
-      question: "Can Chatboot browse the internet?",
+      question: "Can ChatNova browse the internet?",
       answer:
-        "Chatboot Plus subscribers have access to Browse with Bing, which allows Chatboot to search the internet for current information and provide up-to-date responses. Free users have access to training data up to April 2024.",
+        "ChatNova Plus subscribers have access to Browse with Bing, which allows ChatNova to search the internet for current information and provide up-to-date responses. Free users have access to training data up to April 2024.",
     },
     {
       category: "features",
