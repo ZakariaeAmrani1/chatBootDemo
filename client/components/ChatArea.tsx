@@ -40,11 +40,9 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
 
-  // Get the appropriate logo based on theme
+  // Get the appropriate AI logo based on theme and user settings
   const getAILogo = () => {
-    return resolvedTheme === "dark"
-      ? "https://cdn.builder.io/api/v1/image/assets%2Fc773263620b04439b4c3604feae0f6da%2F680de7f4e8714a929d2efe1fd2107b8f?format=webp&width=800"
-      : "https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800";
+    return getAppLogo(resolvedTheme, user);
   };
 
   // Copy message content to clipboard
