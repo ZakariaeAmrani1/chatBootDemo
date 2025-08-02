@@ -294,7 +294,7 @@ const Settings: React.FC<SettingsProps> = ({
             ].map(({ value, label, icon: Icon }) => (
               <Button
                 key={value}
-                variant={settings.theme === value ? "default" : "outline"}
+                variant={user?.settings.theme === value ? "default" : "outline"}
                 className="flex flex-col items-center gap-2 h-auto py-3"
                 onClick={() => updateSetting("theme", value)}
               >
@@ -308,7 +308,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <Label>Font Size</Label>
           <Select
-            value={settings.fontSize}
+            value={user?.settings.fontSize || 'medium'}
             onValueChange={(value) => updateSetting("fontSize", value)}
           >
             <SelectTrigger>
@@ -326,7 +326,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <Label>Display Density</Label>
           <Select
-            value={settings.density}
+            value={user?.settings.density || 'comfortable'}
             onValueChange={(value) => updateSetting("density", value)}
           >
             <SelectTrigger>
@@ -360,7 +360,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.emailNotifications}
+            checked={user?.settings.emailNotifications || false}
             onCheckedChange={(checked) =>
               updateSetting("emailNotifications", checked)
             }
@@ -375,7 +375,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.pushNotifications}
+            checked={user?.settings.pushNotifications || false}
             onCheckedChange={(checked) =>
               updateSetting("pushNotifications", checked)
             }
@@ -390,7 +390,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.soundEnabled}
+            checked={user?.settings.soundEnabled || false}
             onCheckedChange={(checked) =>
               updateSetting("soundEnabled", checked)
             }
@@ -417,7 +417,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.dataCollection}
+            checked={user?.settings.dataCollection || false}
             onCheckedChange={(checked) =>
               updateSetting("dataCollection", checked)
             }
@@ -432,7 +432,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.analytics}
+            checked={user?.settings.analytics || false}
             onCheckedChange={(checked) => updateSetting("analytics", checked)}
           />
         </div>
@@ -445,7 +445,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.shareUsage}
+            checked={user?.settings.shareUsage || false}
             onCheckedChange={(checked) => updateSetting("shareUsage", checked)}
           />
         </div>
