@@ -9,6 +9,40 @@ import {
 } from "@shared/types";
 import { v4 as uuidv4 } from "uuid";
 
+// Function to call Grok API
+async function callGrokAPI(userMessage: string, apiKey: string): Promise<string> {
+  try {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "llama3-8b-8192", // Fast Llama model
+        messages: [
+          {
+            role: "user",
+            content: userMessage,
+          },
+        ],
+        max_tokens: 1000,
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Grok API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.choices[0]?.message?.content || "I apologize, but I couldn't generate a response. Please try again.";
+  } catch (error) {
+    console.error("Grok API error:", error);
+    return "I'm currently unable to connect to the AI service. Please check your API key or try again later.";
+  }
+}
+
 // Get all chats for a user
 export const getChats: RequestHandler = (req, res) => {
   try {
