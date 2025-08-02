@@ -728,8 +728,10 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
             )}
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-6">
-              {renderContent()}
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 min-h-0">
+              <div className="h-full">
+                {renderContent()}
+              </div>
             </div>
 
             {/* Footer */}
