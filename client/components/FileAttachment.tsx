@@ -10,9 +10,10 @@ interface FileAttachmentProps {
   variant?: "input" | "chat";
 }
 
-const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({ 
-  attachment, 
-  className 
+const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
+  attachment,
+  className,
+  variant = "chat"
 }) => {
   const isImage = attachment.type.startsWith("image/");
   const isPDF = attachment.type === "application/pdf";
