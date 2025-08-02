@@ -19,6 +19,7 @@ interface ChatAreaProps {
   isLoading?: boolean;
   error?: string | null;
   onRegenerateMessage?: (messageId: string) => void;
+  onMessageUpdate?: (messageId: string, updates: Partial<Message>) => void;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -29,6 +30,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   isLoading = false,
   error = null,
   onRegenerateMessage,
+  onMessageUpdate,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -110,12 +112,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       });
 
       if (response.success) {
-        toast({
-          title: action === "like" ? "Message liked" : "Like removed",
-          description: "Your feedback has been recorded.",
-        });
-        // The message state will be updated when the chat is refreshed
-        // For immediate UI feedback, you might want to trigger a refresh
+        // Update local state immediately for better UX
+        if (onMessageUpdate) {
+          const updates =
+            action === "like"
+              ? { liked: true, disliked: false }
+              : { liked: false };
+          onMessageUpdate(messageId, updates);
+        }
       } else {
         throw new Error(response.error || "Failed to update feedback");
       }
@@ -142,11 +146,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       });
 
       if (response.success) {
-        toast({
-          title: action === "dislike" ? "Message disliked" : "Dislike removed",
-          description: "Your feedback has been recorded.",
-        });
-        // The message state will be updated when the chat is refreshed
+        // Update local state immediately for better UX
+        if (onMessageUpdate) {
+          const updates =
+            action === "dislike"
+              ? { disliked: true, liked: false }
+              : { disliked: false };
+          onMessageUpdate(messageId, updates);
+        }
       } else {
         throw new Error(response.error || "Failed to update feedback");
       }

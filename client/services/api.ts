@@ -70,6 +70,16 @@ class ApiService {
     });
   }
 
+  async updateChat(
+    chatId: string,
+    updates: Partial<Chat>,
+  ): Promise<ApiResponse<Chat>> {
+    return this.request<Chat>(`/chats/${chatId}`, {
+      method: "PUT",
+      body: JSON.stringify(updates),
+    });
+  }
+
   async deleteChat(chatId: string): Promise<ApiResponse<null>> {
     return this.request<null>(`/chats/${chatId}`, {
       method: "DELETE",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   MessageSquare,
   Plus,
@@ -11,6 +11,7 @@ import {
   Zap,
   ChevronLeft,
   ChevronRight,
+  MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -21,6 +22,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import { apiService } from "@/services/api";
 
 import { cn } from "@/lib/utils";
 import type { Chat, User } from "@shared/types";
@@ -35,6 +45,7 @@ interface ChatSidebarProps {
   onToggleCollapse: () => void;
   onOpenSettings?: () => void;
   onDeleteChat?: (chatId: string) => void;
+  onUpdateChat?: (chatId: string, updates: Partial<Chat>) => void;
   isLoading?: boolean;
   user?: User | null;
 }
@@ -49,15 +60,68 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onToggleCollapse,
   onOpenSettings,
   onDeleteChat,
+  onUpdateChat,
   isLoading = false,
   user,
 }) => {
-  const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
+  const [editingChatId, setEditingChatId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [chatToDelete, setChatToDelete] = useState<string | null>(null);
+
+  const handleDeleteClick = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onDeleteChat) {
-      onDeleteChat(chatId);
+    setChatToDelete(chatId);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (chatToDelete && onDeleteChat) {
+      onDeleteChat(chatToDelete);
+    }
+    // Clean up state
+    setChatToDelete(null);
+    setDeleteConfirmOpen(false);
+  };
+
+  const handleDeleteCancel = () => {
+    setChatToDelete(null);
+    setDeleteConfirmOpen(false);
+  };
+
+  const handleEditClick = (chat: Chat, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingChatId(chat.id);
+    setEditTitle(chat.title);
+  };
+
+  const handleEditSave = async (chatId: string) => {
+    if (editTitle.trim() && onUpdateChat) {
+      await onUpdateChat(chatId, { title: editTitle.trim() });
+    }
+    setEditingChatId(null);
+    setEditTitle("");
+  };
+
+  const handleEditCancel = () => {
+    setEditingChatId(null);
+    setEditTitle("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent, chatId: string) => {
+    if (e.key === "Enter") {
+      handleEditSave(chatId);
+    } else if (e.key === "Escape") {
+      handleEditCancel();
     }
   };
+
+  // Ensure proper cleanup when modal closes
+  useEffect(() => {
+    if (!deleteConfirmOpen) {
+      setChatToDelete(null);
+    }
+  }, [deleteConfirmOpen]);
   return (
     <TooltipProvider>
       <div className="h-full bg-background text-foreground flex flex-col border-r border-border shadow-sm">
@@ -184,35 +248,66 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <div
                   key={chat.id}
                   className={cn(
-                    "group relative flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
+                    "group flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
                     "hover:bg-muted/50",
                     currentChatId === chat.id ? "bg-muted" : "",
+                    editingChatId === chat.id && "bg-muted",
                   )}
-                  onClick={() => onChatSelect(chat.id)}
+                  onClick={() =>
+                    editingChatId !== chat.id && onChatSelect(chat.id)
+                  }
                 >
                   <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
-                  <span className="text-sm truncate flex-1 text-foreground">
-                    {chat.title}
-                  </span>
 
-                  {/* Action buttons (visible on hover) */}
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  {editingChatId === chat.id ? (
+                    <Input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, chat.id)}
+                      onBlur={() => handleEditSave(chat.id)}
+                      className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
+                      autoFocus
+                    />
+                  ) : (
+                    <span
+                      className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                      title={chat.title}
                     >
-                      <Edit3 className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-muted/50"
-                      onClick={(e) => handleDeleteChat(chat.id, e)}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
-                  </div>
+                      {chat.title.length > 25
+                        ? `${chat.title.substring(0, 25)}...`
+                        : chat.title}
+                    </span>
+                  )}
+
+                  {editingChatId !== chat.id && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" side="right">
+                        <DropdownMenuItem
+                          onClick={(e) => handleEditClick(chat, e)}
+                        >
+                          <Edit3 className="mr-2 h-4 w-4" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={(e) => handleDeleteClick(chat.id, e)}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
                 </div>
               ),
             )}
@@ -346,6 +441,17 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        onOpenChange={setDeleteConfirmOpen}
+        title="Delete Chat"
+        description="Are you sure you want to delete this chat? This action cannot be undone and will permanently remove all messages in this conversation."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDeleteConfirm}
+        destructive={true}
+      />
     </TooltipProvider>
   );
 };

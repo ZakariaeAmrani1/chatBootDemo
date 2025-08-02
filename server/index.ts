@@ -7,6 +7,7 @@ import {
   getChatMessages,
   createChat,
   sendMessage,
+  updateChat,
   deleteChat,
 } from "./routes/chats";
 import { getCurrentUser, updateUser, updateUserSettings } from "./routes/users";
@@ -39,6 +40,7 @@ export function createServer() {
   app.get("/api/chats/:chatId/messages", getChatMessages);
   app.post("/api/chats", createChat);
   app.post("/api/chats/message", sendMessage);
+  app.put("/api/chats/:chatId", updateChat);
   app.delete("/api/chats/:chatId", deleteChat);
 
   // User API routes

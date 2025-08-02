@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { MessageFeedbackRequest, ApiResponse } from "@shared/types";
-import { dataManager } from "../utils/dataManager";
+import { DataManager } from "../utils/dataManager";
 
 export const handleMessageFeedback: RequestHandler = async (req, res) => {
   try {
@@ -13,38 +13,21 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
       } as ApiResponse<null>);
     }
 
-    // Get current chats data
-    const chatsData = await dataManager.getChats();
+    // Prepare updates based on action
+    let updates: Partial<any> = {};
 
-    // Find the message
-    const messageIndex = chatsData.messages.findIndex(
-      (msg) => msg.id === messageId,
-    );
-
-    if (messageIndex === -1) {
-      return res.status(404).json({
-        success: false,
-        error: "Message not found",
-      } as ApiResponse<null>);
-    }
-
-    const message = chatsData.messages[messageIndex];
-
-    // Update message based on action
     switch (action) {
       case "like":
-        message.liked = true;
-        message.disliked = false; // Remove dislike if present
+        updates = { liked: true, disliked: false };
         break;
       case "dislike":
-        message.disliked = true;
-        message.liked = false; // Remove like if present
+        updates = { disliked: true, liked: false };
         break;
       case "removelike":
-        message.liked = false;
+        updates = { liked: false };
         break;
       case "removedislike":
-        message.disliked = false;
+        updates = { disliked: false };
         break;
       default:
         return res.status(400).json({
@@ -53,18 +36,22 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
         } as ApiResponse<null>);
     }
 
-    // Update the message in the array
-    chatsData.messages[messageIndex] = message;
+    // Update the message
+    const updatedMessage = DataManager.updateMessage(messageId, updates);
 
-    // Save updated data
-    await dataManager.saveChats(chatsData);
+    if (!updatedMessage) {
+      return res.status(404).json({
+        success: false,
+        error: "Message not found",
+      } as ApiResponse<null>);
+    }
 
     res.json({
       success: true,
       data: {
         messageId,
-        liked: message.liked || false,
-        disliked: message.disliked || false,
+        liked: updatedMessage.liked || false,
+        disliked: updatedMessage.disliked || false,
       },
     } as ApiResponse<{
       messageId: string;

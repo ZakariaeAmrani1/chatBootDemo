@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
+import ShareModal from "@/components/ShareModal";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
@@ -25,6 +26,7 @@ const Chatbot = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
   // Theme context for applying user's appearance settings
@@ -144,6 +146,18 @@ const Chatbot = () => {
     await chatService.deleteChat(chatId);
   };
 
+  const handleUpdateChat = async (chatId: string, updates: Partial<Chat>) => {
+    try {
+      const response = await apiService.updateChat(chatId, updates);
+      if (response.success) {
+        // Refresh chats to show updated title
+        chatService.loadChats();
+      }
+    } catch (error) {
+      console.error("Failed to update chat:", error);
+    }
+  };
+
   const handleRefresh = () => {
     // Reload chats after clearing history
     chatService.loadChats();
@@ -162,6 +176,20 @@ const Chatbot = () => {
 
     // Also refresh chats if needed
     handleRefresh();
+  };
+
+  const handleMessageUpdate = (
+    messageId: string,
+    updates: Partial<Message>,
+  ) => {
+    // Update the message in the chatService state
+    chatService.updateMessage(messageId, updates);
+  };
+
+  const handleShareClick = () => {
+    if (chatState.currentChat) {
+      setShareModalOpen(true);
+    }
   };
 
   return (
@@ -192,6 +220,7 @@ const Chatbot = () => {
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           onOpenSettings={() => setSettingsOpen(true)}
           onDeleteChat={handleDeleteChat}
+          onUpdateChat={handleUpdateChat}
           isLoading={chatState.isLoading}
           user={user}
         />
@@ -214,7 +243,13 @@ const Chatbot = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="hidden sm:flex"
+              onClick={handleShareClick}
+              disabled={!chatState.currentChat}
+            >
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
@@ -238,6 +273,7 @@ const Chatbot = () => {
             isThinking={chatState.isThinking}
             isLoading={chatState.isLoading}
             error={chatState.error}
+            onMessageUpdate={handleMessageUpdate}
           />
         </div>
 
@@ -259,6 +295,14 @@ const Chatbot = () => {
           onUserUpdate={setUser}
         />
       )}
+
+      {/* Share Modal */}
+      <ShareModal
+        open={shareModalOpen}
+        onOpenChange={setShareModalOpen}
+        chat={chatState.currentChat}
+        appUrl={user?.settings?.appUrl || "http://localhost:8080"}
+      />
     </div>
   );
 };

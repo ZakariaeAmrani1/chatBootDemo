@@ -33,6 +33,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 }) => {
   const handleConfirm = () => {
     onConfirm();
+    // Don't call onOpenChange here, let the parent handle it
+  };
+
+  const handleCancel = () => {
     onOpenChange(false);
   };
 
@@ -44,7 +48,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{cancelText}</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleCancel}>
+            {cancelText}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             className={

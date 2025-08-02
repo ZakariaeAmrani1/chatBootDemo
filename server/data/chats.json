@@ -1,233 +1,31 @@
 {
   "chats": [
     {
-      "id": "f366762b-6bd7-4914-9716-627a9b614767",
-      "title": "good",
+      "id": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
+      "title": "test",
       "model": "gpt-4",
-      "createdAt": "2025-08-02T14:57:59.968Z",
-      "updatedAt": "2025-08-02T14:58:07.237Z",
-      "messageCount": 4,
-      "userId": "user-1"
-    },
-    {
-      "id": "642b5826-efc6-4ae9-b224-e95a3b60a380",
-      "title": "what do you think about builder",
-      "model": "gpt-4",
-      "createdAt": "2025-08-02T15:03:05.912Z",
-      "updatedAt": "2025-08-02T15:03:21.930Z",
-      "messageCount": 4,
-      "userId": "user-1"
-    },
-    {
-      "id": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
-      "title": "how are you",
-      "model": "gpt-4",
-      "createdAt": "2025-08-02T15:05:33.434Z",
-      "updatedAt": "2025-08-02T15:05:45.803Z",
-      "messageCount": 4,
-      "userId": "user-1"
-    },
-    {
-      "id": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "title": "hello",
-      "model": "gpt-4",
-      "createdAt": "2025-08-02T15:06:22.102Z",
-      "updatedAt": "2025-08-02T15:12:58.345Z",
-      "messageCount": 6,
-      "userId": "user-1"
-    },
-    {
-      "id": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "title": "thanks",
-      "model": "gpt-4",
-      "createdAt": "2025-08-02T15:14:50.611Z",
-      "updatedAt": "2025-08-02T15:16:28.025Z",
-      "messageCount": 8,
+      "createdAt": "2025-08-02T15:37:50.340Z",
+      "updatedAt": "2025-08-02T15:37:52.552Z",
+      "messageCount": 2,
       "userId": "user-1"
     }
   ],
   "messages": [
     {
-      "id": "505d091e-bbca-4d2c-aa5f-d7644ec6cf6b",
-      "chatId": "f366762b-6bd7-4914-9716-627a9b614767",
+      "id": "6abeff45-9c23-4359-9e54-eb66165e979f",
+      "chatId": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
       "type": "user",
       "content": "hello",
-      "timestamp": "2025-08-02T14:57:59.968Z"
+      "timestamp": "2025-08-02T15:37:50.340Z"
     },
     {
-      "id": "fb15eb47-e642-459d-ba58-3ab8a55ef8eb",
-      "chatId": "f366762b-6bd7-4914-9716-627a9b614767",
-      "type": "assistant",
-      "content": "Hello! It's great to meet you. How can I assist you today?",
-      "timestamp": "2025-08-02T14:58:01.970Z"
-    },
-    {
-      "id": "c87a64c1-230a-4839-b88f-696e3b410092",
-      "chatId": "f366762b-6bd7-4914-9716-627a9b614767",
-      "type": "user",
-      "content": "good",
-      "timestamp": "2025-08-02T14:58:05.736Z"
-    },
-    {
-      "id": "55fcdf3b-b5b4-4f03-a935-b4500840222b",
-      "chatId": "f366762b-6bd7-4914-9716-627a9b614767",
-      "type": "assistant",
-      "content": "Let me break this down for you step by step. Your message about \"good\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
-      "timestamp": "2025-08-02T14:58:07.237Z"
-    },
-    {
-      "id": "f8db2126-864d-46ed-ae24-8a6dc0f10bff",
-      "chatId": "642b5826-efc6-4ae9-b224-e95a3b60a380",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-02T15:03:05.912Z"
-    },
-    {
-      "id": "a41d3ec2-9c0d-420d-abc0-e7d8defdfe02",
-      "chatId": "642b5826-efc6-4ae9-b224-e95a3b60a380",
+      "id": "c0937142-8270-4286-81ab-043263c03dff",
+      "chatId": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T15:03:08.420Z"
-    },
-    {
-      "id": "dbc2d94b-b7fb-4914-bacb-f7660cc1cef9",
-      "chatId": "642b5826-efc6-4ae9-b224-e95a3b60a380",
-      "type": "user",
-      "content": "what do you think about builder",
-      "timestamp": "2025-08-02T15:03:19.896Z"
-    },
-    {
-      "id": "5d0b2006-ce3d-4e8a-9375-28ef24d377f3",
-      "chatId": "642b5826-efc6-4ae9-b224-e95a3b60a380",
-      "type": "assistant",
-      "content": "I think you're referring to the popular children's character, Builder from the popular children's show \"Bob the Builder\"!\n\nAs a digital AI assistant, I don't have personal opinions, but I can tell you that Builder is a lovable and iconic character in children's entertainment. He's known for his enthusiasm, optimism, and can-do attitude, which makes him a great role model for kids.\n\nBuilder's catchphrase, \"Can we fix it? Yes, we can!\" has become a rallying cry for many kids (and adults!) who believe in the power of teamwork, creativity, and problem-solving.\n\nWhat do you think about Builder? Do you have a favorite episode or memory featuring this beloved character?",
-      "timestamp": "2025-08-02T15:03:21.930Z"
-    },
-    {
-      "id": "9899ea52-9676-4cb2-a683-6f33309c8c62",
-      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-02T15:05:33.434Z"
-    },
-    {
-      "id": "8ce69342-3323-4828-a992-4eada21437b4",
-      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
-      "type": "assistant",
-      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T15:05:35.646Z"
-    },
-    {
-      "id": "3e02ed9e-e942-4908-89cf-6e8badd14625",
-      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
-      "type": "user",
-      "content": "how are you",
-      "timestamp": "2025-08-02T15:05:44.079Z"
-    },
-    {
-      "id": "ce0cb38b-5edf-4a2b-a8c2-a955e870a8c1",
-      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
-      "type": "assistant",
-      "content": "I'm just a language model, I don't have emotions or feelings like humans do. However, I'm functioning properly and ready to assist you with any questions or tasks you may have! How can I help you today?",
-      "timestamp": "2025-08-02T15:05:45.803Z"
-    },
-    {
-      "id": "308f8524-2884-4aae-af13-d2833c10d428",
-      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-02T15:06:22.102Z"
-    },
-    {
-      "id": "ba49a87c-6845-4cc0-8f50-f1eed1f1ed9b",
-      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "type": "assistant",
-      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T15:06:24.379Z"
-    },
-    {
-      "id": "4fcd61f5-80fe-4e61-a5a2-fc236ef67227",
-      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-02T15:11:12.157Z"
-    },
-    {
-      "id": "afcaccd9-04e5-4056-bdfe-b4268eb5b3d0",
-      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "type": "assistant",
-      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T15:11:13.937Z"
-    },
-    {
-      "id": "b78347b6-240c-4828-ba68-34c74bb9c1d2",
-      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "type": "user",
-      "content": "great",
-      "timestamp": "2025-08-02T15:12:56.608Z"
-    },
-    {
-      "id": "e9773984-734b-45de-aa15-a607edb9001e",
-      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "type": "assistant",
-      "content": "It seems like you're feeling enthusiastic about something! \"Great\" is a fantastic word to express positivity and admiration. Would you like to share what's making you feel that way? I'm all ears!",
-      "timestamp": "2025-08-02T15:12:58.345Z"
-    },
-    {
-      "id": "48b50f44-4160-4cc0-ab74-060fb50c8bd4",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "user",
-      "content": "what's chatgpt",
-      "timestamp": "2025-08-02T15:14:50.611Z"
-    },
-    {
-      "id": "9f41f6e7-890e-4640-9343-1842f4f72ebf",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "assistant",
-      "content": "ChatGPT is a revolutionary AI-powered chatbot developed by Meta AI that can engage in natural-sounding conversations with humans. It's a type of language model, specifically a transformer-based language model, that's been trained on a massive dataset of text from the internet, books, and other sources.\n\nChatGPT is designed to understand and respond to human input, using context and common sense to generate human-like responses. It can be used for a wide range of applications, such as:\n\n1. **Customer service**: ChatGPT can help automate customer support, providing quick and accurate answers to frequently asked questions.\n2. **Language translation**: It can translate text from one language to another, helping to bridge language gaps.\n3. **Content creation**: ChatGPT can generate text, such as articles, blog posts, or even entire books, on a given topic.\n4. **Virtual assistants**: It can be integrated into virtual assistants, like Amazon Alexa or Google Assistant, to provide more conversational and helpful responses.\n5. **Research and education**: ChatGPT can assist researchers and students by providing information, generating ideas, and even helping with writing papers.\n\nSome of the key features that make ChatGPT stand out include:\n\n1. **Conversational understanding**: ChatGPT can understand the context of a conversation and respond accordingly.\n2. **Language generation**: It can generate text that's similar in style and tone to human writers.\n3. **Emotional intelligence**: ChatGPT can recognize and respond to emotions, making it a more empathetic and engaging conversational partner.\n4. **Multitasking**: It can handle multiple conversations simultaneously, making it suitable for large-scale chatbot applications.\n\nWhile ChatGPT is an impressive achievement in AI research, it's not without its limitations. For example, it's still a machine learning model, and its responses may not always be accurate or nuanced. Additionally, it may struggle with certain types of questions or topics that require specialized knowledge or human judgment.\n\nOverall, ChatGPT has the potential to revolutionize the way we interact with technology and each other, and its applications are likely to be far-reaching and diverse.",
-      "timestamp": "2025-08-02T15:14:55.923Z"
-    },
-    {
-      "id": "20ea5360-1e09-4f08-b64e-cabbde0ee758",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "user",
-      "content": "thanks",
-      "timestamp": "2025-08-02T15:14:59.557Z"
-    },
-    {
-      "id": "ac21d602-2ba6-4381-89e8-328d97e13ec3",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "assistant",
-      "content": "You're welcome!",
-      "timestamp": "2025-08-02T15:15:01.674Z"
-    },
-    {
-      "id": "f5aa37e6-62b2-4ba1-8665-e5e8f4c662cf",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "user",
-      "content": "thanks again",
-      "timestamp": "2025-08-02T15:15:53.942Z"
-    },
-    {
-      "id": "8a8fd65b-3b97-4da2-bbb4-c31a9e8e116e",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "assistant",
-      "content": "You're welcome! However, I think there might be some confusion. This is the beginning of our conversation, and we haven't discussed anything previously, so I'm not sure what you're thanking me for. If you'd like to start a conversation or ask a question, I'm here to help!",
-      "timestamp": "2025-08-02T15:15:55.949Z"
-    },
-    {
-      "id": "90c02c71-66d7-4a71-9e18-fb61f20d61d2",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "user",
-      "content": "ok",
-      "timestamp": "2025-08-02T15:16:25.581Z"
-    },
-    {
-      "id": "8092fa29-41d3-450a-89a5-04cab937c084",
-      "chatId": "22effb73-11d0-4310-ad88-27e69eb420b9",
-      "type": "assistant",
-      "content": "It seems like you're ready to start a conversation! I'm here to listen and chat with you about anything that's on your mind. What's been going on in your life lately?",
-      "timestamp": "2025-08-02T15:16:28.025Z"
+      "timestamp": "2025-08-02T15:37:52.552Z",
+      "liked": true,
+      "disliked": false
     }
   ]
 }
