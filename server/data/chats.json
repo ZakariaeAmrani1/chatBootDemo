@@ -44,6 +44,15 @@
       "updatedAt": "2025-08-02T17:06:49.123Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "22ef2fe4-83b8-4757-a771-cba5c8fef765",
+      "title": "New Chat",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:07:37.848Z",
+      "updatedAt": "2025-08-02T17:07:40.126Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -178,6 +187,20 @@
       "type": "assistant",
       "content": "I can simulate an audio message for you. What would you like the message to say?",
       "timestamp": "2025-08-02T17:06:49.123Z"
+    },
+    {
+      "id": "525601f3-9f90-461b-98f9-d6953a1d1e1a",
+      "chatId": "22ef2fe4-83b8-4757-a771-cba5c8fef765",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:07:37.848Z"
+    },
+    {
+      "id": "25b753ed-a3db-461e-9891-84d874094ca7",
+      "chatId": "22ef2fe4-83b8-4757-a771-cba5c8fef765",
+      "type": "assistant",
+      "content": "I'll play along! 🎤\n\n\"Hey there! 👋 It's [Your Name] leaving you a message. 📱 I just wanted to say hi and catch up. How's your day going so far? 🤔 I hope everything's going well. I was thinking about you and wanted to reach out. 🤗 Take care and talk to you soon! 👋 Bye for now!\"",
+      "timestamp": "2025-08-02T17:07:40.126Z"
     }
   ]
 }
