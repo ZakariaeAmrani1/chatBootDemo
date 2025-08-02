@@ -194,9 +194,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             </Avatar>
             <div className="flex-1 max-w-3xl mr-12">
               <div className="bg-transparent rounded-2xl px-6 py-4">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <span className="text-sm">thinking</span>
-                  <div className="w-2 h-2 bg-current rounded-full animate-pulse transform-gpu"
+                <div className="flex items-center justify-center text-muted-foreground">
+                  <div className="w-2 h-2 bg-current rounded-full transform-gpu"
                        style={{
                          animation: 'zoom-pulse 1.5s ease-in-out infinite',
                          transformOrigin: 'center'
