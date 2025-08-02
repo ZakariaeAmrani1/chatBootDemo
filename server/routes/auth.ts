@@ -2,26 +2,35 @@ import { RequestHandler } from "express";
 import * as crypto from "crypto";
 import { v4 as uuidv4 } from "uuid";
 import { DataManager } from "../utils/dataManager";
-import { User, LoginRequest, RegisterRequest, AuthResponse, ApiResponse } from "@shared/types";
+import {
+  User,
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
+  ApiResponse,
+} from "@shared/types";
 
 // Simple hash function for passwords (in production, use bcrypt)
 const hashPassword = (password: string): string => {
-  return crypto.createHash('sha256').update(password + 'salt_key_2024').digest('hex');
+  return crypto
+    .createHash("sha256")
+    .update(password + "salt_key_2024")
+    .digest("hex");
 };
 
 // Generate simple JWT-like token (in production, use proper JWT)
 const generateToken = (userId: string): string => {
   const payload = {
     userId,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   };
-  return Buffer.from(JSON.stringify(payload)).toString('base64');
+  return Buffer.from(JSON.stringify(payload)).toString("base64");
 };
 
 // Verify token
 export const verifyToken = (token: string): { userId: string } | null => {
   try {
-    const payload = JSON.parse(Buffer.from(token, 'base64').toString());
+    const payload = JSON.parse(Buffer.from(token, "base64").toString());
     // Token expires after 30 days
     if (Date.now() - payload.timestamp > 30 * 24 * 60 * 60 * 1000) {
       return null;
@@ -55,7 +64,7 @@ const getDefaultSettings = () => ({
   highContrast: false,
   reducedMotion: false,
   screenReader: false,
-  selectedModel: "gpt-4"
+  selectedModel: "gpt-4",
 });
 
 // Login endpoint
@@ -73,7 +82,9 @@ export const loginUser: RequestHandler = (req, res) => {
 
     // Find user by email
     const users = DataManager.getAllUsers();
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const user = users.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase(),
+    );
 
     if (!user) {
       const response: ApiResponse<AuthResponse> = {
@@ -152,7 +163,9 @@ export const registerUser: RequestHandler = (req, res) => {
 
     // Check if user already exists
     const users = DataManager.getAllUsers();
-    const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const existingUser = users.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase(),
+    );
 
     if (existingUser) {
       const response: ApiResponse<AuthResponse> = {
@@ -165,7 +178,7 @@ export const registerUser: RequestHandler = (req, res) => {
     // Create new user
     const userId = uuidv4();
     const hashedPassword = hashPassword(password);
-    
+
     const newUser: User = {
       id: userId,
       displayName: displayName.trim(),
@@ -216,7 +229,7 @@ export const registerUser: RequestHandler = (req, res) => {
 export const verifyUserToken: RequestHandler = (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader?.split(' ')[1]; // Bearer token
+    const token = authHeader?.split(" ")[1]; // Bearer token
 
     if (!token) {
       const response: ApiResponse<null> = {
@@ -247,7 +260,7 @@ export const verifyUserToken: RequestHandler = (req, res) => {
     // Remove password hash from user object
     const { passwordHash, ...userWithoutPassword } = user;
 
-    const response: ApiResponse<Omit<User, 'passwordHash'>> = {
+    const response: ApiResponse<Omit<User, "passwordHash">> = {
       success: true,
       data: userWithoutPassword,
     };
@@ -266,7 +279,7 @@ export const verifyUserToken: RequestHandler = (req, res) => {
 // Middleware to authenticate requests
 export const authenticateToken: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader?.split(' ')[1]; // Bearer token
+  const token = authHeader?.split(" ")[1]; // Bearer token
 
   if (!token) {
     return res.status(401).json({

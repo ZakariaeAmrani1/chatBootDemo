@@ -31,7 +31,7 @@ export const getModels: RequestHandler = (req, res) => {
 
     // Filter enabled models and sort by order
     const availableModels = modelsData.models
-      .filter(model => model.enabled)
+      .filter((model) => model.enabled)
       .sort((a, b) => a.order - b.order);
 
     const response: ApiResponse<ModelOption[]> = {
@@ -53,17 +53,17 @@ export const getModels: RequestHandler = (req, res) => {
 // Add a new model (optional for future use)
 export const addModel: RequestHandler = (req, res) => {
   try {
-    const newModel: Omit<ModelOption, 'order'> = req.body;
-    
+    const newModel: Omit<ModelOption, "order"> = req.body;
+
     const dataPath = path.join(__dirname, "..", "data", "models.json");
     const fileContent = fs.readFileSync(dataPath, "utf8");
     const modelsData: ModelsData = JSON.parse(fileContent);
 
     // Calculate next order number
-    const maxOrder = Math.max(...modelsData.models.map(m => m.order), 0);
+    const maxOrder = Math.max(...modelsData.models.map((m) => m.order), 0);
     const modelToAdd: ModelOption = {
       ...newModel,
-      order: maxOrder + 1
+      order: maxOrder + 1,
     };
 
     modelsData.models.push(modelToAdd);

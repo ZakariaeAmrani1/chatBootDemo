@@ -1,13 +1,26 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User } from '@shared/types';
-import { apiService } from '@/services/api';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { User } from "@shared/types";
+import { apiService } from "@/services/api";
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  register: (data: { displayName: string; email: string; password: string }) => Promise<{ success: boolean; error?: string }>;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ success: boolean; error?: string }>;
+  register: (data: {
+    displayName: string;
+    email: string;
+    password: string;
+  }) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   updateUser: (userData: User) => void;
 }
@@ -17,7 +30,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -34,9 +47,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if user is already logged in on app start
     const checkAuthStatus = async () => {
       try {
-        const token = localStorage.getItem('authToken');
-        const savedUser = localStorage.getItem('currentUser');
-        
+        const token = localStorage.getItem("authToken");
+        const savedUser = localStorage.getItem("currentUser");
+
         if (token && savedUser) {
           // Verify token is still valid
           const response = await apiService.verifyToken();
@@ -44,15 +57,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setUser(response.data);
           } else {
             // Token is invalid, clear storage
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("currentUser");
           }
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
+        console.error("Auth check failed:", error);
         // Clear potentially corrupted data
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("currentUser");
       } finally {
         setIsLoading(false);
       }
@@ -61,77 +74,89 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+  const login = async (
+    email: string,
+    password: string,
+  ): Promise<{ success: boolean; error?: string }> => {
     try {
       const response = await apiService.login(email, password);
-      
+
       if (response.success && response.data) {
         const { user: userData, token } = response.data;
-        
+
         // Store auth data
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('currentUser', JSON.stringify(userData));
-        
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("currentUser", JSON.stringify(userData));
+
         // Update state
         setUser(userData);
-        
+
         return { success: true };
       } else {
-        return { success: false, error: response.error || 'Login failed' };
+        return { success: false, error: response.error || "Login failed" };
       }
     } catch (error) {
-      console.error('Login error:', error);
-      return { success: false, error: 'An error occurred during login' };
+      console.error("Login error:", error);
+      return { success: false, error: "An error occurred during login" };
     }
   };
 
-  const register = async (data: { displayName: string; email: string; password: string }): Promise<{ success: boolean; error?: string }> => {
+  const register = async (data: {
+    displayName: string;
+    email: string;
+    password: string;
+  }): Promise<{ success: boolean; error?: string }> => {
     try {
       const response = await apiService.register(data);
-      
+
       if (response.success && response.data) {
         const { user: userData, token } = response.data;
-        
+
         // Store auth data
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('currentUser', JSON.stringify(userData));
-        
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("currentUser", JSON.stringify(userData));
+
         // Update state
         setUser(userData);
-        
+
         return { success: true };
       } else {
-        return { success: false, error: response.error || 'Registration failed' };
+        return {
+          success: false,
+          error: response.error || "Registration failed",
+        };
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      return { success: false, error: 'An error occurred during registration' };
+      console.error("Registration error:", error);
+      return { success: false, error: "An error occurred during registration" };
     }
   };
 
   const logout = () => {
     // Clear auth data
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUser');
-    
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("currentUser");
+
     // Update state
     setUser(null);
-    
+
     // Call API logout if needed
     apiService.logout();
   };
 
   const updateUser = (userData: User) => {
     setUser(userData);
-    localStorage.setItem('currentUser', JSON.stringify(userData));
+    localStorage.setItem("currentUser", JSON.stringify(userData));
 
     // Ensure settings are applied immediately when user data is updated
     if (userData.settings) {
       requestAnimationFrame(() => {
         // Dispatch a custom event to trigger settings application
-        window.dispatchEvent(new CustomEvent('userSettingsUpdated', {
-          detail: { user: userData, settings: userData.settings }
-        }));
+        window.dispatchEvent(
+          new CustomEvent("userSettingsUpdated", {
+            detail: { user: userData, settings: userData.settings },
+          }),
+        );
       });
     }
   };
@@ -146,9 +171,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     updateUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

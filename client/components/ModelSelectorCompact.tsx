@@ -67,7 +67,9 @@ export function ModelSelectorCompact({
   if (loading) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-xs font-medium text-muted-foreground">Model:</span>
+        <span className="text-xs font-medium text-muted-foreground">
+          Model:
+        </span>
         <div className="h-8 w-24 bg-muted animate-pulse rounded-lg" />
       </div>
     );

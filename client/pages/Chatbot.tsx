@@ -122,10 +122,16 @@ const Chatbot = () => {
       }
     };
 
-    window.addEventListener('userSettingsUpdated', handleSettingsUpdate as EventListener);
+    window.addEventListener(
+      "userSettingsUpdated",
+      handleSettingsUpdate as EventListener,
+    );
 
     return () => {
-      window.removeEventListener('userSettingsUpdated', handleSettingsUpdate as EventListener);
+      window.removeEventListener(
+        "userSettingsUpdated",
+        handleSettingsUpdate as EventListener,
+      );
     };
   }, []);
 

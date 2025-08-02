@@ -21,7 +21,7 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
-  user: Omit<User, 'passwordHash'>; // Don't expose password hash
+  user: Omit<User, "passwordHash">; // Don't expose password hash
   token: string;
 }
 

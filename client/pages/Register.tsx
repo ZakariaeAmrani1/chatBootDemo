@@ -3,9 +3,23 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Eye, EyeOff, MessageSquare, Mail, Lock, User, Check } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  MessageSquare,
+  Mail,
+  Lock,
+  User,
+  Check,
+} from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Register: React.FC = () => {
@@ -23,9 +37,9 @@ const Register: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     // Clear error when user starts typing
     if (error) setError("");
@@ -36,7 +50,7 @@ const Register: React.FC = () => {
       setError("Display name is required");
       return false;
     }
-    
+
     if (!formData.email.trim()) {
       setError("Email is required");
       return false;
@@ -95,9 +109,12 @@ const Register: React.FC = () => {
   // Password strength indicator
   const getPasswordStrength = (password: string) => {
     if (password.length === 0) return { strength: 0, text: "", color: "" };
-    if (password.length < 6) return { strength: 1, text: "Too short", color: "text-red-500" };
-    if (password.length < 8) return { strength: 2, text: "Weak", color: "text-orange-500" };
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) return { strength: 3, text: "Fair", color: "text-yellow-500" };
+    if (password.length < 6)
+      return { strength: 1, text: "Too short", color: "text-red-500" };
+    if (password.length < 8)
+      return { strength: 2, text: "Weak", color: "text-orange-500" };
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password))
+      return { strength: 3, text: "Fair", color: "text-yellow-500" };
     return { strength: 4, text: "Strong", color: "text-green-500" };
   };
 
@@ -112,7 +129,9 @@ const Register: React.FC = () => {
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-foreground">Create account</h1>
-          <p className="text-muted-foreground mt-2">Join us to start your AI-powered conversations</p>
+          <p className="text-muted-foreground mt-2">
+            Join us to start your AI-powered conversations
+          </p>
         </div>
 
         {/* Register Form */}
@@ -181,7 +200,11 @@ const Register: React.FC = () => {
                     onClick={togglePasswordVisibility}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
                 {/* Password Strength Indicator */}
@@ -196,16 +219,18 @@ const Register: React.FC = () => {
                               ? passwordStrength.strength === 1
                                 ? "bg-red-500"
                                 : passwordStrength.strength === 2
-                                ? "bg-orange-500"
-                                : passwordStrength.strength === 3
-                                ? "bg-yellow-500"
-                                : "bg-green-500"
+                                  ? "bg-orange-500"
+                                  : passwordStrength.strength === 3
+                                    ? "bg-yellow-500"
+                                    : "bg-green-500"
                               : "bg-muted"
                           }`}
                         />
                       ))}
                     </div>
-                    <span className={passwordStrength.color}>{passwordStrength.text}</span>
+                    <span className={passwordStrength.color}>
+                      {passwordStrength.text}
+                    </span>
                   </div>
                 )}
               </div>
@@ -230,7 +255,11 @@ const Register: React.FC = () => {
                     onClick={toggleConfirmPasswordVisibility}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
                 {/* Password Match Indicator */}
@@ -242,7 +271,9 @@ const Register: React.FC = () => {
                         <span>Passwords match</span>
                       </div>
                     ) : (
-                      <span className="text-red-500">Passwords do not match</span>
+                      <span className="text-red-500">
+                        Passwords do not match
+                      </span>
                     )}
                   </div>
                 )}
@@ -256,9 +287,9 @@ const Register: React.FC = () => {
               )}
 
               {/* Submit Button */}
-              <Button 
-                type="submit" 
-                className="w-full" 
+              <Button
+                type="submit"
+                className="w-full"
                 disabled={loading}
                 size="lg"
               >
@@ -272,7 +303,9 @@ const Register: React.FC = () => {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or</span>
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or
+                </span>
               </div>
             </div>
 
@@ -280,8 +313,8 @@ const Register: React.FC = () => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="font-medium text-primary hover:underline"
                 >
                   Sign in
@@ -293,7 +326,10 @@ const Register: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center text-xs text-muted-foreground">
-          <p>By creating an account, you agree to our Terms of Service and Privacy Policy</p>
+          <p>
+            By creating an account, you agree to our Terms of Service and
+            Privacy Policy
+          </p>
         </div>
       </div>
     </div>

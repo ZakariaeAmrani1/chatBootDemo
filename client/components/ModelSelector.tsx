@@ -43,10 +43,15 @@ export function ModelSelector({
   if (loading) {
     return (
       <div className="space-y-2">
-        <label className="text-xs font-medium text-muted-foreground">Model</label>
+        <label className="text-xs font-medium text-muted-foreground">
+          Model
+        </label>
         <div className="flex flex-wrap gap-2">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-8 w-20 bg-muted animate-pulse rounded-xl" />
+            <div
+              key={i}
+              className="h-8 w-20 bg-muted animate-pulse rounded-xl"
+            />
           ))}
         </div>
       </div>

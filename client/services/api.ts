@@ -165,7 +165,10 @@ class ApiService {
   }
 
   // Authentication operations
-  async login(email: string, password: string): Promise<ApiResponse<AuthResponse>> {
+  async login(
+    email: string,
+    password: string,
+  ): Promise<ApiResponse<AuthResponse>> {
     return this.request<AuthResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),

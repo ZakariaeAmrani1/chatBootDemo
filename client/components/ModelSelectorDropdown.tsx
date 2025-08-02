@@ -55,7 +55,9 @@ export function ModelSelectorDropdown({
   if (loading) {
     return (
       <div className="space-y-2">
-        <label className="text-xs font-medium text-muted-foreground">Model</label>
+        <label className="text-xs font-medium text-muted-foreground">
+          Model
+        </label>
         <div className="h-10 bg-muted animate-pulse rounded-md" />
       </div>
     );

@@ -72,26 +72,72 @@ const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
       {/* Public routes */}
-      <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
-      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-      <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Route
+        path="/"
+        element={
+          <PublicRoute>
+            <Index />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
 
       {/* Protected routes */}
-      <Route path="/chat" element={<ProtectedRoute><Chatbot /></ProtectedRoute>} />
+      <Route
+        path="/chat"
+        element={
+          <ProtectedRoute>
+            <Chatbot />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/settings"
         element={
           <ProtectedRoute>
-            <Settings
-              onClose={() => window.history.back()}
-              isModal={false}
-            />
+            <Settings onClose={() => window.history.back()} isModal={false} />
           </ProtectedRoute>
         }
       />
-      <Route path="/upgrade" element={<ProtectedRoute><UpgradePlan /></ProtectedRoute>} />
-      <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
-      <Route path="/help" element={<ProtectedRoute><HelpFAQ /></ProtectedRoute>} />
+      <Route
+        path="/upgrade"
+        element={
+          <ProtectedRoute>
+            <UpgradePlan />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/library"
+        element={
+          <ProtectedRoute>
+            <Library />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/help"
+        element={
+          <ProtectedRoute>
+            <HelpFAQ />
+          </ProtectedRoute>
+        }
+      />
 
       {/* 404 Route */}
       <Route path="*" element={<NotFound />} />

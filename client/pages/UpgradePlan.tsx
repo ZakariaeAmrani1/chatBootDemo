@@ -1,6 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, Star, Crown, ArrowLeft } from "lucide-react";
@@ -23,11 +29,11 @@ const UpgradePlan: React.FC = () => {
         "Up to 50 messages every 3 hours for GPT-4",
         "Browse with Bing",
         "Advanced data analysis",
-        "File uploads"
+        "File uploads",
       ],
       icon: <Zap className="w-6 h-6" />,
       buttonText: "Upgrade to Plus",
-      buttonVariant: "default" as const
+      buttonVariant: "default" as const,
     },
     {
       name: "ChatGPT Team",
@@ -43,11 +49,11 @@ const UpgradePlan: React.FC = () => {
         "Early access to new features",
         "Data excluded from training",
         "Secure team collaboration",
-        "Bulk member management"
+        "Bulk member management",
       ],
       icon: <Star className="w-6 h-6" />,
       buttonText: "Upgrade to Team",
-      buttonVariant: "outline" as const
+      buttonVariant: "outline" as const,
     },
     {
       name: "ChatGPT Enterprise",
@@ -63,12 +69,12 @@ const UpgradePlan: React.FC = () => {
         "Analytics dashboard",
         "Priority support",
         "Custom data retention",
-        "Advanced security features"
+        "Advanced security features",
       ],
       icon: <Crown className="w-6 h-6" />,
       buttonText: "Contact Sales",
-      buttonVariant: "outline" as const
-    }
+      buttonVariant: "outline" as const,
+    },
   ];
 
   return (
@@ -92,7 +98,8 @@ const UpgradePlan: React.FC = () => {
             Choose Your Plan
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Upgrade to unlock more powerful AI capabilities, faster responses, and advanced features to enhance your ChatGPT experience.
+            Upgrade to unlock more powerful AI capabilities, faster responses,
+            and advanced features to enhance your ChatGPT experience.
           </p>
         </div>
 
@@ -107,7 +114,8 @@ const UpgradePlan: React.FC = () => {
                 Current Plan: ChatGPT Free
               </CardTitle>
               <CardDescription>
-                You're currently using the free version of ChatGPT with access to GPT-3.5
+                You're currently using the free version of ChatGPT with access
+                to GPT-3.5
               </CardDescription>
             </CardHeader>
           </Card>
@@ -116,9 +124,9 @@ const UpgradePlan: React.FC = () => {
         {/* Plans Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {plans.map((plan, index) => (
-            <Card 
-              key={index} 
-              className={`relative ${plan.popular ? 'border-primary shadow-lg scale-105' : ''}`}
+            <Card
+              key={index}
+              className={`relative ${plan.popular ? "border-primary shadow-lg scale-105" : ""}`}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -127,17 +135,21 @@ const UpgradePlan: React.FC = () => {
                   </Badge>
                 </div>
               )}
-              
+
               <CardHeader className="text-center pb-6">
                 <div className="flex justify-center mb-3">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${plan.popular ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                  <div
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center ${plan.popular ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
+                  >
                     {plan.icon}
                   </div>
                 </div>
                 <CardTitle className="text-xl mb-2">{plan.name}</CardTitle>
                 <div className="mb-2">
                   <span className="text-3xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground ml-1">/{plan.period}</span>
+                  <span className="text-muted-foreground ml-1">
+                    /{plan.period}
+                  </span>
                 </div>
                 <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
@@ -152,8 +164,8 @@ const UpgradePlan: React.FC = () => {
                   ))}
                 </ul>
 
-                <Button 
-                  className="w-full" 
+                <Button
+                  className="w-full"
                   variant={plan.buttonVariant}
                   size="lg"
                 >
@@ -166,34 +178,48 @@ const UpgradePlan: React.FC = () => {
 
         {/* FAQ Section */}
         <div className="border-t pt-12">
-          <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
-          
+          <h2 className="text-2xl font-bold text-center mb-8">
+            Frequently Asked Questions
+          </h2>
+
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold mb-2">What happens if I cancel my subscription?</h3>
+              <h3 className="font-semibold mb-2">
+                What happens if I cancel my subscription?
+              </h3>
               <p className="text-muted-foreground text-sm">
-                You'll continue to have access to your plan's features until the end of your billing period, then revert to the free version.
+                You'll continue to have access to your plan's features until the
+                end of your billing period, then revert to the free version.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-2">Can I change my plan later?</h3>
+              <h3 className="font-semibold mb-2">
+                Can I change my plan later?
+              </h3>
               <p className="text-muted-foreground text-sm">
-                Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.
+                Yes, you can upgrade or downgrade your plan at any time. Changes
+                will be reflected in your next billing cycle.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-2">Is there a student discount?</h3>
+              <h3 className="font-semibold mb-2">
+                Is there a student discount?
+              </h3>
               <p className="text-muted-foreground text-sm">
-                We offer educational discounts for eligible students and institutions. Contact support for more information.
+                We offer educational discounts for eligible students and
+                institutions. Contact support for more information.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-2">What payment methods do you accept?</h3>
+              <h3 className="font-semibold mb-2">
+                What payment methods do you accept?
+              </h3>
               <p className="text-muted-foreground text-sm">
-                We accept all major credit cards and PayPal. Enterprise customers can also pay by invoice.
+                We accept all major credit cards and PayPal. Enterprise
+                customers can also pay by invoice.
               </p>
             </div>
           </div>
