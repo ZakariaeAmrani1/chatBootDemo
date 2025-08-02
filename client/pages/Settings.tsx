@@ -1233,15 +1233,11 @@ const Settings: React.FC<SettingsProps> = ({
 
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 rounded-lg border border-border overflow-hidden bg-background flex items-center justify-center">
-              {user?.settings.darkLogo ? (
-                <img
-                  src={user.settings.darkLogo}
-                  alt="Dark Theme Logo"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-muted-foreground text-xs">No logo</span>
-              )}
+              <img
+                src={getAppLogo("dark", user)}
+                alt="Current Dark Theme Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <input
@@ -1261,6 +1257,11 @@ const Settings: React.FC<SettingsProps> = ({
                 {isUploadingDarkLogo ? "Uploading..." : "Upload Dark Logo"}
               </Button>
               <p className="text-xs text-muted-foreground mt-1">
+                {user?.settings.darkLogo ? (
+                  <>Custom logo uploaded · </>
+                ) : (
+                  <>Using default logo · </>
+                )}
                 JPEG, PNG, GIF, WebP up to 5MB
               </p>
             </div>
