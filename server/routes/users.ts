@@ -98,3 +98,77 @@ export const updateUserSettings: RequestHandler = (req, res) => {
     res.status(500).json(response);
   }
 };
+
+// Configure multer for avatar uploads
+const avatarStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "server/uploads/");
+  },
+  filename: (req, file, cb) => {
+    const fileExtension = path.extname(file.originalname);
+    const filename = `avatar-${uuidv4()}${fileExtension}`;
+    cb(null, filename);
+  },
+});
+
+const avatarUpload = multer({
+  storage: avatarStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image files (JPEG, PNG, GIF, WebP) are allowed"));
+    }
+  },
+});
+
+// Upload user avatar
+export const uploadAvatar = [
+  avatarUpload.single("avatar"),
+  (req: any, res: any) => {
+    try {
+      const userId = req.params.userId || "user-1";
+
+      if (!req.file) {
+        const response: ApiResponse<User> = {
+          success: false,
+          error: "No avatar file provided",
+        };
+        return res.status(400).json(response);
+      }
+
+      // Get the relative path for the avatar URL
+      const avatarUrl = `/api/files/${req.file.filename}`;
+
+      // Update user with new avatar URL
+      const updatedUser = DataManager.updateUser(userId, {
+        avatar: avatarUrl,
+      });
+
+      if (!updatedUser) {
+        const response: ApiResponse<User> = {
+          success: false,
+          error: "User not found",
+        };
+        return res.status(404).json(response);
+      }
+
+      const response: ApiResponse<User> = {
+        success: true,
+        data: updatedUser,
+      };
+
+      res.json(response);
+    } catch (error) {
+      const response: ApiResponse<User> = {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to upload avatar",
+      };
+      res.status(500).json(response);
+    }
+  },
+];
