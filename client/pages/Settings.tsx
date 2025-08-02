@@ -92,6 +92,7 @@ const Settings: React.FC<SettingsProps> = ({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
   const [showApiKey, setShowApiKey] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
   // Use auth context for user data instead of local state
   const { user, updateUser } = useAuth();
