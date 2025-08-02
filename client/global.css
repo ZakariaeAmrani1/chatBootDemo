@@ -103,4 +103,84 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Font Size Classes */
+  .font-small {
+    font-size: 14px;
+  }
+
+  .font-small body,
+  .font-small p,
+  .font-small span,
+  .font-small div {
+    font-size: 14px;
+  }
+
+  .font-medium {
+    font-size: 16px;
+  }
+
+  .font-medium body,
+  .font-medium p,
+  .font-medium span,
+  .font-medium div {
+    font-size: 16px;
+  }
+
+  .font-large {
+    font-size: 18px;
+  }
+
+  .font-large body,
+  .font-large p,
+  .font-large span,
+  .font-large div {
+    font-size: 18px;
+  }
+
+  .font-extra-large {
+    font-size: 20px;
+  }
+
+  .font-extra-large body,
+  .font-extra-large p,
+  .font-extra-large span,
+  .font-extra-large div {
+    font-size: 20px;
+  }
+
+  /* Density Classes */
+  .density-compact {
+    --spacing-factor: 0.75;
+  }
+
+  .density-compact .p-2 { padding: calc(0.5rem * 0.75); }
+  .density-compact .p-3 { padding: calc(0.75rem * 0.75); }
+  .density-compact .p-4 { padding: calc(1rem * 0.75); }
+  .density-compact .p-6 { padding: calc(1.5rem * 0.75); }
+  .density-compact .py-2 { padding-top: calc(0.5rem * 0.75); padding-bottom: calc(0.5rem * 0.75); }
+  .density-compact .py-3 { padding-top: calc(0.75rem * 0.75); padding-bottom: calc(0.75rem * 0.75); }
+  .density-compact .py-4 { padding-top: calc(1rem * 0.75); padding-bottom: calc(1rem * 0.75); }
+  .density-compact .gap-2 { gap: calc(0.5rem * 0.75); }
+  .density-compact .gap-3 { gap: calc(0.75rem * 0.75); }
+  .density-compact .gap-4 { gap: calc(1rem * 0.75); }
+
+  .density-comfortable {
+    --spacing-factor: 1;
+  }
+
+  .density-spacious {
+    --spacing-factor: 1.25;
+  }
+
+  .density-spacious .p-2 { padding: calc(0.5rem * 1.25); }
+  .density-spacious .p-3 { padding: calc(0.75rem * 1.25); }
+  .density-spacious .p-4 { padding: calc(1rem * 1.25); }
+  .density-spacious .p-6 { padding: calc(1.5rem * 1.25); }
+  .density-spacious .py-2 { padding-top: calc(0.5rem * 1.25); padding-bottom: calc(0.5rem * 1.25); }
+  .density-spacious .py-3 { padding-top: calc(0.75rem * 1.25); padding-bottom: calc(0.75rem * 1.25); }
+  .density-spacious .py-4 { padding-top: calc(1rem * 1.25); padding-bottom: calc(1rem * 1.25); }
+  .density-spacious .gap-2 { gap: calc(0.5rem * 1.25); }
+  .density-spacious .gap-3 { gap: calc(0.75rem * 1.25); }
+  .density-spacious .gap-4 { gap: calc(1rem * 1.25); }
 }
