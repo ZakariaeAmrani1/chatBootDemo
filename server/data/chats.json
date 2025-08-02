@@ -35,6 +35,15 @@
       "updatedAt": "2025-08-02T17:00:49.049Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "7fc428b2-5a9c-4e1d-9334-cc07393d46cd",
+      "title": "New Chat",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:06:46.686Z",
+      "updatedAt": "2025-08-02T17:06:46.686Z",
+      "messageCount": 1,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -155,6 +164,13 @@
       "timestamp": "2025-08-02T17:00:49.049Z",
       "liked": true,
       "disliked": false
+    },
+    {
+      "id": "b9e8ab33-ae32-4574-b969-4aba97895a6c",
+      "chatId": "7fc428b2-5a9c-4e1d-9334-cc07393d46cd",
+      "type": "user",
+      "content": "🎤 Audio message",
+      "timestamp": "2025-08-02T17:06:46.686Z"
     }
   ]
 }
