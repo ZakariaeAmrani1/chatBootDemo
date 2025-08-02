@@ -127,21 +127,33 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         </div>
 
         {/* Chat History */}
-        <ScrollArea className={cn("flex-1", collapsed ? "px-1" : "px-2")}>
-          <div className="space-y-1 py-2">
+        <ScrollArea className={cn("flex-1", collapsed ? "px-2" : "px-3")}>
+          <div className="space-y-2 py-4">
+            {chats.length === 0 && !collapsed && (
+              <div className="px-3 py-8 text-center">
+                <MessageSquare className="h-12 w-12 text-muted-foreground/50 mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">No conversations yet</p>
+                <p className="text-xs text-muted-foreground/70 mt-1">Start a new chat to begin</p>
+              </div>
+            )}
             {chats.map((chat) =>
               collapsed ? (
                 <Tooltip key={chat.id}>
                   <TooltipTrigger asChild>
                     <div
                       className={cn(
-                        "flex items-center justify-center p-2 rounded-lg cursor-pointer transition-colors",
-                        "hover:bg-accent",
-                        currentChatId === chat.id ? "bg-accent" : "",
+                        "flex items-center justify-center p-3 rounded-xl cursor-pointer transition-all duration-200",
+                        "hover:bg-accent hover:scale-105",
+                        currentChatId === chat.id
+                          ? "bg-accent shadow-sm ring-1 ring-border"
+                          : "hover:shadow-sm",
                       )}
                       onClick={() => onChatSelect(chat.id)}
                     >
-                      <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                      <MessageSquare className={cn(
+                        "h-5 w-5 transition-colors",
+                        currentChatId === chat.id ? "text-accent-foreground" : "text-muted-foreground"
+                      )} />
                     </div>
                   </TooltipTrigger>
                   <TooltipContent side="right">{chat.title}</TooltipContent>
@@ -150,32 +162,40 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <div
                   key={chat.id}
                   className={cn(
-                    "group relative flex items-center px-3 py-2 rounded-lg cursor-pointer transition-colors",
-                    "hover:bg-accent",
-                    currentChatId === chat.id ? "bg-accent" : "",
+                    "group relative flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-200",
+                    "hover:bg-accent hover:shadow-sm",
+                    currentChatId === chat.id
+                      ? "bg-accent shadow-sm ring-1 ring-border"
+                      : "",
                   )}
                   onClick={() => onChatSelect(chat.id)}
                 >
-                  <MessageSquare className="h-4 w-4 mr-3 text-muted-foreground flex-shrink-0" />
-                  <span className="text-sm truncate flex-1 text-foreground">
+                  <MessageSquare className={cn(
+                    "h-4 w-4 mr-3 flex-shrink-0 transition-colors",
+                    currentChatId === chat.id ? "text-accent-foreground" : "text-muted-foreground"
+                  )} />
+                  <span className={cn(
+                    "text-sm truncate flex-1 font-medium transition-colors",
+                    currentChatId === chat.id ? "text-accent-foreground" : "text-foreground"
+                  )}>
                     {chat.title}
                   </span>
 
                   {/* Action buttons (visible on hover) */}
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+                      className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-all duration-200"
                     >
-                      <Edit3 className="h-3 w-3" />
+                      <Edit3 className="h-3.5 w-3.5" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-accent"
+                      className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all duration-200"
                     >
-                      <Trash2 className="h-3 w-3" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </div>
