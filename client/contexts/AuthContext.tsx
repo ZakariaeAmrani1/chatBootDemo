@@ -46,6 +46,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
+    // Handle online/offline status
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
     // Check if user is already logged in on app start
     const checkAuthStatus = async () => {
       try {
