@@ -264,8 +264,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   </TooltipTrigger>
                   <TooltipContent side="right">Help & FAQ</TooltipContent>
                 </Tooltip>
-
-                <ThemeSelector collapsed={collapsed} />
               </div>
 
               <Separator className="my-2 bg-border/50" />
