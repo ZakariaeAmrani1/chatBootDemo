@@ -172,3 +172,101 @@ export const uploadAvatar = [
     }
   },
 ];
+
+// Upload app light logo
+export const uploadLightLogo = [
+  avatarUpload.single("lightLogo"),
+  (req: any, res: any) => {
+    try {
+      const userId = req.params.userId || "user-1";
+
+      if (!req.file) {
+        const response: ApiResponse<User> = {
+          success: false,
+          error: "No logo file provided",
+        };
+        return res.status(400).json(response);
+      }
+
+      // Get the relative path for the logo URL
+      const logoUrl = `/api/files/${req.file.filename}`;
+
+      // Get current user to preserve existing settings
+      const user = DataManager.getUserById(userId);
+      if (!user) {
+        const response: ApiResponse<User> = {
+          success: false,
+          error: "User not found",
+        };
+        return res.status(404).json(response);
+      }
+
+      // Update user settings with new light logo URL
+      const updatedUser = DataManager.updateUser(userId, {
+        settings: { ...user.settings, lightLogo: logoUrl },
+      });
+
+      const response: ApiResponse<User> = {
+        success: true,
+        data: updatedUser!,
+      };
+
+      res.json(response);
+    } catch (error) {
+      const response: ApiResponse<User> = {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to upload light logo",
+      };
+      res.status(500).json(response);
+    }
+  },
+];
+
+// Upload app dark logo
+export const uploadDarkLogo = [
+  avatarUpload.single("darkLogo"),
+  (req: any, res: any) => {
+    try {
+      const userId = req.params.userId || "user-1";
+
+      if (!req.file) {
+        const response: ApiResponse<User> = {
+          success: false,
+          error: "No logo file provided",
+        };
+        return res.status(400).json(response);
+      }
+
+      // Get the relative path for the logo URL
+      const logoUrl = `/api/files/${req.file.filename}`;
+
+      // Get current user to preserve existing settings
+      const user = DataManager.getUserById(userId);
+      if (!user) {
+        const response: ApiResponse<User> = {
+          success: false,
+          error: "User not found",
+        };
+        return res.status(404).json(response);
+      }
+
+      // Update user settings with new dark logo URL
+      const updatedUser = DataManager.updateUser(userId, {
+        settings: { ...user.settings, darkLogo: logoUrl },
+      });
+
+      const response: ApiResponse<User> = {
+        success: true,
+        data: updatedUser!,
+      };
+
+      res.json(response);
+    } catch (error) {
+      const response: ApiResponse<User> = {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to upload dark logo",
+      };
+      res.status(500).json(response);
+    }
+  },
+];
