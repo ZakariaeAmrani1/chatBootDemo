@@ -707,6 +707,26 @@ const Settings: React.FC<SettingsProps> = ({
             </a>
           </p>
         </div>
+
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            <Label htmlFor="appUrl">App URL</Label>
+          </div>
+          <Input
+            id="appUrl"
+            type="url"
+            placeholder="http://localhost:8080"
+            value={user?.settings.appUrl || ""}
+            onChange={(e) => updateSetting("appUrl", e.target.value)}
+            disabled={isSaving}
+            className="font-mono text-sm"
+          />
+          <p className="text-xs text-muted-foreground">
+            The base URL for your application. This is used when generating share links for chats.
+            Update this when deploying to production.
+          </p>
+        </div>
       </div>
     </div>
   );
