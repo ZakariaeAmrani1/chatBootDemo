@@ -287,11 +287,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           </div>
         </form>
 
-        {/* Model Selection */}
-        <ModelSelectorCards
-          selectedModel={selectedModel}
-          onModelChange={setSelectedModel}
-        />
+
 
         {/* Hidden file input */}
         <input
