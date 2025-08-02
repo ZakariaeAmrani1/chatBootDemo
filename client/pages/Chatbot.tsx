@@ -97,6 +97,11 @@ const Chatbot = () => {
       if (user.settings.density) {
         applyDensity(user.settings.density);
       }
+
+      // Apply selected model
+      if (user.settings.selectedModel) {
+        setSelectedModel(user.settings.selectedModel);
+      }
     }
   }, [user, setTheme]);
 
@@ -176,6 +181,18 @@ const Chatbot = () => {
 
     // Also refresh chats if needed
     handleRefresh();
+  };
+
+  const handleModelChange = async (modelId: string) => {
+    setSelectedModel(modelId);
+
+    // Save model selection to user settings
+    try {
+      const userId = user?.id || "user-1";
+      await apiService.updateUserSettings(userId, { selectedModel: modelId });
+    } catch (error) {
+      console.error("Failed to save model preference:", error);
+    }
   };
 
   const handleMessageUpdate = (
@@ -269,7 +286,7 @@ const Chatbot = () => {
           <ChatArea
             messages={chatState.messages}
             selectedModel={selectedModel}
-            onModelChange={setSelectedModel}
+            onModelChange={handleModelChange}
             isThinking={chatState.isThinking}
             isLoading={chatState.isLoading}
             error={chatState.error}
