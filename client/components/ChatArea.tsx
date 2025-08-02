@@ -5,10 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FileAttachmentDisplay from "@/components/FileAttachment";
+import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import type { Message } from "@/pages/Chatbot";
 
 interface ChatAreaProps {
   messages: Message[];
+  selectedModel: string;
+  onModelChange: (modelId: string) => void;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
