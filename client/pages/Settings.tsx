@@ -666,29 +666,31 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
   return (
     <div className={containerClasses}>
       <div className={contentClasses}>
-        <div className="flex h-full">
+        <div className="flex h-full min-h-0">
           {/* Sidebar Navigation - Hidden on mobile */}
-          <div className="hidden md:block w-64 border-r border-border bg-muted/30 p-4 overflow-y-auto">
-            <div className="space-y-1">
-              {settingsMenu.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Button
-                    key={item.id}
-                    variant={activeSection === item.id ? "secondary" : "ghost"}
-                    className="w-full justify-start"
-                    onClick={() => setActiveSection(item.id as SettingsSection)}
-                  >
-                    <Icon className="h-4 w-4 mr-3" />
-                    {item.label}
-                  </Button>
-                );
-              })}
+          <div className="hidden md:block w-64 border-r border-border bg-muted/30 flex-shrink-0">
+            <div className="h-full overflow-y-auto p-4">
+              <div className="space-y-1">
+                {settingsMenu.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Button
+                      key={item.id}
+                      variant={activeSection === item.id ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => setActiveSection(item.id as SettingsSection)}
+                    >
+                      <Icon className="h-4 w-4 mr-3" />
+                      {item.label}
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
               <div className="flex items-center space-x-3">
