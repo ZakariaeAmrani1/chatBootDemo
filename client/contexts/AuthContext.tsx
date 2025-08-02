@@ -87,9 +87,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } catch (error) {
         console.error("Auth check failed:", error);
-        // Clear potentially corrupted data
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("currentUser");
+
+        // Only clear auth data if it's not a network error
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        if (!errorMessage.includes("Failed to fetch") && !errorMessage.includes("Network error")) {
+          // Clear potentially corrupted data only for non-network errors
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("currentUser");
+        }
+
         setUser(null);
       } finally {
         setIsLoading(false);
