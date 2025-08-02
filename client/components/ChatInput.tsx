@@ -60,7 +60,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
       }
 
       // Send the message with attachments
-      console.log('Sending message with attachments:', attachedFiles);
       onSendMessage(
         message.trim(),
         attachedFiles.length > 0 ? attachedFiles : undefined,
