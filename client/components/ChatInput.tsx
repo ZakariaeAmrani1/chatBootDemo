@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   Send,
   Paperclip,
@@ -9,6 +9,7 @@ import {
   Camera,
   Loader2,
   X,
+  MicOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,10 +38,15 @@ const ChatInput: React.FC<ChatInputProps> = ({
   const [isRecording, setIsRecording] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,8 +137,129 @@ const ChatInput: React.FC<ChatInputProps> = ({
     fileInputRef.current?.click();
   };
 
-  const toggleRecording = () => {
-    setIsRecording(!isRecording);
+  const requestMicrophonePermission = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setHasPermission(true);
+      stream.getTracks().forEach(track => track.stop()); // Stop the test stream
+      return true;
+    } catch (error) {
+      console.error('Microphone permission denied:', error);
+      setHasPermission(false);
+      return false;
+    }
+  }, []);
+
+  const startRecording = useCallback(async () => {
+    if (hasPermission === null) {
+      const granted = await requestMicrophonePermission();
+      if (!granted) return;
+    } else if (hasPermission === false) {
+      alert('Microphone permission is required to record audio. Please enable it in your browser settings.');
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        await handleAudioRecorded(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+      setRecordingTime(0);
+
+      // Start recording timer
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+      alert('Failed to start recording. Please check your microphone permissions.');
+    }
+  }, [hasPermission]);
+
+  const stopRecording = useCallback(() => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+        recordingIntervalRef.current = null;
+      }
+    }
+  }, [isRecording]);
+
+  const handleAudioRecorded = async (audioBlob: Blob) => {
+    setIsUploading(true);
+
+    try {
+      // Create a file from the blob
+      const audioFile = new File([audioBlob], `audio-${Date.now()}.webm`, {
+        type: 'audio/webm'
+      });
+
+      // Upload the audio file
+      const response = await apiService.uploadFiles([audioFile]);
+
+      if (response.success && response.data) {
+        setAttachedFiles(prev => [...prev, ...response.data!]);
+        // Auto-send the audio message
+        setTimeout(() => {
+          onSendMessage('🎤 Audio message', response.data);
+        }, 100);
+      } else {
+        console.error('Failed to upload audio:', response.error);
+        // Fallback to local URL
+        const audioAttachment: FileAttachment = {
+          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+          name: `audio-${Date.now()}.webm`,
+          type: 'audio/webm',
+          size: audioBlob.size,
+          url: URL.createObjectURL(audioBlob),
+          uploadedAt: new Date().toISOString(),
+        };
+        setAttachedFiles(prev => [...prev, audioAttachment]);
+        // Auto-send the audio message
+        setTimeout(() => {
+          onSendMessage('🎤 Audio message', [audioAttachment]);
+        }, 100);
+      }
+    } catch (error) {
+      console.error('Error processing audio:', error);
+    } finally {
+      setIsUploading(false);
+      setRecordingTime(0);
+    }
+  };
+
+  const toggleRecording = useCallback(() => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  }, [isRecording, startRecording, stopRecording]);
+
+  // Format recording time
+  const formatRecordingTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const removeFile = (attachmentId: string) => {
@@ -267,25 +394,42 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 </DropdownMenu>
 
                 {/* Voice Recording */}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "h-8 w-8 p-0 rounded-lg transition-all duration-200 hover:scale-110",
-                    isRecording
-                      ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse"
-                      : "hover:bg-muted text-muted-foreground",
+                <div className="relative flex items-center gap-2">
+                  {isRecording && (
+                    <div className="flex items-center gap-2 text-xs text-red-500 font-mono">
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                      {formatRecordingTime(recordingTime)}
+                    </div>
                   )}
-                  onClick={toggleRecording}
-                  disabled={isSending || disabled}
-                >
-                  {isRecording ? (
-                    <Square className="h-4 w-4" />
-                  ) : (
-                    <Mic className="h-4 w-4" />
-                  )}
-                </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      "h-8 w-8 p-0 rounded-lg transition-all duration-300 relative overflow-hidden",
+                      isRecording
+                        ? "text-red-500 bg-red-50 hover:bg-red-100 scale-110 shadow-lg"
+                        : hasPermission === false
+                        ? "text-red-400 hover:bg-red-50"
+                        : "hover:bg-muted text-muted-foreground hover:scale-110",
+                    )}
+                    onClick={toggleRecording}
+                    disabled={isSending || disabled || isUploading}
+                    title={hasPermission === false ? "Microphone permission required" : isRecording ? "Stop recording" : "Start recording"}
+                  >
+                    {/* Animated background for recording */}
+                    {isRecording && (
+                      <div className="absolute inset-0 bg-red-500/20 rounded-lg animate-ping" />
+                    )}
+                    {isRecording ? (
+                      <Square className="h-4 w-4 relative z-10" />
+                    ) : hasPermission === false ? (
+                      <MicOff className="h-4 w-4 relative z-10" />
+                    ) : (
+                      <Mic className="h-4 w-4 relative z-10" />
+                    )}
+                  </Button>
+                </div>
               </div>
 
               {/* Send Button */}
