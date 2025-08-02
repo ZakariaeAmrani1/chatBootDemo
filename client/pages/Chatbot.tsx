@@ -6,6 +6,7 @@ import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import SettingsPage from "@/pages/Settings";
 
 export interface FileAttachment {
   id: string;
@@ -44,6 +45,7 @@ const Chatbot = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const currentChat = chats.find((chat) => chat.id === currentChatId);
 
@@ -149,6 +151,7 @@ const Chatbot = () => {
           onCloseSidebar={() => setSidebarOpen(false)}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          onOpenSettings={() => setSettingsOpen(true)}
         />
       </div>
 
@@ -174,7 +177,11 @@ const Chatbot = () => {
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
             <ThemeToggle />
-            <Button variant="ghost" size="sm">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSettingsOpen(true)}
+            >
               <Settings className="h-4 w-4" />
             </Button>
           </div>
@@ -194,6 +201,11 @@ const Chatbot = () => {
           <ChatInput onSendMessage={addMessage} />
         </div>
       </div>
+
+      {/* Settings Modal */}
+      {settingsOpen && (
+        <SettingsPage onClose={() => setSettingsOpen(false)} isModal={true} />
+      )}
     </div>
   );
 };
