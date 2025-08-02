@@ -57,7 +57,7 @@ const Chatbot = () => {
     setCurrentChatId(newChat.id);
   };
 
-  const addMessage = (content: string) => {
+  const addMessage = (content: string, attachments?: FileAttachment[]) => {
     if (!currentChat) return;
 
     const userMessage: Message = {
@@ -65,6 +65,18 @@ const Chatbot = () => {
       content,
       sender: "user",
       timestamp: new Date(),
+      attachments,
+    };
+
+    // Generate title from content or first attachment name
+    const generateTitle = () => {
+      if (content.trim()) {
+        return content.slice(0, 30) + (content.length > 30 ? "..." : "");
+      }
+      if (attachments && attachments.length > 0) {
+        return `📎 ${attachments[0].name}`;
+      }
+      return "New chat";
     };
 
     // Update chat title if it's the first message
@@ -72,7 +84,7 @@ const Chatbot = () => {
       ...currentChat,
       title:
         currentChat.messages.length === 0
-          ? content.slice(0, 30) + "..."
+          ? generateTitle()
           : currentChat.title,
       messages: [...currentChat.messages, userMessage],
     };
@@ -83,10 +95,20 @@ const Chatbot = () => {
 
     // Simulate assistant response
     setTimeout(() => {
+      let assistantContent = "I'm a demo assistant response. In a real implementation, this would connect to your AI model.";
+
+      if (attachments && attachments.length > 0) {
+        const fileTypes = attachments.map(a => {
+          if (a.type.startsWith('image/')) return 'image';
+          if (a.type === 'application/pdf') return 'PDF';
+          return 'file';
+        });
+        assistantContent = `I can see you've shared ${attachments.length} ${fileTypes.join(', ')}(s). In a real implementation, I would analyze these files and provide relevant insights.`;
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content:
-          "I'm a demo assistant response. In a real implementation, this would connect to your AI model.",
+        content: assistantContent,
         sender: "assistant",
         timestamp: new Date(),
       };
