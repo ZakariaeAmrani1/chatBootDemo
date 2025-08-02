@@ -188,13 +188,13 @@ export const sendMessage: RequestHandler = (req, res) => {
       DataManager.updateChat(chatId, { title: truncatedTitle });
     }
 
-    // Simulate AI thinking and response
-    setTimeout(() => {
+    // Generate AI response
+    setTimeout(async () => {
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: generateAIResponse(message),
+        content: await generateAIResponse(message, chat.userId),
         timestamp: new Date().toISOString(),
       };
 
