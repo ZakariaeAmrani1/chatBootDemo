@@ -74,6 +74,7 @@ const Settings: React.FC<SettingsProps> = ({
   onBack,
   isModal = true,
   onRefresh,
+  onUserUpdate,
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
