@@ -288,7 +288,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         </form>
 
         {/* Model Selection */}
-        <ModelSelector
+        <ModelSelectorCards
           selectedModel={selectedModel}
           onModelChange={setSelectedModel}
         />
