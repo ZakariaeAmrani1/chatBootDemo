@@ -123,11 +123,11 @@ const Chatbot = () => {
             </Button>
             <h1 className="text-xl font-semibold">ChatGPT</h1>
           </div>
-          
+
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="hidden sm:flex">
               <Share2 className="h-4 w-4" />
-              Share
+              <span className="ml-1 hidden md:inline">Share</span>
             </Button>
             <Button variant="ghost" size="sm">
               <Settings className="h-4 w-4" />
