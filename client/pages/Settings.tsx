@@ -596,20 +596,20 @@ const Settings: React.FC<SettingsProps> = ({
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Chat History</span>
-                <span>2.1 MB</span>
+                <span>{dataStats?.chatHistory.sizeFormatted || 'Loading...'}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Attachments</span>
-                <span>156 MB</span>
+                <span>File Metadata</span>
+                <span>{dataStats?.uploadedFiles.sizeFormatted || 'Loading...'}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Settings</span>
-                <span>0.1 MB</span>
+                <span>User Settings</span>
+                <span>{dataStats?.userSettings.sizeFormatted || 'Loading...'}</span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
-                <span>Total</span>
-                <span>158.2 MB / 1 GB</span>
+                <span>Total JSON Data</span>
+                <span>{dataStats?.totalSizeFormatted || 'Loading...'}</span>
               </div>
             </div>
           </CardContent>
