@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Send, Paperclip, Mic, Square, Image, FileText, Camera } from 'lucide-react';
+import { Send, Paperclip, Mic, Square, Image, FileText, Camera, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { ModelSelector } from '@/components/ModelSelector';
 import { cn } from '@/lib/utils';
 
 interface ChatInputProps {
@@ -13,21 +13,40 @@ interface ChatInputProps {
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [selectedModel, setSelectedModel] = useState('gpt-4');
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (message.trim()) {
-      onSendMessage(message.trim());
-      setMessage('');
-      setAttachedFiles([]);
-      // Reset textarea height
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto';
+    if (message.trim() && !isSending) {
+      setIsSending(true);
+      
+      // Animate the message send
+      const textarea = textareaRef.current;
+      if (textarea) {
+        textarea.style.transform = 'scale(0.98)';
+        textarea.style.opacity = '0.7';
       }
+      
+      // Send the message
+      onSendMessage(message.trim());
+      
+      // Clear and reset
+      setTimeout(() => {
+        setMessage('');
+        setAttachedFiles([]);
+        setIsSending(false);
+        
+        if (textarea) {
+          textarea.style.height = 'auto';
+          textarea.style.transform = 'scale(1)';
+          textarea.style.opacity = '1';
+          textarea.focus();
+        }
+      }, 300);
     }
   };
 
@@ -60,7 +79,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
-    // Here you would implement actual audio recording logic
   };
 
   const removeFile = (index: number) => {
@@ -68,46 +86,27 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="border-t border-border bg-background p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Model Selection */}
-        <div className="flex items-center justify-between mb-3">
-          <Select value={selectedModel} onValueChange={setSelectedModel}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Model" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="gpt-4">GPT-4</SelectItem>
-              <SelectItem value="gpt-4-turbo">GPT-4 Turbo</SelectItem>
-              <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-              <SelectItem value="claude-3">Claude 3</SelectItem>
-              <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <div className="text-xs text-muted-foreground">
-            {message.length}/4000
-          </div>
-        </div>
-
+    <div className="border-t border-border bg-background p-6">
+      <div className="max-w-4xl mx-auto space-y-6">
+        
         {/* Attached Files Display */}
         {attachedFiles.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             {attachedFiles.map((file, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-lg text-sm"
+                className="flex items-center gap-2 bg-muted px-4 py-2 rounded-xl text-sm border animate-in slide-in-from-bottom-2 duration-300"
               >
                 {file.type.startsWith('image/') ? (
-                  <Image className="h-4 w-4" />
+                  <Image className="h-4 w-4 text-blue-500" />
                 ) : (
-                  <FileText className="h-4 w-4" />
+                  <FileText className="h-4 w-4 text-green-500" />
                 )}
-                <span className="truncate max-w-32">{file.name}</span>
+                <span className="truncate max-w-32 font-medium">{file.name}</span>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-4 w-4 p-0 ml-1"
+                  className="h-5 w-5 p-0 ml-1 hover:bg-destructive/10 hover:text-destructive rounded-full"
                   onClick={() => removeFile(index)}
                 >
                   ×
@@ -117,39 +116,60 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           </div>
         )}
 
-        {/* Input Area */}
+        {/* Main Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="relative border border-input rounded-lg bg-background overflow-hidden focus-within:ring-1 focus-within:ring-ring focus-within:border-ring">
+          <div className={cn(
+            "relative border-2 rounded-2xl bg-background overflow-hidden transition-all duration-300",
+            "focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/40",
+            "hover:border-border/60",
+            isSending ? "border-primary/40 ring-2 ring-primary/20" : "border-border"
+          )}>
             <Textarea
               ref={textareaRef}
               value={message}
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
               placeholder="Message ChatGPT..."
-              className="resize-none border-0 bg-transparent px-3 py-3 pr-20 focus:ring-0 min-h-[48px] max-h-[200px] text-foreground placeholder:text-muted-foreground"
+              disabled={isSending}
+              className={cn(
+                "resize-none border-0 bg-transparent px-6 py-5 pr-32 focus:ring-0 min-h-[60px] max-h-[200px]",
+                "text-foreground placeholder:text-muted-foreground text-base leading-relaxed",
+                "transition-all duration-300",
+                isSending && "opacity-70"
+              )}
               rows={1}
             />
             
+            {/* Character counter */}
+            <div className="absolute top-3 right-20 text-xs text-muted-foreground">
+              {message.length}/4000
+            </div>
+            
             {/* Action Buttons */}
-            <div className="absolute right-2 bottom-2 flex items-center gap-1">
+            <div className="absolute right-3 bottom-3 flex items-center gap-2">
               {/* Attachment Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Paperclip className="h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-10 w-10 p-0 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-110"
+                    disabled={isSending}
+                  >
+                    <Paperclip className="h-5 w-5 text-muted-foreground" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem onClick={handleFileUpload}>
-                    <FileText className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2 text-blue-500" />
                     Upload file
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => {/* Handle photo upload */}}>
-                    <Image className="h-4 w-4 mr-2" />
+                    <Image className="h-4 w-4 mr-2 text-green-500" />
                     Upload photo
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => {/* Handle camera */}}>
-                    <Camera className="h-4 w-4 mr-2" />
+                    <Camera className="h-4 w-4 mr-2 text-purple-500" />
                     Take photo
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -161,26 +181,45 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "h-8 w-8 p-0",
-                  isRecording ? "text-red-500 bg-red-50" : ""
+                  "h-10 w-10 p-0 rounded-xl transition-all duration-200 hover:scale-110",
+                  isRecording 
+                    ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse" 
+                    : "hover:bg-muted text-muted-foreground"
                 )}
                 onClick={toggleRecording}
+                disabled={isSending}
               >
-                {isRecording ? <Square className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                {isRecording ? <Square className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
               </Button>
 
               {/* Send Button */}
               <Button
                 type="submit"
                 size="sm"
-                className="h-8 w-8 p-0 disabled:opacity-50"
-                disabled={!message.trim() && attachedFiles.length === 0}
+                className={cn(
+                  "h-10 w-10 p-0 rounded-xl transition-all duration-300",
+                  "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
+                  "shadow-lg hover:shadow-xl disabled:opacity-50",
+                  "transform hover:scale-110 active:scale-95",
+                  isSending && "animate-pulse"
+                )}
+                disabled={(!message.trim() && attachedFiles.length === 0) || isSending}
               >
-                <Send className="h-4 w-4" />
+                {isSending ? (
+                  <Loader2 className="h-5 w-5 animate-spin text-white" />
+                ) : (
+                  <Send className="h-5 w-5 text-white" />
+                )}
               </Button>
             </div>
           </div>
         </form>
+
+        {/* Model Selection */}
+        <ModelSelector
+          selectedModel={selectedModel}
+          onModelChange={setSelectedModel}
+        />
 
         {/* Hidden file input */}
         <input
@@ -193,7 +232,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         />
 
         {/* Footer Text */}
-        <p className="text-xs text-muted-foreground text-center mt-3">
+        <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-2">
+          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+          </svg>
           ChatGPT can make mistakes. Check important info.
         </p>
       </div>
