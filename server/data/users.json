@@ -24,7 +24,9 @@
         "region": "us",
         "voiceEnabled": false,
         "voiceModel": "natural",
-        "speechRate": [1],
+        "speechRate": [
+          1
+        ],
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
@@ -57,7 +59,9 @@
         "region": "us",
         "voiceEnabled": false,
         "voiceModel": "natural",
-        "speechRate": [1],
+        "speechRate": [
+          1
+        ],
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,

@@ -26,6 +26,15 @@
       "updatedAt": "2025-08-02T16:37:13.077Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "d987dc7e-9765-4091-9c00-b73255bc67ca",
+      "title": "hello my friend",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T16:59:28.156Z",
+      "updatedAt": "2025-08-02T17:00:49.049Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -130,6 +139,22 @@
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
       "timestamp": "2025-08-02T16:37:13.077Z"
+    },
+    {
+      "id": "e5a28967-cfba-4c96-b6ce-422e02557f0d",
+      "chatId": "d987dc7e-9765-4091-9c00-b73255bc67ca",
+      "type": "user",
+      "content": "hello my friend",
+      "timestamp": "2025-08-02T17:00:46.613Z"
+    },
+    {
+      "id": "2d1bc9b1-989f-4eab-8252-ed1bffabd240",
+      "chatId": "d987dc7e-9765-4091-9c00-b73255bc67ca",
+      "type": "assistant",
+      "content": "Hello there! It's great to hear from you! I'm happy to chat with you, even if we're just getting to know each other. How's your day going so far?",
+      "timestamp": "2025-08-02T17:00:49.049Z",
+      "liked": true,
+      "disliked": false
     }
   ]
 }
