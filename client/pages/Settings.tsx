@@ -100,6 +100,26 @@ const Settings: React.FC<SettingsProps> = ({
     loadDataStats();
   }, []);
 
+  // Apply user's appearance settings when user data loads
+  useEffect(() => {
+    if (user?.settings) {
+      // Apply theme
+      if (user.settings.theme) {
+        setTheme(user.settings.theme as "light" | "dark" | "system");
+      }
+
+      // Apply font size
+      if (user.settings.fontSize) {
+        applyFontSize(user.settings.fontSize);
+      }
+
+      // Apply density
+      if (user.settings.density) {
+        applyDensity(user.settings.density);
+      }
+    }
+  }, [user, setTheme]);
+
   const loadUserData = async () => {
     setIsLoading(true);
     setError(null);
