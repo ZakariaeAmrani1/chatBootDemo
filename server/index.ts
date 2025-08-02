@@ -19,6 +19,7 @@ import {
 } from "./routes/data";
 import { handleMessageFeedback } from "./routes/feedback";
 import { getModels, addModel } from "./routes/models";
+import { loginUser, registerUser, verifyUserToken } from "./routes/auth";
 
 export function createServer() {
   const app = express();
