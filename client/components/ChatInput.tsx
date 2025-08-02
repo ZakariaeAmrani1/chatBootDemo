@@ -1,14 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
   Send,
   Paperclip,
   Mic,
-  Square,
   Image,
   FileText,
   Camera,
   Loader2,
   X,
+  MicOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,10 +37,15 @@ const ChatInput: React.FC<ChatInputProps> = ({
   const [isRecording, setIsRecording] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +61,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
       // Send the message with attachments
       onSendMessage(
-        message.trim(),
+        message.trim() || (attachedFiles.length > 0 ? "" : ""),
         attachedFiles.length > 0 ? attachedFiles : undefined,
       );
 
@@ -102,6 +107,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
         if (response.success && response.data) {
           setAttachedFiles((prev) => [...prev, ...response.data!]);
+          console.log("Files uploaded successfully:", response.data);
         } else {
           console.error("Failed to upload files:", response.error);
           // Fallback to local URLs for now
@@ -118,6 +124,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
             return fileAttachment;
           });
           setAttachedFiles((prev) => [...prev, ...newFiles]);
+          console.log("Using fallback file URLs:", newFiles);
         }
       } catch (error) {
         console.error("Error uploading files:", error);
@@ -131,9 +138,135 @@ const ChatInput: React.FC<ChatInputProps> = ({
     fileInputRef.current?.click();
   };
 
-  const toggleRecording = () => {
-    setIsRecording(!isRecording);
+  const requestMicrophonePermission = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setHasPermission(true);
+      stream.getTracks().forEach((track) => track.stop()); // Stop the test stream
+      return true;
+    } catch (error) {
+      console.error("Microphone permission denied:", error);
+      setHasPermission(false);
+      return false;
+    }
+  }, []);
+
+  const startRecording = useCallback(async () => {
+    if (hasPermission === null) {
+      const granted = await requestMicrophonePermission();
+      if (!granted) return;
+    } else if (hasPermission === false) {
+      alert(
+        "Microphone permission is required to record audio. Please enable it in your browser settings.",
+      );
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: "audio/webm;codecs=opus",
+      });
+
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
+        await handleAudioRecorded(audioBlob);
+
+        // Stop all tracks
+        stream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      };
+
+      mediaRecorder.start(100); // Collect data every 100ms
+      setIsRecording(true);
+      setRecordingTime(0);
+
+      // Start recording timer
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime((prev) => prev + 1);
+      }, 1000);
+    } catch (error) {
+      console.error("Failed to start recording:", error);
+      alert(
+        "Failed to start recording. Please check your microphone permissions.",
+      );
+    }
+  }, [hasPermission]);
+
+  const stopRecording = useCallback(() => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
+      mediaRecorderRef.current.stop();
+    }
+
+    setIsRecording(false);
+
+    if (recordingIntervalRef.current) {
+      clearInterval(recordingIntervalRef.current);
+      recordingIntervalRef.current = null;
+    }
+  }, []);
+
+  const handleAudioRecorded = async (audioBlob: Blob) => {
+    if (audioBlob.size < 1000) {
+      console.warn("Audio recording too short, ignoring");
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      // SIMULATION MODE - Just send a text message indicating audio was recorded
+      console.log("Audio recorded (simulated):", audioBlob.size, "bytes");
+
+      // Simulate a short delay for "processing"
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Send a simulated audio message without actual file
+      onSendMessage("🎤 Voice message (simulated)", []);
+
+      // Clean up the blob URL
+      URL.revokeObjectURL(URL.createObjectURL(audioBlob));
+    } catch (error) {
+      console.error("Error processing audio:", error);
+    } finally {
+      setIsUploading(false);
+      setRecordingTime(0);
+    }
   };
+
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      // Clean up recording when component unmounts
+      if (mediaRecorderRef.current && isRecording) {
+        mediaRecorderRef.current.stop();
+      }
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+      // Cleanup any object URLs
+      attachedFiles.forEach((file) => {
+        if (file.url.startsWith("blob:")) {
+          URL.revokeObjectURL(file.url);
+        }
+      });
+    };
+  }, [isRecording, attachedFiles]);
 
   const removeFile = (attachmentId: string) => {
     setAttachedFiles((prev) => {
@@ -267,30 +400,56 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 </DropdownMenu>
 
                 {/* Voice Recording */}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "h-8 w-8 p-0 rounded-lg transition-all duration-200 hover:scale-110",
-                    isRecording
-                      ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse"
-                      : "hover:bg-muted text-muted-foreground",
-                  )}
-                  onClick={toggleRecording}
-                  disabled={isSending || disabled}
-                >
+                <div className="relative flex items-center gap-2">
                   {isRecording ? (
-                    <Square className="h-4 w-4" />
+                    <button
+                      type="button"
+                      className="transition-all duration-300 hover:scale-105 cursor-pointer"
+                      onClick={stopRecording}
+                      disabled={isSending || disabled || isUploading}
+                      title="Click to stop recording and send"
+                    >
+                      <div className="wave-container oscilloscope">
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                      </div>
+                    </button>
                   ) : (
-                    <Mic className="h-4 w-4" />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className={cn(
+                        "h-8 w-8 p-0 rounded-lg transition-all duration-200",
+                        hasPermission === false
+                          ? "text-red-400 hover:bg-red-50"
+                          : "hover:bg-muted text-muted-foreground",
+                      )}
+                      onClick={startRecording}
+                      disabled={isSending || disabled || isUploading}
+                      title={
+                        hasPermission === false
+                          ? "Microphone permission required"
+                          : "Start recording"
+                      }
+                    >
+                      {hasPermission === false ? (
+                        <MicOff className="h-4 w-4" />
+                      ) : (
+                        <Mic className="h-4 w-4" />
+                      )}
+                    </Button>
                   )}
-                </Button>
+                </div>
               </div>
 
               {/* Send Button */}
               <Button
-                type="submit"
+                type={isRecording ? "button" : "submit"}
                 size="sm"
                 className={cn(
                   "h-8 w-8 p-0 rounded-lg transition-all duration-300",
@@ -299,12 +458,16 @@ const ChatInput: React.FC<ChatInputProps> = ({
                   "transform hover:scale-110 active:scale-95",
                   isSending && "animate-pulse",
                 )}
+                onClick={isRecording ? stopRecording : undefined}
                 disabled={
-                  (!message.trim() && attachedFiles.length === 0) ||
+                  (!message.trim() &&
+                    attachedFiles.length === 0 &&
+                    !isRecording) ||
                   isSending ||
                   disabled ||
                   isUploading
                 }
+                title={isRecording ? "Stop recording and send" : "Send message"}
               >
                 {isSending ? (
                   <Loader2 className="h-4 w-4 animate-spin text-white" />

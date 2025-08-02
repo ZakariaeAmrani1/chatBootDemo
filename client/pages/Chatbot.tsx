@@ -152,17 +152,26 @@ const Chatbot = () => {
 
     try {
       if (!chatState.currentChat) {
-        // Create new chat with this message
-        await chatService.createChat({
+        // Create new chat first, then send the message with attachments
+        const newChat = await chatService.createChat({
           title: "New Chat",
           model: selectedModel,
-          message: content,
         });
+
+        if (newChat) {
+          // Now send the message with attachments to the new chat
+          await chatService.sendMessage({
+            chatId: newChat.id,
+            message: content,
+            attachments: attachments,
+          });
+        }
       } else {
         // Send message to existing chat
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
           message: content,
+          attachments: attachments,
         });
       }
     } catch (error) {

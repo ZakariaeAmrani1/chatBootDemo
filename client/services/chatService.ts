@@ -148,6 +148,7 @@ class ChatService {
       type: "user",
       content: request.message,
       timestamp: new Date().toISOString(),
+      attachments: request.attachments,
     };
 
     this.setState({

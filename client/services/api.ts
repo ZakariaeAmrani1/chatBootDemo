@@ -37,9 +37,18 @@ class ApiService {
 
     try {
       const response = await fetch(url, config);
+
+      if (!response.ok) {
+        return {
+          success: false,
+          error: `HTTP ${response.status}: ${response.statusText}`,
+        };
+      }
+
       const data = await response.json();
       return data as ApiResponse<T>;
     } catch (error) {
+      console.error(`API request failed for ${url}:`, error);
       return {
         success: false,
         error: error instanceof Error ? error.message : "Network error",
@@ -188,12 +197,20 @@ class ApiService {
       return { success: false, error: "No token found" };
     }
 
-    return this.request<User>("/auth/verify", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      return await this.request<User>("/auth/verify", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      // Return a more specific error for network issues
+      return {
+        success: false,
+        error: "Network error: Could not verify token",
+      };
+    }
   }
 
   async logout(): Promise<void> {

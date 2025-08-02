@@ -274,7 +274,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
               >
                 {/* File attachments */}
                 {message.attachments && message.attachments.length > 0 && (
-                  <div className="space-y-2">
+                  <div className="space-y-2 mb-3">
                     {message.attachments.map((attachment) => (
                       <FileAttachmentDisplay
                         key={attachment.id}

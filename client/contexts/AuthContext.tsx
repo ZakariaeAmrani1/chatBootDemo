@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useRef,
   ReactNode,
 } from "react";
 import { User } from "@shared/types";
@@ -12,6 +13,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isOnline: boolean;
   login: (
     email: string,
     password: string,
@@ -42,6 +44,26 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const isMountedRef = useRef(true);
+
+  // Separate useEffect for online/offline listeners
+  useEffect(() => {
+    const handleOnline = () => {
+      if (isMountedRef.current) setIsOnline(true);
+    };
+    const handleOffline = () => {
+      if (isMountedRef.current) setIsOnline(false);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   useEffect(() => {
     // Check if user is already logged in on app start
@@ -51,27 +73,115 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const savedUser = localStorage.getItem("currentUser");
 
         if (token && savedUser) {
-          // Verify token is still valid
-          const response = await apiService.verifyToken();
-          if (response.success && response.data) {
-            setUser(response.data);
-          } else {
-            // Token is invalid, clear storage
+          try {
+            // Parse saved user data
+            const userData = JSON.parse(savedUser);
+
+            // Try to verify token with server
+            try {
+              const response = await apiService.verifyToken();
+              if (!isMountedRef.current) return; // Prevent state update if unmounted
+
+              if (response.success && response.data) {
+                setUser(response.data);
+              } else if (
+                response.error?.includes("Network error") ||
+                response.error?.includes("Failed to fetch")
+              ) {
+                // Network error - assume user is still valid but can't verify right now
+                console.warn(
+                  "Could not verify token due to network error, using cached user data",
+                );
+                setUser(userData);
+              } else {
+                // Token is invalid, clear storage
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("currentUser");
+                setUser(null);
+              }
+            } catch (networkError) {
+              // Network failure - use cached user data temporarily
+              console.warn(
+                "Network error during token verification, using cached user data:",
+                networkError,
+              );
+              setUser(userData);
+            }
+          } catch (parseError) {
+            console.error("Error parsing saved user data:", parseError);
+            // Clear corrupted data
             localStorage.removeItem("authToken");
             localStorage.removeItem("currentUser");
+            setUser(null);
           }
+        } else {
+          setUser(null);
         }
       } catch (error) {
         console.error("Auth check failed:", error);
-        // Clear potentially corrupted data
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("currentUser");
+
+        // Only clear auth data if it's not a network error
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        if (
+          !errorMessage.includes("Failed to fetch") &&
+          !errorMessage.includes("Network error")
+        ) {
+          // Clear potentially corrupted data only for non-network errors
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("currentUser");
+        }
+
+        setUser(null);
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     };
 
     checkAuthStatus();
+
+    // Set up periodic token validation (every 10 minutes)
+    const tokenValidationInterval = setInterval(
+      async () => {
+        if (user && isMountedRef.current) {
+          try {
+            const response = await apiService.verifyToken();
+            if (!isMountedRef.current) return; // Check again after async operation
+
+            if (!response.success) {
+              // Only logout if it's not a network error
+              if (
+                !response.error?.includes("Network error") &&
+                !response.error?.includes("Failed to fetch")
+              ) {
+                handleAuthFailure();
+              }
+            }
+          } catch (error) {
+            // Don't logout on network errors, just log the issue
+            console.warn(
+              "Periodic token validation failed due to network error:",
+              error,
+            );
+          }
+        }
+      },
+      10 * 60 * 1000,
+    ); // 10 minutes (less frequent to reduce network load)
+
+    return () => {
+      isMountedRef.current = false;
+      clearInterval(tokenValidationInterval);
+    };
+  }, [user]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
 
   const login = async (
@@ -144,6 +254,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     apiService.logout();
   };
 
+  // Function to handle authentication failures
+  const handleAuthFailure = () => {
+    logout();
+  };
+
   const updateUser = (userData: User) => {
     setUser(userData);
     localStorage.setItem("currentUser", JSON.stringify(userData));
@@ -161,10 +276,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Development helper - expose logout globally for testing
+  if (typeof window !== "undefined") {
+    (window as any).clearAuth = logout;
+  }
+
   const value: AuthContextType = {
     user,
     isAuthenticated: !!user,
     isLoading,
+    isOnline,
     login,
     register,
     logout,

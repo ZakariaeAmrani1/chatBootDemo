@@ -92,7 +92,7 @@ export interface CreateChatRequest {
 export interface SendMessageRequest {
   chatId: string;
   message: string;
-  attachments?: File[];
+  attachments?: FileAttachment[];
 }
 
 export interface MessageFeedbackRequest {
