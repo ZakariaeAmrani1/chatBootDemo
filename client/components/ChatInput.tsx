@@ -21,10 +21,12 @@ import {
 
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { cn } from "@/lib/utils";
-import type { FileAttachment } from "@/pages/Chatbot";
+import type { FileAttachment } from "@shared/types";
+import { apiService } from "@/services/api";
 
 interface ChatInputProps {
   onSendMessage: (message: string, attachments?: FileAttachment[]) => void;
+  disabled?: boolean;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
