@@ -127,6 +127,14 @@
       "type": "audio/webm",
       "url": "/api/files/da747cdf-3f7b-4bd1-9d23-4e5638226ec1.webm",
       "uploadedAt": "2025-08-02T17:49:55.242Z"
+    },
+    {
+      "id": "a6dff830-4550-498b-afc3-fa8485ca7fec",
+      "name": "Screenshot_1752933783.png",
+      "size": 80878,
+      "type": "image/png",
+      "url": "/api/files/e7515bf4-bb1d-402e-972f-418bdbda5a2a.png",
+      "uploadedAt": "2025-08-02T17:54:30.959Z"
     }
   ]
 }

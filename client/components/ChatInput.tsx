@@ -107,7 +107,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
         if (response.success && response.data) {
           setAttachedFiles((prev) => [...prev, ...response.data!]);
-          console.log('Files uploaded successfully:', response.data);
+          console.log("Files uploaded successfully:", response.data);
         } else {
           console.error("Failed to upload files:", response.error);
           // Fallback to local URLs for now
@@ -124,7 +124,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
             return fileAttachment;
           });
           setAttachedFiles((prev) => [...prev, ...newFiles]);
-          console.log('Using fallback file URLs:', newFiles);
+          console.log("Using fallback file URLs:", newFiles);
         }
       } catch (error) {
         console.error("Error uploading files:", error);
@@ -142,10 +142,10 @@ const ChatInput: React.FC<ChatInputProps> = ({
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       setHasPermission(true);
-      stream.getTracks().forEach(track => track.stop()); // Stop the test stream
+      stream.getTracks().forEach((track) => track.stop()); // Stop the test stream
       return true;
     } catch (error) {
-      console.error('Microphone permission denied:', error);
+      console.error("Microphone permission denied:", error);
       setHasPermission(false);
       return false;
     }
@@ -156,14 +156,16 @@ const ChatInput: React.FC<ChatInputProps> = ({
       const granted = await requestMicrophonePermission();
       if (!granted) return;
     } else if (hasPermission === false) {
-      alert('Microphone permission is required to record audio. Please enable it in your browser settings.');
+      alert(
+        "Microphone permission is required to record audio. Please enable it in your browser settings.",
+      );
       return;
     }
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: 'audio/webm;codecs=opus'
+        mimeType: "audio/webm;codecs=opus",
       });
 
       mediaRecorderRef.current = mediaRecorder;
@@ -176,11 +178,13 @@ const ChatInput: React.FC<ChatInputProps> = ({
       };
 
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
         await handleAudioRecorded(audioBlob);
 
         // Stop all tracks
-        stream.getTracks().forEach(track => {
+        stream.getTracks().forEach((track) => {
           track.stop();
         });
       };
@@ -191,17 +195,21 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
       // Start recording timer
       recordingIntervalRef.current = setInterval(() => {
-        setRecordingTime(prev => prev + 1);
+        setRecordingTime((prev) => prev + 1);
       }, 1000);
-
     } catch (error) {
-      console.error('Failed to start recording:', error);
-      alert('Failed to start recording. Please check your microphone permissions.');
+      console.error("Failed to start recording:", error);
+      alert(
+        "Failed to start recording. Please check your microphone permissions.",
+      );
     }
   }, [hasPermission]);
 
   const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
       mediaRecorderRef.current.stop();
     }
 
@@ -215,7 +223,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   const handleAudioRecorded = async (audioBlob: Blob) => {
     if (audioBlob.size < 1000) {
-      console.warn('Audio recording too short, ignoring');
+      console.warn("Audio recording too short, ignoring");
       return;
     }
 
@@ -223,26 +231,23 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
     try {
       // SIMULATION MODE - Just send a text message indicating audio was recorded
-      console.log('Audio recorded (simulated):', audioBlob.size, 'bytes');
+      console.log("Audio recorded (simulated):", audioBlob.size, "bytes");
 
       // Simulate a short delay for "processing"
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Send a simulated audio message without actual file
-      onSendMessage('🎤 Voice message (simulated)', []);
+      onSendMessage("🎤 Voice message (simulated)", []);
 
       // Clean up the blob URL
       URL.revokeObjectURL(URL.createObjectURL(audioBlob));
-
     } catch (error) {
-      console.error('Error processing audio:', error);
+      console.error("Error processing audio:", error);
     } finally {
       setIsUploading(false);
       setRecordingTime(0);
     }
   };
-
-
 
   // Cleanup effect
   useEffect(() => {
@@ -255,8 +260,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
         clearInterval(recordingIntervalRef.current);
       }
       // Cleanup any object URLs
-      attachedFiles.forEach(file => {
-        if (file.url.startsWith('blob:')) {
+      attachedFiles.forEach((file) => {
+        if (file.url.startsWith("blob:")) {
           URL.revokeObjectURL(file.url);
         }
       });
@@ -426,7 +431,11 @@ const ChatInput: React.FC<ChatInputProps> = ({
                       )}
                       onClick={startRecording}
                       disabled={isSending || disabled || isUploading}
-                      title={hasPermission === false ? "Microphone permission required" : "Start recording"}
+                      title={
+                        hasPermission === false
+                          ? "Microphone permission required"
+                          : "Start recording"
+                      }
                     >
                       {hasPermission === false ? (
                         <MicOff className="h-4 w-4" />
@@ -451,7 +460,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 )}
                 onClick={isRecording ? stopRecording : undefined}
                 disabled={
-                  (!message.trim() && attachedFiles.length === 0 && !isRecording) ||
+                  (!message.trim() &&
+                    attachedFiles.length === 0 &&
+                    !isRecording) ||
                   isSending ||
                   disabled ||
                   isUploading

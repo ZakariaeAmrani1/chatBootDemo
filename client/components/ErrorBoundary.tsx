@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
+import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   children: ReactNode;
@@ -21,7 +21,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error Boundary caught an error:', error, errorInfo);
+    console.error("Error Boundary caught an error:", error, errorInfo);
   }
 
   private handleReload = () => {
@@ -48,17 +48,22 @@ class ErrorBoundary extends Component<Props, State> {
               Something went wrong
             </h1>
             <p className="text-muted-foreground mb-6">
-              The application encountered an unexpected error. This might be a temporary issue.
+              The application encountered an unexpected error. This might be a
+              temporary issue.
             </p>
             <div className="space-y-3">
-              <Button onClick={this.handleReset} variant="outline" className="w-full">
+              <Button
+                onClick={this.handleReset}
+                variant="outline"
+                className="w-full"
+              >
                 Try Again
               </Button>
               <Button onClick={this.handleReload} className="w-full">
                 Reload Page
               </Button>
             </div>
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {process.env.NODE_ENV === "development" && this.state.error && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-muted-foreground">
                   Error Details (Development)

@@ -287,7 +287,8 @@
   }
 
   @keyframes sineWave {
-    0%, 100% {
+    0%,
+    100% {
       transform: scaleY(0.5) scaleX(0.8);
       opacity: 0.7;
     }
@@ -317,7 +318,8 @@
   }
 
   @keyframes dotPulse {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(0.6);
       opacity: 0.5;
     }
@@ -332,12 +334,17 @@
     width: 2px;
     height: 6px;
     border-radius: 2px;
-    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary) / 0.6));
+    background: linear-gradient(
+      45deg,
+      hsl(var(--primary)),
+      hsl(var(--primary) / 0.6)
+    );
     animation: fluidWave 0.8s ease-in-out infinite;
   }
 
   @keyframes fluidWave {
-    0%, 100% {
+    0%,
+    100% {
       transform: scaleY(0.4) rotate(0deg);
       opacity: 0.6;
     }
@@ -380,15 +387,28 @@
     animation: oscilloscopeWave 1s ease-in-out infinite;
   }
 
-  .wave-container.oscilloscope .wave-bar:nth-child(1) { animation-delay: 0ms; }
-  .wave-container.oscilloscope .wave-bar:nth-child(2) { animation-delay: 80ms; }
-  .wave-container.oscilloscope .wave-bar:nth-child(3) { animation-delay: 160ms; }
-  .wave-container.oscilloscope .wave-bar:nth-child(4) { animation-delay: 240ms; }
-  .wave-container.oscilloscope .wave-bar:nth-child(5) { animation-delay: 320ms; }
-  .wave-container.oscilloscope .wave-bar:nth-child(6) { animation-delay: 400ms; }
+  .wave-container.oscilloscope .wave-bar:nth-child(1) {
+    animation-delay: 0ms;
+  }
+  .wave-container.oscilloscope .wave-bar:nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .wave-container.oscilloscope .wave-bar:nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .wave-container.oscilloscope .wave-bar:nth-child(4) {
+    animation-delay: 240ms;
+  }
+  .wave-container.oscilloscope .wave-bar:nth-child(5) {
+    animation-delay: 320ms;
+  }
+  .wave-container.oscilloscope .wave-bar:nth-child(6) {
+    animation-delay: 400ms;
+  }
 
   @keyframes oscilloscopeWave {
-    0%, 100% {
+    0%,
+    100% {
       transform: scaleY(0.3);
       opacity: 0.4;
     }

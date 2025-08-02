@@ -96,7 +96,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
         <audio
           controls
           className="w-full h-8 rounded-lg"
-          style={{ maxWidth: '300px' }}
+          style={{ maxWidth: "300px" }}
         >
           <source src={attachment.url} type={attachment.type} />
           Your browser does not support the audio element.

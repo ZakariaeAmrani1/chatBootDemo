@@ -56,12 +56,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (isMountedRef.current) setIsOnline(false);
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -84,9 +84,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
               if (response.success && response.data) {
                 setUser(response.data);
-              } else if (response.error?.includes("Network error") || response.error?.includes("Failed to fetch")) {
+              } else if (
+                response.error?.includes("Network error") ||
+                response.error?.includes("Failed to fetch")
+              ) {
                 // Network error - assume user is still valid but can't verify right now
-                console.warn("Could not verify token due to network error, using cached user data");
+                console.warn(
+                  "Could not verify token due to network error, using cached user data",
+                );
                 setUser(userData);
               } else {
                 // Token is invalid, clear storage
@@ -96,7 +101,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               }
             } catch (networkError) {
               // Network failure - use cached user data temporarily
-              console.warn("Network error during token verification, using cached user data:", networkError);
+              console.warn(
+                "Network error during token verification, using cached user data:",
+                networkError,
+              );
               setUser(userData);
             }
           } catch (parseError) {
@@ -113,8 +121,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.error("Auth check failed:", error);
 
         // Only clear auth data if it's not a network error
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        if (!errorMessage.includes("Failed to fetch") && !errorMessage.includes("Network error")) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        if (
+          !errorMessage.includes("Failed to fetch") &&
+          !errorMessage.includes("Network error")
+        ) {
           // Clear potentially corrupted data only for non-network errors
           localStorage.removeItem("authToken");
           localStorage.removeItem("currentUser");
@@ -131,24 +143,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuthStatus();
 
     // Set up periodic token validation (every 10 minutes)
-    const tokenValidationInterval = setInterval(async () => {
-      if (user && isMountedRef.current) {
-        try {
-          const response = await apiService.verifyToken();
-          if (!isMountedRef.current) return; // Check again after async operation
+    const tokenValidationInterval = setInterval(
+      async () => {
+        if (user && isMountedRef.current) {
+          try {
+            const response = await apiService.verifyToken();
+            if (!isMountedRef.current) return; // Check again after async operation
 
-          if (!response.success) {
-            // Only logout if it's not a network error
-            if (!response.error?.includes("Network error") && !response.error?.includes("Failed to fetch")) {
-              handleAuthFailure();
+            if (!response.success) {
+              // Only logout if it's not a network error
+              if (
+                !response.error?.includes("Network error") &&
+                !response.error?.includes("Failed to fetch")
+              ) {
+                handleAuthFailure();
+              }
             }
+          } catch (error) {
+            // Don't logout on network errors, just log the issue
+            console.warn(
+              "Periodic token validation failed due to network error:",
+              error,
+            );
           }
-        } catch (error) {
-          // Don't logout on network errors, just log the issue
-          console.warn("Periodic token validation failed due to network error:", error);
         }
-      }
-    }, 10 * 60 * 1000); // 10 minutes (less frequent to reduce network load)
+      },
+      10 * 60 * 1000,
+    ); // 10 minutes (less frequent to reduce network load)
 
     return () => {
       isMountedRef.current = false;
@@ -256,7 +277,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Development helper - expose logout globally for testing
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     (window as any).clearAuth = logout;
   }
 
