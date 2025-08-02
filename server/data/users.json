@@ -42,7 +42,7 @@
       "bio": "",
       "createdAt": "2025-08-02T16:45:19.353Z",
       "settings": {
-        "theme": "light",
+        "theme": "system",
         "fontSize": "small",
         "density": "comfortable",
         "emailNotifications": true,
@@ -65,7 +65,7 @@
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
-        "selectedModel": "gemini-pro"
+        "selectedModel": "gpt-4"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8"
     }
