@@ -7,6 +7,7 @@ import type { FileAttachment } from "@/pages/Chatbot";
 interface FileAttachmentProps {
   attachment: FileAttachment;
   className?: string;
+  variant?: "input" | "chat";
 }
 
 const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({ 
