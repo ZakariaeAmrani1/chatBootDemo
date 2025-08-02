@@ -98,19 +98,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     checkAuthStatus();
 
-    // Set up periodic token validation (every 5 minutes)
+    // Set up periodic token validation (every 10 minutes)
     const tokenValidationInterval = setInterval(async () => {
       if (user) {
         try {
           const response = await apiService.verifyToken();
           if (!response.success) {
-            handleAuthFailure();
+            // Only logout if it's not a network error
+            if (!response.error?.includes("Network error") && !response.error?.includes("Failed to fetch")) {
+              handleAuthFailure();
+            }
           }
         } catch (error) {
-          handleAuthFailure();
+          // Don't logout on network errors, just log the issue
+          console.warn("Periodic token validation failed due to network error:", error);
         }
       }
-    }, 5 * 60 * 1000); // 5 minutes
+    }, 10 * 60 * 1000); // 10 minutes (less frequent to reduce network load)
 
     return () => {
       clearInterval(tokenValidationInterval);
