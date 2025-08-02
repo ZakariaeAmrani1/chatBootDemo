@@ -70,47 +70,33 @@ const Settings: React.FC<SettingsProps> = ({
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
-  const [settings, setSettings] = useState({
-    // Profile settings
-    displayName: "User",
-    email: "user@example.com",
-    bio: "",
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    // Appearance settings
-    theme: "system",
-    fontSize: "medium",
-    density: "comfortable",
+  // Load user data on mount
+  useEffect(() => {
+    loadUserData();
+  }, []);
 
-    // Notification settings
-    emailNotifications: true,
-    pushNotifications: true,
-    soundEnabled: true,
+  const loadUserData = async () => {
+    setIsLoading(true);
+    setError(null);
 
-    // Privacy settings
-    dataCollection: true,
-    analytics: false,
-    shareUsage: false,
-
-    // Chat settings
-    autoSave: true,
-    messageHistory: true,
-    showTimestamps: true,
-    enterToSend: true,
-
-    // Language settings
-    language: "english",
-    region: "us",
-
-    // Voice settings
-    voiceEnabled: false,
-    voiceModel: "natural",
-    speechRate: [1],
-
-    // Accessibility settings
-    highContrast: false,
-    reducedMotion: false,
-    screenReader: false,
-  });
+    try {
+      const response = await apiService.getCurrentUser();
+      if (response.success && response.data) {
+        setUser(response.data);
+      } else {
+        setError(response.error || 'Failed to load user data');
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to load user data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const updateSetting = (key: string, value: any) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
