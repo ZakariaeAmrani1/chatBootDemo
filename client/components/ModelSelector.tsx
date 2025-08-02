@@ -52,23 +52,18 @@ const models: ModelOption[] = [
 
 export function ModelSelector({ selectedModel, onModelChange }: ModelSelectorProps) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-foreground">Choose Model</label>
-        <div className="text-xs text-muted-foreground">
-          Select the AI model for your conversation
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="space-y-2">
+      <label className="text-xs font-medium text-muted-foreground">Model</label>
+
+      <div className="flex flex-wrap gap-2">
         {models.map((model) => (
           <label
             key={model.id}
             className={cn(
-              "relative flex flex-col p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-105",
+              "relative flex items-center gap-2 px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-200 hover:scale-105",
               selectedModel === model.id
-                ? `${model.bgColor} ${model.borderColor.replace('hover:', '')} shadow-md scale-105`
-                : `bg-background border-border ${model.borderColor}`
+                ? `${model.bgColor} ${model.borderColor.replace('hover:', '')} shadow-sm`
+                : `bg-background border-border hover:border-muted-foreground/40`
             )}
           >
             <input
@@ -79,39 +74,28 @@ export function ModelSelector({ selectedModel, onModelChange }: ModelSelectorPro
               onChange={() => onModelChange(model.id)}
               className="sr-only"
             />
-            
-            <div className="flex items-center justify-between mb-1">
-              <span className={cn(
-                "text-sm font-semibold transition-colors",
-                selectedModel === model.id ? model.color : "text-foreground"
-              )}>
-                {model.name}
-              </span>
-              
-              {/* Radio indicator */}
-              <div className={cn(
-                "w-4 h-4 rounded-full border-2 transition-all duration-200 flex items-center justify-center",
-                selectedModel === model.id
-                  ? model.color.replace('text-', 'border-')
-                  : "border-muted-foreground/30"
-              )}>
-                {selectedModel === model.id && (
-                  <div className={cn(
-                    "w-2 h-2 rounded-full transition-all duration-200",
-                    model.color.replace('text-', 'bg-')
-                  )} />
-                )}
-              </div>
+
+            {/* Radio indicator */}
+            <div className={cn(
+              "w-3 h-3 rounded-full border transition-all duration-200 flex items-center justify-center",
+              selectedModel === model.id
+                ? model.color.replace('text-', 'border-')
+                : "border-muted-foreground/40"
+            )}>
+              {selectedModel === model.id && (
+                <div className={cn(
+                  "w-1.5 h-1.5 rounded-full transition-all duration-200",
+                  model.color.replace('text-', 'bg-')
+                )} />
+              )}
             </div>
-            
-            <span className="text-xs text-muted-foreground">
-              {model.description}
+
+            <span className={cn(
+              "text-sm font-medium transition-colors",
+              selectedModel === model.id ? model.color : "text-foreground"
+            )}>
+              {model.name}
             </span>
-            
-            {/* Selection overlay */}
-            {selectedModel === model.id && (
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
-            )}
           </label>
         ))}
       </div>
