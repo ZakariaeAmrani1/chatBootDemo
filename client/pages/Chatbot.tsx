@@ -111,25 +111,27 @@ const Chatbot = () => {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="flex items-center justify-between p-4 border-b border-border bg-background">
+        <header className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-white via-gray-50 to-white shadow-sm">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden"
+              className="lg:hidden hover:bg-gray-100 rounded-xl transition-all duration-300"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-semibold">ChatGPT</h1>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+              ChatGPT
+            </h1>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="sm" className="hidden sm:flex hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-300">
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="hover:bg-gray-100 rounded-xl transition-all duration-300">
               <Settings className="h-4 w-4" />
             </Button>
           </div>
