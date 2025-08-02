@@ -160,7 +160,7 @@ const Chatbot = () => {
     try {
       const response = await apiService.getCurrentUser();
       if (response.success && response.data) {
-        setUser(response.data);
+        updateUser(response.data);
       }
     } catch (error) {
       console.error("Failed to reload user data:", error);
