@@ -18,6 +18,7 @@
     {
       "id": "gpt-4-turbo",
       "name": "GPT-4 Turbo",
+      "shortName": "Turbo",
       "description": "Faster responses with lower cost while maintaining quality",
       "features": ["Fast responses", "Cost effective", "Good quality"],
       "color": "text-blue-600 dark:text-blue-400",
