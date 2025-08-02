@@ -412,6 +412,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  onClick={() => navigate("/help")}
                 >
                   <HelpCircle className="h-4 w-4 mr-3" />
                   Help & FAQ
