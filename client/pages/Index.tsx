@@ -23,7 +23,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/30 to-accent/20 relative overflow-hidden transition-colors duration-300">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl"></div>
@@ -31,7 +31,7 @@ export default function Index() {
       </div>
 
       <div className="text-center relative z-10">
-        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-12 max-w-2xl mx-auto border border-white/20">
+        <div className="bg-background/80 backdrop-blur-xl rounded-3xl shadow-2xl p-12 max-w-2xl mx-auto border border-border/20">
           <div className="relative mb-8">
             <div className="w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-blue-500/25 hover:scale-110 transition-transform duration-500">
               <MessageSquare className="h-12 w-12 text-white" />
@@ -40,11 +40,11 @@ export default function Index() {
             <div className="absolute -bottom-2 -left-8 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-bounce"></div>
           </div>
 
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-6">
+          <h1 className="text-5xl font-bold text-foreground mb-6">
             AI Chatbot Interface
           </h1>
 
-          <p className="text-xl text-gray-600 mb-10 leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
             Experience the future of AI conversation with our professional ChatGPT-like interface featuring modern design, file uploads, voice recording, and multiple AI models.
           </p>
 
@@ -55,7 +55,7 @@ export default function Index() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v8a1 1 0 01-1 1h-2a1 1 0 01-1-1V4H8z" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 font-medium">File Upload</p>
+              <p className="text-sm text-muted-foreground font-medium">File Upload</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
@@ -63,7 +63,7 @@ export default function Index() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 font-medium">Voice Recording</p>
+              <p className="text-sm text-muted-foreground font-medium">Voice Recording</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
@@ -71,7 +71,7 @@ export default function Index() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 font-medium">AI Models</p>
+              <p className="text-sm text-muted-foreground font-medium">AI Models</p>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ export default function Index() {
           </Link>
 
           {exampleFromServer && (
-            <p className="mt-6 text-sm text-gray-500 bg-gray-50 rounded-xl p-3">{exampleFromServer}</p>
+            <p className="mt-6 text-sm text-muted-foreground bg-muted rounded-xl p-3">{exampleFromServer}</p>
           )}
         </div>
       </div>
