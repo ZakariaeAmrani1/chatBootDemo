@@ -702,16 +702,28 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
                     variant="ghost"
                     size="sm"
                     onClick={() => setActiveSection("overview")}
+                    className="md:hidden"
                   >
                     <ArrowLeft className="h-4 w-4" />
                   </Button>
                 )}
-                <h1 className="text-xl font-semibold">Settings</h1>
+                <h1 className="text-lg md:text-xl font-semibold">
+                  {activeSection === "overview" ? "Settings" : settingsMenu.find(item => item.id === activeSection)?.label || "Settings"}
+                </h1>
               </div>
               <Button variant="ghost" size="sm" onClick={onClose}>
                 ×
               </Button>
             </div>
+
+            {/* Mobile Navigation - Only visible on mobile when not in overview */}
+            {activeSection === "overview" && (
+              <div className="md:hidden border-b border-border bg-muted/30 p-2 flex-shrink-0">
+                <div className="text-sm text-muted-foreground px-2">
+                  Choose a setting category
+                </div>
+              </div>
+            )}
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-6">
