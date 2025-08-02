@@ -43,7 +43,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { apiService } from "@/services/api";
-import { User as UserType, UserSettings } from "@shared/types";
+import { User as UserType, UserSettings, DataStats } from "@shared/types";
 
 interface SettingsProps {
   onClose: () => void;
