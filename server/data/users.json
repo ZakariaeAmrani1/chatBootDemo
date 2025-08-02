@@ -29,7 +29,8 @@
         ],
         "highContrast": false,
         "reducedMotion": false,
-        "screenReader": false
+        "screenReader": false,
+        "grokApiKey": ""
       }
     }
   ]
