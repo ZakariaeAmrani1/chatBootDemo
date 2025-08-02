@@ -1246,6 +1246,8 @@ const Settings: React.FC<SettingsProps> = ({
         return renderOverview();
       case "profile":
         return renderProfile();
+      case "app":
+        return renderAppCustomization();
       case "appearance":
         return renderAppearance();
       case "notifications":
