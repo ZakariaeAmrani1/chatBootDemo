@@ -66,30 +66,32 @@ export const createChat: RequestHandler = (req, res) => {
     };
     
     const createdChat = DataManager.createChat(chat);
-    
-    // Add the initial user message
-    const userMessage: Message = {
-      id: uuidv4(),
-      chatId: chatId,
-      type: 'user',
-      content: message,
-      timestamp: now
-    };
-    
-    DataManager.addMessage(userMessage);
-    
-    // Simulate AI thinking and response
-    setTimeout(() => {
-      const aiMessage: Message = {
+
+    // Add the initial user message if provided
+    if (message && message.trim()) {
+      const userMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
-        type: 'assistant',
-        content: generateAIResponse(message),
-        timestamp: new Date().toISOString()
+        type: 'user',
+        content: message,
+        timestamp: now
       };
-      
-      DataManager.addMessage(aiMessage);
-    }, 2000); // 2 second delay to simulate thinking
+
+      DataManager.addMessage(userMessage);
+
+      // Simulate AI thinking and response
+      setTimeout(() => {
+        const aiMessage: Message = {
+          id: uuidv4(),
+          chatId: chatId,
+          type: 'assistant',
+          content: generateAIResponse(message),
+          timestamp: new Date().toISOString()
+        };
+
+        DataManager.addMessage(aiMessage);
+      }, 2000); // 2 second delay to simulate thinking
+    }
     
     const response: ApiResponse<Chat> = {
       success: true,
