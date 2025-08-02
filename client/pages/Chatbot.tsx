@@ -338,55 +338,38 @@ const Chatbot = () => {
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className={cn(
-                    "group relative flex items-center gap-3 px-4 py-2 h-auto rounded-lg border",
-                    "hover:shadow-sm transition-all duration-200 hover:scale-[1.02]",
-                    getCurrentVersion().bgColor,
-                    getCurrentVersion().darkBgColor,
-                    "border-border/50 hover:border-border"
-                  )}
-                >
-                  <div className={cn(
-                    "w-3 h-3 rounded-full shadow-sm",
-                    getCurrentVersion().color
-                  )} />
+                <div className={cn(
+                  "flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
+                  getCurrentVersion().bgColor,
+                  getCurrentVersion().borderColor,
+                  "shadow-sm"
+                )}>
                   <span className={cn(
-                    "text-sm font-medium",
-                    getCurrentVersion().textColor
+                    "text-sm font-medium transition-colors",
+                    getCurrentVersion().color
                   )}>
-                    {selectedVersion}
+                    {getCurrentVersion().name}
                   </span>
-                  <ChevronDown className="h-3 w-3 text-muted-foreground group-hover:text-foreground transition-colors" />
-                </Button>
+                  <ChevronDown className="h-3 w-3 text-muted-foreground/70" />
+                </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56 p-2">
+              <DropdownMenuContent align="start" className="w-40 p-1">
                 {versions.map((version) => (
                   <DropdownMenuItem
-                    key={version.name}
-                    onClick={() => setSelectedVersion(version.name)}
+                    key={version.fullName}
+                    onClick={() => setSelectedVersion(version.fullName)}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer",
-                      "hover:bg-muted/60 transition-colors duration-150",
-                      selectedVersion === version.name && "bg-muted"
+                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200",
+                      "hover:bg-muted/60",
+                      selectedVersion === version.fullName && version.bgColor
                     )}
                   >
-                    <div className={cn(
-                      "w-3 h-3 rounded-full shadow-sm",
-                      version.color
-                    )} />
-                    <div className="flex-1">
-                      <div className={cn(
-                        "text-sm font-medium",
-                        version.textColor
-                      )}>
-                        {version.name}
-                      </div>
-                    </div>
-                    {selectedVersion === version.name && (
-                      <div className="w-2 h-2 rounded-full bg-primary" />
-                    )}
+                    <span className={cn(
+                      "text-sm font-medium",
+                      selectedVersion === version.fullName ? version.color : "text-foreground"
+                    )}>
+                      {version.name}
+                    </span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
