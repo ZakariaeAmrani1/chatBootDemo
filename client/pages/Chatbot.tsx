@@ -209,7 +209,7 @@ const Chatbot = () => {
         <SettingsPage
           onClose={() => setSettingsOpen(false)}
           isModal={true}
-          onRefresh={handleRefresh}
+          onRefresh={handleUserRefresh}
         />
       )}
     </div>
