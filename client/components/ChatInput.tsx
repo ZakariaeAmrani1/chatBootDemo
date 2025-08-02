@@ -89,19 +89,37 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
     textarea.style.height = Math.min(textarea.scrollHeight, 200) + "px";
   };
 
-  const handleFileSelect = (files: FileList | null) => {
-    if (files) {
-      const newFiles = Array.from(files).map((file) => {
-        const fileAttachment: FileAttachment = {
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          url: URL.createObjectURL(file),
-        };
-        return fileAttachment;
-      });
-      setAttachedFiles((prev) => [...prev, ...newFiles]);
+  const handleFileSelect = async (files: FileList | null) => {
+    if (files && files.length > 0) {
+      setIsUploading(true);
+
+      try {
+        const filesArray = Array.from(files);
+        const response = await apiService.uploadFiles(filesArray);
+
+        if (response.success && response.data) {
+          setAttachedFiles((prev) => [...prev, ...response.data!]);
+        } else {
+          console.error('Failed to upload files:', response.error);
+          // Fallback to local URLs for now
+          const newFiles = filesArray.map((file) => {
+            const fileAttachment: FileAttachment = {
+              id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+              name: file.name,
+              type: file.type,
+              size: file.size,
+              url: URL.createObjectURL(file),
+              uploadedAt: new Date().toISOString()
+            };
+            return fileAttachment;
+          });
+          setAttachedFiles((prev) => [...prev, ...newFiles]);
+        }
+      } catch (error) {
+        console.error('Error uploading files:', error);
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
