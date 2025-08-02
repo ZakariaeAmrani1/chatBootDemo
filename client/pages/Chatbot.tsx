@@ -183,6 +183,12 @@ const Chatbot = () => {
     chatService.updateMessage(messageId, updates);
   };
 
+  const handleShareClick = () => {
+    if (chatState.currentChat) {
+      setShareModalOpen(true);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-background transition-colors duration-300">
       {/* Mobile sidebar overlay */}
