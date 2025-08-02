@@ -62,7 +62,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -70,28 +70,18 @@ const Register: React.FC = () => {
     setLoading(true);
     setError("");
 
-    try {
-      const response = await apiService.register({
-        displayName: formData.displayName.trim(),
-        email: formData.email.trim().toLowerCase(),
-        password: formData.password,
-      });
-      
-      if (response.success && response.data) {
-        // Store auth token or session info
-        localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(response.data.user));
-        
-        // Redirect to chat
-        navigate("/chat");
-      } else {
-        setError(response.error || "Registration failed");
-      }
-    } catch (error) {
-      setError("An error occurred during registration");
-    } finally {
-      setLoading(false);
+    const result = await register({
+      displayName: formData.displayName.trim(),
+      email: formData.email.trim().toLowerCase(),
+      password: formData.password,
+    });
+
+    if (!result.success) {
+      setError(result.error || "Registration failed");
     }
+    // If successful, AuthContext will handle the redirect
+
+    setLoading(false);
   };
 
   const togglePasswordVisibility = () => {
