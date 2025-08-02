@@ -120,7 +120,7 @@ const HelpFAQ: React.FC = () => {
       category: "privacy",
       question: "How is my data used to train ChatNova?",
       answer:
-        "By default, conversations may be used to improve our models. However, Chatboot Plus, Team, and Enterprise users can opt out of having their data used for training. You can control this setting in your account preferences.",
+        "By default, conversations may be used to improve our models. However, ChatNova Plus, Team, and Enterprise users can opt out of having their data used for training. You can control this setting in your account preferences.",
     },
     {
       category: "privacy",
@@ -136,21 +136,21 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "technical",
-      question: "Why is Chatboot slow or unavailable?",
+      question: "Why is ChatNova slow or unavailable?",
       answer:
-        "High demand can sometimes cause slower response times or temporary unavailability. Chatboot Plus subscribers get priority access during peak times. If you're experiencing persistent issues, try refreshing the page or checking our status page.",
+        "High demand can sometimes cause slower response times or temporary unavailability. ChatNova Plus subscribers get priority access during peak times. If you're experiencing persistent issues, try refreshing the page or checking our status page.",
     },
     {
       category: "technical",
-      question: "What should I do if Chatboot gives incorrect information?",
+      question: "What should I do if ChatNova gives incorrect information?",
       answer:
-        "While Chatboot is highly capable, it can sometimes provide inaccurate information. Always verify important information from authoritative sources. You can help improve Chatboot by providing feedback on responses using the thumbs up/down buttons.",
+        "While ChatNova is highly capable, it can sometimes provide inaccurate information. Always verify important information from authoritative sources. You can help improve ChatNova by providing feedback on responses using the thumbs up/down buttons.",
     },
     {
       category: "technical",
       question: "Are there usage limits?",
       answer:
-        "Free users have access to Chatboot with some usage limitations during peak times. Chatboot Plus users get priority access and higher usage limits. GPT-4 has specific message caps (50 messages every 3 hours) to ensure availability for all Plus users.",
+        "Free users have access to ChatNova with some usage limitations during peak times. ChatNova Plus users get priority access and higher usage limits. GPT-4 has specific message caps (50 messages every 3 hours) to ensure availability for all Plus users.",
     },
   ];
 
