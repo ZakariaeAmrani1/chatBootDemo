@@ -76,6 +76,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Try to verify token with server
             try {
               const response = await apiService.verifyToken();
+              if (!isMountedRef.current) return; // Prevent state update if unmounted
+
               if (response.success && response.data) {
                 setUser(response.data);
               } else if (response.error?.includes("Network error") || response.error?.includes("Failed to fetch")) {
