@@ -137,6 +137,19 @@ export class DataManager {
     return message;
   }
 
+  static updateMessage(id: string, updates: Partial<Message>): Message | null {
+    const data = this.readJsonFile<{ chats: Chat[]; messages: Message[] }>(
+      "chats.json",
+    );
+    const messageIndex = data.messages.findIndex((message) => message.id === id);
+
+    if (messageIndex === -1) return null;
+
+    data.messages[messageIndex] = { ...data.messages[messageIndex], ...updates };
+    this.writeJsonFile("chats.json", data);
+    return data.messages[messageIndex];
+  }
+
   // File operations
   static getFiles(): FileAttachment[] {
     const data = this.readJsonFile<{ files: FileAttachment[] }>("files.json");
