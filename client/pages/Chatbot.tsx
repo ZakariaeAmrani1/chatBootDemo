@@ -210,6 +210,7 @@ const Chatbot = () => {
           onClose={() => setSettingsOpen(false)}
           isModal={true}
           onRefresh={handleUserRefresh}
+          onUserUpdate={setUser}
         />
       )}
     </div>
