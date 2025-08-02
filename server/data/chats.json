@@ -14,8 +14,8 @@
       "title": "🎤 Voice message",
       "model": "gpt-4",
       "createdAt": "2025-08-02T17:29:39.028Z",
-      "updatedAt": "2025-08-02T17:29:41.000Z",
-      "messageCount": 2,
+      "updatedAt": "2025-08-02T17:41:41.844Z",
+      "messageCount": 4,
       "userId": "user-1"
     }
   ],
@@ -189,6 +189,20 @@
       "type": "assistant",
       "content": "I think there might be some confusion here! As a conversational AI, I don't have personal opinions or correct or incorrect statements. My purpose is to provide information, answer questions, and engage in conversation to the best of my abilities based on my training data. I don't have personal perspectives or biases.\n\nIf you'd like to discuss or clarify something, I'm here to help! What would you like to talk about?",
       "timestamp": "2025-08-02T17:30:39.540Z"
+    },
+    {
+      "id": "de8b9cfd-e51a-4f5c-9060-c3514f4c2104",
+      "chatId": "c14f94d6-36ca-4d29-9742-bd332bbdcf18",
+      "type": "user",
+      "content": "great",
+      "timestamp": "2025-08-02T17:41:39.863Z"
+    },
+    {
+      "id": "a542ac7b-3954-4a85-99c3-868596dc0a4a",
+      "chatId": "c14f94d6-36ca-4d29-9742-bd332bbdcf18",
+      "type": "assistant",
+      "content": "\"GREAT\" indeed! What's so great about something?",
+      "timestamp": "2025-08-02T17:41:41.844Z"
     }
   ]
 }

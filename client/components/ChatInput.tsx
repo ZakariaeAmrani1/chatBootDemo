@@ -220,31 +220,18 @@ const ChatInput: React.FC<ChatInputProps> = ({
     setIsUploading(true);
 
     try {
-      // Create a file from the blob
-      const audioFile = new File([audioBlob], `voice-message-${Date.now()}.webm`, {
-        type: 'audio/webm'
-      });
+      // SIMULATION MODE - Just send a text message indicating audio was recorded
+      console.log('Audio recorded (simulated):', audioBlob.size, 'bytes');
 
-      // Upload the audio file
-      const response = await apiService.uploadFiles([audioFile]);
+      // Simulate a short delay for "processing"
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      if (response.success && response.data) {
-        // Auto-send the audio message immediately
-        onSendMessage('🎤 Voice message', response.data);
-      } else {
-        console.error('Failed to upload audio:', response.error);
-        // Fallback to local URL
-        const audioAttachment: FileAttachment = {
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          name: `voice-message-${Date.now()}.webm`,
-          type: 'audio/webm',
-          size: audioBlob.size,
-          url: URL.createObjectURL(audioBlob),
-          uploadedAt: new Date().toISOString(),
-        };
-        // Auto-send the audio message immediately
-        onSendMessage('🎤 Voice message', [audioAttachment]);
-      }
+      // Send a simulated audio message without actual file
+      onSendMessage('🎤 Voice message (simulated)', []);
+
+      // Clean up the blob URL
+      URL.revokeObjectURL(URL.createObjectURL(audioBlob));
+
     } catch (error) {
       console.error('Error processing audio:', error);
     } finally {
