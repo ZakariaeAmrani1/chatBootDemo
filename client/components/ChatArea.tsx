@@ -6,6 +6,7 @@ import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
+import TypewriterText from "@/components/TypewriterText";
 import type { Message } from "@shared/types";
 
 interface ChatAreaProps {
@@ -117,9 +118,19 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
                 {/* Message content */}
                 {message.content && (
-                  <p className="text-foreground whitespace-pre-wrap leading-relaxed">
-                    {message.content}
-                  </p>
+                  <div className="text-foreground">
+                    {message.type === "assistant" ? (
+                      <TypewriterText
+                        text={message.content}
+                        speed={120}
+                        className="block"
+                      />
+                    ) : (
+                      <p className="whitespace-pre-wrap leading-relaxed">
+                        {message.content}
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
 

@@ -2,13 +2,13 @@
   "users": [
     {
       "id": "user-1",
-      "displayName": "Demo User",
-      "email": "demo@example.com",
-      "bio": "Welcome to the AI Chat App!",
+      "displayName": "Alexo",
+      "email": "alexo11@gmail.com",
+      "bio": "Test test",
       "createdAt": "2024-01-01T00:00:00.000Z",
       "settings": {
-        "theme": "system",
-        "fontSize": "medium",
+        "theme": "light",
+        "fontSize": "small",
         "density": "comfortable",
         "emailNotifications": true,
         "pushNotifications": true,
@@ -27,7 +27,8 @@
         "speechRate": [1],
         "highContrast": false,
         "reducedMotion": false,
-        "screenReader": false
+        "screenReader": false,
+        "grokApiKey": "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"
       }
     }
   ]

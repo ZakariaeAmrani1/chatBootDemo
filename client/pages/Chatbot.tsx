@@ -5,11 +5,12 @@ import { cn } from "@/lib/utils";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
 import { apiService } from "@/services/api";
-import { Chat, Message, FileAttachment } from "@shared/types";
+import { Chat, Message, FileAttachment, User } from "@shared/types";
+import { useTheme } from "@/components/ThemeProvider";
 
 const Chatbot = () => {
   const [chatState, setChatState] = useState<ChatState>({
@@ -24,6 +25,10 @@ const Chatbot = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  // Theme context for applying user's appearance settings
+  const { setTheme } = useTheme();
 
   // Subscribe to chat service state changes
   useEffect(() => {
@@ -34,6 +39,64 @@ const Chatbot = () => {
 
     return unsubscribe;
   }, []);
+
+  // Load user data
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await apiService.getCurrentUser();
+        if (response.success && response.data) {
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to load user data:", error);
+      }
+    };
+
+    loadUser();
+  }, []);
+
+  // Helper functions to apply appearance settings
+  const applyFontSize = (fontSize: string) => {
+    const root = document.documentElement;
+    root.classList.remove(
+      "font-small",
+      "font-medium",
+      "font-large",
+      "font-extra-large",
+    );
+    root.classList.add(`font-${fontSize}`);
+  };
+
+  const applyDensity = (density: string) => {
+    const root = document.documentElement;
+    root.classList.remove(
+      "density-compact",
+      "density-comfortable",
+      "density-spacious",
+    );
+    root.classList.add(`density-${density}`);
+  };
+
+  // Apply user's appearance settings when user data loads
+  useEffect(() => {
+    if (user?.settings) {
+      // Apply theme
+      if (user.settings.theme) {
+        setTheme(user.settings.theme as "light" | "dark" | "system");
+      }
+
+      // Apply font size
+      if (user.settings.fontSize) {
+        applyFontSize(user.settings.fontSize);
+      }
+
+      // Apply density
+      if (user.settings.density) {
+        applyDensity(user.settings.density);
+      }
+    }
+  }, [user, setTheme]);
 
   const createNewChat = async (message?: string) => {
     // Create chat with or without initial message
@@ -86,6 +149,21 @@ const Chatbot = () => {
     chatService.loadChats();
   };
 
+  const handleUserRefresh = async () => {
+    // Reload user data after profile updates
+    try {
+      const response = await apiService.getCurrentUser();
+      if (response.success && response.data) {
+        setUser(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to reload user data:", error);
+    }
+
+    // Also refresh chats if needed
+    handleRefresh();
+  };
+
   return (
     <div className="flex h-screen bg-background transition-colors duration-300">
       {/* Mobile sidebar overlay */}
@@ -115,6 +193,7 @@ const Chatbot = () => {
           onOpenSettings={() => setSettingsOpen(true)}
           onDeleteChat={handleDeleteChat}
           isLoading={chatState.isLoading}
+          user={user}
         />
       </div>
 
@@ -139,7 +218,7 @@ const Chatbot = () => {
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
-            <ThemeToggle />
+
             <Button
               variant="ghost"
               size="sm"
@@ -176,7 +255,8 @@ const Chatbot = () => {
         <SettingsPage
           onClose={() => setSettingsOpen(false)}
           isModal={true}
-          onRefresh={handleRefresh}
+          onRefresh={handleUserRefresh}
+          onUserUpdate={setUser}
         />
       )}
     </div>

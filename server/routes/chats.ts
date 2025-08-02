@@ -9,6 +9,51 @@ import {
 } from "@shared/types";
 import { v4 as uuidv4 } from "uuid";
 
+// Function to call Grok API
+async function callGrokAPI(
+  userMessage: string,
+  apiKey: string,
+): Promise<string> {
+  try {
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192", // Fast Llama model
+          messages: [
+            {
+              role: "user",
+              content: userMessage,
+            },
+          ],
+          max_tokens: 1000,
+          temperature: 0.7,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Grok API error: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    return (
+      data.choices[0]?.message?.content ||
+      "I apologize, but I couldn't generate a response. Please try again."
+    );
+  } catch (error) {
+    console.error("Grok API error:", error);
+    return "I'm currently unable to connect to the AI service. Please check your API key or try again later.";
+  }
+}
+
 // Get all chats for a user
 export const getChats: RequestHandler = (req, res) => {
   try {
@@ -91,13 +136,13 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Simulate AI thinking and response
-      setTimeout(() => {
+      // Generate AI response
+      setTimeout(async () => {
         const aiMessage: Message = {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: generateAIResponse(message),
+          content: await generateAIResponse(message, userId),
           timestamp: new Date().toISOString(),
         };
 
@@ -154,13 +199,13 @@ export const sendMessage: RequestHandler = (req, res) => {
       DataManager.updateChat(chatId, { title: truncatedTitle });
     }
 
-    // Simulate AI thinking and response
-    setTimeout(() => {
+    // Generate AI response
+    setTimeout(async () => {
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: generateAIResponse(message),
+        content: await generateAIResponse(message, chat.userId),
         timestamp: new Date().toISOString(),
       };
 
@@ -210,8 +255,25 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
-// Simple AI response generator for simulation
-function generateAIResponse(userMessage: string): string {
+// AI response generator with Grok API integration
+async function generateAIResponse(
+  userMessage: string,
+  userId: string = "user-1",
+): Promise<string> {
+  // Try to get user's Grok API key
+  try {
+    const user = DataManager.getUserById(userId);
+    const grokApiKey = user?.settings?.grokApiKey;
+
+    if (grokApiKey && grokApiKey.trim()) {
+      // Use Grok API
+      return await callGrokAPI(userMessage, grokApiKey);
+    }
+  } catch (error) {
+    console.error("Error accessing user API key:", error);
+  }
+
+  // Fallback to simulated responses
   const responses = [
     "I understand what you're asking. Let me help you with that.",
     "That's an interesting question! Here's what I think...",

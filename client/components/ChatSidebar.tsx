@@ -21,9 +21,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ThemeSelector } from "@/components/ThemeSelector";
+
 import { cn } from "@/lib/utils";
-import type { Chat } from "@shared/types";
+import type { Chat, User } from "@shared/types";
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -36,6 +36,7 @@ interface ChatSidebarProps {
   onOpenSettings?: () => void;
   onDeleteChat?: (chatId: string) => void;
   isLoading?: boolean;
+  user?: User | null;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
@@ -49,6 +50,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onOpenSettings,
   onDeleteChat,
   isLoading = false,
+  user,
 }) => {
   const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -262,8 +264,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   </TooltipTrigger>
                   <TooltipContent side="right">Help & FAQ</TooltipContent>
                 </Tooltip>
-
-                <ThemeSelector collapsed={collapsed} />
               </div>
 
               <Separator className="my-2 bg-border/50" />
@@ -272,15 +272,17 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <TooltipTrigger asChild>
                   <div className="flex justify-center">
                     <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer shadow-sm transition-all duration-200">
-                      U
+                      {user?.displayName?.charAt(0).toUpperCase() || "U"}
                     </div>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">
                   <div className="text-left">
-                    <p className="font-semibold">User</p>
+                    <p className="font-semibold">
+                      {user?.displayName || "User"}
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      user@example.com
+                      {user?.email || "user@example.com"}
                     </p>
                   </div>
                 </TooltipContent>
@@ -312,22 +314,20 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <HelpCircle className="h-4 w-4 mr-3" />
                   Help & FAQ
                 </Button>
-
-                <ThemeSelector collapsed={collapsed} />
               </div>
 
               <Separator className="my-2 bg-border/50" />
 
               <div className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted/50 cursor-pointer group">
                 <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  U
+                  {user?.displayName?.charAt(0).toUpperCase() || "U"}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">
-                    User
+                    {user?.displayName || "User"}
                   </p>
                   <p className="text-xs text-muted-foreground truncate">
-                    user@example.com
+                    {user?.email || "user@example.com"}
                   </p>
                 </div>
                 <Button

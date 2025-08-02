@@ -18,6 +18,9 @@ import {
   Sun,
   Monitor,
   ChevronRight,
+  Settings2,
+  Check,
+  EyeOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,12 +49,14 @@ import { apiService } from "@/services/api";
 import { User as UserType, UserSettings, DataStats } from "@shared/types";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import SuccessDialog from "@/components/SuccessDialog";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface SettingsProps {
   onClose: () => void;
   onBack?: () => void;
   isModal?: boolean;
   onRefresh?: () => void;
+  onUserUpdate?: (user: UserType) => void;
 }
 
 type SettingsSection =
@@ -71,6 +76,7 @@ const Settings: React.FC<SettingsProps> = ({
   onBack,
   isModal = true,
   onRefresh,
+  onUserUpdate,
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
@@ -82,12 +88,39 @@ const Settings: React.FC<SettingsProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [pendingChanges, setPendingChanges] = useState<Partial<UserType>>({});
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
+  const [showApiKey, setShowApiKey] = useState(false);
+
+  // Theme context for immediate theme application
+  const { setTheme } = useTheme();
 
   // Load user data on mount
   useEffect(() => {
     loadUserData();
     loadDataStats();
   }, []);
+
+  // Apply user's appearance settings when user data loads
+  useEffect(() => {
+    if (user?.settings) {
+      // Apply theme
+      if (user.settings.theme) {
+        setTheme(user.settings.theme as "light" | "dark" | "system");
+      }
+
+      // Apply font size
+      if (user.settings.fontSize) {
+        applyFontSize(user.settings.fontSize);
+      }
+
+      // Apply density
+      if (user.settings.density) {
+        applyDensity(user.settings.density);
+      }
+    }
+  }, [user, setTheme]);
 
   const loadUserData = async () => {
     setIsLoading(true);
@@ -130,6 +163,8 @@ const Settings: React.FC<SettingsProps> = ({
       const response = await apiService.updateUser(user.id, updates);
       if (response.success && response.data) {
         setUser(response.data);
+        // Call the callback to update parent component
+        onUserUpdate?.(response.data);
       } else {
         setError(response.error || "Failed to update profile");
       }
@@ -174,10 +209,65 @@ const Settings: React.FC<SettingsProps> = ({
     const profileFields = ["displayName", "email", "bio"];
 
     if (profileFields.includes(key)) {
-      updateUserProfile({ [key]: value });
+      // For profile fields, only update local state and track changes (manual save)
+      const newChanges = { ...pendingChanges, [key]: value };
+      setPendingChanges(newChanges);
+      setHasUnsavedChanges(true);
+
+      // Update local state immediately for responsive UI
+      setUser((prev) => (prev ? { ...prev, [key]: value } : null));
     } else {
+      // For settings (including appearance), update immediately with auto-save
       updateUserSettings({ [key]: value });
+
+      // Special handling for theme to apply immediately
+      if (key === "theme") {
+        setTheme(value as "light" | "dark" | "system");
+      }
+
+      // Special handling for fontSize and density to apply CSS classes
+      if (key === "fontSize") {
+        applyFontSize(value);
+      }
+
+      if (key === "density") {
+        applyDensity(value);
+      }
     }
+  };
+
+  const handleSaveProfileChanges = async () => {
+    if (!user || !hasUnsavedChanges) return;
+
+    await updateUserProfile(pendingChanges);
+    setPendingChanges({});
+    setHasUnsavedChanges(false);
+    setLastSaveTime(new Date());
+  };
+
+  const applyFontSize = (fontSize: string) => {
+    const root = document.documentElement;
+    // Remove existing font size classes
+    root.classList.remove(
+      "font-small",
+      "font-medium",
+      "font-large",
+      "font-extra-large",
+    );
+    // Add new font size class
+    root.classList.add(`font-${fontSize}`);
+  };
+
+  const applyDensity = (density: string) => {
+    const root = document.documentElement;
+    // Remove existing density classes
+    root.classList.remove(
+      "density-compact",
+      "density-comfortable",
+      "density-spacious",
+    );
+    // Add new density class
+    root.classList.add(`density-${density}`);
   };
 
   const handleClearChatHistory = () => {
@@ -213,7 +303,7 @@ const Settings: React.FC<SettingsProps> = ({
   };
 
   const settingsMenu = [
-    { id: "overview", label: "Overview", icon: User },
+    { id: "overview", label: "Overview", icon: Settings2 },
     { id: "profile", label: "Profile", icon: User },
     { id: "appearance", label: "Appearance", icon: Palette },
     { id: "notifications", label: "Notifications", icon: Bell },
@@ -263,10 +353,31 @@ const Settings: React.FC<SettingsProps> = ({
 
   const renderProfile = () => (
     <div className="space-y-6">
-      <div>
+      <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           Manage your personal information and preferences.
         </p>
+        {(hasUnsavedChanges || isSaving) && (
+          <div className="flex items-center text-sm text-muted-foreground">
+            {isSaving ? (
+              <>
+                <div className="animate-spin rounded-full h-3 w-3 border-b border-primary mr-2"></div>
+                Saving...
+              </>
+            ) : hasUnsavedChanges ? (
+              <>
+                <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
+                Unsaved changes
+              </>
+            ) : null}
+          </div>
+        )}
+        {lastSaveTime && !hasUnsavedChanges && !isSaving && (
+          <div className="flex items-center text-sm text-green-600">
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+            Saved at {lastSaveTime.toLocaleTimeString()}
+          </div>
+        )}
       </div>
 
       <div className="space-y-4">
@@ -287,6 +398,11 @@ const Settings: React.FC<SettingsProps> = ({
               value={user?.displayName || ""}
               onChange={(e) => updateSetting("displayName", e.target.value)}
               disabled={isSaving}
+              className={cn(
+                hasUnsavedChanges && pendingChanges.displayName !== undefined
+                  ? "border-orange-300 focus:border-orange-500"
+                  : "",
+              )}
             />
           </div>
           <div className="space-y-2">
@@ -297,6 +413,11 @@ const Settings: React.FC<SettingsProps> = ({
               value={user?.email || ""}
               onChange={(e) => updateSetting("email", e.target.value)}
               disabled={isSaving}
+              className={cn(
+                hasUnsavedChanges && pendingChanges.email !== undefined
+                  ? "border-orange-300 focus:border-orange-500"
+                  : "",
+              )}
             />
           </div>
         </div>
@@ -310,9 +431,30 @@ const Settings: React.FC<SettingsProps> = ({
             onChange={(e) => updateSetting("bio", e.target.value)}
             rows={3}
             disabled={isSaving}
+            className={cn(
+              hasUnsavedChanges && pendingChanges.bio !== undefined
+                ? "border-orange-300 focus:border-orange-500"
+                : "",
+            )}
           />
         </div>
       </div>
+
+      {hasUnsavedChanges && (
+        <div className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg">
+          <p className="text-sm text-orange-700">
+            You have unsaved changes. Click "Save Now" or use the "Save Changes"
+            button to save.
+          </p>
+          <Button
+            size="sm"
+            onClick={handleSaveProfileChanges}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Now"}
+          </Button>
+        </div>
+      )}
 
       <Separator />
 
@@ -523,10 +665,48 @@ const Settings: React.FC<SettingsProps> = ({
             Disabled
           </Badge>
         </Button>
-        <Button variant="outline" className="w-full justify-start">
-          <Key className="h-4 w-4 mr-2" />
-          API Keys
-        </Button>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Key className="h-4 w-4" />
+            <Label htmlFor="grokApiKey">Grok API Key</Label>
+          </div>
+          <div className="relative">
+            <Input
+              id="grokApiKey"
+              type={showApiKey ? "text" : "password"}
+              placeholder="Enter your Grok API key..."
+              value={user?.settings.grokApiKey || ""}
+              onChange={(e) => updateSetting("grokApiKey", e.target.value)}
+              disabled={isSaving}
+              className="font-mono text-sm pr-10"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+              onClick={() => setShowApiKey(!showApiKey)}
+            >
+              {showApiKey ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Your API key is stored securely and used to enable AI chat
+            functionality. Get your key from{" "}
+            <a
+              href="https://console.groq.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Groq Console
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -1005,7 +1185,23 @@ const Settings: React.FC<SettingsProps> = ({
                   >
                     Cancel
                   </Button>
-                  <Button className="w-full md:w-auto">Save Changes</Button>
+                  <Button
+                    className="w-full md:w-auto"
+                    onClick={
+                      activeSection === "profile"
+                        ? handleSaveProfileChanges
+                        : undefined
+                    }
+                    disabled={
+                      activeSection === "profile"
+                        ? !hasUnsavedChanges || isSaving
+                        : false
+                    }
+                  >
+                    {activeSection === "profile" && isSaving
+                      ? "Saving..."
+                      : "Save Changes"}
+                  </Button>
                 </div>
               </div>
             )}
