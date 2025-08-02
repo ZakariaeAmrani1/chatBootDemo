@@ -1,6 +1,9 @@
 import { RequestHandler } from "express";
 import { DataManager } from "../utils/dataManager";
 import { User, ApiResponse } from "@shared/types";
+import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
+import path from "path";
 
 // Get current user profile
 export const getCurrentUser: RequestHandler = (req, res) => {
