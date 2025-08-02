@@ -39,29 +39,29 @@ const Chatbot = () => {
   // Version configurations with colors
   const versions = [
     {
-      name: "Free",
-      fullName: "Chatboot Free",
+      name: "V1",
+      fullName: "Chatboot V1",
       color: "text-slate-600",
       bgColor: "bg-slate-50",
       borderColor: "border-slate-200"
     },
     {
-      name: "Plus",
-      fullName: "Chatboot Plus",
+      name: "V2",
+      fullName: "Chatboot V2",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200"
     },
     {
-      name: "Pro",
-      fullName: "Chatboot Pro",
+      name: "V3",
+      fullName: "Chatboot V3",
       color: "text-purple-600",
       bgColor: "bg-purple-50",
       borderColor: "border-purple-200"
     },
     {
-      name: "Enterprise",
-      fullName: "Chatboot Enterprise",
+      name: "V4",
+      fullName: "Chatboot V4",
       color: "text-orange-600",
       bgColor: "bg-orange-50",
       borderColor: "border-orange-200"
