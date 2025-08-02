@@ -90,14 +90,14 @@ export function ModelSelector({ selectedModel, onModelChange }: ModelSelectorPro
               
               {/* Radio indicator */}
               <div className={cn(
-                "w-4 h-4 rounded-full border-2 transition-all duration-200",
+                "w-4 h-4 rounded-full border-2 transition-all duration-200 flex items-center justify-center",
                 selectedModel === model.id
-                  ? `${model.borderColor.replace('hover:', '').replace('border-', 'border-')} bg-current`
+                  ? model.color.replace('text-', 'border-')
                   : "border-muted-foreground/30"
               )}>
                 {selectedModel === model.id && (
                   <div className={cn(
-                    "w-2 h-2 rounded-full m-0.5 transition-all duration-200",
+                    "w-2 h-2 rounded-full transition-all duration-200",
                     model.color.replace('text-', 'bg-')
                   )} />
                 )}
