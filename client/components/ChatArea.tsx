@@ -24,36 +24,38 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, selectedModel, onModelCha
 
   if (messages.length === 0) {
     return (
-      <div className="h-full flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="text-muted-foreground"
-          >
-            <path
-              d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
-              fill="currentColor"
-            />
-          </svg>
-        </div>
-        <h3 className="text-2xl font-semibold text-foreground mb-2">
-          How can I help you today?
-        </h3>
-        <p className="text-muted-foreground mb-8">
-          Choose your AI model and start a conversation
-        </p>
+      <ScrollArea className="h-full">
+        <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
+          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-muted-foreground"
+            >
+              <path
+                d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-semibold text-foreground mb-2">
+            How can I help you today?
+          </h3>
+          <p className="text-muted-foreground mb-8">
+            Choose your AI model and start a conversation
+          </p>
 
-        {/* Model Selection */}
-        <div className="w-full max-w-4xl">
-          <ModelSelectorCards
-            selectedModel={selectedModel}
-            onModelChange={onModelChange}
-          />
+          {/* Model Selection */}
+          <div className="w-full max-w-4xl pb-8">
+            <ModelSelectorCards
+              selectedModel={selectedModel}
+              onModelChange={onModelChange}
+            />
+          </div>
         </div>
-      </div>
+      </ScrollArea>
     );
   }
 
