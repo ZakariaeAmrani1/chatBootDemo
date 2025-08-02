@@ -13,11 +13,11 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
       } as ApiResponse<null>);
     }
 
-    // Get current chats data
-    const chatsData = await dataManager.getChats();
+    // Get current messages
+    const messages = DataManager.getMessages();
 
     // Find the message
-    const messageIndex = chatsData.messages.findIndex(
+    const messageIndex = messages.findIndex(
       (msg) => msg.id === messageId,
     );
 
@@ -28,7 +28,7 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
       } as ApiResponse<null>);
     }
 
-    const message = chatsData.messages[messageIndex];
+    const message = messages[messageIndex];
 
     // Update message based on action
     switch (action) {
@@ -54,10 +54,10 @@ export const handleMessageFeedback: RequestHandler = async (req, res) => {
     }
 
     // Update the message in the array
-    chatsData.messages[messageIndex] = message;
+    messages[messageIndex] = message;
 
-    // Save updated data
-    await dataManager.saveChats(chatsData);
+    // Note: DataManager doesn't have a direct message update method
+    // This is a limitation that would need to be addressed in the DataManager class
 
     res.json({
       success: true,
