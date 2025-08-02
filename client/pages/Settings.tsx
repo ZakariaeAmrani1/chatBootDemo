@@ -44,6 +44,8 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { apiService } from "@/services/api";
 import { User as UserType, UserSettings, DataStats } from "@shared/types";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface SettingsProps {
   onClose: () => void;
