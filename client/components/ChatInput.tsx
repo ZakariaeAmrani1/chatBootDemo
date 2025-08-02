@@ -224,7 +224,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0 hover:bg-muted rounded-lg transition-all duration-200 hover:scale-110"
-                      disabled={isSending}
+                      disabled={isSending || disabled || isUploading}
                     >
                       <Paperclip className="h-4 w-4 text-muted-foreground" />
                     </Button>
