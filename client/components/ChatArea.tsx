@@ -6,6 +6,7 @@ import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
+import TypewriterText from "@/components/TypewriterText";
 import type { Message } from "@shared/types";
 
 interface ChatAreaProps {
