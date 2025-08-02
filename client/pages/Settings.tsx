@@ -688,9 +688,9 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-border">
+            <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
               <div className="flex items-center space-x-3">
                 {onBack && (
                   <Button variant="ghost" size="sm" onClick={onBack}>
@@ -698,9 +698,9 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
                   </Button>
                 )}
                 {activeSection !== "overview" && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setActiveSection("overview")}
                   >
                     <ArrowLeft className="h-4 w-4" />
@@ -720,7 +720,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
 
             {/* Footer */}
             {activeSection !== "overview" && (
-              <div className="border-t border-border p-4">
+              <div className="border-t border-border p-4 flex-shrink-0">
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline" onClick={() => setActiveSection("overview")}>
                     Cancel
