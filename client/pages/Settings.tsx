@@ -54,6 +54,7 @@ interface SettingsProps {
   onBack?: () => void;
   isModal?: boolean;
   onRefresh?: () => void;
+  onUserUpdate?: (user: UserType) => void;
 }
 
 type SettingsSection =
