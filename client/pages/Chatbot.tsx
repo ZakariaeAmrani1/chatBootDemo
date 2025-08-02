@@ -83,6 +83,11 @@ const Chatbot = () => {
     await chatService.deleteChat(chatId);
   };
 
+  const handleRefresh = () => {
+    // Reload chats after clearing history
+    chatService.loadChats();
+  };
+
   return (
     <div className="flex h-screen bg-background transition-colors duration-300">
       {/* Mobile sidebar overlay */}
