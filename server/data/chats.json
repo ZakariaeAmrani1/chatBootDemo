@@ -32,8 +32,8 @@
       "title": "hello",
       "model": "gpt-4",
       "createdAt": "2025-08-02T15:06:22.102Z",
-      "updatedAt": "2025-08-02T15:11:13.937Z",
-      "messageCount": 4,
+      "updatedAt": "2025-08-02T15:12:58.345Z",
+      "messageCount": 6,
       "userId": "user-1"
     }
   ],
@@ -149,6 +149,20 @@
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
       "timestamp": "2025-08-02T15:11:13.937Z"
+    },
+    {
+      "id": "b78347b6-240c-4828-ba68-34c74bb9c1d2",
+      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "type": "user",
+      "content": "great",
+      "timestamp": "2025-08-02T15:12:56.608Z"
+    },
+    {
+      "id": "e9773984-734b-45de-aa15-a607edb9001e",
+      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "type": "assistant",
+      "content": "It seems like you're feeling enthusiastic about something! \"Great\" is a fantastic word to express positivity and admiration. Would you like to share what's making you feel that way? I'm all ears!",
+      "timestamp": "2025-08-02T15:12:58.345Z"
     }
   ]
 }
