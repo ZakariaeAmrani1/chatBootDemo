@@ -160,17 +160,15 @@ const AppRoutes = () => (
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <AuthProvider>
-          <ThemeProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <AppRoutes />
-            </TooltipProvider>
-          </ThemeProvider>
-        </AuthProvider>
-      </ErrorBoundary>
+      <AuthProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <AppRoutes />
+          </TooltipProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </ErrorBoundary>
 );
