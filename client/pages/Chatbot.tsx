@@ -182,7 +182,11 @@ const Chatbot = () => {
 
         {/* Chat area */}
         <div className="flex-1 flex flex-col min-h-0">
-          <ChatArea messages={currentChat?.messages || []} />
+          <ChatArea
+            messages={currentChat?.messages || []}
+            selectedModel={selectedModel}
+            onModelChange={setSelectedModel}
+          />
           <ChatInput onSendMessage={addMessage} />
         </div>
       </div>
