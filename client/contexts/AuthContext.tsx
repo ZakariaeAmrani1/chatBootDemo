@@ -92,7 +92,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     checkAuthStatus();
-  }, []);
+
+    // Set up periodic token validation (every 5 minutes)
+    const tokenValidationInterval = setInterval(async () => {
+      if (user) {
+        try {
+          const response = await apiService.verifyToken();
+          if (!response.success) {
+            console.log("Periodic token validation failed, logging out");
+            handleAuthFailure();
+          }
+        } catch (error) {
+          console.error("Periodic token validation error:", error);
+          handleAuthFailure();
+        }
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => {
+      clearInterval(tokenValidationInterval);
+    };
+  }, [user]);
 
   const login = async (
     email: string,
