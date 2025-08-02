@@ -69,6 +69,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { resolvedTheme } = useTheme();
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
