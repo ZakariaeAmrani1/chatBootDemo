@@ -145,9 +145,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }, 10 * 60 * 1000); // 10 minutes (less frequent to reduce network load)
 
     return () => {
+      isMountedRef.current = false;
       clearInterval(tokenValidationInterval);
     };
   }, [user]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const login = async (
     email: string,
