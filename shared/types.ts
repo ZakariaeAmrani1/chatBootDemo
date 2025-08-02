@@ -87,3 +87,17 @@ export interface ChatModel {
   category: 'general' | 'creative' | 'code' | 'analysis';
   isAvailable: boolean;
 }
+
+export interface FileSize {
+  name: string;
+  size: number;
+  sizeFormatted: string;
+}
+
+export interface DataStats {
+  chatHistory: FileSize;
+  userSettings: FileSize;
+  uploadedFiles: FileSize;
+  totalSize: number;
+  totalSizeFormatted: string;
+}
