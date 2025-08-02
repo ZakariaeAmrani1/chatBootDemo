@@ -226,7 +226,9 @@
       "chatId": "8714b8e3-0a39-4522-8553-8f4db9a84359",
       "type": "assistant",
       "content": "It seems like you may have accidentally sent an empty message. Could you please rephrase or provide more context about what's on your mind? I'm here to listen and help with any questions or topics you'd like to discuss.",
-      "timestamp": "2025-08-02T17:54:36.044Z"
+      "timestamp": "2025-08-02T17:54:36.044Z",
+      "liked": true,
+      "disliked": false
     }
   ]
 }
