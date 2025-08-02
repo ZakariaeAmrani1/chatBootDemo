@@ -70,7 +70,7 @@ const Settings: React.FC<SettingsProps> = ({
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -98,7 +98,7 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
-  const updateUserProfile = async (updates: Partial<User>) => {
+  const updateUserProfile = async (updates: Partial<UserType>) => {
     if (!user) return;
 
     setIsSaving(true);
