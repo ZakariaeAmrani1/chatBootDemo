@@ -137,6 +137,8 @@ const Settings: React.FC<SettingsProps> = ({
       const response = await apiService.updateUser(user.id, updates);
       if (response.success && response.data) {
         setUser(response.data);
+        // Call the callback to update parent component
+        onUserUpdate?.(response.data);
       } else {
         setError(response.error || "Failed to update profile");
       }
