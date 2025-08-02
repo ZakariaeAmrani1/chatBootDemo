@@ -20,6 +20,7 @@ import {
   ChevronRight,
   Settings2,
   Check,
+  EyeOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
