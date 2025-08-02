@@ -33,6 +33,47 @@ export function ModelSelectorCards({
   selectedModel,
   onModelChange,
 }: ModelSelectorCardsProps) {
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          // Convert icon strings to components
+          const modelsWithIcons = response.data.map((model: any) => ({
+            ...model,
+            icon: iconMap[model.icon] || Brain, // Fallback to Brain if icon not found
+          }));
+          setModels(modelsWithIcons);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium">Choose Model</label>
+          <span className="text-xs text-muted-foreground">Loading...</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-32 bg-muted animate-pulse rounded-lg" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
