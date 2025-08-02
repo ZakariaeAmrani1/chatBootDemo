@@ -175,7 +175,11 @@ const Chatbot = () => {
 
       {/* Settings Modal */}
       {settingsOpen && (
-        <SettingsPage onClose={() => setSettingsOpen(false)} isModal={true} />
+        <SettingsPage
+          onClose={() => setSettingsOpen(false)}
+          isModal={true}
+          onRefresh={handleRefresh}
+        />
       )}
     </div>
   );
