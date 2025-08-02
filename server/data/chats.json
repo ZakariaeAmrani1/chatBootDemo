@@ -8,6 +8,15 @@
       "updatedAt": "2025-08-02T14:23:24.762Z",
       "messageCount": 4,
       "userId": "user-1"
+    },
+    {
+      "id": "15f17b54-5ce9-4ab8-9586-ea90c02a7089",
+      "title": "good",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T14:24:19.965Z",
+      "updatedAt": "2025-08-02T14:24:27.043Z",
+      "messageCount": 4,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -38,6 +47,34 @@
       "type": "assistant",
       "content": "Let me break this down for you step by step. Your message about \"good\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
       "timestamp": "2025-08-02T14:23:24.762Z"
+    },
+    {
+      "id": "16629187-ff11-42a2-bbee-cf83839eab22",
+      "chatId": "15f17b54-5ce9-4ab8-9586-ea90c02a7089",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-02T14:24:19.965Z"
+    },
+    {
+      "id": "112845ed-380d-4a50-bc70-69be88c4a17b",
+      "chatId": "15f17b54-5ce9-4ab8-9586-ea90c02a7089",
+      "type": "assistant",
+      "content": "Hello! It's great to meet you. How can I assist you today?",
+      "timestamp": "2025-08-02T14:24:21.966Z"
+    },
+    {
+      "id": "96cdc60c-a21b-4f82-bc1c-7277d32abaf7",
+      "chatId": "15f17b54-5ce9-4ab8-9586-ea90c02a7089",
+      "type": "user",
+      "content": "good",
+      "timestamp": "2025-08-02T14:24:25.542Z"
+    },
+    {
+      "id": "192dd477-0379-4241-b94e-b397e3743e4d",
+      "chatId": "15f17b54-5ce9-4ab8-9586-ea90c02a7089",
+      "type": "assistant",
+      "content": "Based on your message, I can provide some insights. Your message about \"good\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-02T14:24:27.043Z"
     }
   ]
 }
