@@ -302,7 +302,31 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <h1 className="text-lg font-semibold text-foreground">Chatboot</h1>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="text-lg font-semibold text-foreground hover:bg-muted/50 px-3 py-2 h-auto"
+                >
+                  {selectedVersion}
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Free")}>
+                  Chatboot Free
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Plus")}>
+                  Chatboot Plus
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Pro")}>
+                  Chatboot Pro
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Enterprise")}>
+                  Chatboot Enterprise
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <div className="flex items-center gap-2">
