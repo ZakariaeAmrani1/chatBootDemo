@@ -183,4 +183,14 @@
   .density-spacious .gap-2 { gap: calc(0.5rem * 1.25); }
   .density-spacious .gap-3 { gap: calc(0.75rem * 1.25); }
   .density-spacious .gap-4 { gap: calc(1rem * 1.25); }
+
+  /* Typewriter cursor animation */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .typewriter-cursor {
+    animation: blink 1s infinite;
+  }
 }
