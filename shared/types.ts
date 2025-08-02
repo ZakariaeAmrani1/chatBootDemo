@@ -67,6 +67,7 @@ export interface Chat {
   id: string;
   title: string;
   model: string;
+  chatbootVersion: string;
   createdAt: string;
   updatedAt: string;
   messageCount: number;
@@ -85,6 +86,7 @@ export interface FileAttachment {
 export interface CreateChatRequest {
   title?: string;
   model: string;
+  chatbootVersion?: string;
   message?: string;
   attachments?: File[];
 }

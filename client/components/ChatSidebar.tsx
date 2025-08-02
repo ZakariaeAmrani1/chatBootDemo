@@ -11,8 +11,8 @@ import {
   Archive,
   HelpCircle,
   Zap,
-  ChevronLeft,
-  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -144,11 +144,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           >
             {!collapsed && (
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <MessageSquare className="h-3 w-3 text-white" />
-                </div>
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
+                  alt="ChatNova Logo"
+                  className="w-6 h-6 rounded-lg shadow-sm"
+                />
                 <h2 className="text-lg font-semibold text-foreground tracking-tight">
-                  ChatGPT
+                  ChatNova
                 </h2>
               </div>
             )}
@@ -172,9 +174,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     onClick={onToggleCollapse}
                   >
                     {collapsed ? (
-                      <ChevronRight className="h-4 w-4" />
+                      <PanelLeftOpen className="h-4 w-4" />
                     ) : (
-                      <ChevronLeft className="h-4 w-4" />
+                      <PanelLeftClose className="h-4 w-4" />
                     )}
                   </Button>
                 </TooltipTrigger>

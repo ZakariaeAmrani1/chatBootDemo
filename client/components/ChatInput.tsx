@@ -334,7 +334,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 value={message}
                 onChange={handleTextareaChange}
                 onKeyDown={handleKeyDown}
-                placeholder="Message ChatGPT..."
+                placeholder="Message ChatNova..."
                 disabled={isSending || disabled}
                 className={cn(
                   "resize-none border-none focus:border-none focus-visible:ring-0 focus:outline-none focus:shadow-none",
@@ -498,7 +498,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
               clipRule="evenodd"
             />
           </svg>
-          ChatGPT can make mistakes. Check important info.
+          ChatNova can make mistakes. Check important info.
         </p>
       </div>
     </div>

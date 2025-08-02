@@ -64,8 +64,12 @@ const Login: React.FC = () => {
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
-            <MessageSquare className="h-8 w-8 text-white" />
+          <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mb-4">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
+              alt="ChatNova Logo"
+              className="w-16 h-16 rounded-2xl"
+            />
           </div>
           <h1 className="text-3xl font-bold text-foreground">Welcome back</h1>
           <p className="text-muted-foreground mt-2">

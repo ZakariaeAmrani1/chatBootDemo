@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { MessageSquare, Plus, Settings, Share2, Menu, X } from "lucide-react";
+import {
+  MessageSquare,
+  Plus,
+  Settings,
+  Share2,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
@@ -28,6 +42,42 @@ const Chatbot = () => {
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
+
+  // Version configurations with colors
+  const versions = [
+    {
+      name: "V1",
+      fullName: "ChatNova V1",
+      color: "text-slate-600",
+      bgColor: "bg-slate-50",
+      borderColor: "border-slate-200",
+    },
+    {
+      name: "V2",
+      fullName: "ChatNova V2",
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200",
+    },
+    {
+      name: "V3",
+      fullName: "ChatNova V3",
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+      borderColor: "border-purple-200",
+    },
+    {
+      name: "V4",
+      fullName: "ChatNova V4",
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200",
+    },
+  ];
+
+  const getCurrentVersion = () =>
+    versions.find((v) => v.fullName === selectedVersion) || versions[2];
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
@@ -140,6 +190,7 @@ const Chatbot = () => {
     await chatService.createChat({
       title: "New Chat",
       model: selectedModel,
+      chatbootVersion: selectedVersion,
       message: message, // This can be undefined for empty chats
     });
   };
@@ -156,6 +207,7 @@ const Chatbot = () => {
         const newChat = await chatService.createChat({
           title: "New Chat",
           model: selectedModel,
+          chatbootVersion: selectedVersion,
         });
 
         if (newChat) {
@@ -295,7 +347,52 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <h1 className="text-lg font-semibold text-foreground">ChatGPT</h1>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
+                    getCurrentVersion().bgColor,
+                    getCurrentVersion().borderColor,
+                    "shadow-sm",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "text-sm font-medium transition-colors",
+                      getCurrentVersion().color,
+                    )}
+                  >
+                    {getCurrentVersion().fullName}
+                  </span>
+                  <ChevronDown className="h-3 w-3 text-muted-foreground/70" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-40 p-1">
+                {versions.map((version) => (
+                  <DropdownMenuItem
+                    key={version.fullName}
+                    onClick={() => setSelectedVersion(version.fullName)}
+                    className={cn(
+                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200",
+                      "hover:bg-muted/60",
+                      selectedVersion === version.fullName && version.bgColor,
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "text-sm font-medium",
+                        selectedVersion === version.fullName
+                          ? version.color
+                          : "text-foreground",
+                      )}
+                    >
+                      {version.name}
+                    </span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <div className="flex items-center gap-2">
