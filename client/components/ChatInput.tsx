@@ -262,6 +262,25 @@ const ChatInput: React.FC<ChatInputProps> = ({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      // Clean up recording when component unmounts
+      if (mediaRecorderRef.current && isRecording) {
+        mediaRecorderRef.current.stop();
+      }
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+      // Cleanup any object URLs
+      attachedFiles.forEach(file => {
+        if (file.url.startsWith('blob:')) {
+          URL.revokeObjectURL(file.url);
+        }
+      });
+    };
+  }, [isRecording, attachedFiles]);
+
   const removeFile = (attachmentId: string) => {
     setAttachedFiles((prev) => {
       const fileToRemove = prev.find((f) => f.id === attachmentId);
