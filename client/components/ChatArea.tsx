@@ -173,6 +173,48 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             )}
           </div>
         ))}
+
+        {/* Thinking indicator */}
+        {isThinking && (
+          <div className="flex gap-4 justify-start">
+            <Avatar className="w-8 h-8 mt-1">
+              <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+                AI
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 max-w-3xl mr-12">
+              <div className="bg-transparent rounded-2xl px-6 py-4">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                  <span className="text-sm">AI is thinking...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error display */}
+        {error && (
+          <div className="flex gap-4 justify-start">
+            <Avatar className="w-8 h-8 mt-1">
+              <AvatarFallback className="bg-destructive text-destructive-foreground text-sm font-semibold">
+                !
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 max-w-3xl mr-12">
+              <div className="bg-destructive/10 border border-destructive/20 rounded-2xl px-6 py-4">
+                <p className="text-destructive text-sm">
+                  Error: {error}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
     </ScrollArea>
