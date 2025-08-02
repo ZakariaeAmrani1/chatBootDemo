@@ -1128,19 +1128,47 @@ const Settings: React.FC<SettingsProps> = ({
         </p>
       </div>
 
+      {/* Current Branding Preview */}
+      <div className="bg-muted/30 rounded-lg p-4 space-y-4">
+        <h4 className="font-medium text-sm">Current Branding</h4>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <img
+              src={getAppLogo("light", user)}
+              alt="Current Light Logo"
+              className="w-8 h-8 rounded-md shadow-sm"
+            />
+            <span className="text-xs text-muted-foreground">Light</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <img
+              src={getAppLogo("dark", user)}
+              alt="Current Dark Logo"
+              className="w-8 h-8 rounded-md shadow-sm"
+            />
+            <span className="text-xs text-muted-foreground">Dark</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="font-medium text-sm">{getAppName(user)}</span>
+            <span className="text-xs text-muted-foreground">App Name</span>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-6">
         {/* App Name */}
         <div className="space-y-3">
           <Label htmlFor="appName">App Name</Label>
           <Input
             id="appName"
-            placeholder="ChatNova"
+            placeholder={getAppName(user)}
             value={user?.settings.appName || ""}
             onChange={(e) => updateSetting("appName", e.target.value)}
             disabled={isSaving}
           />
           <p className="text-xs text-muted-foreground">
-            The name of your application that appears in the sidebar and other places
+            Current: <span className="font-medium">{getAppName(user)}</span> ·
+            The name appears in the sidebar and throughout the app
           </p>
         </div>
 
