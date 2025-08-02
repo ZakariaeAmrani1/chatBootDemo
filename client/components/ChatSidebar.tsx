@@ -106,7 +106,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <TooltipTrigger asChild>
                 <Button
                   onClick={onNewChat}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-10"
+                  className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10"
+                  variant="outline"
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
@@ -116,7 +117,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           ) : (
             <Button
               onClick={onNewChat}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border"
+              variant="outline"
             >
               <Plus className="h-4 w-4 mr-2" />
               New chat
