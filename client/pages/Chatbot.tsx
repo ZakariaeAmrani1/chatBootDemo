@@ -132,6 +132,7 @@ const Chatbot = () => {
           onOpenSettings={() => setSettingsOpen(true)}
           onDeleteChat={handleDeleteChat}
           isLoading={chatState.isLoading}
+          user={user}
         />
       </div>
 
