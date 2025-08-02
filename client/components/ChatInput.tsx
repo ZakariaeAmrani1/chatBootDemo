@@ -466,7 +466,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
               {/* Send Button */}
               <Button
-                type="submit"
+                type={isRecording ? "button" : "submit"}
                 size="sm"
                 className={cn(
                   "h-8 w-8 p-0 rounded-lg transition-all duration-300",
@@ -475,12 +475,14 @@ const ChatInput: React.FC<ChatInputProps> = ({
                   "transform hover:scale-110 active:scale-95",
                   isSending && "animate-pulse",
                 )}
+                onClick={isRecording ? stopRecording : undefined}
                 disabled={
-                  (!message.trim() && attachedFiles.length === 0) ||
+                  (!message.trim() && attachedFiles.length === 0 && !isRecording) ||
                   isSending ||
                   disabled ||
                   isUploading
                 }
+                title={isRecording ? "Stop recording and send" : "Send message"}
               >
                 {isSending ? (
                   <Loader2 className="h-4 w-4 animate-spin text-white" />
