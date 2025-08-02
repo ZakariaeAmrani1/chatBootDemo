@@ -208,6 +208,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Development helper - expose logout globally for testing
+  if (typeof window !== 'undefined') {
+    (window as any).clearAuth = logout;
+  }
+
   const value: AuthContextType = {
     user,
     isAuthenticated: !!user,
