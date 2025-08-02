@@ -36,21 +36,12 @@ const Chatbot = () => {
   }, []);
 
   const createNewChat = async (message?: string) => {
-    if (message) {
-      // Create chat with initial message
-      await chatService.createChat({
-        title: "New Chat",
-        model: selectedModel,
-        message: message
-      });
-    } else {
-      // Create empty chat and select it
-      await chatService.createChat({
-        title: "New Chat",
-        model: selectedModel,
-        message: "Hello" // Temporary message to trigger chat creation
-      });
-    }
+    // Create chat with or without initial message
+    await chatService.createChat({
+      title: "New Chat",
+      model: selectedModel,
+      message: message // This can be undefined for empty chats
+    });
   };
 
   const addMessage = async (content: string, attachments?: FileAttachment[]) => {
