@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import { cn } from "@/lib/utils";
-import type { Chat } from "@/pages/Chatbot";
+import type { Chat } from "@shared/types";
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -34,6 +34,8 @@ interface ChatSidebarProps {
   collapsed: boolean;
   onToggleCollapse: () => void;
   onOpenSettings?: () => void;
+  onDeleteChat?: (chatId: string) => void;
+  isLoading?: boolean;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
