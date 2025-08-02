@@ -209,6 +209,7 @@ const Chatbot = () => {
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           onOpenSettings={() => setSettingsOpen(true)}
           onDeleteChat={handleDeleteChat}
+          onUpdateChat={handleUpdateChat}
           isLoading={chatState.isLoading}
           user={user}
         />
