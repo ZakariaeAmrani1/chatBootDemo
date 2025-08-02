@@ -41,8 +41,8 @@
       "title": "New Chat",
       "model": "gpt-4",
       "createdAt": "2025-08-02T17:06:46.686Z",
-      "updatedAt": "2025-08-02T17:06:46.686Z",
-      "messageCount": 1,
+      "updatedAt": "2025-08-02T17:06:49.123Z",
+      "messageCount": 2,
       "userId": "user-1"
     }
   ],
@@ -171,6 +171,13 @@
       "type": "user",
       "content": "🎤 Audio message",
       "timestamp": "2025-08-02T17:06:46.686Z"
+    },
+    {
+      "id": "19ccf4ec-86b1-4bbb-9b48-482c10fc0b5b",
+      "chatId": "7fc428b2-5a9c-4e1d-9334-cc07393d46cd",
+      "type": "assistant",
+      "content": "I can simulate an audio message for you. What would you like the message to say?",
+      "timestamp": "2025-08-02T17:06:49.123Z"
     }
   ]
 }
