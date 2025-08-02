@@ -185,7 +185,6 @@ const Settings: React.FC<SettingsProps> = ({
 
     // Check if this is a profile field or settings field
     const profileFields = ["displayName", "email", "bio"];
-    const appearanceFields = ["theme", "fontSize", "density"];
 
     if (profileFields.includes(key)) {
       // For profile fields, only update local state and track changes (manual save)
@@ -198,6 +197,20 @@ const Settings: React.FC<SettingsProps> = ({
     } else {
       // For settings (including appearance), update immediately with auto-save
       updateUserSettings({ [key]: value });
+
+      // Special handling for theme to apply immediately
+      if (key === "theme") {
+        setTheme(value as "light" | "dark" | "system");
+      }
+
+      // Special handling for fontSize and density to apply CSS classes
+      if (key === "fontSize") {
+        applyFontSize(value);
+      }
+
+      if (key === "density") {
+        applyDensity(value);
+      }
     }
   };
 
