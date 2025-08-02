@@ -2,7 +2,7 @@
   "chats": [
     {
       "id": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
-      "title": "New Chat",
+      "title": "test",
       "model": "gpt-4",
       "createdAt": "2025-08-02T15:37:50.340Z",
       "updatedAt": "2025-08-02T15:37:52.552Z",
