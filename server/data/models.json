@@ -3,6 +3,7 @@
     {
       "id": "gpt-4",
       "name": "GPT-4",
+      "shortName": "GPT-4",
       "description": "Most capable model with superior reasoning and complex task handling",
       "features": ["Advanced reasoning", "Complex tasks", "High accuracy"],
       "color": "text-emerald-600 dark:text-emerald-400",
