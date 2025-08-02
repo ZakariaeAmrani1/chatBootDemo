@@ -122,7 +122,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     {message.type === "assistant" ? (
                       <TypewriterText
                         text={message.content}
-                        speed={60}
+                        speed={120}
                         className="block"
                       />
                     ) : (

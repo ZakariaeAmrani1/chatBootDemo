@@ -17,6 +17,15 @@
       "updatedAt": "2025-08-02T15:03:21.930Z",
       "messageCount": 4,
       "userId": "user-1"
+    },
+    {
+      "id": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
+      "title": "how are you",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T15:05:33.434Z",
+      "updatedAt": "2025-08-02T15:05:45.803Z",
+      "messageCount": 4,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -75,6 +84,34 @@
       "type": "assistant",
       "content": "I think you're referring to the popular children's character, Builder from the popular children's show \"Bob the Builder\"!\n\nAs a digital AI assistant, I don't have personal opinions, but I can tell you that Builder is a lovable and iconic character in children's entertainment. He's known for his enthusiasm, optimism, and can-do attitude, which makes him a great role model for kids.\n\nBuilder's catchphrase, \"Can we fix it? Yes, we can!\" has become a rallying cry for many kids (and adults!) who believe in the power of teamwork, creativity, and problem-solving.\n\nWhat do you think about Builder? Do you have a favorite episode or memory featuring this beloved character?",
       "timestamp": "2025-08-02T15:03:21.930Z"
+    },
+    {
+      "id": "9899ea52-9676-4cb2-a683-6f33309c8c62",
+      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-02T15:05:33.434Z"
+    },
+    {
+      "id": "8ce69342-3323-4828-a992-4eada21437b4",
+      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
+      "type": "assistant",
+      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
+      "timestamp": "2025-08-02T15:05:35.646Z"
+    },
+    {
+      "id": "3e02ed9e-e942-4908-89cf-6e8badd14625",
+      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
+      "type": "user",
+      "content": "how are you",
+      "timestamp": "2025-08-02T15:05:44.079Z"
+    },
+    {
+      "id": "ce0cb38b-5edf-4a2b-a8c2-a955e870a8c1",
+      "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
+      "type": "assistant",
+      "content": "I'm just a language model, I don't have emotions or feelings like humans do. However, I'm functioning properly and ready to assist you with any questions or tasks you may have! How can I help you today?",
+      "timestamp": "2025-08-02T15:05:45.803Z"
     }
   ]
 }
