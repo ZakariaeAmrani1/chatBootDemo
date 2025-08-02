@@ -105,7 +105,8 @@ export const getChatMessages: RequestHandler = (req, res) => {
 // Create a new chat
 export const createChat: RequestHandler = (req, res) => {
   try {
-    const { title, model, chatbootVersion, message } = req.body as CreateChatRequest;
+    const { title, model, chatbootVersion, message } =
+      req.body as CreateChatRequest;
     const userId = req.body.userId || "user-1"; // Default to demo user
 
     const chatId = uuidv4();

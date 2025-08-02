@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { MessageSquare, Plus, Settings, Share2, Menu, X, ChevronDown } from "lucide-react";
+import {
+  MessageSquare,
+  Plus,
+  Settings,
+  Share2,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -43,32 +51,33 @@ const Chatbot = () => {
       fullName: "ChatNova V1",
       color: "text-slate-600",
       bgColor: "bg-slate-50",
-      borderColor: "border-slate-200"
+      borderColor: "border-slate-200",
     },
     {
       name: "V2",
       fullName: "ChatNova V2",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
-      borderColor: "border-blue-200"
+      borderColor: "border-blue-200",
     },
     {
       name: "V3",
       fullName: "ChatNova V3",
       color: "text-purple-600",
       bgColor: "bg-purple-50",
-      borderColor: "border-purple-200"
+      borderColor: "border-purple-200",
     },
     {
       name: "V4",
       fullName: "ChatNova V4",
       color: "text-orange-600",
       bgColor: "bg-orange-50",
-      borderColor: "border-orange-200"
-    }
+      borderColor: "border-orange-200",
+    },
   ];
 
-  const getCurrentVersion = () => versions.find(v => v.fullName === selectedVersion) || versions[2];
+  const getCurrentVersion = () =>
+    versions.find((v) => v.fullName === selectedVersion) || versions[2];
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
@@ -340,16 +349,20 @@ const Chatbot = () => {
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className={cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
-                  getCurrentVersion().bgColor,
-                  getCurrentVersion().borderColor,
-                  "shadow-sm"
-                )}>
-                  <span className={cn(
-                    "text-sm font-medium transition-colors",
-                    getCurrentVersion().color
-                  )}>
+                <div
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
+                    getCurrentVersion().bgColor,
+                    getCurrentVersion().borderColor,
+                    "shadow-sm",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "text-sm font-medium transition-colors",
+                      getCurrentVersion().color,
+                    )}
+                  >
                     {getCurrentVersion().fullName}
                   </span>
                   <ChevronDown className="h-3 w-3 text-muted-foreground/70" />
@@ -363,13 +376,17 @@ const Chatbot = () => {
                     className={cn(
                       "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200",
                       "hover:bg-muted/60",
-                      selectedVersion === version.fullName && version.bgColor
+                      selectedVersion === version.fullName && version.bgColor,
                     )}
                   >
-                    <span className={cn(
-                      "text-sm font-medium",
-                      selectedVersion === version.fullName ? version.color : "text-foreground"
-                    )}>
+                    <span
+                      className={cn(
+                        "text-sm font-medium",
+                        selectedVersion === version.fullName
+                          ? version.color
+                          : "text-foreground",
+                      )}
+                    >
                       {version.name}
                     </span>
                   </DropdownMenuItem>
