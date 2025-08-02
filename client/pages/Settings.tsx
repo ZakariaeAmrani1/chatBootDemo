@@ -180,8 +180,7 @@ const Settings: React.FC<SettingsProps> = ({
       setPendingChanges(newChanges);
       setHasUnsavedChanges(true);
 
-      // Update local state immediately for responsive UI
-      setUser((prev) => (prev ? { ...prev, [key]: value } : null));
+      // Note: AuthContext will handle the state update when profile is saved
     } else {
       // For settings (including appearance), update immediately with auto-save
       updateUserSettings({ [key]: value });
