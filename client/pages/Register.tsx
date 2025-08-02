@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, MessageSquare, Mail, Lock, User, Check } from "lucide-react";
-import { apiService } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
