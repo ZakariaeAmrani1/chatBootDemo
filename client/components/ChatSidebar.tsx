@@ -47,7 +47,16 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   collapsed,
   onToggleCollapse,
   onOpenSettings,
+  onDeleteChat,
+  isLoading = false,
 }) => {
+
+  const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onDeleteChat) {
+      onDeleteChat(chatId);
+    }
+  };
   return (
     <TooltipProvider>
       <div className="h-full bg-background text-foreground flex flex-col border-r border-border shadow-sm">
