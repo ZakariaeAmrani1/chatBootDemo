@@ -80,7 +80,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
               message.type === "user" ? "justify-end" : "justify-start",
             )}
           >
-            {message.sender === "assistant" && (
+            {message.type === "assistant" && (
               <Avatar className="w-8 h-8 mt-1">
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   AI
@@ -91,13 +91,13 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             <div
               className={cn(
                 "flex-1 max-w-3xl",
-                message.sender === "user" ? "ml-12" : "mr-12",
+                message.type === "user" ? "ml-12" : "mr-12",
               )}
             >
               <div
                 className={cn(
                   "rounded-2xl px-6 py-4 space-y-3",
-                  message.sender === "user"
+                  message.type === "user"
                     ? "bg-muted ml-auto max-w-lg"
                     : "bg-transparent",
                 )}
@@ -123,7 +123,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 )}
               </div>
 
-              {message.sender === "assistant" && (
+              {message.type === "assistant" && (
                 <div className="flex items-center gap-2 mt-3">
                   <Button
                     variant="ghost"
@@ -164,7 +164,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
               )}
             </div>
 
-            {message.sender === "user" && (
+            {message.type === "user" && (
               <Avatar className="w-8 h-8 mt-1">
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   U
