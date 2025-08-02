@@ -158,17 +158,21 @@ const AppRoutes = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <AppRoutes />
-        </TooltipProvider>
-      </ThemeProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <ThemeProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <AppRoutes />
+            </TooltipProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </ErrorBoundary>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);
