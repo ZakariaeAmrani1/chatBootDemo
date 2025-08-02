@@ -5,6 +5,9 @@ import {
   FileArchive,
   Download,
   Eye,
+  Volume2,
+  Play,
+  Pause,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -24,6 +27,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   const isImage = attachment.type.startsWith("image/");
   const isPDF = attachment.type === "application/pdf";
   const isText = attachment.type.startsWith("text/");
+  const isAudio = attachment.type.startsWith("audio/");
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes";
@@ -37,6 +41,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
     if (isImage) return <ImageIcon className="h-4 w-4" />;
     if (isPDF) return <FileText className="h-4 w-4" />;
     if (isText) return <FileText className="h-4 w-4" />;
+    if (isAudio) return <Volume2 className="h-4 w-4" />;
     return <FileArchive className="h-4 w-4" />;
   };
 
@@ -44,6 +49,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
     if (isImage) return "text-blue-500";
     if (isPDF) return "text-red-500";
     if (isText) return "text-green-500";
+    if (isAudio) return "text-purple-500";
     return "text-gray-500";
   };
 
@@ -63,6 +69,41 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
       window.open(attachment.url, "_blank");
     }
   };
+
+  // For audio files, show audio player
+  if (isAudio && attachment.url) {
+    return (
+      <div className={cn("space-y-2", className)}>
+        <div className="flex items-center gap-3 p-3 bg-muted rounded-lg border border-border">
+          <div className={cn("flex-shrink-0", getFileColor())}>
+            <Volume2 className="h-4 w-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium truncate">🎤 {attachment.name}</p>
+            <p className="text-xs text-muted-foreground">
+              {formatFileSize(attachment.size)} • Audio message
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            onClick={handleDownload}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+        </div>
+        <audio
+          controls
+          className="w-full h-8 rounded-lg"
+          style={{ maxWidth: '300px' }}
+        >
+          <source src={attachment.url} type={attachment.type} />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    );
+  }
 
   // For images, show preview
   if (isImage && attachment.url) {
