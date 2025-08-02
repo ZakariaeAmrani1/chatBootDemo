@@ -415,7 +415,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
                       disabled={isSending || disabled || isUploading}
                       title="Click to stop recording and send"
                     >
-                      <div className="wave-container dots">
+                      <div className="wave-container oscilloscope">
                         <div className="wave-bar"></div>
                         <div className="wave-bar"></div>
                         <div className="wave-bar"></div>
