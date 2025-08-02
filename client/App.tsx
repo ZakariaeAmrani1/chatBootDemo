@@ -11,6 +11,9 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Chatbot from "./pages/Chatbot";
 import Settings from "./pages/Settings";
+import UpgradePlan from "./pages/UpgradePlan";
+import Library from "./pages/Library";
+import HelpFAQ from "./pages/HelpFAQ";
 
 const queryClient = new QueryClient();
 
