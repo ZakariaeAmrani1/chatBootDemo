@@ -9,7 +9,7 @@ import { Eye, EyeOff, MessageSquare, Mail, Lock, User, Check } from "lucide-reac
 import { useAuth } from "@/contexts/AuthContext";
 
 const Register: React.FC = () => {
-  const navigate = useNavigate();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     displayName: "",
     email: "",
