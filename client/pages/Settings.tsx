@@ -125,7 +125,8 @@ const Settings: React.FC<SettingsProps> = ({
     try {
       const response = await apiService.updateUser(user.id, updates);
       if (response.success && response.data) {
-        setUser(response.data);
+        // Update user via AuthContext instead of local state
+        updateUser(response.data);
         // Call the callback to update parent component
         onUserUpdate?.(response.data);
       } else {
