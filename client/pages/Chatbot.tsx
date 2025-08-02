@@ -348,7 +348,7 @@ const Chatbot = () => {
                     "text-sm font-medium transition-colors",
                     getCurrentVersion().color
                   )}>
-                    {getCurrentVersion().name}
+                    {getCurrentVersion().fullName}
                   </span>
                   <ChevronDown className="h-3 w-3 text-muted-foreground/70" />
                 </div>
