@@ -153,6 +153,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
+    console.log("Logging out user");
     // Clear auth data
     localStorage.removeItem("authToken");
     localStorage.removeItem("currentUser");
@@ -162,6 +163,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Call API logout if needed
     apiService.logout();
+  };
+
+  // Function to handle authentication failures
+  const handleAuthFailure = () => {
+    console.log("Authentication failure detected, clearing session");
+    logout();
   };
 
   const updateUser = (userData: User) => {
