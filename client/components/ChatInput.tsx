@@ -29,7 +29,10 @@ interface ChatInputProps {
   disabled?: boolean;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }) => {
+const ChatInput: React.FC<ChatInputProps> = ({
+  onSendMessage,
+  disabled = false,
+}) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -100,23 +103,24 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
         if (response.success && response.data) {
           setAttachedFiles((prev) => [...prev, ...response.data!]);
         } else {
-          console.error('Failed to upload files:', response.error);
+          console.error("Failed to upload files:", response.error);
           // Fallback to local URLs for now
           const newFiles = filesArray.map((file) => {
             const fileAttachment: FileAttachment = {
-              id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+              id:
+                Date.now().toString() + Math.random().toString(36).substr(2, 9),
               name: file.name,
               type: file.type,
               size: file.size,
               url: URL.createObjectURL(file),
-              uploadedAt: new Date().toISOString()
+              uploadedAt: new Date().toISOString(),
             };
             return fileAttachment;
           });
           setAttachedFiles((prev) => [...prev, ...newFiles]);
         }
       } catch (error) {
-        console.error('Error uploading files:', error);
+        console.error("Error uploading files:", error);
       } finally {
         setIsUploading(false);
       }
@@ -295,7 +299,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
                   isSending && "animate-pulse",
                 )}
                 disabled={
-                  (!message.trim() && attachedFiles.length === 0) || isSending || disabled || isUploading
+                  (!message.trim() && attachedFiles.length === 0) ||
+                  isSending ||
+                  disabled ||
+                  isUploading
                 }
               >
                 {isSending ? (

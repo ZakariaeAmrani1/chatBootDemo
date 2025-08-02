@@ -41,15 +41,17 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {description}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{cancelText}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
-            className={destructive ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : ""}
+            className={
+              destructive
+                ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                : ""
+            }
           >
             {confirmText}
           </AlertDialogAction>

@@ -1,14 +1,26 @@
-import { Chat, Message, User, CreateChatRequest, SendMessageRequest, ApiResponse, FileAttachment, DataStats } from '@shared/types';
+import {
+  Chat,
+  Message,
+  User,
+  CreateChatRequest,
+  SendMessageRequest,
+  ApiResponse,
+  FileAttachment,
+  DataStats,
+} from "@shared/types";
 
-const API_BASE = '/api';
+const API_BASE = "/api";
 
 class ApiService {
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {},
+  ): Promise<ApiResponse<T>> {
     const url = `${API_BASE}${endpoint}`;
-    
+
     const config: RequestInit = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...options.headers,
       },
       ...options,
@@ -16,7 +28,7 @@ class ApiService {
 
     // Don't set content-type for FormData (let browser set it with boundary)
     if (options.body instanceof FormData) {
-      delete config.headers!['Content-Type'];
+      delete config.headers!["Content-Type"];
     }
 
     try {
@@ -26,14 +38,14 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Network error'
+        error: error instanceof Error ? error.message : "Network error",
       };
     }
   }
 
   // Chat operations
   async getChats(userId?: string): Promise<ApiResponse<Chat[]>> {
-    const query = userId ? `?userId=${userId}` : '';
+    const query = userId ? `?userId=${userId}` : "";
     return this.request<Chat[]>(`/chats${query}`);
   }
 
@@ -42,41 +54,49 @@ class ApiService {
   }
 
   async createChat(request: CreateChatRequest): Promise<ApiResponse<Chat>> {
-    return this.request<Chat>('/chats', {
-      method: 'POST',
+    return this.request<Chat>("/chats", {
+      method: "POST",
       body: JSON.stringify(request),
     });
   }
 
-  async sendMessage(request: SendMessageRequest): Promise<ApiResponse<Message>> {
-    return this.request<Message>('/chats/message', {
-      method: 'POST',
+  async sendMessage(
+    request: SendMessageRequest,
+  ): Promise<ApiResponse<Message>> {
+    return this.request<Message>("/chats/message", {
+      method: "POST",
       body: JSON.stringify(request),
     });
   }
 
   async deleteChat(chatId: string): Promise<ApiResponse<null>> {
     return this.request<null>(`/chats/${chatId}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
   }
 
   // User operations
   async getCurrentUser(userId?: string): Promise<ApiResponse<User>> {
-    const query = userId ? `?userId=${userId}` : '';
+    const query = userId ? `?userId=${userId}` : "";
     return this.request<User>(`/user${query}`);
   }
 
-  async updateUser(userId: string, updates: Partial<User>): Promise<ApiResponse<User>> {
+  async updateUser(
+    userId: string,
+    updates: Partial<User>,
+  ): Promise<ApiResponse<User>> {
     return this.request<User>(`/user/${userId}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(updates),
     });
   }
 
-  async updateUserSettings(userId: string, settings: any): Promise<ApiResponse<User>> {
+  async updateUserSettings(
+    userId: string,
+    settings: any,
+  ): Promise<ApiResponse<User>> {
     return this.request<User>(`/user/${userId}/settings`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(settings),
     });
   }
@@ -84,12 +104,12 @@ class ApiService {
   // File operations
   async uploadFiles(files: File[]): Promise<ApiResponse<FileAttachment[]>> {
     const formData = new FormData();
-    files.forEach(file => {
-      formData.append('files', file);
+    files.forEach((file) => {
+      formData.append("files", file);
     });
 
-    return this.request<FileAttachment[]>('/files/upload', {
-      method: 'POST',
+    return this.request<FileAttachment[]>("/files/upload", {
+      method: "POST",
       body: formData,
     });
   }
@@ -100,18 +120,18 @@ class ApiService {
 
   // Data management operations
   async getDataStats(): Promise<ApiResponse<DataStats>> {
-    return this.request<DataStats>('/data/stats');
+    return this.request<DataStats>("/data/stats");
   }
 
   async clearChatHistory(): Promise<ApiResponse<null>> {
-    return this.request<null>('/data/clear-chats', {
-      method: 'POST',
+    return this.request<null>("/data/clear-chats", {
+      method: "POST",
     });
   }
 
   async clearUploadedFiles(): Promise<ApiResponse<null>> {
-    return this.request<null>('/data/clear-files', {
-      method: 'POST',
+    return this.request<null>("/data/clear-files", {
+      method: "POST",
     });
   }
 

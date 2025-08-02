@@ -40,9 +40,7 @@ const SuccessDialog: React.FC<SuccessDialogProps> = ({
             <CheckCircle className="h-6 w-6 text-green-500" />
             <AlertDialogTitle>{title}</AlertDialogTitle>
           </div>
-          <AlertDialogDescription>
-            {description}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction onClick={handleClose}>

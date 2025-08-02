@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 import { ApiResponse } from "@shared/types";
 
-const DATA_DIR = path.join(process.cwd(), 'server/data');
+const DATA_DIR = path.join(process.cwd(), "server/data");
 
 interface FileSize {
   name: string;
@@ -42,41 +42,41 @@ function getFileSize(filename: string): number {
 // Get data storage statistics
 export const getDataStats: RequestHandler = (req, res) => {
   try {
-    const chatHistorySize = getFileSize('chats.json');
-    const userSettingsSize = getFileSize('users.json');
-    const uploadedFilesSize = getFileSize('files.json');
+    const chatHistorySize = getFileSize("chats.json");
+    const userSettingsSize = getFileSize("users.json");
+    const uploadedFilesSize = getFileSize("files.json");
     const totalSize = chatHistorySize + userSettingsSize + uploadedFilesSize;
 
     const stats: DataStats = {
       chatHistory: {
-        name: 'Chat History',
+        name: "Chat History",
         size: chatHistorySize,
-        sizeFormatted: formatFileSize(chatHistorySize)
+        sizeFormatted: formatFileSize(chatHistorySize),
       },
       userSettings: {
-        name: 'User Settings',
+        name: "User Settings",
         size: userSettingsSize,
-        sizeFormatted: formatFileSize(userSettingsSize)
+        sizeFormatted: formatFileSize(userSettingsSize),
       },
       uploadedFiles: {
-        name: 'File Metadata',
+        name: "File Metadata",
         size: uploadedFilesSize,
-        sizeFormatted: formatFileSize(uploadedFilesSize)
+        sizeFormatted: formatFileSize(uploadedFilesSize),
       },
       totalSize,
-      totalSizeFormatted: formatFileSize(totalSize)
+      totalSizeFormatted: formatFileSize(totalSize),
     };
 
     const response: ApiResponse<DataStats> = {
       success: true,
-      data: stats
+      data: stats,
     };
 
     res.json(response);
   } catch (error) {
     const response: ApiResponse<DataStats> = {
       success: false,
-      error: 'Failed to get data statistics'
+      error: "Failed to get data statistics",
     };
     res.status(500).json(response);
   }
@@ -85,25 +85,25 @@ export const getDataStats: RequestHandler = (req, res) => {
 // Clear all chat history
 export const clearChatHistory: RequestHandler = (req, res) => {
   try {
-    const chatsFilePath = path.join(DATA_DIR, 'chats.json');
-    
+    const chatsFilePath = path.join(DATA_DIR, "chats.json");
+
     // Reset chats.json to empty state
     const emptyChatsData = {
       chats: [],
-      messages: []
+      messages: [],
     };
-    
+
     fs.writeFileSync(chatsFilePath, JSON.stringify(emptyChatsData, null, 2));
 
     const response: ApiResponse<null> = {
-      success: true
+      success: true,
     };
 
     res.json(response);
   } catch (error) {
     const response: ApiResponse<null> = {
       success: false,
-      error: 'Failed to clear chat history'
+      error: "Failed to clear chat history",
     };
     res.status(500).json(response);
   }
@@ -112,35 +112,35 @@ export const clearChatHistory: RequestHandler = (req, res) => {
 // Clear all uploaded files
 export const clearUploadedFiles: RequestHandler = (req, res) => {
   try {
-    const filesFilePath = path.join(DATA_DIR, 'files.json');
-    const uploadsDir = path.join(process.cwd(), 'server/uploads');
-    
+    const filesFilePath = path.join(DATA_DIR, "files.json");
+    const uploadsDir = path.join(process.cwd(), "server/uploads");
+
     // Reset files.json to empty state
     const emptyFilesData = {
-      files: []
+      files: [],
     };
-    
+
     fs.writeFileSync(filesFilePath, JSON.stringify(emptyFilesData, null, 2));
 
     // Remove all uploaded files (but keep .gitkeep)
     if (fs.existsSync(uploadsDir)) {
       const files = fs.readdirSync(uploadsDir);
-      files.forEach(file => {
-        if (file !== '.gitkeep') {
+      files.forEach((file) => {
+        if (file !== ".gitkeep") {
           fs.unlinkSync(path.join(uploadsDir, file));
         }
       });
     }
 
     const response: ApiResponse<null> = {
-      success: true
+      success: true,
     };
 
     res.json(response);
   } catch (error) {
     const response: ApiResponse<null> = {
       success: false,
-      error: 'Failed to clear uploaded files'
+      error: "Failed to clear uploaded files",
     };
     res.status(500).json(response);
   }

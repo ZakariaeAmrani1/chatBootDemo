@@ -1,5 +1,10 @@
-import { Chat, Message, CreateChatRequest, SendMessageRequest } from '@shared/types';
-import { apiService } from './api';
+import {
+  Chat,
+  Message,
+  CreateChatRequest,
+  SendMessageRequest,
+} from "@shared/types";
+import { apiService } from "./api";
 
 export interface ChatState {
   chats: Chat[];
@@ -26,7 +31,7 @@ class ChatService {
     this.listeners.add(listener);
     // Call immediately with current state
     listener(this.state);
-    
+
     // Return unsubscribe function
     return () => {
       this.listeners.delete(listener);
@@ -35,7 +40,7 @@ class ChatService {
 
   private setState(updates: Partial<ChatState>) {
     this.state = { ...this.state, ...updates };
-    this.listeners.forEach(listener => listener(this.state));
+    this.listeners.forEach((listener) => listener(this.state));
   }
 
   getState(): ChatState {
@@ -44,89 +49,90 @@ class ChatService {
 
   async loadChats(userId?: string): Promise<void> {
     this.setState({ isLoading: true, error: null });
-    
+
     try {
       const response = await apiService.getChats(userId);
-      
+
       if (response.success && response.data) {
-        this.setState({ 
+        this.setState({
           chats: response.data,
-          isLoading: false 
+          isLoading: false,
         });
       } else {
-        this.setState({ 
-          error: response.error || 'Failed to load chats',
-          isLoading: false 
+        this.setState({
+          error: response.error || "Failed to load chats",
+          isLoading: false,
         });
       }
     } catch (error) {
-      this.setState({ 
-        error: error instanceof Error ? error.message : 'Failed to load chats',
-        isLoading: false 
+      this.setState({
+        error: error instanceof Error ? error.message : "Failed to load chats",
+        isLoading: false,
       });
     }
   }
 
   async loadChatMessages(chatId: string): Promise<void> {
     this.setState({ isLoading: true, error: null });
-    
+
     try {
       const response = await apiService.getChatMessages(chatId);
-      
+
       if (response.success && response.data) {
-        this.setState({ 
+        this.setState({
           messages: response.data,
-          isLoading: false 
+          isLoading: false,
         });
       } else {
-        this.setState({ 
-          error: response.error || 'Failed to load messages',
-          isLoading: false 
+        this.setState({
+          error: response.error || "Failed to load messages",
+          isLoading: false,
         });
       }
     } catch (error) {
-      this.setState({ 
-        error: error instanceof Error ? error.message : 'Failed to load messages',
-        isLoading: false 
+      this.setState({
+        error:
+          error instanceof Error ? error.message : "Failed to load messages",
+        isLoading: false,
       });
     }
   }
 
   async createChat(request: CreateChatRequest): Promise<Chat | null> {
     this.setState({ isLoading: true, error: null });
-    
+
     try {
       const response = await apiService.createChat(request);
-      
+
       if (response.success && response.data) {
         const newChat = response.data;
-        
+
         // Add to chats list
         this.setState({
           chats: [newChat, ...this.state.chats],
           currentChat: newChat,
           messages: [],
           isLoading: false,
-          isThinking: request.message ? true : false // Only thinking if there was a message
+          isThinking: request.message ? true : false, // Only thinking if there was a message
         });
 
         // Start polling for new messages (AI response) only if there was a message
         if (request.message && request.message.trim()) {
           this.startPollingForMessages(newChat.id);
         }
-        
+
         return newChat;
       } else {
-        this.setState({ 
-          error: response.error || 'Failed to create chat',
-          isLoading: false 
+        this.setState({
+          error: response.error || "Failed to create chat",
+          isLoading: false,
         });
         return null;
       }
     } catch (error) {
-      this.setState({ 
-        error: error instanceof Error ? error.message : 'Failed to create chat',
-        isLoading: false 
+      this.setState({
+        error: error instanceof Error ? error.message : "Failed to create chat",
+        isLoading: false,
       });
       return null;
     }
@@ -134,38 +140,39 @@ class ChatService {
 
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
-    
+
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
       chatId: request.chatId,
-      type: 'user',
+      type: "user",
       content: request.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
-    
-    this.setState({ 
+
+    this.setState({
       messages: [...this.state.messages, userMessage],
-      isThinking: true
+      isThinking: true,
     });
-    
+
     try {
       const response = await apiService.sendMessage(request);
-      
+
       if (response.success) {
         // Update the temporary message with real ID if needed
         // Start polling for AI response
         this.startPollingForMessages(request.chatId);
       } else {
-        this.setState({ 
-          error: response.error || 'Failed to send message',
-          isThinking: false
+        this.setState({
+          error: response.error || "Failed to send message",
+          isThinking: false,
         });
       }
     } catch (error) {
-      this.setState({ 
-        error: error instanceof Error ? error.message : 'Failed to send message',
-        isThinking: false
+      this.setState({
+        error:
+          error instanceof Error ? error.message : "Failed to send message",
+        isThinking: false,
       });
     }
   }
@@ -173,32 +180,36 @@ class ChatService {
   private async startPollingForMessages(chatId: string): Promise<void> {
     const pollCount = 0;
     const maxPolls = 20; // Poll for max 10 seconds (500ms * 20)
-    
+
     const poll = async (count: number) => {
       if (count >= maxPolls) {
         this.setState({ isThinking: false });
         return;
       }
-      
+
       try {
         const response = await apiService.getChatMessages(chatId);
-        
+
         if (response.success && response.data) {
           const newMessages = response.data;
           const lastMessage = newMessages[newMessages.length - 1];
-          
+
           // Check if we have a new AI message
-          if (lastMessage && lastMessage.type === 'assistant' && 
-              lastMessage.timestamp > (this.state.messages[this.state.messages.length - 1]?.timestamp || '')) {
-            
-            this.setState({ 
+          if (
+            lastMessage &&
+            lastMessage.type === "assistant" &&
+            lastMessage.timestamp >
+              (this.state.messages[this.state.messages.length - 1]?.timestamp ||
+                "")
+          ) {
+            this.setState({
               messages: newMessages,
-              isThinking: false
+              isThinking: false,
             });
             return; // Stop polling
           }
         }
-        
+
         // Continue polling
         setTimeout(() => poll(count + 1), 500);
       } catch (error) {
@@ -206,43 +217,49 @@ class ChatService {
         setTimeout(() => poll(count + 1), 500);
       }
     };
-    
+
     // Start polling after a short delay
     setTimeout(() => poll(0), 500);
   }
 
   async selectChat(chat: Chat): Promise<void> {
-    this.setState({ 
-      currentChat: chat, 
+    this.setState({
+      currentChat: chat,
       messages: [],
-      error: null 
+      error: null,
     });
-    
+
     await this.loadChatMessages(chat.id);
   }
 
   async deleteChat(chatId: string): Promise<void> {
     this.setState({ error: null });
-    
+
     try {
       const response = await apiService.deleteChat(chatId);
-      
+
       if (response.success) {
-        const updatedChats = this.state.chats.filter(chat => chat.id !== chatId);
-        
-        this.setState({ 
+        const updatedChats = this.state.chats.filter(
+          (chat) => chat.id !== chatId,
+        );
+
+        this.setState({
           chats: updatedChats,
-          currentChat: this.state.currentChat?.id === chatId ? null : this.state.currentChat,
-          messages: this.state.currentChat?.id === chatId ? [] : this.state.messages
+          currentChat:
+            this.state.currentChat?.id === chatId
+              ? null
+              : this.state.currentChat,
+          messages:
+            this.state.currentChat?.id === chatId ? [] : this.state.messages,
         });
       } else {
-        this.setState({ 
-          error: response.error || 'Failed to delete chat'
+        this.setState({
+          error: response.error || "Failed to delete chat",
         });
       }
     } catch (error) {
-      this.setState({ 
-        error: error instanceof Error ? error.message : 'Failed to delete chat'
+      this.setState({
+        error: error instanceof Error ? error.message : "Failed to delete chat",
       });
     }
   }

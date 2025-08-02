@@ -98,10 +98,12 @@ const Settings: React.FC<SettingsProps> = ({
       if (response.success && response.data) {
         setUser(response.data);
       } else {
-        setError(response.error || 'Failed to load user data');
+        setError(response.error || "Failed to load user data");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to load user data');
+      setError(
+        error instanceof Error ? error.message : "Failed to load user data",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -114,7 +116,7 @@ const Settings: React.FC<SettingsProps> = ({
         setDataStats(response.data);
       }
     } catch (error) {
-      console.error('Failed to load data stats:', error);
+      console.error("Failed to load data stats:", error);
     }
   };
 
@@ -129,10 +131,12 @@ const Settings: React.FC<SettingsProps> = ({
       if (response.success && response.data) {
         setUser(response.data);
       } else {
-        setError(response.error || 'Failed to update profile');
+        setError(response.error || "Failed to update profile");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to update profile');
+      setError(
+        error instanceof Error ? error.message : "Failed to update profile",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -145,14 +149,19 @@ const Settings: React.FC<SettingsProps> = ({
     setError(null);
 
     try {
-      const response = await apiService.updateUserSettings(user.id, settingsUpdates);
+      const response = await apiService.updateUserSettings(
+        user.id,
+        settingsUpdates,
+      );
       if (response.success && response.data) {
         setUser(response.data);
       } else {
-        setError(response.error || 'Failed to update settings');
+        setError(response.error || "Failed to update settings");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to update settings');
+      setError(
+        error instanceof Error ? error.message : "Failed to update settings",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -162,7 +171,7 @@ const Settings: React.FC<SettingsProps> = ({
     if (!user) return;
 
     // Check if this is a profile field or settings field
-    const profileFields = ['displayName', 'email', 'bio'];
+    const profileFields = ["displayName", "email", "bio"];
 
     if (profileFields.includes(key)) {
       updateUserProfile({ [key]: value });
@@ -186,10 +195,12 @@ const Settings: React.FC<SettingsProps> = ({
         await loadDataStats();
         setShowSuccessDialog(true);
       } else {
-        setError(response.error || 'Failed to clear chat history');
+        setError(response.error || "Failed to clear chat history");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to clear chat history');
+      setError(
+        error instanceof Error ? error.message : "Failed to clear chat history",
+      );
     } finally {
       setIsClearing(false);
     }
@@ -273,7 +284,7 @@ const Settings: React.FC<SettingsProps> = ({
             <Label htmlFor="displayName">Display Name</Label>
             <Input
               id="displayName"
-              value={user?.displayName || ''}
+              value={user?.displayName || ""}
               onChange={(e) => updateSetting("displayName", e.target.value)}
               disabled={isSaving}
             />
@@ -283,7 +294,7 @@ const Settings: React.FC<SettingsProps> = ({
             <Input
               id="email"
               type="email"
-              value={user?.email || ''}
+              value={user?.email || ""}
               onChange={(e) => updateSetting("email", e.target.value)}
               disabled={isSaving}
             />
@@ -295,7 +306,7 @@ const Settings: React.FC<SettingsProps> = ({
           <Textarea
             id="bio"
             placeholder="Tell us about yourself..."
-            value={user?.bio || ''}
+            value={user?.bio || ""}
             onChange={(e) => updateSetting("bio", e.target.value)}
             rows={3}
             disabled={isSaving}
@@ -358,7 +369,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <Label>Font Size</Label>
           <Select
-            value={user?.settings.fontSize || 'medium'}
+            value={user?.settings.fontSize || "medium"}
             onValueChange={(value) => updateSetting("fontSize", value)}
           >
             <SelectTrigger>
@@ -376,7 +387,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <Label>Display Density</Label>
           <Select
-            value={user?.settings.density || 'comfortable'}
+            value={user?.settings.density || "comfortable"}
             onValueChange={(value) => updateSetting("density", value)}
           >
             <SelectTrigger>
@@ -608,20 +619,26 @@ const Settings: React.FC<SettingsProps> = ({
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Chat History</span>
-                <span>{dataStats?.chatHistory.sizeFormatted || 'Loading...'}</span>
+                <span>
+                  {dataStats?.chatHistory.sizeFormatted || "Loading..."}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>File Metadata</span>
-                <span>{dataStats?.uploadedFiles.sizeFormatted || 'Loading...'}</span>
+                <span>
+                  {dataStats?.uploadedFiles.sizeFormatted || "Loading..."}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>User Settings</span>
-                <span>{dataStats?.userSettings.sizeFormatted || 'Loading...'}</span>
+                <span>
+                  {dataStats?.userSettings.sizeFormatted || "Loading..."}
+                </span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
                 <span>Total JSON Data</span>
-                <span>{dataStats?.totalSizeFormatted || 'Loading...'}</span>
+                <span>{dataStats?.totalSizeFormatted || "Loading..."}</span>
               </div>
             </div>
           </CardContent>
@@ -639,7 +656,7 @@ const Settings: React.FC<SettingsProps> = ({
             disabled={isClearing}
           >
             <Trash2 className="h-4 w-4 mr-2" />
-            {isClearing ? 'Clearing...' : 'Clear All Chat History'}
+            {isClearing ? "Clearing..." : "Clear All Chat History"}
           </Button>
         </div>
       </div>
@@ -658,7 +675,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-2">
           <Label>Language</Label>
           <Select
-            value={user?.settings.language || 'english'}
+            value={user?.settings.language || "english"}
             onValueChange={(value) => updateSetting("language", value)}
           >
             <SelectTrigger>
@@ -678,7 +695,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-2">
           <Label>Region</Label>
           <Select
-            value={user?.settings.region || 'us'}
+            value={user?.settings.region || "us"}
             onValueChange={(value) => updateSetting("region", value)}
           >
             <SelectTrigger>
@@ -727,7 +744,7 @@ const Settings: React.FC<SettingsProps> = ({
             <div className="space-y-2">
               <Label>Voice Model</Label>
               <Select
-                value={user?.settings.voiceModel || 'natural'}
+                value={user?.settings.voiceModel || "natural"}
                 onValueChange={(value) => updateSetting("voiceModel", value)}
               >
                 <SelectTrigger>

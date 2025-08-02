@@ -9,9 +9,9 @@ export interface User {
 }
 
 export interface UserSettings {
-  theme: 'light' | 'dark' | 'system';
-  fontSize: 'small' | 'medium' | 'large' | 'extra-large';
-  density: 'compact' | 'comfortable' | 'spacious';
+  theme: "light" | "dark" | "system";
+  fontSize: "small" | "medium" | "large" | "extra-large";
+  density: "compact" | "comfortable" | "spacious";
   emailNotifications: boolean;
   pushNotifications: boolean;
   soundEnabled: boolean;
@@ -35,7 +35,7 @@ export interface UserSettings {
 export interface Message {
   id: string;
   chatId: string;
-  type: 'user' | 'assistant' | 'system';
+  type: "user" | "assistant" | "system";
   content: string;
   timestamp: string;
   attachments?: FileAttachment[];
@@ -84,7 +84,7 @@ export interface ChatModel {
   id: string;
   name: string;
   description: string;
-  category: 'general' | 'creative' | 'code' | 'analysis';
+  category: "general" | "creative" | "code" | "analysis";
   isAvailable: boolean;
 }
 

@@ -50,7 +50,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onDeleteChat,
   isLoading = false,
 }) => {
-
   const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (onDeleteChat) {

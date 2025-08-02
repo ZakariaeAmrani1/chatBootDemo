@@ -2,10 +2,20 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { getChats, getChatMessages, createChat, sendMessage, deleteChat } from "./routes/chats";
+import {
+  getChats,
+  getChatMessages,
+  createChat,
+  sendMessage,
+  deleteChat,
+} from "./routes/chats";
 import { getCurrentUser, updateUser, updateUserSettings } from "./routes/users";
 import { uploadFiles, serveFile, getFileInfo } from "./routes/files";
-import { getDataStats, clearChatHistory, clearUploadedFiles } from "./routes/data";
+import {
+  getDataStats,
+  clearChatHistory,
+  clearUploadedFiles,
+} from "./routes/data";
 
 export function createServer() {
   const app = express();

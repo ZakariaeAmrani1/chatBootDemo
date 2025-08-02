@@ -40,11 +40,14 @@ const Chatbot = () => {
     await chatService.createChat({
       title: "New Chat",
       model: selectedModel,
-      message: message // This can be undefined for empty chats
+      message: message, // This can be undefined for empty chats
     });
   };
 
-  const addMessage = async (content: string, attachments?: FileAttachment[]) => {
+  const addMessage = async (
+    content: string,
+    attachments?: FileAttachment[],
+  ) => {
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
@@ -53,22 +56,22 @@ const Chatbot = () => {
         await chatService.createChat({
           title: "New Chat",
           model: selectedModel,
-          message: content
+          message: content,
         });
       } else {
         // Send message to existing chat
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
-          message: content
+          message: content,
         });
       }
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error("Failed to send message:", error);
     }
   };
 
   const handleChatSelect = async (chatId: string) => {
-    const chat = chatState.chats.find(c => c.id === chatId);
+    const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
       await chatService.selectChat(chat);
     }
@@ -103,7 +106,7 @@ const Chatbot = () => {
       >
         <ChatSidebar
           chats={chatState.chats}
-          currentChatId={chatState.currentChat?.id || ''}
+          currentChatId={chatState.currentChat?.id || ""}
           onChatSelect={handleChatSelect}
           onNewChat={createNewChat}
           onCloseSidebar={() => setSidebarOpen(false)}
