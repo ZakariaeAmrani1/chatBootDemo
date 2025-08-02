@@ -294,10 +294,31 @@ const Settings: React.FC<SettingsProps> = ({
 
   const renderProfile = () => (
     <div className="space-y-6">
-      <div>
+      <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           Manage your personal information and preferences.
         </p>
+        {(hasUnsavedChanges || isSaving) && (
+          <div className="flex items-center text-sm text-muted-foreground">
+            {isSaving ? (
+              <>
+                <div className="animate-spin rounded-full h-3 w-3 border-b border-primary mr-2"></div>
+                Saving...
+              </>
+            ) : hasUnsavedChanges ? (
+              <>
+                <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
+                Unsaved changes
+              </>
+            ) : null}
+          </div>
+        )}
+        {lastSaveTime && !hasUnsavedChanges && !isSaving && (
+          <div className="flex items-center text-sm text-green-600">
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+            Saved at {lastSaveTime.toLocaleTimeString()}
+          </div>
+        )}
       </div>
 
       <div className="space-y-4">
