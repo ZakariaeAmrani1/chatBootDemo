@@ -284,6 +284,7 @@ const Settings: React.FC<SettingsProps> = ({
   const settingsMenu = [
     { id: "overview", label: "Overview", icon: Settings2 },
     { id: "profile", label: "Profile", icon: User },
+    { id: "app", label: "App Customization", icon: Smartphone },
     { id: "appearance", label: "Appearance", icon: Palette },
     { id: "notifications", label: "Notifications", icon: Bell },
     { id: "privacy", label: "Privacy & Security", icon: Shield },
