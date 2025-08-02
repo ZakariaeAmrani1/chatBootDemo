@@ -26,6 +26,7 @@ const Chatbot = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
   // Theme context for applying user's appearance settings
