@@ -14,7 +14,7 @@ interface ChatAreaProps {
   onModelChange: (modelId: string) => void;
 }
 
-const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
+const ChatArea: React.FC<ChatAreaProps> = ({ messages, selectedModel, onModelChange }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
