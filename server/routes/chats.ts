@@ -244,8 +244,22 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
-// Simple AI response generator for simulation
-function generateAIResponse(userMessage: string): string {
+// AI response generator with Grok API integration
+async function generateAIResponse(userMessage: string, userId: string = "user-1"): Promise<string> {
+  // Try to get user's Grok API key
+  try {
+    const user = DataManager.getUserById(userId);
+    const grokApiKey = user?.settings?.grokApiKey;
+
+    if (grokApiKey && grokApiKey.trim()) {
+      // Use Grok API
+      return await callGrokAPI(userMessage, grokApiKey);
+    }
+  } catch (error) {
+    console.error("Error accessing user API key:", error);
+  }
+
+  // Fallback to simulated responses
   const responses = [
     "I understand what you're asking. Let me help you with that.",
     "That's an interesting question! Here's what I think...",
