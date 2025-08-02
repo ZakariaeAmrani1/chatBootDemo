@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
+import ShareModal from "@/components/ShareModal";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
