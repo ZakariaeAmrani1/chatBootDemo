@@ -146,7 +146,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="border-t border-border bg-background p-4">
+    <div className=" bg-background p-4">
       <div className="max-w-4xl mx-auto space-y-4">
         {/* Attached Files Display */}
         {attachedFiles.length > 0 && (
@@ -204,7 +204,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 placeholder="Message ChatGPT..."
                 disabled={isSending || disabled}
                 className={cn(
-                  "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none min-h-[44px] max-h-[200px]",
+                  "resize-none border-none focus:border-none focus-visible:ring-0 focus:outline-none focus:shadow-none",
+                  "bg-transparent px-4 py-3 min-h-[44px] max-h-[200px]",
                   "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
                   "transition-all duration-300",
                   isSending && "opacity-70",
