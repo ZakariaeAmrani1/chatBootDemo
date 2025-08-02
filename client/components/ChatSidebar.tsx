@@ -278,7 +278,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 </TooltipTrigger>
                 <TooltipContent side="right">
                   <div className="text-left">
-                    <p className="font-semibold">{user?.displayName || "User"}</p>
+                    <p className="font-semibold">
+                      {user?.displayName || "User"}
+                    </p>
                     <p className="text-xs text-muted-foreground">
                       {user?.email || "user@example.com"}
                     </p>

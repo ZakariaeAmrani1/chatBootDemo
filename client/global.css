@@ -154,16 +154,39 @@
     --spacing-factor: 0.75;
   }
 
-  .density-compact .p-2 { padding: calc(0.5rem * 0.75); }
-  .density-compact .p-3 { padding: calc(0.75rem * 0.75); }
-  .density-compact .p-4 { padding: calc(1rem * 0.75); }
-  .density-compact .p-6 { padding: calc(1.5rem * 0.75); }
-  .density-compact .py-2 { padding-top: calc(0.5rem * 0.75); padding-bottom: calc(0.5rem * 0.75); }
-  .density-compact .py-3 { padding-top: calc(0.75rem * 0.75); padding-bottom: calc(0.75rem * 0.75); }
-  .density-compact .py-4 { padding-top: calc(1rem * 0.75); padding-bottom: calc(1rem * 0.75); }
-  .density-compact .gap-2 { gap: calc(0.5rem * 0.75); }
-  .density-compact .gap-3 { gap: calc(0.75rem * 0.75); }
-  .density-compact .gap-4 { gap: calc(1rem * 0.75); }
+  .density-compact .p-2 {
+    padding: calc(0.5rem * 0.75);
+  }
+  .density-compact .p-3 {
+    padding: calc(0.75rem * 0.75);
+  }
+  .density-compact .p-4 {
+    padding: calc(1rem * 0.75);
+  }
+  .density-compact .p-6 {
+    padding: calc(1.5rem * 0.75);
+  }
+  .density-compact .py-2 {
+    padding-top: calc(0.5rem * 0.75);
+    padding-bottom: calc(0.5rem * 0.75);
+  }
+  .density-compact .py-3 {
+    padding-top: calc(0.75rem * 0.75);
+    padding-bottom: calc(0.75rem * 0.75);
+  }
+  .density-compact .py-4 {
+    padding-top: calc(1rem * 0.75);
+    padding-bottom: calc(1rem * 0.75);
+  }
+  .density-compact .gap-2 {
+    gap: calc(0.5rem * 0.75);
+  }
+  .density-compact .gap-3 {
+    gap: calc(0.75rem * 0.75);
+  }
+  .density-compact .gap-4 {
+    gap: calc(1rem * 0.75);
+  }
 
   .density-comfortable {
     --spacing-factor: 1;
@@ -173,21 +196,50 @@
     --spacing-factor: 1.25;
   }
 
-  .density-spacious .p-2 { padding: calc(0.5rem * 1.25); }
-  .density-spacious .p-3 { padding: calc(0.75rem * 1.25); }
-  .density-spacious .p-4 { padding: calc(1rem * 1.25); }
-  .density-spacious .p-6 { padding: calc(1.5rem * 1.25); }
-  .density-spacious .py-2 { padding-top: calc(0.5rem * 1.25); padding-bottom: calc(0.5rem * 1.25); }
-  .density-spacious .py-3 { padding-top: calc(0.75rem * 1.25); padding-bottom: calc(0.75rem * 1.25); }
-  .density-spacious .py-4 { padding-top: calc(1rem * 1.25); padding-bottom: calc(1rem * 1.25); }
-  .density-spacious .gap-2 { gap: calc(0.5rem * 1.25); }
-  .density-spacious .gap-3 { gap: calc(0.75rem * 1.25); }
-  .density-spacious .gap-4 { gap: calc(1rem * 1.25); }
+  .density-spacious .p-2 {
+    padding: calc(0.5rem * 1.25);
+  }
+  .density-spacious .p-3 {
+    padding: calc(0.75rem * 1.25);
+  }
+  .density-spacious .p-4 {
+    padding: calc(1rem * 1.25);
+  }
+  .density-spacious .p-6 {
+    padding: calc(1.5rem * 1.25);
+  }
+  .density-spacious .py-2 {
+    padding-top: calc(0.5rem * 1.25);
+    padding-bottom: calc(0.5rem * 1.25);
+  }
+  .density-spacious .py-3 {
+    padding-top: calc(0.75rem * 1.25);
+    padding-bottom: calc(0.75rem * 1.25);
+  }
+  .density-spacious .py-4 {
+    padding-top: calc(1rem * 1.25);
+    padding-bottom: calc(1rem * 1.25);
+  }
+  .density-spacious .gap-2 {
+    gap: calc(0.5rem * 1.25);
+  }
+  .density-spacious .gap-3 {
+    gap: calc(0.75rem * 1.25);
+  }
+  .density-spacious .gap-4 {
+    gap: calc(1rem * 1.25);
+  }
 
   /* Typewriter cursor animation */
   @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
   }
 
   .typewriter-cursor {

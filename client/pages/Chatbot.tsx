@@ -59,13 +59,22 @@ const Chatbot = () => {
   // Helper functions to apply appearance settings
   const applyFontSize = (fontSize: string) => {
     const root = document.documentElement;
-    root.classList.remove('font-small', 'font-medium', 'font-large', 'font-extra-large');
+    root.classList.remove(
+      "font-small",
+      "font-medium",
+      "font-large",
+      "font-extra-large",
+    );
     root.classList.add(`font-${fontSize}`);
   };
 
   const applyDensity = (density: string) => {
     const root = document.documentElement;
-    root.classList.remove('density-compact', 'density-comfortable', 'density-spacious');
+    root.classList.remove(
+      "density-compact",
+      "density-comfortable",
+      "density-spacious",
+    );
     root.classList.add(`density-${density}`);
   };
 

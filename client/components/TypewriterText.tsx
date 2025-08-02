@@ -44,7 +44,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         setIsComplete(true);
         onComplete?.();
         clearInterval(interval);
-        
+
         // Hide cursor after a delay
         setTimeout(() => {
           setShowBlinkingCursor(false);
@@ -61,9 +61,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         {displayedText}
       </span>
       {showCursor && showBlinkingCursor && (
-        <span
-          className="inline-block w-0.5 h-5 bg-primary ml-0.5 typewriter-cursor"
-        />
+        <span className="inline-block w-0.5 h-5 bg-primary ml-0.5 typewriter-cursor" />
       )}
     </span>
   );

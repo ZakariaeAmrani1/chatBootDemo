@@ -215,7 +215,7 @@ const Settings: React.FC<SettingsProps> = ({
       setHasUnsavedChanges(true);
 
       // Update local state immediately for responsive UI
-      setUser(prev => prev ? { ...prev, [key]: value } : null);
+      setUser((prev) => (prev ? { ...prev, [key]: value } : null));
     } else {
       // For settings (including appearance), update immediately with auto-save
       updateUserSettings({ [key]: value });
@@ -248,7 +248,12 @@ const Settings: React.FC<SettingsProps> = ({
   const applyFontSize = (fontSize: string) => {
     const root = document.documentElement;
     // Remove existing font size classes
-    root.classList.remove('font-small', 'font-medium', 'font-large', 'font-extra-large');
+    root.classList.remove(
+      "font-small",
+      "font-medium",
+      "font-large",
+      "font-extra-large",
+    );
     // Add new font size class
     root.classList.add(`font-${fontSize}`);
   };
@@ -256,7 +261,11 @@ const Settings: React.FC<SettingsProps> = ({
   const applyDensity = (density: string) => {
     const root = document.documentElement;
     // Remove existing density classes
-    root.classList.remove('density-compact', 'density-comfortable', 'density-spacious');
+    root.classList.remove(
+      "density-compact",
+      "density-comfortable",
+      "density-spacious",
+    );
     // Add new density class
     root.classList.add(`density-${density}`);
   };
@@ -392,7 +401,7 @@ const Settings: React.FC<SettingsProps> = ({
               className={cn(
                 hasUnsavedChanges && pendingChanges.displayName !== undefined
                   ? "border-orange-300 focus:border-orange-500"
-                  : ""
+                  : "",
               )}
             />
           </div>
@@ -407,7 +416,7 @@ const Settings: React.FC<SettingsProps> = ({
               className={cn(
                 hasUnsavedChanges && pendingChanges.email !== undefined
                   ? "border-orange-300 focus:border-orange-500"
-                  : ""
+                  : "",
               )}
             />
           </div>
@@ -425,7 +434,7 @@ const Settings: React.FC<SettingsProps> = ({
             className={cn(
               hasUnsavedChanges && pendingChanges.bio !== undefined
                 ? "border-orange-300 focus:border-orange-500"
-                : ""
+                : "",
             )}
           />
         </div>
@@ -434,7 +443,8 @@ const Settings: React.FC<SettingsProps> = ({
       {hasUnsavedChanges && (
         <div className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg">
           <p className="text-sm text-orange-700">
-            You have unsaved changes. Click "Save Now" or use the "Save Changes" button to save.
+            You have unsaved changes. Click "Save Now" or use the "Save Changes"
+            button to save.
           </p>
           <Button
             size="sm"
@@ -685,9 +695,14 @@ const Settings: React.FC<SettingsProps> = ({
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Your API key is stored securely and used to enable AI chat functionality.
-            Get your key from{" "}
-            <a href="https://console.groq.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            Your API key is stored securely and used to enable AI chat
+            functionality. Get your key from{" "}
+            <a
+              href="https://console.groq.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
               Groq Console
             </a>
           </p>
@@ -1172,10 +1187,20 @@ const Settings: React.FC<SettingsProps> = ({
                   </Button>
                   <Button
                     className="w-full md:w-auto"
-                    onClick={activeSection === "profile" ? handleSaveProfileChanges : undefined}
-                    disabled={activeSection === "profile" ? (!hasUnsavedChanges || isSaving) : false}
+                    onClick={
+                      activeSection === "profile"
+                        ? handleSaveProfileChanges
+                        : undefined
+                    }
+                    disabled={
+                      activeSection === "profile"
+                        ? !hasUnsavedChanges || isSaving
+                        : false
+                    }
                   >
-                    {activeSection === "profile" && isSaving ? "Saving..." : "Save Changes"}
+                    {activeSection === "profile" && isSaving
+                      ? "Saving..."
+                      : "Save Changes"}
                   </Button>
                 </div>
               </div>

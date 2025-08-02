@@ -26,6 +26,15 @@
       "updatedAt": "2025-08-02T15:05:45.803Z",
       "messageCount": 4,
       "userId": "user-1"
+    },
+    {
+      "id": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "title": "New Chat",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T15:06:22.102Z",
+      "updatedAt": "2025-08-02T15:06:24.379Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -112,6 +121,20 @@
       "type": "assistant",
       "content": "I'm just a language model, I don't have emotions or feelings like humans do. However, I'm functioning properly and ready to assist you with any questions or tasks you may have! How can I help you today?",
       "timestamp": "2025-08-02T15:05:45.803Z"
+    },
+    {
+      "id": "308f8524-2884-4aae-af13-d2833c10d428",
+      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-02T15:06:22.102Z"
+    },
+    {
+      "id": "ba49a87c-6845-4cc0-8f50-f1eed1f1ed9b",
+      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "type": "assistant",
+      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
+      "timestamp": "2025-08-02T15:06:24.379Z"
     }
   ]
 }

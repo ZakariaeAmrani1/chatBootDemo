@@ -10,33 +10,44 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 // Function to call Grok API
-async function callGrokAPI(userMessage: string, apiKey: string): Promise<string> {
+async function callGrokAPI(
+  userMessage: string,
+  apiKey: string,
+): Promise<string> {
   try {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192", // Fast Llama model
+          messages: [
+            {
+              role: "user",
+              content: userMessage,
+            },
+          ],
+          max_tokens: 1000,
+          temperature: 0.7,
+        }),
       },
-      body: JSON.stringify({
-        model: "llama3-8b-8192", // Fast Llama model
-        messages: [
-          {
-            role: "user",
-            content: userMessage,
-          },
-        ],
-        max_tokens: 1000,
-        temperature: 0.7,
-      }),
-    });
+    );
 
     if (!response.ok) {
-      throw new Error(`Grok API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Grok API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data = await response.json();
-    return data.choices[0]?.message?.content || "I apologize, but I couldn't generate a response. Please try again.";
+    return (
+      data.choices[0]?.message?.content ||
+      "I apologize, but I couldn't generate a response. Please try again."
+    );
   } catch (error) {
     console.error("Grok API error:", error);
     return "I'm currently unable to connect to the AI service. Please check your API key or try again later.";
@@ -245,7 +256,10 @@ export const deleteChat: RequestHandler = (req, res) => {
 };
 
 // AI response generator with Grok API integration
-async function generateAIResponse(userMessage: string, userId: string = "user-1"): Promise<string> {
+async function generateAIResponse(
+  userMessage: string,
+  userId: string = "user-1",
+): Promise<string> {
   // Try to get user's Grok API key
   try {
     const user = DataManager.getUserById(userId);
