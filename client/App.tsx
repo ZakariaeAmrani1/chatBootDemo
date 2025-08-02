@@ -24,9 +24,6 @@ const queryClient = new QueryClient();
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
 
-  // Debug authentication state
-  console.log("ProtectedRoute - isAuthenticated:", isAuthenticated, "isLoading:", isLoading, "user:", user);
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -40,10 +37,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  // Additional token check
+  // Strict authentication check
   const token = localStorage.getItem("authToken");
   if (!isAuthenticated || !user || !token) {
-    console.log("Redirecting to login - not authenticated");
     return <Navigate to="/login" replace />;
   }
 
