@@ -39,36 +39,36 @@ const Chatbot = () => {
   // Version configurations with colors
   const versions = [
     {
-      name: "Chatboot Free",
-      color: "bg-slate-500",
-      textColor: "text-slate-600",
+      name: "Free",
+      fullName: "Chatboot Free",
+      color: "text-slate-600",
       bgColor: "bg-slate-50",
-      darkBgColor: "dark:bg-slate-900/50"
+      borderColor: "border-slate-200"
     },
     {
-      name: "Chatboot Plus",
-      color: "bg-blue-500",
-      textColor: "text-blue-600",
+      name: "Plus",
+      fullName: "Chatboot Plus",
+      color: "text-blue-600",
       bgColor: "bg-blue-50",
-      darkBgColor: "dark:bg-blue-900/50"
+      borderColor: "border-blue-200"
     },
     {
-      name: "Chatboot Pro",
-      color: "bg-purple-500",
-      textColor: "text-purple-600",
+      name: "Pro",
+      fullName: "Chatboot Pro",
+      color: "text-purple-600",
       bgColor: "bg-purple-50",
-      darkBgColor: "dark:bg-purple-900/50"
+      borderColor: "border-purple-200"
     },
     {
-      name: "Chatboot Enterprise",
-      color: "bg-gradient-to-r from-amber-500 to-orange-500",
-      textColor: "text-orange-600",
-      bgColor: "bg-gradient-to-r from-amber-50 to-orange-50",
-      darkBgColor: "dark:bg-gradient-to-r dark:from-amber-900/50 dark:to-orange-900/50"
+      name: "Enterprise",
+      fullName: "Chatboot Enterprise",
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200"
     }
   ];
 
-  const getCurrentVersion = () => versions.find(v => v.name === selectedVersion) || versions[2];
+  const getCurrentVersion = () => versions.find(v => v.fullName === selectedVersion) || versions[2];
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
