@@ -267,6 +267,13 @@ class ChatService {
   clearError(): void {
     this.setState({ error: null });
   }
+
+  updateMessage(messageId: string, updates: Partial<Message>): void {
+    const updatedMessages = this.state.messages.map(msg =>
+      msg.id === messageId ? { ...msg, ...updates } : msg
+    );
+    this.setState({ messages: updatedMessages });
+  }
 }
 
 export const chatService = new ChatService();
