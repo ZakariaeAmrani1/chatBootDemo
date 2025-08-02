@@ -382,6 +382,26 @@ const Settings: React.FC<SettingsProps> = ({
         </div>
       </div>
 
+      {hasUnsavedChanges && (
+        <div className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg">
+          <p className="text-sm text-orange-700">
+            You have unsaved changes. They will be saved automatically in a moment.
+          </p>
+          <Button
+            size="sm"
+            onClick={() => {
+              updateUserProfile(pendingChanges);
+              setPendingChanges({});
+              setHasUnsavedChanges(false);
+              setLastSaveTime(new Date());
+            }}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Now"}
+          </Button>
+        </div>
+      )}
+
       <Separator />
 
       <div className="space-y-4">
