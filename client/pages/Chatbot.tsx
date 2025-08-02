@@ -103,6 +103,21 @@ const Chatbot = () => {
     chatService.loadChats();
   };
 
+  const handleUserRefresh = async () => {
+    // Reload user data after profile updates
+    try {
+      const response = await apiService.getCurrentUser();
+      if (response.success && response.data) {
+        setUser(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to reload user data:", error);
+    }
+
+    // Also refresh chats if needed
+    handleRefresh();
+  };
+
   return (
     <div className="flex h-screen bg-background transition-colors duration-300">
       {/* Mobile sidebar overlay */}
