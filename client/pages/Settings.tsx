@@ -358,12 +358,40 @@ const Settings: React.FC<SettingsProps> = ({
 
       <div className="space-y-4">
         <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-            U
+          <div className="w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-white font-bold text-xl">
+                {user?.displayName?.charAt(0).toUpperCase() || "U"}
+              </span>
+            )}
           </div>
-          <Button variant="outline" size="sm">
-            Change Avatar
-          </Button>
+          <div>
+            <input
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+              onChange={handleAvatarUpload}
+              className="hidden"
+              id="avatar-upload"
+              disabled={isUploadingAvatar}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => document.getElementById("avatar-upload")?.click()}
+              disabled={isUploadingAvatar}
+            >
+              {isUploadingAvatar ? "Uploading..." : "Change Avatar"}
+            </Button>
+            <p className="text-xs text-muted-foreground mt-1">
+              JPEG, PNG, GIF, WebP up to 5MB
+            </p>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
