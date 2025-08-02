@@ -5,8 +5,8 @@
       "title": "good",
       "model": "gpt-4",
       "createdAt": "2025-08-02T14:23:17.969Z",
-      "updatedAt": "2025-08-02T14:23:24.762Z",
-      "messageCount": 4,
+      "updatedAt": "2025-08-02T14:25:58.379Z",
+      "messageCount": 6,
       "userId": "user-1"
     },
     {
@@ -15,6 +15,15 @@
       "model": "gpt-4",
       "createdAt": "2025-08-02T14:24:19.965Z",
       "updatedAt": "2025-08-02T14:24:27.043Z",
+      "messageCount": 4,
+      "userId": "user-1"
+    },
+    {
+      "id": "5563081e-4af9-4f44-93cb-3aa261cbe483",
+      "title": "test",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T14:25:23.068Z",
+      "updatedAt": "2025-08-02T14:25:31.685Z",
       "messageCount": 4,
       "userId": "user-1"
     }
@@ -75,6 +84,48 @@
       "type": "assistant",
       "content": "Based on your message, I can provide some insights. Your message about \"good\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
       "timestamp": "2025-08-02T14:24:27.043Z"
+    },
+    {
+      "id": "4fd50c5f-984b-4de3-894c-788403e1f7cd",
+      "chatId": "5563081e-4af9-4f44-93cb-3aa261cbe483",
+      "type": "user",
+      "content": "zz",
+      "timestamp": "2025-08-02T14:25:23.068Z"
+    },
+    {
+      "id": "6dcc23fd-5c96-49fd-b049-19c450201376",
+      "chatId": "5563081e-4af9-4f44-93cb-3aa261cbe483",
+      "type": "assistant",
+      "content": "That's an interesting question! Here's what I think... Your message about \"zz\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-02T14:25:25.068Z"
+    },
+    {
+      "id": "e5402fcc-84d5-44eb-b1d2-64df3e39bd7f",
+      "chatId": "5563081e-4af9-4f44-93cb-3aa261cbe483",
+      "type": "user",
+      "content": "test",
+      "timestamp": "2025-08-02T14:25:30.184Z"
+    },
+    {
+      "id": "f8e900c4-cf0c-412e-9c15-b3144cfd93d3",
+      "chatId": "5563081e-4af9-4f44-93cb-3aa261cbe483",
+      "type": "assistant",
+      "content": "That's a great point. Let me elaborate on that topic. Your message about \"test\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-02T14:25:31.685Z"
+    },
+    {
+      "id": "8081a982-0a21-4f23-b146-2be7a3c52c63",
+      "chatId": "e8d340a2-17e7-4176-bdf6-1fe341a230fb",
+      "type": "user",
+      "content": "good",
+      "timestamp": "2025-08-02T14:25:56.879Z"
+    },
+    {
+      "id": "8e03e52e-4eea-45da-8e43-93212b85c17c",
+      "chatId": "e8d340a2-17e7-4176-bdf6-1fe341a230fb",
+      "type": "assistant",
+      "content": "Thank you for your message. I'll do my best to assist you. Your message about \"good\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-02T14:25:58.379Z"
     }
   ]
 }
