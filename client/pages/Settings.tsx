@@ -52,6 +52,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import SuccessDialog from "@/components/SuccessDialog";
 import { useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/contexts/AuthContext";
+import { getAppName, getAppLogo } from "@/lib/app-config";
 
 interface SettingsProps {
   onClose: () => void;
