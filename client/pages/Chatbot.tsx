@@ -7,11 +7,21 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
+export interface FileAttachment {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  url?: string;
+  data?: string;
+}
+
 export interface Message {
   id: string;
   content: string;
   sender: "user" | "assistant";
   timestamp: Date;
+  attachments?: FileAttachment[];
 }
 
 export interface Chat {
