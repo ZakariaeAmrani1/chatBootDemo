@@ -131,7 +131,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             </Tooltip>
           ) : (
             <Button
-              onClick={onNewChat}
+              onClick={() => onNewChat()}
               className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border"
               variant="outline"
             >
