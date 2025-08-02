@@ -51,6 +51,7 @@ interface SettingsProps {
   onClose: () => void;
   onBack?: () => void;
   isModal?: boolean;
+  onRefresh?: () => void;
 }
 
 type SettingsSection =
