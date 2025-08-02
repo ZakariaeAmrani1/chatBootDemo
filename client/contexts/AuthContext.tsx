@@ -1,0 +1,144 @@
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { User } from '@shared/types';
+import { apiService } from '@/services/api';
+
+interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (data: { displayName: string; email: string; password: string }) => Promise<{ success: boolean; error?: string }>;
+  logout: () => void;
+  updateUser: (userData: User) => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is already logged in on app start
+    const checkAuthStatus = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const savedUser = localStorage.getItem('currentUser');
+        
+        if (token && savedUser) {
+          // Verify token is still valid
+          const response = await apiService.verifyToken();
+          if (response.success && response.data) {
+            setUser(response.data);
+          } else {
+            // Token is invalid, clear storage
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+          }
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        // Clear potentially corrupted data
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('currentUser');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await apiService.login(email, password);
+      
+      if (response.success && response.data) {
+        const { user: userData, token } = response.data;
+        
+        // Store auth data
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        
+        // Update state
+        setUser(userData);
+        
+        return { success: true };
+      } else {
+        return { success: false, error: response.error || 'Login failed' };
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, error: 'An error occurred during login' };
+    }
+  };
+
+  const register = async (data: { displayName: string; email: string; password: string }): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await apiService.register(data);
+      
+      if (response.success && response.data) {
+        const { user: userData, token } = response.data;
+        
+        // Store auth data
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        
+        // Update state
+        setUser(userData);
+        
+        return { success: true };
+      } else {
+        return { success: false, error: response.error || 'Registration failed' };
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      return { success: false, error: 'An error occurred during registration' };
+    }
+  };
+
+  const logout = () => {
+    // Clear auth data
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('currentUser');
+    
+    // Update state
+    setUser(null);
+    
+    // Call API logout if needed
+    apiService.logout();
+  };
+
+  const updateUser = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem('currentUser', JSON.stringify(userData));
+  };
+
+  const value: AuthContextType = {
+    user,
+    isAuthenticated: !!user,
+    isLoading,
+    login,
+    register,
+    logout,
+    updateUser,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
