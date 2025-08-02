@@ -184,12 +184,12 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             </Avatar>
             <div className="flex-1 max-w-3xl mr-12">
               <div className="bg-transparent rounded-2xl px-6 py-4">
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-end gap-2 text-muted-foreground">
                   <span className="text-sm">thinking</span>
-                  <div className="flex gap-1">
-                    <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-current rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  <div className="flex gap-1 items-end">
+                    <div className="w-1 h-1 bg-current rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1 h-1 bg-current rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-1 h-1 bg-current rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </div>
               </div>
