@@ -441,7 +441,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
                     className={cn(
                       "h-8 w-8 p-0 rounded-lg transition-all duration-200",
                       isRecording
-                        ? "text-red-500 bg-red-50 hover:bg-red-100"
+                        ? "text-primary bg-primary/10 hover:bg-primary/20"
                         : hasPermission === false
                         ? "text-red-400 hover:bg-red-50"
                         : "hover:bg-muted text-muted-foreground",
