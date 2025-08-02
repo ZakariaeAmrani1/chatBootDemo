@@ -188,6 +188,7 @@ export const sendMessage: RequestHandler = (req, res) => {
       type: "user",
       content: message,
       timestamp: now,
+      attachments: attachments,
     };
 
     const addedMessage = DataManager.addMessage(userMessage);
