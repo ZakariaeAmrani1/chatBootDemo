@@ -44,8 +44,12 @@ const Chatbot = () => {
         message: message
       });
     } else {
-      // Just create empty chat (will be done on first message)
-      // For now, do nothing - chat will be created when user sends first message
+      // Create empty chat and select it
+      await chatService.createChat({
+        title: "New Chat",
+        model: selectedModel,
+        message: "Hello" // Temporary message to trigger chat creation
+      });
     }
   };
 
