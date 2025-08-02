@@ -148,7 +148,6 @@ const Chatbot = () => {
     content: string,
     attachments?: FileAttachment[],
   ) => {
-    console.log('addMessage called with:', { content, attachments });
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
