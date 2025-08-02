@@ -995,6 +995,28 @@ const Settings: React.FC<SettingsProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        open={showConfirmDialog}
+        onOpenChange={setShowConfirmDialog}
+        title="Clear Chat History"
+        description="Are you sure you want to clear all chat history? This action cannot be undone and will permanently delete all your conversations."
+        confirmText="Clear All"
+        cancelText="Cancel"
+        onConfirm={handleConfirmClear}
+        destructive={true}
+      />
+
+      {/* Success Dialog */}
+      <SuccessDialog
+        open={showSuccessDialog}
+        onOpenChange={setShowSuccessDialog}
+        title="Chat History Cleared"
+        description="Your chat history has been successfully cleared. All conversations have been permanently removed."
+        buttonText="Continue"
+        onClose={handleSuccessClose}
+      />
     </div>
   );
 };
