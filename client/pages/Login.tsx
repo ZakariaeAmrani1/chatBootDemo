@@ -9,7 +9,7 @@ import { Eye, EyeOff, MessageSquare, Mail, Lock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.email || !formData.password) {
       setError("Please fill in all fields");
       return;
@@ -39,24 +39,14 @@ const Login: React.FC = () => {
     setLoading(true);
     setError("");
 
-    try {
-      const response = await apiService.login(formData.email, formData.password);
-      
-      if (response.success && response.data) {
-        // Store auth token or session info
-        localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(response.data.user));
-        
-        // Redirect to chat
-        navigate("/chat");
-      } else {
-        setError(response.error || "Login failed");
-      }
-    } catch (error) {
-      setError("An error occurred during login");
-    } finally {
-      setLoading(false);
+    const result = await login(formData.email, formData.password);
+
+    if (!result.success) {
+      setError(result.error || "Login failed");
     }
+    // If successful, AuthContext will handle the redirect
+
+    setLoading(false);
   };
 
   const togglePasswordVisibility = () => {
