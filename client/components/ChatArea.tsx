@@ -10,7 +10,7 @@ import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import FadeInText from "@/components/FadeInText";
 import { useTheme } from "@/components/ThemeProvider";
-import type { Message } from "@shared/types";
+import type { Message, User } from "@shared/types";
 
 interface ChatAreaProps {
   messages: Message[];
