@@ -119,15 +119,30 @@ export default function Index() {
             </div>
           </div>
 
-          <Link to="/chat">
-            <Button
-              size="lg"
-              className="w-full h-14 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-2xl"
-            >
-              <MessageSquare className="h-6 w-6 mr-3" />
-              Launch Chatbot
-            </Button>
-          </Link>
+          <div className="space-y-4">
+            <Link to="/login">
+              <Button
+                size="lg"
+                className="w-full h-14 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-2xl"
+              >
+                <MessageSquare className="h-6 w-6 mr-3" />
+                Get Started
+              </Button>
+            </Link>
+
+            <div className="flex gap-3">
+              <Link to="/login" className="flex-1">
+                <Button variant="outline" size="lg" className="w-full">
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/register" className="flex-1">
+                <Button variant="outline" size="lg" className="w-full">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
+          </div>
 
           {exampleFromServer && (
             <p className="mt-6 text-sm text-muted-foreground bg-muted rounded-xl p-3">
