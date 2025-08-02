@@ -315,6 +315,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   variant="ghost"
                   size="sm"
                   className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50 opacity-0 group-hover:opacity-100"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenSettings?.();
+                  }}
                 >
                   <Settings className="h-3 w-3" />
                 </Button>
