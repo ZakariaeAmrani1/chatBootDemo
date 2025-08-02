@@ -128,9 +128,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Set up periodic token validation (every 10 minutes)
     const tokenValidationInterval = setInterval(async () => {
-      if (user) {
+      if (user && isMountedRef.current) {
         try {
           const response = await apiService.verifyToken();
+          if (!isMountedRef.current) return; // Check again after async operation
+
           if (!response.success) {
             // Only logout if it's not a network error
             if (!response.error?.includes("Network error") && !response.error?.includes("Failed to fetch")) {
