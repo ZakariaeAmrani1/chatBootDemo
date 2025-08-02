@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Chatbot from "./pages/Chatbot";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
