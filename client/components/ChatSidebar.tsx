@@ -60,13 +60,53 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onToggleCollapse,
   onOpenSettings,
   onDeleteChat,
+  onUpdateChat,
   isLoading = false,
   user,
 }) => {
-  const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
+  const [editingChatId, setEditingChatId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [chatToDelete, setChatToDelete] = useState<string | null>(null);
+
+  const handleDeleteClick = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onDeleteChat) {
-      onDeleteChat(chatId);
+    setChatToDelete(chatId);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (chatToDelete && onDeleteChat) {
+      onDeleteChat(chatToDelete);
+    }
+    setChatToDelete(null);
+    setDeleteConfirmOpen(false);
+  };
+
+  const handleEditClick = (chat: Chat, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingChatId(chat.id);
+    setEditTitle(chat.title);
+  };
+
+  const handleEditSave = async (chatId: string) => {
+    if (editTitle.trim() && onUpdateChat) {
+      await onUpdateChat(chatId, { title: editTitle.trim() });
+    }
+    setEditingChatId(null);
+    setEditTitle("");
+  };
+
+  const handleEditCancel = () => {
+    setEditingChatId(null);
+    setEditTitle("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent, chatId: string) => {
+    if (e.key === "Enter") {
+      handleEditSave(chatId);
+    } else if (e.key === "Escape") {
+      handleEditCancel();
     }
   };
   return (
