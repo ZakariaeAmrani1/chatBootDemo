@@ -7,9 +7,9 @@
       "bio": "Test test",
       "createdAt": "2024-01-01T00:00:00.000Z",
       "settings": {
-        "theme": "light",
-        "fontSize": "large",
-        "density": "comfortable",
+        "theme": "dark",
+        "fontSize": "small",
+        "density": "spacious",
         "emailNotifications": true,
         "pushNotifications": true,
         "soundEnabled": true,
