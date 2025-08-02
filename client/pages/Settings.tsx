@@ -1099,7 +1099,7 @@ const Settings: React.FC<SettingsProps> = ({
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <p className="text-destructive mb-4">Error: {error}</p>
-              <Button onClick={loadUserData}>Try Again</Button>
+              <Button onClick={onClose}>Close</Button>
             </div>
           </div>
         </div>
