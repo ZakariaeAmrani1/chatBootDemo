@@ -656,11 +656,11 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
   };
 
   const containerClasses = isModal
-    ? "fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    ? "fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 md:p-4"
     : "min-h-screen bg-background";
 
   const contentClasses = isModal
-    ? "bg-background rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden"
+    ? "bg-background rounded-lg w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] overflow-hidden"
     : "w-full";
 
   return (
