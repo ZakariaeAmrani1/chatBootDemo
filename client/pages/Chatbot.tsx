@@ -34,7 +34,7 @@ const Chatbot = () => {
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [selectedVersion, setSelectedVersion] = useState("Chatboot Pro");
+  const [selectedVersion, setSelectedVersion] = useState("Chatboot V3");
 
   // Version configurations with colors
   const versions = [
