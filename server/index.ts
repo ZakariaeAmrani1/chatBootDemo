@@ -62,5 +62,9 @@ export function createServer() {
   // Feedback API routes
   app.post("/api/messages/feedback", handleMessageFeedback);
 
+  // Models API routes
+  app.get("/api/models", getModels);
+  app.post("/api/models", addModel);
+
   return app;
 }
