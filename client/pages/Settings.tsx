@@ -223,6 +223,22 @@ const Settings: React.FC<SettingsProps> = ({
     setLastSaveTime(new Date());
   };
 
+  const applyFontSize = (fontSize: string) => {
+    const root = document.documentElement;
+    // Remove existing font size classes
+    root.classList.remove('font-small', 'font-medium', 'font-large', 'font-extra-large');
+    // Add new font size class
+    root.classList.add(`font-${fontSize}`);
+  };
+
+  const applyDensity = (density: string) => {
+    const root = document.documentElement;
+    // Remove existing density classes
+    root.classList.remove('density-compact', 'density-comfortable', 'density-spacious');
+    // Add new density class
+    root.classList.add(`density-${density}`);
+  };
+
   const handleClearChatHistory = () => {
     setShowConfirmDialog(true);
   };
