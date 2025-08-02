@@ -98,6 +98,23 @@ class ApiService {
     return this.request<FileAttachment>(`/files/info/${fileId}`);
   }
 
+  // Data management operations
+  async getDataStats(): Promise<ApiResponse<DataStats>> {
+    return this.request<DataStats>('/data/stats');
+  }
+
+  async clearChatHistory(): Promise<ApiResponse<null>> {
+    return this.request<null>('/data/clear-chats', {
+      method: 'POST',
+    });
+  }
+
+  async clearUploadedFiles(): Promise<ApiResponse<null>> {
+    return this.request<null>('/data/clear-files', {
+      method: 'POST',
+    });
+  }
+
   // Utility method to get file URL
   getFileUrl(filename: string): string {
     return `${API_BASE}/files/${filename}`;
