@@ -274,7 +274,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <TooltipTrigger asChild>
                   <div className="flex justify-center">
                     <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer shadow-sm transition-all duration-200">
-                      U
+                      {user?.displayName?.charAt(0).toUpperCase() || "U"}
                     </div>
                   </div>
                 </TooltipTrigger>
@@ -322,7 +322,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
               <div className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted/50 cursor-pointer group">
                 <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  U
+                  {user?.displayName?.charAt(0).toUpperCase() || "U"}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">
