@@ -47,39 +47,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, selectedModel, onModelCha
         </p>
 
         {/* Model Selection */}
-        <div className="w-full max-w-4xl mb-8">
+        <div className="w-full max-w-4xl">
           <ModelSelectorCards
             selectedModel={selectedModel}
             onModelChange={onModelChange}
           />
-        </div>
-
-        {/* Suggestions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Create image</h4>
-            <p className="text-sm text-muted-foreground">
-              Generate creative and custom images with DALL·E
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Analyze data</h4>
-            <p className="text-sm text-muted-foreground">
-              Upload and analyze documents, spreadsheets, and more
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Summarize text</h4>
-            <p className="text-sm text-muted-foreground">
-              Extract key points from long documents and articles
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Write code</h4>
-            <p className="text-sm text-muted-foreground">
-              Debug and create code in various programming languages
-            </p>
-          </div>
         </div>
       </div>
     );
