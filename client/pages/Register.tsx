@@ -21,9 +21,11 @@ import {
   Check,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/components/ThemeProvider";
 
 const Register: React.FC = () => {
   const { register } = useAuth();
+  const { resolvedTheme } = useTheme();
   const [formData, setFormData] = useState({
     displayName: "",
     email: "",
@@ -127,7 +129,11 @@ const Register: React.FC = () => {
         <div className="text-center">
           <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mb-4">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
+              src={
+                resolvedTheme === "dark"
+                  ? "https://cdn.builder.io/api/v1/image/assets%2Fc773263620b04439b4c3604feae0f6da%2F680de7f4e8714a929d2efe1fd2107b8f?format=webp&width=800"
+                  : "https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
+              }
               alt="ChatNova Logo"
               className="w-16 h-16 rounded-2xl"
             />
