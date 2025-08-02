@@ -52,7 +52,7 @@ export default function Index() {
 
           <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
             Experience the future of AI conversation with our professional
-            Chatboot-like interface featuring modern design, file uploads, voice
+            ChatNova-like interface featuring modern design, file uploads, voice
             recording, and multiple AI models.
           </p>
 
