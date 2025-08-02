@@ -8,6 +8,7 @@ import {
   FileText,
   Camera,
   Loader2,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,10 +19,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModelSelector } from "@/components/ModelSelector";
+import FileAttachmentDisplay from "@/components/FileAttachment";
 import { cn } from "@/lib/utils";
+import type { FileAttachment } from "@/pages/Chatbot";
 
 interface ChatInputProps {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, attachments?: FileAttachment[]) => void;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
@@ -29,13 +32,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
-  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
+  const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (message.trim() && !isSending) {
+    if ((message.trim() || attachedFiles.length > 0) && !isSending) {
       setIsSending(true);
 
       // Animate the message send
@@ -45,8 +48,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         textarea.style.opacity = "0.7";
       }
 
-      // Send the message
-      onSendMessage(message.trim());
+      // Send the message with attachments
+      onSendMessage(message.trim(), attachedFiles.length > 0 ? attachedFiles : undefined);
 
       // Clear and reset
       setTimeout(() => {
@@ -82,7 +85,16 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
   const handleFileSelect = (files: FileList | null) => {
     if (files) {
-      const newFiles = Array.from(files);
+      const newFiles = Array.from(files).map((file) => {
+        const fileAttachment: FileAttachment = {
+          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          url: URL.createObjectURL(file),
+        };
+        return fileAttachment;
+      });
       setAttachedFiles((prev) => [...prev, ...newFiles]);
     }
   };
@@ -95,8 +107,14 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     setIsRecording(!isRecording);
   };
 
-  const removeFile = (index: number) => {
-    setAttachedFiles((prev) => prev.filter((_, i) => i !== index));
+  const removeFile = (attachmentId: string) => {
+    setAttachedFiles((prev) => {
+      const fileToRemove = prev.find(f => f.id === attachmentId);
+      if (fileToRemove?.url) {
+        URL.revokeObjectURL(fileToRemove.url);
+      }
+      return prev.filter(f => f.id !== attachmentId);
+    });
   };
 
   return (
@@ -104,30 +122,33 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
       <div className="max-w-4xl mx-auto space-y-4">
         {/* Attached Files Display */}
         {attachedFiles.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {attachedFiles.map((file, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-2 bg-muted px-3 py-1.5 rounded-lg text-xs border animate-in slide-in-from-bottom-2 duration-300"
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium text-foreground">Attachments ({attachedFiles.length})</h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 text-xs text-muted-foreground hover:text-foreground"
+                onClick={() => setAttachedFiles([])}
               >
-                {file.type.startsWith("image/") ? (
-                  <Image className="h-4 w-4 text-blue-500" />
-                ) : (
-                  <FileText className="h-4 w-4 text-green-500" />
-                )}
-                <span className="truncate max-w-32 font-medium">
-                  {file.name}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-5 w-5 p-0 ml-1 hover:bg-destructive/10 hover:text-destructive rounded-full"
-                  onClick={() => removeFile(index)}
-                >
-                  ×
-                </Button>
-              </div>
-            ))}
+                Clear all
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {attachedFiles.map((attachment) => (
+                <div key={attachment.id} className="relative group">
+                  <FileAttachmentDisplay attachment={attachment} />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="absolute -top-2 -right-2 h-6 w-6 p-0 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-destructive/90"
+                    onClick={() => removeFile(attachment.id)}
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
@@ -183,11 +204,14 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                     <FileText className="h-4 w-4 mr-2 text-blue-500" />
                     Upload file
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      /* Handle photo upload */
-                    }}
-                  >
+                  <DropdownMenuItem onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.multiple = true;
+                    input.onchange = (e) => handleFileSelect((e.target as HTMLInputElement).files);
+                    input.click();
+                  }}>
                     <Image className="h-4 w-4 mr-2 text-green-500" />
                     Upload photo
                   </DropdownMenuItem>
