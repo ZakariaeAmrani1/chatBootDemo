@@ -139,6 +139,19 @@ class ApiService {
     });
   }
 
+  async uploadUserAvatar(
+    userId: string,
+    avatarFile: File,
+  ): Promise<ApiResponse<User>> {
+    const formData = new FormData();
+    formData.append("avatar", avatarFile);
+
+    return this.request<User>(`/user/${userId}/avatar`, {
+      method: "POST",
+      body: formData,
+    });
+  }
+
   // File operations
   async uploadFiles(files: File[]): Promise<ApiResponse<FileAttachment[]>> {
     const formData = new FormData();
