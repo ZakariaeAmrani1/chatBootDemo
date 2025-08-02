@@ -61,19 +61,10 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         {displayedText}
       </span>
       {showCursor && showBlinkingCursor && (
-        <span 
-          className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-pulse"
-          style={{
-            animation: "blink 1s infinite",
-          }}
+        <span
+          className="inline-block w-0.5 h-5 bg-primary ml-0.5 typewriter-cursor"
         />
       )}
-      <style jsx>{`
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
-        }
-      `}</style>
     </span>
   );
 };
