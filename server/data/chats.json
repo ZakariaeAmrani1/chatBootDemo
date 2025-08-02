@@ -80,6 +80,15 @@
       "updatedAt": "2025-08-02T17:16:06.479Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "4d6431e4-6a30-421f-96bc-2925e3264680",
+      "title": "🎤 Voice message",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:20:12.766Z",
+      "updatedAt": "2025-08-02T17:20:14.622Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -284,6 +293,32 @@
       "type": "assistant",
       "content": "📞 \"Hello! I'm leaving you a voice message. 😊",
       "timestamp": "2025-08-02T17:16:06.479Z"
+    },
+    {
+      "id": "86837184-f48f-4fc0-b1c2-b30c33c5bfcd",
+      "chatId": "4d6431e4-6a30-421f-96bc-2925e3264680",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:20:12.865Z",
+      "attachments": [
+        {
+          "id": "de7ed0f6-29fb-4e64-8868-6ed9f058bc09",
+          "name": "voice-message-1754155213877.webm",
+          "size": 50393,
+          "type": "audio/webm",
+          "url": "/api/files/079ca64b-b885-4ee2-90af-5b0f8b8ae9b1.webm",
+          "uploadedAt": "2025-08-02T17:20:12.664Z"
+        }
+      ]
+    },
+    {
+      "id": "cd4fe21e-02a4-44ba-948e-05a4ad86f7b4",
+      "chatId": "4d6431e4-6a30-421f-96bc-2925e3264680",
+      "type": "assistant",
+      "content": "I'd be happy to record a voice message for you! What would you like the message to say?",
+      "timestamp": "2025-08-02T17:20:14.622Z",
+      "liked": true,
+      "disliked": false
     }
   ]
 }

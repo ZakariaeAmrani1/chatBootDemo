@@ -421,43 +421,46 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
                 {/* Voice Recording */}
                 <div className="relative flex items-center gap-2">
-                  {isRecording && (
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-                      <div className="flex items-center gap-1">
-                        <div className="wave-container">
-                          <div className="wave-bar"></div>
-                          <div className="wave-bar"></div>
-                          <div className="wave-bar"></div>
-                          <div className="wave-bar"></div>
-                        </div>
+                  {isRecording ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-3 rounded-lg transition-all duration-200 text-primary bg-primary/10 hover:bg-primary/20 flex items-center gap-2"
+                      onClick={stopRecording}
+                      disabled={isSending || disabled || isUploading}
+                      title="Click to stop recording and send"
+                    >
+                      <div className="wave-container">
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
+                        <div className="wave-bar"></div>
                       </div>
-                      <span>{formatRecordingTime(recordingTime)}</span>
-                    </div>
+                      <span className="text-xs font-medium">Tap to send</span>
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className={cn(
+                        "h-8 w-8 p-0 rounded-lg transition-all duration-200",
+                        hasPermission === false
+                          ? "text-red-400 hover:bg-red-50"
+                          : "hover:bg-muted text-muted-foreground",
+                      )}
+                      onClick={startRecording}
+                      disabled={isSending || disabled || isUploading}
+                      title={hasPermission === false ? "Microphone permission required" : "Start recording"}
+                    >
+                      {hasPermission === false ? (
+                        <MicOff className="h-4 w-4" />
+                      ) : (
+                        <Mic className="h-4 w-4" />
+                      )}
+                    </Button>
                   )}
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "h-8 w-8 p-0 rounded-lg transition-all duration-200",
-                      isRecording
-                        ? "text-primary bg-primary/10 hover:bg-primary/20"
-                        : hasPermission === false
-                        ? "text-red-400 hover:bg-red-50"
-                        : "hover:bg-muted text-muted-foreground",
-                    )}
-                    onClick={toggleRecording}
-                    disabled={isSending || disabled || isUploading}
-                    title={hasPermission === false ? "Microphone permission required" : isRecording ? "Stop recording" : "Start recording"}
-                  >
-                    {isRecording ? (
-                      <Square className="h-4 w-4" />
-                    ) : hasPermission === false ? (
-                      <MicOff className="h-4 w-4" />
-                    ) : (
-                      <Mic className="h-4 w-4" />
-                    )}
-                  </Button>
                 </div>
               </div>
 
