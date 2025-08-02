@@ -16,6 +16,7 @@ import {
   clearChatHistory,
   clearUploadedFiles,
 } from "./routes/data";
+import { handleMessageFeedback } from "./routes/feedback";
 
 export function createServer() {
   const app = express();
@@ -54,6 +55,9 @@ export function createServer() {
   app.get("/api/data/stats", getDataStats);
   app.post("/api/data/clear-chats", clearChatHistory);
   app.post("/api/data/clear-files", clearUploadedFiles);
+
+  // Feedback API routes
+  app.post("/api/messages/feedback", handleMessageFeedback);
 
   return app;
 }
