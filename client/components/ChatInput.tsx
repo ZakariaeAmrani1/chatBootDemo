@@ -71,9 +71,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     <div className="border-t border-border bg-background p-4">
       <div className="max-w-4xl mx-auto">
         {/* Model Selection */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <Select value={selectedModel} onValueChange={setSelectedModel}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-full sm:w-48">
               <SelectValue placeholder="Select model" />
             </SelectTrigger>
             <SelectContent>
@@ -84,8 +84,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
             </SelectContent>
           </Select>
-          
-          <div className="text-sm text-muted-foreground">
+
+          <div className="text-sm text-muted-foreground text-right">
             {message.length}/4000 characters
           </div>
         </div>
