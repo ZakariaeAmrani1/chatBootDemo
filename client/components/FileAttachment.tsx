@@ -60,13 +60,17 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
 
   // For images, show preview
   if (isImage && attachment.url) {
+    const imageClasses = variant === "input"
+      ? "w-16 h-16 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity"
+      : "max-w-xs max-h-64 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity";
+
     return (
       <div className={cn("space-y-2", className)}>
         <div className="relative group">
           <img
             src={attachment.url}
             alt={attachment.name}
-            className="max-w-xs max-h-64 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity"
+            className={imageClasses}
             onClick={handlePreview}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
