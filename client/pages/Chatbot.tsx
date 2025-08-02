@@ -56,6 +56,39 @@ const Chatbot = () => {
     loadUser();
   }, []);
 
+  // Helper functions to apply appearance settings
+  const applyFontSize = (fontSize: string) => {
+    const root = document.documentElement;
+    root.classList.remove('font-small', 'font-medium', 'font-large', 'font-extra-large');
+    root.classList.add(`font-${fontSize}`);
+  };
+
+  const applyDensity = (density: string) => {
+    const root = document.documentElement;
+    root.classList.remove('density-compact', 'density-comfortable', 'density-spacious');
+    root.classList.add(`density-${density}`);
+  };
+
+  // Apply user's appearance settings when user data loads
+  useEffect(() => {
+    if (user?.settings) {
+      // Apply theme
+      if (user.settings.theme) {
+        setTheme(user.settings.theme as "light" | "dark" | "system");
+      }
+
+      // Apply font size
+      if (user.settings.fontSize) {
+        applyFontSize(user.settings.fontSize);
+      }
+
+      // Apply density
+      if (user.settings.density) {
+        applyDensity(user.settings.density);
+      }
+    }
+  }, [user, setTheme]);
+
   const createNewChat = async (message?: string) => {
     // Create chat with or without initial message
     await chatService.createChat({
