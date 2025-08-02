@@ -173,7 +173,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 placeholder="Message ChatGPT..."
                 disabled={isSending}
                 className={cn(
-                  "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 min-h-[44px] max-h-[200px]",
+                  "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none min-h-[44px] max-h-[200px]",
                   "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
                   "transition-all duration-300",
                   isSending && "opacity-70",
