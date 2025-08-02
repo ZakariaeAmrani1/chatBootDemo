@@ -79,6 +79,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     if (chatToDelete && onDeleteChat) {
       onDeleteChat(chatToDelete);
     }
+    handleDeleteCancel();
+  };
+
+  const handleDeleteCancel = () => {
     setChatToDelete(null);
     setDeleteConfirmOpen(false);
   };

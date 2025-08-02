@@ -1,29 +1,31 @@
 {
   "chats": [
     {
-      "id": "87d679a2-759e-4d7f-9fe3-4dec535fed17",
+      "id": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
       "title": "New Chat",
       "model": "gpt-4",
-      "createdAt": "2025-08-02T15:34:36.373Z",
-      "updatedAt": "2025-08-02T15:34:38.796Z",
+      "createdAt": "2025-08-02T15:37:50.340Z",
+      "updatedAt": "2025-08-02T15:37:52.552Z",
       "messageCount": 2,
       "userId": "user-1"
     }
   ],
   "messages": [
     {
-      "id": "936b141c-9931-4c65-bb61-2321839ad5c8",
-      "chatId": "87d679a2-759e-4d7f-9fe3-4dec535fed17",
+      "id": "6abeff45-9c23-4359-9e54-eb66165e979f",
+      "chatId": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
       "type": "user",
       "content": "hello",
-      "timestamp": "2025-08-02T15:34:36.373Z"
+      "timestamp": "2025-08-02T15:37:50.340Z"
     },
     {
-      "id": "f81e7f90-d026-4e66-aa6e-72b37558a75d",
-      "chatId": "87d679a2-759e-4d7f-9fe3-4dec535fed17",
+      "id": "c0937142-8270-4286-81ab-043263c03dff",
+      "chatId": "5ea7f300-c962-49ab-b0ab-4c0ca56ec626",
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T15:34:38.796Z"
+      "timestamp": "2025-08-02T15:37:52.552Z",
+      "liked": true,
+      "disliked": false
     }
   ]
 }
