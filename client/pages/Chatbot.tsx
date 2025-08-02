@@ -102,14 +102,16 @@ const Chatbot = () => {
         )}
       >
         <ChatSidebar
-          chats={chats}
-          currentChatId={currentChatId}
-          onChatSelect={setCurrentChatId}
+          chats={chatState.chats}
+          currentChatId={chatState.currentChat?.id || ''}
+          onChatSelect={handleChatSelect}
           onNewChat={createNewChat}
           onCloseSidebar={() => setSidebarOpen(false)}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           onOpenSettings={() => setSettingsOpen(true)}
+          onDeleteChat={handleDeleteChat}
+          isLoading={chatState.isLoading}
         />
       </div>
 
