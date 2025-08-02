@@ -40,5 +40,10 @@ export function createServer() {
   app.get("/api/files/:filename", serveFile);
   app.get("/api/files/info/:fileId", getFileInfo);
 
+  // Data management API routes
+  app.get("/api/data/stats", getDataStats);
+  app.post("/api/data/clear-chats", clearChatHistory);
+  app.post("/api/data/clear-files", clearUploadedFiles);
+
   return app;
 }
