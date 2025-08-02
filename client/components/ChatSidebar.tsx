@@ -207,6 +207,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                       variant="ghost"
                       size="sm"
                       className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-muted/50"
+                      onClick={(e) => handleDeleteChat(chat.id, e)}
                     >
                       <Trash2 className="h-3 w-3" />
                     </Button>
