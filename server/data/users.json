@@ -65,7 +65,7 @@
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
-        "selectedModel": "gpt-4"
+        "selectedModel": "gpt-4-turbo"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8"
     }
