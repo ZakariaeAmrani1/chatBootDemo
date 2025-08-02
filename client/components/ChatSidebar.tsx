@@ -73,7 +73,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200"
+                  className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   onClick={onCloseSidebar}
                 >
                   <X className="h-4 w-4" />
@@ -84,7 +84,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-muted-foreground hover:text-foreground hover:bg-accent hidden lg:flex rounded-lg transition-all duration-200"
+                    className="text-muted-foreground hover:text-foreground hover:bg-muted/50 hidden lg:flex"
                     onClick={onToggleCollapse}
                   >
                     {collapsed ? (
@@ -106,8 +106,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <TooltipTrigger asChild>
                 <Button
                   onClick={onNewChat}
-                  className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10 px-2 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md"
-                  variant="outline"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-10"
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
@@ -117,8 +116,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           ) : (
             <Button
               onClick={onNewChat}
-              className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border rounded-xl shadow-sm transition-all duration-200 hover:shadow-md font-medium"
-              variant="outline"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Plus className="h-4 w-4 mr-2" />
               New chat
@@ -141,13 +139,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Tooltip key={chat.id}>
                   <TooltipTrigger asChild>
                     <div
-                      className={cn(
-                        "flex items-center justify-center p-2 rounded-lg cursor-pointer transition-all duration-200",
-                        "hover:bg-accent",
-                        currentChatId === chat.id
-                          ? "bg-accent shadow-sm ring-1 ring-border"
-                          : "hover:shadow-sm",
-                      )}
+              className={cn(
+                "flex items-center justify-center p-2 rounded-md cursor-pointer transition-colors",
+                "hover:bg-muted/50",
+                currentChatId === chat.id
+                  ? "bg-muted"
+                  : "",
+              )}
                       onClick={() => onChatSelect(chat.id)}
                     >
                       <MessageSquare className={cn(
@@ -162,38 +160,32 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <div
                   key={chat.id}
                   className={cn(
-                    "group relative flex items-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200",
-                    "hover:bg-accent hover:shadow-sm",
+                    "group relative flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
+                    "hover:bg-muted/50",
                     currentChatId === chat.id
-                      ? "bg-accent shadow-sm ring-1 ring-border"
+                      ? "bg-muted"
                       : "",
                   )}
                   onClick={() => onChatSelect(chat.id)}
                 >
-                  <MessageSquare className={cn(
-                    "h-4 w-4 mr-3 flex-shrink-0 transition-colors",
-                    currentChatId === chat.id ? "text-accent-foreground" : "text-muted-foreground"
-                  )} />
-                  <span className={cn(
-                    "text-sm truncate flex-1 transition-colors",
-                    currentChatId === chat.id ? "text-accent-foreground" : "text-foreground"
-                  )}>
+                  <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
+                  <span className="text-sm truncate flex-1 text-foreground">
                     {chat.title}
                   </span>
 
                   {/* Action buttons (visible on hover) */}
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-all duration-200"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     >
                       <Edit3 className="h-3 w-3" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all duration-200"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-muted/50"
                     >
                       <Trash2 className="h-3 w-3" />
                     </Button>
@@ -218,7 +210,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-10 px-2 rounded-lg transition-all duration-200 hover:shadow-sm"
+                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
                     >
                       <Zap className="h-4 w-4" />
                     </Button>
@@ -230,7 +222,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-10 px-2 rounded-lg transition-all duration-200 hover:shadow-sm"
+                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
                     >
                       <Archive className="h-4 w-4" />
                     </Button>
@@ -242,7 +234,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-10 px-2 rounded-lg transition-all duration-200 hover:shadow-sm"
+                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
                     >
                       <HelpCircle className="h-4 w-4" />
                     </Button>
@@ -276,7 +268,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <div className="space-y-1">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 hover:shadow-sm"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 >
                   <Zap className="h-4 w-4 mr-3" />
                   Upgrade plan
@@ -284,7 +276,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 hover:shadow-sm"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 >
                   <Archive className="h-4 w-4 mr-3" />
                   Library
@@ -292,7 +284,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 hover:shadow-sm"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 >
                   <HelpCircle className="h-4 w-4 mr-3" />
                   Help & FAQ
@@ -303,8 +295,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
               <Separator className="my-2 bg-border/50" />
 
-              <div className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent/50 transition-all duration-200 cursor-pointer group">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm transition-all duration-200">
+              <div className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted/50 cursor-pointer group">
+                <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                   U
                 </div>
                 <div className="flex-1 min-w-0">
@@ -318,7 +310,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 opacity-0 group-hover:opacity-100"
+                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50 opacity-0 group-hover:opacity-100"
                 >
                   <Settings className="h-3 w-3" />
                 </Button>
