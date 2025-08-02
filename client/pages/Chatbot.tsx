@@ -43,6 +43,7 @@ const Chatbot = () => {
   const [currentChatId, setCurrentChatId] = useState<string>("1");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("gpt-4");
 
   const currentChat = chats.find((chat) => chat.id === currentChatId);
 
