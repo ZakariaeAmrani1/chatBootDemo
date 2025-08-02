@@ -94,21 +94,21 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "features",
-      question: "How do I upload files to Chatboot?",
+      question: "How do I upload files to ChatNova?",
       answer:
-        "Chatboot Plus subscribers can upload various file types including documents, images, and code files. Simply click the attachment icon in the chat input area and select your file. Chatboot can analyze, summarize, edit, and work with your uploaded content.",
+        "ChatNova Plus subscribers can upload various file types including documents, images, and code files. Simply click the attachment icon in the chat input area and select your file. ChatNova can analyze, summarize, edit, and work with your uploaded content.",
     },
     {
       category: "account",
-      question: "How much does Chatboot cost?",
+      question: "How much does ChatNova cost?",
       answer:
-        "Chatboot offers a free tier with access to GPT-3.5. Chatboot Plus costs $20/month and includes access to GPT-4, faster response times, priority access, and additional features like Browse with Bing and Advanced Data Analysis.",
+        "ChatNova offers a free tier with access to GPT-3.5. ChatNova Plus costs $20/month and includes access to GPT-4, faster response times, priority access, and additional features like Browse with Bing and Advanced Data Analysis.",
     },
     {
       category: "account",
       question: "How do I cancel my subscription?",
       answer:
-        "You can cancel your Chatboot Plus subscription at any time through your account settings. Go to 'Manage my subscription' and select 'Cancel plan'. You'll continue to have access to Plus features until the end of your current billing period.",
+        "You can cancel your ChatNova Plus subscription at any time through your account settings. Go to 'Manage my subscription' and select 'Cancel plan'. You'll continue to have access to Plus features until the end of your current billing period.",
     },
     {
       category: "account",
@@ -118,7 +118,7 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "privacy",
-      question: "How is my data used to train Chatboot?",
+      question: "How is my data used to train ChatNova?",
       answer:
         "By default, conversations may be used to improve our models. However, Chatboot Plus, Team, and Enterprise users can opt out of having their data used for training. You can control this setting in your account preferences.",
     },
