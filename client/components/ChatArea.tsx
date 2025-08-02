@@ -110,10 +110,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       });
 
       if (response.success) {
-        toast({
-          title: action === "like" ? "Message liked" : "Like removed",
-          description: "Your feedback has been recorded.",
-        });
         // The message state will be updated when the chat is refreshed
         // For immediate UI feedback, you might want to trigger a refresh
       } else {
@@ -142,10 +138,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       });
 
       if (response.success) {
-        toast({
-          title: action === "dislike" ? "Message disliked" : "Dislike removed",
-          description: "Your feedback has been recorded.",
-        });
         // The message state will be updated when the chat is refreshed
       } else {
         throw new Error(response.error || "Failed to update feedback");
