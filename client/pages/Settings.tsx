@@ -1136,7 +1136,7 @@ const Settings: React.FC<SettingsProps> = ({
                   <Button
                     variant="outline"
                     className="w-full md:w-auto"
-                    onClick={() => setActiveSection("overview")}
+                    onClick={onClose}
                   >
                     Cancel
                   </Button>
@@ -1144,8 +1144,11 @@ const Settings: React.FC<SettingsProps> = ({
                     className="w-full md:w-auto"
                     onClick={
                       activeSection === "profile"
-                        ? handleSaveProfileChanges
-                        : undefined
+                        ? async () => {
+                            await handleSaveProfileChanges();
+                            onClose();
+                          }
+                        : onClose
                     }
                     disabled={
                       activeSection === "profile"
