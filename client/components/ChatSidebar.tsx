@@ -163,16 +163,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             {!collapsed && (
               <div className="flex items-center gap-2">
                 <img
-                  src={
-                    resolvedTheme === "dark"
-                      ? "https://cdn.builder.io/api/v1/image/assets%2Fc773263620b04439b4c3604feae0f6da%2F680de7f4e8714a929d2efe1fd2107b8f?format=webp&width=800"
-                      : "https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
-                  }
-                  alt="ChatNova Logo"
+                  src={getAppLogo()}
+                  alt={`${getAppName()} Logo`}
                   className="w-6 h-6 rounded-lg shadow-sm"
                 />
                 <h2 className="text-lg font-semibold text-foreground tracking-tight">
-                  ChatNova
+                  {getAppName()}
                 </h2>
               </div>
             )}
