@@ -67,20 +67,20 @@ const Chatbot = () => {
     root.classList.add(`density-${density}`);
   };
 
-  // Apply user's appearance settings when user data loads
+  // Apply user's appearance settings when user data loads or changes
   useEffect(() => {
     if (user?.settings) {
-      // Apply theme
+      // Apply theme immediately
       if (user.settings.theme) {
         setTheme(user.settings.theme as "light" | "dark" | "system");
       }
 
-      // Apply font size
+      // Apply font size immediately
       if (user.settings.fontSize) {
         applyFontSize(user.settings.fontSize);
       }
 
-      // Apply density
+      // Apply density immediately
       if (user.settings.density) {
         applyDensity(user.settings.density);
       }
@@ -91,6 +91,21 @@ const Chatbot = () => {
       }
     }
   }, [user, setTheme]);
+
+  // Ensure settings are applied immediately when user logs in
+  useEffect(() => {
+    if (user) {
+      // Force reapplication of settings to ensure they take effect immediately
+      setTimeout(() => {
+        if (user.settings?.fontSize) {
+          applyFontSize(user.settings.fontSize);
+        }
+        if (user.settings?.density) {
+          applyDensity(user.settings.density);
+        }
+      }, 0);
+    }
+  }, [user]);
 
   const createNewChat = async (message?: string) => {
     // Create chat with or without initial message
