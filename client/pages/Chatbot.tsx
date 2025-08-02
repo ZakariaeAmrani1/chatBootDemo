@@ -114,6 +114,21 @@ const Chatbot = () => {
     }
   }, [user?.id]); // Trigger when user ID changes (i.e., different user logs in)
 
+  // Listen for custom settings update events
+  useEffect(() => {
+    const handleSettingsUpdate = (event: CustomEvent) => {
+      if (event.detail?.settings) {
+        applyAllSettings(event.detail.settings);
+      }
+    };
+
+    window.addEventListener('userSettingsUpdated', handleSettingsUpdate as EventListener);
+
+    return () => {
+      window.removeEventListener('userSettingsUpdated', handleSettingsUpdate as EventListener);
+    };
+  }, []);
+
   const createNewChat = async (message?: string) => {
     // Create chat with or without initial message
     await chatService.createChat({
