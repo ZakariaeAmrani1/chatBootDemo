@@ -77,7 +77,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             key={message.id}
             className={cn(
               "flex gap-4",
-              message.sender === "user" ? "justify-end" : "justify-start",
+              message.type === "user" ? "justify-end" : "justify-start",
             )}
           >
             {message.sender === "assistant" && (
