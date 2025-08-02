@@ -288,13 +288,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                   </div>
                 )}
 
-                {/* Debug info - only in development */}
-                {process.env.NODE_ENV === 'development' && (
-                  <div className="text-xs text-gray-400 bg-gray-100 p-1 rounded mb-2">
-                    ID: {message.id} | Attachments: {message.attachments?.length || 0}
-                  </div>
-                )}
-
                 {/* Message content */}
                 {message.content && (
                   <div className="text-foreground">
