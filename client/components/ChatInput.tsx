@@ -408,11 +408,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 {/* Voice Recording */}
                 <div className="relative flex items-center gap-2">
                   {isRecording ? (
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-12 rounded-lg transition-all duration-300 text-primary bg-primary/10 hover:bg-primary/15 hover:scale-105 flex items-center justify-center border border-primary/20 hover:border-primary/30"
+                      className="transition-all duration-300 hover:scale-105 cursor-pointer"
                       onClick={stopRecording}
                       disabled={isSending || disabled || isUploading}
                       title="Click to stop recording and send"
@@ -425,7 +423,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
                         <div className="wave-bar"></div>
                         <div className="wave-bar"></div>
                       </div>
-                    </Button>
+                    </button>
                   ) : (
                     <Button
                       type="button"

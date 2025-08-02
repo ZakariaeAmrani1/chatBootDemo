@@ -98,6 +98,15 @@
       "updatedAt": "2025-08-02T17:22:35.479Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "bda15932-f755-4748-bfd8-70e026c65952",
+      "title": "🎤 Voice message",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:24:07.080Z",
+      "updatedAt": "2025-08-02T17:24:08.913Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -352,6 +361,30 @@
       "type": "assistant",
       "content": "📞 Here's a voice message for you:\n\n\"Hey there! It's [Name]. I just wanted to drop you a quick message to let you know that [briefly mention the purpose of the call]. I hope you're doing well and that everything is going smoothly. I'll talk to you soon! Bye for now!\"",
       "timestamp": "2025-08-02T17:22:35.479Z"
+    },
+    {
+      "id": "bab977f5-8cb6-4627-b428-1f06e5e4f3bc",
+      "chatId": "bda15932-f755-4748-bfd8-70e026c65952",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:24:07.160Z",
+      "attachments": [
+        {
+          "id": "120fec2e-dc29-4f26-bfa5-369eabc089a8",
+          "name": "voice-message-1754155447785.webm",
+          "size": 57155,
+          "type": "audio/webm",
+          "url": "/api/files/dcb8f079-2d13-42e9-87a7-429f6f4c834e.webm",
+          "uploadedAt": "2025-08-02T17:24:07.003Z"
+        }
+      ]
+    },
+    {
+      "id": "c4f29a2c-4085-4ce4-8add-17113050898d",
+      "chatId": "bda15932-f755-4748-bfd8-70e026c65952",
+      "type": "assistant",
+      "content": "📣 Recording...\n\n\"Hey there! I'm not here right now, but I wanted to leave you a message. Please leave a message after the beep and I'll get back to you as soon as I can. Thanks!\" *beep*",
+      "timestamp": "2025-08-02T17:24:08.913Z"
     }
   ]
 }
