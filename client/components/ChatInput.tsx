@@ -68,13 +68,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="border-t border-border bg-gradient-to-t from-white via-gray-50 to-white p-6 shadow-2xl">
+    <div className="border-t border-border bg-white p-4">
       <div className="max-w-4xl mx-auto">
         {/* Model Selection */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <div className="flex items-center justify-between mb-3">
           <Select value={selectedModel} onValueChange={setSelectedModel}>
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue placeholder="Select model" />
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Model" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="gpt-4">GPT-4</SelectItem>
@@ -85,8 +85,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             </SelectContent>
           </Select>
 
-          <div className="text-sm text-muted-foreground text-right">
-            {message.length}/4000 characters
+          <div className="text-xs text-muted-foreground">
+            {message.length}/4000
           </div>
         </div>
 
@@ -119,24 +119,24 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
         {/* Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="relative border border-gray-200 rounded-2xl bg-white overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-400 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="relative border border-gray-300 rounded-lg bg-white overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-400">
             <Textarea
               ref={textareaRef}
               value={message}
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
               placeholder="Message ChatGPT..."
-              className="resize-none border-0 bg-transparent px-6 py-5 pr-28 focus:ring-0 min-h-[64px] max-h-[200px] text-gray-900 placeholder:text-gray-500"
+              className="resize-none border-0 bg-transparent px-3 py-3 pr-20 focus:ring-0 min-h-[48px] max-h-[200px] text-gray-900 placeholder:text-gray-500"
               rows={1}
             />
             
             {/* Action Buttons */}
-            <div className="absolute right-3 bottom-3 flex items-center gap-2">
+            <div className="absolute right-2 bottom-2 flex items-center gap-1">
               {/* Attachment Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-10 w-10 p-0 hover:bg-gray-100 rounded-xl transition-all duration-300 hover:scale-110">
-                    <Paperclip className="h-5 w-5 text-gray-600" />
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Paperclip className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
@@ -161,22 +161,22 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "h-10 w-10 p-0 rounded-xl transition-all duration-300 hover:scale-110",
-                  isRecording ? "text-red-500 bg-red-50 hover:bg-red-100 shadow-lg" : "hover:bg-gray-100 text-gray-600"
+                  "h-8 w-8 p-0",
+                  isRecording ? "text-red-500 bg-red-50" : ""
                 )}
                 onClick={toggleRecording}
               >
-                {isRecording ? <Square className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+                {isRecording ? <Square className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               </Button>
 
               {/* Send Button */}
               <Button
                 type="submit"
                 size="sm"
-                className="h-10 w-10 p-0 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:scale-100 disabled:shadow-none"
+                className="h-8 w-8 p-0 disabled:opacity-50"
                 disabled={!message.trim() && attachedFiles.length === 0}
               >
-                <Send className="h-5 w-5" />
+                <Send className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -193,10 +193,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         />
 
         {/* Footer Text */}
-        <p className="text-xs text-gray-500 text-center mt-4 flex items-center justify-center gap-2">
-          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-          </svg>
+        <p className="text-xs text-gray-500 text-center mt-3">
           ChatGPT can make mistakes. Check important info.
         </p>
       </div>
