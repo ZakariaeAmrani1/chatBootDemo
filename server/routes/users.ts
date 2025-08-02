@@ -117,7 +117,13 @@ const avatarUpload = multer({
     fileSize: 5 * 1024 * 1024, // 5MB limit
   },
   fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    const allowedMimeTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
@@ -166,7 +172,8 @@ export const uploadAvatar = [
     } catch (error) {
       const response: ApiResponse<User> = {
         success: false,
-        error: error instanceof Error ? error.message : "Failed to upload avatar",
+        error:
+          error instanceof Error ? error.message : "Failed to upload avatar",
       };
       res.status(500).json(response);
     }
@@ -215,7 +222,10 @@ export const uploadLightLogo = [
     } catch (error) {
       const response: ApiResponse<User> = {
         success: false,
-        error: error instanceof Error ? error.message : "Failed to upload light logo",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to upload light logo",
       };
       res.status(500).json(response);
     }
@@ -264,7 +274,8 @@ export const uploadDarkLogo = [
     } catch (error) {
       const response: ApiResponse<User> = {
         success: false,
-        error: error instanceof Error ? error.message : "Failed to upload dark logo",
+        error:
+          error instanceof Error ? error.message : "Failed to upload dark logo",
       };
       res.status(500).json(response);
     }

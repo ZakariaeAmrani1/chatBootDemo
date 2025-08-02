@@ -103,10 +103,7 @@ const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
       {/* Root route - redirects based on auth state */}
-      <Route
-        path="/"
-        element={<RootRoute />}
-      />
+      <Route path="/" element={<RootRoute />} />
       <Route
         path="/login"
         element={

@@ -10,7 +10,14 @@ import {
   updateChat,
   deleteChat,
 } from "./routes/chats";
-import { getCurrentUser, updateUser, updateUserSettings, uploadAvatar, uploadLightLogo, uploadDarkLogo } from "./routes/users";
+import {
+  getCurrentUser,
+  updateUser,
+  updateUserSettings,
+  uploadAvatar,
+  uploadLightLogo,
+  uploadDarkLogo,
+} from "./routes/users";
 import { uploadFiles, serveFile, getFileInfo } from "./routes/files";
 import {
   getDataStats,

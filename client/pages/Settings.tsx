@@ -242,12 +242,20 @@ const Settings: React.FC<SettingsProps> = ({
     onRefresh?.();
   };
 
-  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
     // Validate file type
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
     if (!allowedTypes.includes(file.type)) {
       setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
       return;
@@ -274,7 +282,9 @@ const Settings: React.FC<SettingsProps> = ({
         setError(response.error || "Failed to upload avatar");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to upload avatar");
+      setError(
+        error instanceof Error ? error.message : "Failed to upload avatar",
+      );
     } finally {
       setIsUploadingAvatar(false);
       // Reset the input
@@ -282,12 +292,20 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
-  const handleLightLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLightLogoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
     // Validate file type
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
     if (!allowedTypes.includes(file.type)) {
       setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
       return;
@@ -311,19 +329,29 @@ const Settings: React.FC<SettingsProps> = ({
         setError(response.error || "Failed to upload light logo");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to upload light logo");
+      setError(
+        error instanceof Error ? error.message : "Failed to upload light logo",
+      );
     } finally {
       setIsUploadingLightLogo(false);
       event.target.value = "";
     }
   };
 
-  const handleDarkLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDarkLogoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
     // Validate file type
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
     if (!allowedTypes.includes(file.type)) {
       setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
       return;
@@ -347,7 +375,9 @@ const Settings: React.FC<SettingsProps> = ({
         setError(response.error || "Failed to upload dark logo");
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to upload dark logo");
+      setError(
+        error instanceof Error ? error.message : "Failed to upload dark logo",
+      );
     } finally {
       setIsUploadingDarkLogo(false);
       event.target.value = "";
@@ -1175,7 +1205,9 @@ const Settings: React.FC<SettingsProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => document.getElementById("light-logo-upload")?.click()}
+                onClick={() =>
+                  document.getElementById("light-logo-upload")?.click()
+                }
                 disabled={isUploadingLightLogo}
               >
                 {isUploadingLightLogo ? "Uploading..." : "Upload Light Logo"}
@@ -1223,7 +1255,9 @@ const Settings: React.FC<SettingsProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => document.getElementById("dark-logo-upload")?.click()}
+                onClick={() =>
+                  document.getElementById("dark-logo-upload")?.click()
+                }
                 disabled={isUploadingDarkLogo}
               >
                 {isUploadingDarkLogo ? "Uploading..." : "Upload Dark Logo"}

@@ -262,7 +262,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           >
             {message.type === "assistant" && (
               <Avatar className="w-8 h-8 mt-1">
-                <AvatarImage src={getAILogo()} alt="AI" className="rounded-full" />
+                <AvatarImage
+                  src={getAILogo()}
+                  alt="AI"
+                  className="rounded-full"
+                />
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   AI
                 </AvatarFallback>
@@ -370,7 +374,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             {message.type === "user" && (
               <Avatar className="w-8 h-8 mt-1">
                 {user?.avatar ? (
-                  <AvatarImage src={user.avatar} alt="User" className="rounded-full" />
+                  <AvatarImage
+                    src={user.avatar}
+                    alt="User"
+                    className="rounded-full"
+                  />
                 ) : null}
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   {user?.displayName?.charAt(0).toUpperCase() || "U"}
@@ -384,7 +392,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         {isThinking && (
           <div className="flex gap-4 justify-start">
             <Avatar className="w-8 h-8 mt-1">
-              <AvatarImage src={getAILogo()} alt="AI" className="rounded-full" />
+              <AvatarImage
+                src={getAILogo()}
+                alt="AI"
+                className="rounded-full"
+              />
               <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                 AI
               </AvatarFallback>
@@ -409,7 +421,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         {error && (
           <div className="flex gap-4 justify-start">
             <Avatar className="w-8 h-8 mt-1">
-              <AvatarImage src={getAILogo()} alt="AI" className="rounded-full" />
+              <AvatarImage
+                src={getAILogo()}
+                alt="AI"
+                className="rounded-full"
+              />
               <AvatarFallback className="bg-destructive text-destructive-foreground text-sm font-semibold">
                 !
               </AvatarFallback>
