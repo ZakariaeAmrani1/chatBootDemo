@@ -17,6 +17,15 @@
       "updatedAt": "2025-08-02T16:09:25.939Z",
       "messageCount": 8,
       "userId": "user-1"
+    },
+    {
+      "id": "8ec6d191-3cd2-435b-aaa6-98048457b11f",
+      "title": "hello",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T16:37:07.013Z",
+      "updatedAt": "2025-08-02T16:37:13.077Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -107,6 +116,20 @@
       "type": "assistant",
       "content": "It seems like you may have accidentally sent an empty message! If you're ready to start a conversation, I'm here to help with any questions or topics you'd like to discuss.",
       "timestamp": "2025-08-02T16:09:25.939Z"
+    },
+    {
+      "id": "fe52a756-ebd0-4662-a98c-7b5a148b4b97",
+      "chatId": "8ec6d191-3cd2-435b-aaa6-98048457b11f",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-02T16:37:11.245Z"
+    },
+    {
+      "id": "c718994a-2866-4232-ad57-75b8b8a0d2fb",
+      "chatId": "8ec6d191-3cd2-435b-aaa6-98048457b11f",
+      "type": "assistant",
+      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
+      "timestamp": "2025-08-02T16:37:13.077Z"
     }
   ]
 }
