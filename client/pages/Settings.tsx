@@ -48,6 +48,7 @@ import { apiService } from "@/services/api";
 import { User as UserType, UserSettings, DataStats } from "@shared/types";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import SuccessDialog from "@/components/SuccessDialog";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface SettingsProps {
   onClose: () => void;
