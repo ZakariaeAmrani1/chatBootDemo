@@ -82,24 +82,7 @@ export function ModelSelector({
               className="sr-only"
             />
 
-            {/* Radio indicator */}
-            <div
-              className={cn(
-                "w-3 h-3 rounded-full border transition-all duration-200 flex items-center justify-center",
-                selectedModel === model.id
-                  ? model.color.replace("text-", "border-")
-                  : "border-muted-foreground/40",
-              )}
-            >
-              {selectedModel === model.id && (
-                <div
-                  className={cn(
-                    "w-1.5 h-1.5 rounded-full transition-all duration-200",
-                    model.color.replace("text-", "bg-"),
-                  )}
-                />
-              )}
-            </div>
+
 
             <span
               className={cn(
