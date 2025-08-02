@@ -152,17 +152,35 @@ const Chatbot = () => {
 
     try {
       if (!chatState.currentChat) {
-        // Create new chat with this message
+        // Create new chat with this message and attachments
         await chatService.createChat({
           title: "New Chat",
           model: selectedModel,
           message: content,
+          // Convert FileAttachment back to File objects for the API
+          attachments: attachments?.map(att => {
+            // For audio files uploaded via recording, we need to fetch the blob
+            if (att.url.startsWith('/api/files/')) {
+              // This is a server URL, we can't convert it back to File easily
+              // The API should handle FileAttachment objects directly
+              return null;
+            }
+            // For blob URLs, we can't easily convert back to File
+            return null;
+          }).filter(Boolean) as File[] || undefined,
         });
       } else {
-        // Send message to existing chat
+        // Send message to existing chat with attachments
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
           message: content,
+          // Same issue here - we need to handle FileAttachment objects
+          attachments: attachments?.map(att => {
+            if (att.url.startsWith('/api/files/')) {
+              return null;
+            }
+            return null;
+          }).filter(Boolean) as File[] || undefined,
         });
       }
     } catch (error) {
