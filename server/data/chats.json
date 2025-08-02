@@ -89,6 +89,15 @@
       "updatedAt": "2025-08-02T17:20:14.622Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "cd20bf64-e122-41d2-b52d-d0bfff188ebc",
+      "title": "🎤 Voice message",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:22:33.561Z",
+      "updatedAt": "2025-08-02T17:22:35.479Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -319,6 +328,30 @@
       "timestamp": "2025-08-02T17:20:14.622Z",
       "liked": true,
       "disliked": false
+    },
+    {
+      "id": "ca6f516c-7dc6-4ccc-93a2-5ff7a01124a4",
+      "chatId": "cd20bf64-e122-41d2-b52d-d0bfff188ebc",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:22:33.637Z",
+      "attachments": [
+        {
+          "id": "db373e9f-49ff-4062-b570-32c3bb001826",
+          "name": "voice-message-1754155354690.webm",
+          "size": 70679,
+          "type": "audio/webm",
+          "url": "/api/files/fccf0534-34d2-4d49-85b9-59f3ac7c315a.webm",
+          "uploadedAt": "2025-08-02T17:22:33.472Z"
+        }
+      ]
+    },
+    {
+      "id": "5e6ffc0d-f501-4fc7-bd47-d1d2b57d7c4e",
+      "chatId": "cd20bf64-e122-41d2-b52d-d0bfff188ebc",
+      "type": "assistant",
+      "content": "📞 Here's a voice message for you:\n\n\"Hey there! It's [Name]. I just wanted to drop you a quick message to let you know that [briefly mention the purpose of the call]. I hope you're doing well and that everything is going smoothly. I'll talk to you soon! Bye for now!\"",
+      "timestamp": "2025-08-02T17:22:35.479Z"
     }
   ]
 }
