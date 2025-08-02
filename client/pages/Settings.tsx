@@ -620,9 +620,14 @@ const Settings: React.FC<SettingsProps> = ({
             <Download className="h-4 w-4 mr-2" />
             Export All Data
           </Button>
-          <Button variant="destructive" className="w-full justify-start">
+          <Button
+            variant="destructive"
+            className="w-full justify-start"
+            onClick={handleClearChatHistory}
+            disabled={isClearing}
+          >
             <Trash2 className="h-4 w-4 mr-2" />
-            Clear All Chat History
+            {isClearing ? 'Clearing...' : 'Clear All Chat History'}
           </Button>
         </div>
       </div>
