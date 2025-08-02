@@ -50,8 +50,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = localStorage.getItem("authToken");
         const savedUser = localStorage.getItem("currentUser");
 
-        console.log("Checking auth status - token:", !!token, "savedUser:", !!savedUser);
-
         if (token && savedUser) {
           try {
             // Parse saved user data
@@ -60,10 +58,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Verify token is still valid with server
             const response = await apiService.verifyToken();
             if (response.success && response.data) {
-              console.log("Token verification successful");
               setUser(response.data);
             } else {
-              console.log("Token verification failed:", response.error);
               // Token is invalid, clear storage
               localStorage.removeItem("authToken");
               localStorage.removeItem("currentUser");
@@ -77,7 +73,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setUser(null);
           }
         } else {
-          console.log("No auth token or saved user found");
           setUser(null);
         }
       } catch (error) {
