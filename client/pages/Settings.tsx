@@ -81,9 +81,8 @@ const Settings: React.FC<SettingsProps> = ({
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
-  const [user, setUser] = useState<UserType | null>(null);
   const [dataStats, setDataStats] = useState<DataStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,6 +93,8 @@ const Settings: React.FC<SettingsProps> = ({
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
   const [showApiKey, setShowApiKey] = useState(false);
 
+  // Use auth context for user data instead of local state
+  const { user, updateUser } = useAuth();
   // Theme context for immediate theme application
   const { setTheme } = useTheme();
 
