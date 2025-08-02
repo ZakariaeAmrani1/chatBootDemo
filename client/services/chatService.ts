@@ -141,9 +141,6 @@ class ChatService {
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
 
-    console.log('ChatService sendMessage called with:', request);
-    console.log('Attachments in request:', request.attachments);
-
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
