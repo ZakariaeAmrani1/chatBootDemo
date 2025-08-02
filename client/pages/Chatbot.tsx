@@ -292,6 +292,14 @@ const Chatbot = () => {
           onUserUpdate={setUser}
         />
       )}
+
+      {/* Share Modal */}
+      <ShareModal
+        open={shareModalOpen}
+        onOpenChange={setShareModalOpen}
+        chat={chatState.currentChat}
+        appUrl={user?.settings?.appUrl || "http://localhost:8080"}
+      />
     </div>
   );
 };
