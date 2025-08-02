@@ -83,6 +83,9 @@ const Settings: React.FC<SettingsProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [pendingChanges, setPendingChanges] = useState<Partial<UserType>>({});
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
 
   // Load user data on mount
   useEffect(() => {
