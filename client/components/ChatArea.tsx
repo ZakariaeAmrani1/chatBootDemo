@@ -39,9 +39,22 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, selectedModel, onModelCha
             />
           </svg>
         </div>
-        <h3 className="text-2xl font-semibold text-foreground mb-4">
+        <h3 className="text-2xl font-semibold text-foreground mb-2">
           How can I help you today?
         </h3>
+        <p className="text-muted-foreground mb-8">
+          Choose your AI model and start a conversation
+        </p>
+
+        {/* Model Selection */}
+        <div className="w-full max-w-4xl mb-8">
+          <ModelSelectorCards
+            selectedModel={selectedModel}
+            onModelChange={onModelChange}
+          />
+        </div>
+
+        {/* Suggestions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
           <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
             <h4 className="font-medium text-foreground mb-2">Create image</h4>
