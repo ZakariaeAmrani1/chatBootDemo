@@ -381,8 +381,18 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex justify-center">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer shadow-sm transition-all duration-200">
-                      {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                    <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200">
+                      {user?.avatar ? (
+                        <img
+                          src={user.avatar}
+                          alt="User Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-semibold text-sm">
+                          {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </TooltipTrigger>
