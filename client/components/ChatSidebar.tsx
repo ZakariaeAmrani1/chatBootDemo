@@ -115,6 +115,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
       handleEditCancel();
     }
   };
+
+  // Ensure proper cleanup when modal closes
+  useEffect(() => {
+    if (!deleteConfirmOpen) {
+      setChatToDelete(null);
+    }
+  }, [deleteConfirmOpen]);
   return (
     <TooltipProvider>
       <div className="h-full bg-background text-foreground flex flex-col border-r border-border shadow-sm">
