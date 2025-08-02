@@ -157,10 +157,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           <div
             className={cn(
               "relative border rounded-xl bg-background overflow-hidden transition-all duration-300",
-              "focus-within:ring-1 focus-within:ring-primary/20 focus-within:border-primary/40",
               "hover:border-border/60",
               isSending
-                ? "border-primary/40 ring-1 ring-primary/20"
+                ? "border-primary/40"
                 : "border-border",
             )}
           >
