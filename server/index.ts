@@ -10,7 +10,7 @@ import {
   updateChat,
   deleteChat,
 } from "./routes/chats";
-import { getCurrentUser, updateUser, updateUserSettings } from "./routes/users";
+import { getCurrentUser, updateUser, updateUserSettings, uploadAvatar } from "./routes/users";
 import { uploadFiles, serveFile, getFileInfo } from "./routes/files";
 import {
   getDataStats,
