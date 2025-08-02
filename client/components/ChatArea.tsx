@@ -32,42 +32,22 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
         <h3 className="text-2xl font-semibold text-gray-900 mb-4">
           How can I help you today?
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full">
-          <div className="group p-6 bg-white border border-gray-200 rounded-2xl hover:bg-gradient-to-br hover:from-blue-50 hover:to-indigo-50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200 hover:-translate-y-1">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Create image</h4>
-            <p className="text-sm text-gray-600 group-hover:text-gray-700">Generate creative and custom images with DALL·E</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
+          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+            <h4 className="font-medium text-gray-900 mb-2">Create image</h4>
+            <p className="text-sm text-gray-600">Generate creative and custom images with DALL·E</p>
           </div>
-          <div className="group p-6 bg-white border border-gray-200 rounded-2xl hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-200 hover:-translate-y-1">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">Analyze data</h4>
-            <p className="text-sm text-gray-600 group-hover:text-gray-700">Upload and analyze documents, spreadsheets, and more</p>
+          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+            <h4 className="font-medium text-gray-900 mb-2">Analyze data</h4>
+            <p className="text-sm text-gray-600">Upload and analyze documents, spreadsheets, and more</p>
           </div>
-          <div className="group p-6 bg-white border border-gray-200 rounded-2xl hover:bg-gradient-to-br hover:from-amber-50 hover:to-orange-50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/10 hover:border-amber-200 hover:-translate-y-1">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-amber-700 transition-colors">Summarize text</h4>
-            <p className="text-sm text-gray-600 group-hover:text-gray-700">Extract key points from long documents and articles</p>
+          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+            <h4 className="font-medium text-gray-900 mb-2">Summarize text</h4>
+            <p className="text-sm text-gray-600">Extract key points from long documents and articles</p>
           </div>
-          <div className="group p-6 bg-white border border-gray-200 rounded-2xl hover:bg-gradient-to-br hover:from-violet-50 hover:to-purple-50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10 hover:border-violet-200 hover:-translate-y-1">
-            <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-violet-700 transition-colors">Write code</h4>
-            <p className="text-sm text-gray-600 group-hover:text-gray-700">Debug and create code in various programming languages</p>
+          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+            <h4 className="font-medium text-gray-900 mb-2">Write code</h4>
+            <p className="text-sm text-gray-600">Debug and create code in various programming languages</p>
           </div>
         </div>
       </div>
