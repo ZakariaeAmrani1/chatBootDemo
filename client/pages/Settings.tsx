@@ -80,6 +80,7 @@ const Settings: React.FC<SettingsProps> = ({
   // Load user data on mount
   useEffect(() => {
     loadUserData();
+    loadDataStats();
   }, []);
 
   const loadUserData = async () => {
@@ -97,6 +98,17 @@ const Settings: React.FC<SettingsProps> = ({
       setError(error instanceof Error ? error.message : 'Failed to load user data');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const loadDataStats = async () => {
+    try {
+      const response = await apiService.getDataStats();
+      if (response.success && response.data) {
+        setDataStats(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to load data stats:', error);
     }
   };
 
