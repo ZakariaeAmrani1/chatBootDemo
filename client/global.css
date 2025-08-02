@@ -248,67 +248,60 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5px;
+    gap: 1px;
     height: 16px;
     padding: 2px 0;
   }
 
   .wave-bar {
-    width: 2.5px;
-    height: 3px;
-    background: linear-gradient(to top, hsl(var(--primary)), hsl(var(--primary) / 0.7));
-    border-radius: 2px;
-    animation: waveFlow 1.4s ease-in-out infinite;
-    transform-origin: bottom;
-    box-shadow: 0 0 4px hsl(var(--primary) / 0.3);
+    width: 3px;
+    height: 4px;
+    background: hsl(var(--primary));
+    border-radius: 50px;
+    animation: sineWave 1s ease-in-out infinite;
+    transform-origin: center;
   }
 
   .wave-bar:nth-child(1) {
     animation-delay: 0s;
-    height: 4px;
   }
 
   .wave-bar:nth-child(2) {
     animation-delay: 0.1s;
-    height: 8px;
   }
 
   .wave-bar:nth-child(3) {
     animation-delay: 0.2s;
-    height: 12px;
   }
 
   .wave-bar:nth-child(4) {
     animation-delay: 0.3s;
-    height: 16px;
   }
 
   .wave-bar:nth-child(5) {
     animation-delay: 0.4s;
-    height: 10px;
   }
 
   .wave-bar:nth-child(6) {
     animation-delay: 0.5s;
-    height: 6px;
   }
 
-  @keyframes waveFlow {
+  @keyframes sineWave {
     0%, 100% {
-      transform: scaleY(0.3);
-      opacity: 0.6;
+      transform: scaleY(0.5) scaleX(0.8);
+      opacity: 0.7;
     }
-    20% {
-      transform: scaleY(0.7);
-      opacity: 0.8;
+    25% {
+      transform: scaleY(1.2) scaleX(1);
+      opacity: 0.9;
     }
     50% {
-      transform: scaleY(1);
+      transform: scaleY(2) scaleX(1.1);
       opacity: 1;
     }
-    80% {
-      transform: scaleY(0.7);
-      opacity: 0.8;
+    75% {
+      transform: scaleY(1.2) scaleX(1);
+      opacity: 0.9;
     }
   }
 }

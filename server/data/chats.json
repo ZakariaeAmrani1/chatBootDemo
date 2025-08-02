@@ -113,8 +113,8 @@
       "title": "🎤 Voice message",
       "model": "gpt-4",
       "createdAt": "2025-08-02T17:24:53.356Z",
-      "updatedAt": "2025-08-02T17:24:53.487Z",
-      "messageCount": 1,
+      "updatedAt": "2025-08-02T17:24:55.192Z",
+      "messageCount": 2,
       "userId": "user-1"
     }
   ],
@@ -411,6 +411,13 @@
           "uploadedAt": "2025-08-02T17:24:53.271Z"
         }
       ]
+    },
+    {
+      "id": "71a880e1-5384-4d9a-b4d6-4576132fb31e",
+      "chatId": "6a3c7287-7872-49c5-8873-fd675969fd83",
+      "type": "assistant",
+      "content": "I'd be happy to help you with a voice message. What would you like me to say?",
+      "timestamp": "2025-08-02T17:24:55.192Z"
     }
   ]
 }
