@@ -227,6 +227,37 @@ export const sendMessage: RequestHandler = (req, res) => {
   }
 };
 
+// Update a chat
+export const updateChat: RequestHandler = (req, res) => {
+  try {
+    const chatId = req.params.chatId;
+    const updates = req.body;
+
+    const updatedChat = DataManager.updateChat(chatId, updates);
+
+    if (!updatedChat) {
+      const response: ApiResponse<null> = {
+        success: false,
+        error: "Chat not found",
+      };
+      return res.status(404).json(response);
+    }
+
+    const response: ApiResponse<Chat> = {
+      success: true,
+      data: updatedChat,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<null> = {
+      success: false,
+      error: "Failed to update chat",
+    };
+    res.status(500).json(response);
+  }
+};
+
 // Delete a chat
 export const deleteChat: RequestHandler = (req, res) => {
   try {
