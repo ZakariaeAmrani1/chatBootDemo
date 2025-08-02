@@ -103,14 +103,10 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
-      {/* Public routes */}
+      {/* Root route - redirects based on auth state */}
       <Route
         path="/"
-        element={
-          <PublicRoute>
-            <Index />
-          </PublicRoute>
-        }
+        element={<RootRoute />}
       />
       <Route
         path="/login"
