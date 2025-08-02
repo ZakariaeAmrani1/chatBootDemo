@@ -43,21 +43,7 @@ const Chatbot = () => {
     return unsubscribe;
   }, []);
 
-  // Load user data
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const response = await apiService.getCurrentUser();
-        if (response.success && response.data) {
-          setUser(response.data);
-        }
-      } catch (error) {
-        console.error("Failed to load user data:", error);
-      }
-    };
-
-    loadUser();
-  }, []);
+  // User data is now provided by AuthContext
 
   // Helper functions to apply appearance settings
   const applyFontSize = (fontSize: string) => {
