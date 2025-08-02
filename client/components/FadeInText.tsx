@@ -25,7 +25,7 @@ const FadeInText: React.FC<FadeInTextProps> = ({
   return (
     <div
       className={cn(
-        "transition-all duration-700 ease-out transform",
+        "transition-all duration-300 ease-out transform",
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2",

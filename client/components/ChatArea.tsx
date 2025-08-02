@@ -122,7 +122,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     {message.type === "assistant" ? (
                       <FadeInText
                         text={message.content}
-                        delay={200}
+                        delay={50}
                       />
                     ) : (
                       <p className="whitespace-pre-wrap leading-relaxed">
