@@ -171,6 +171,23 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
+  // Debounced update function
+  const debouncedUpdateProfile = useCallback(
+    (() => {
+      let timeoutId: NodeJS.Timeout;
+      return (updates: Partial<UserType>) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(async () => {
+          await updateUserProfile(updates);
+          setPendingChanges({});
+          setHasUnsavedChanges(false);
+          setLastSaveTime(new Date());
+        }, 1000); // 1 second delay
+      };
+    })(),
+    [updateUserProfile]
+  );
+
   const updateSetting = (key: string, value: any) => {
     if (!user) return;
 
@@ -178,8 +195,18 @@ const Settings: React.FC<SettingsProps> = ({
     const profileFields = ["displayName", "email", "bio"];
 
     if (profileFields.includes(key)) {
-      updateUserProfile({ [key]: value });
+      // For profile fields, use debounced updates
+      const newChanges = { ...pendingChanges, [key]: value };
+      setPendingChanges(newChanges);
+      setHasUnsavedChanges(true);
+
+      // Update local state immediately for responsive UI
+      setUser(prev => prev ? { ...prev, [key]: value } : null);
+
+      // Debounced API call
+      debouncedUpdateProfile(newChanges);
     } else {
+      // For settings, update immediately as before
       updateUserSettings({ [key]: value });
     }
   };
