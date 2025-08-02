@@ -370,8 +370,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
             {message.type === "user" && (
               <Avatar className="w-8 h-8 mt-1">
+                {user?.avatar ? (
+                  <AvatarImage src={user.avatar} alt="User" className="rounded-full" />
+                ) : null}
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
-                  U
+                  {user?.displayName?.charAt(0).toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
             )}
