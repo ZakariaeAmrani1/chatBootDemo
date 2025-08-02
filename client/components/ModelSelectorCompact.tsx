@@ -70,20 +70,22 @@ export function ModelSelectorCompact({
   onModelChange,
 }: ModelSelectorCompactProps) {
   const [open, setOpen] = useState(false);
-  const selectedModelData = models.find(m => m.id === selectedModel);
+  const selectedModelData = models.find((m) => m.id === selectedModel);
 
   return (
     <div className="flex items-center gap-2">
       <span className="text-xs font-medium text-muted-foreground">Model:</span>
-      
+
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <button className={cn(
-            "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-200",
-            "hover:shadow-sm hover:border-muted-foreground/40",
-            selectedModelData?.bgColor || "bg-background",
-            selectedModelData?.color || "text-foreground"
-          )}>
+          <button
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-200",
+              "hover:shadow-sm hover:border-muted-foreground/40",
+              selectedModelData?.bgColor || "bg-background",
+              selectedModelData?.color || "text-foreground",
+            )}
+          >
             {selectedModelData && (
               <>
                 <selectedModelData.icon className="w-4 h-4" />
@@ -100,42 +102,46 @@ export function ModelSelectorCompact({
             <ChevronDown className="w-3 h-3 opacity-50" />
           </button>
         </PopoverTrigger>
-        
+
         <PopoverContent className="w-80 p-2" align="start">
           <div className="space-y-1">
             {models.map((model) => {
               const Icon = model.icon;
               const isSelected = selectedModel === model.id;
-              
+
               return (
                 <button
                   key={model.id}
                   className={cn(
                     "w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200",
                     "hover:bg-muted/50 text-left",
-                    isSelected && "bg-muted"
+                    isSelected && "bg-muted",
                   )}
                   onClick={() => {
                     onModelChange(model.id);
                     setOpen(false);
                   }}
                 >
-                  <div className={cn(
-                    "w-8 h-8 rounded-lg flex items-center justify-center",
-                    model.bgColor
-                  )}>
+                  <div
+                    className={cn(
+                      "w-8 h-8 rounded-lg flex items-center justify-center",
+                      model.bgColor,
+                    )}
+                  >
                     <Icon className={cn("w-4 h-4", model.color)} />
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{model.name}</span>
                       {model.badge && (
-                        <span className={cn(
-                          "px-1.5 py-0.5 text-xs rounded-md font-medium",
-                          model.bgColor,
-                          model.color
-                        )}>
+                        <span
+                          className={cn(
+                            "px-1.5 py-0.5 text-xs rounded-md font-medium",
+                            model.bgColor,
+                            model.color,
+                          )}
+                        >
                           {model.badge}
                         </span>
                       )}
@@ -144,29 +150,27 @@ export function ModelSelectorCompact({
                       {model.description}
                     </p>
                   </div>
-                  
-                  {isSelected && (
-                    <Check className="w-4 h-4 text-primary" />
-                  )}
+
+                  {isSelected && <Check className="w-4 h-4 text-primary" />}
                 </button>
               );
             })}
           </div>
-          
+
           {/* Quick switch buttons */}
           <div className="border-t mt-2 pt-2">
             <div className="flex gap-1">
               {models.map((model) => {
                 const Icon = model.icon;
                 const isSelected = selectedModel === model.id;
-                
+
                 return (
                   <button
                     key={model.id}
                     className={cn(
                       "flex-1 flex items-center justify-center gap-1 py-2 rounded-md transition-all",
                       "hover:bg-muted/50",
-                      isSelected ? model.bgColor : "bg-background"
+                      isSelected ? model.bgColor : "bg-background",
                     )}
                     onClick={() => {
                       onModelChange(model.id);
@@ -174,14 +178,18 @@ export function ModelSelectorCompact({
                     }}
                     title={model.name}
                   >
-                    <Icon className={cn(
-                      "w-3 h-3",
-                      isSelected ? model.color : "text-muted-foreground"
-                    )} />
-                    <span className={cn(
-                      "text-xs font-medium",
-                      isSelected ? model.color : "text-muted-foreground"
-                    )}>
+                    <Icon
+                      className={cn(
+                        "w-3 h-3",
+                        isSelected ? model.color : "text-muted-foreground",
+                      )}
+                    />
+                    <span
+                      className={cn(
+                        "text-xs font-medium",
+                        isSelected ? model.color : "text-muted-foreground",
+                      )}
+                    >
                       {model.shortName}
                     </span>
                   </button>

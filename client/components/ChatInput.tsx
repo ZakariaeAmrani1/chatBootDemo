@@ -287,8 +287,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           </div>
         </form>
 
-
-
         {/* Hidden file input */}
         <input
           ref={fileInputRef}
