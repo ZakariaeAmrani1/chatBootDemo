@@ -21,33 +21,33 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
   if (messages.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-gray-600">
+        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-muted-foreground">
             <path
               d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
               fill="currentColor"
             />
           </svg>
         </div>
-        <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+        <h3 className="text-2xl font-semibold text-foreground mb-4">
           How can I help you today?
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
-          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-            <h4 className="font-medium text-gray-900 mb-2">Create image</h4>
-            <p className="text-sm text-gray-600">Generate creative and custom images with DALL·E</p>
+          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+            <h4 className="font-medium text-foreground mb-2">Create image</h4>
+            <p className="text-sm text-muted-foreground">Generate creative and custom images with DALL·E</p>
           </div>
-          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-            <h4 className="font-medium text-gray-900 mb-2">Analyze data</h4>
-            <p className="text-sm text-gray-600">Upload and analyze documents, spreadsheets, and more</p>
+          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+            <h4 className="font-medium text-foreground mb-2">Analyze data</h4>
+            <p className="text-sm text-muted-foreground">Upload and analyze documents, spreadsheets, and more</p>
           </div>
-          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-            <h4 className="font-medium text-gray-900 mb-2">Summarize text</h4>
-            <p className="text-sm text-gray-600">Extract key points from long documents and articles</p>
+          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+            <h4 className="font-medium text-foreground mb-2">Summarize text</h4>
+            <p className="text-sm text-muted-foreground">Extract key points from long documents and articles</p>
           </div>
-          <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-            <h4 className="font-medium text-gray-900 mb-2">Write code</h4>
-            <p className="text-sm text-gray-600">Debug and create code in various programming languages</p>
+          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+            <h4 className="font-medium text-foreground mb-2">Write code</h4>
+            <p className="text-sm text-muted-foreground">Debug and create code in various programming languages</p>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
   }
 
   return (
-    <ScrollArea className="flex-1 px-4" ref={scrollAreaRef}>
+    <ScrollArea className="flex-1 px-4 bg-background" ref={scrollAreaRef}>
       <div className="max-w-4xl mx-auto py-6 space-y-6">
         {messages.map((message, index) => (
           <div
@@ -66,8 +66,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
             )}
           >
             {message.sender === 'assistant' && (
-              <Avatar className="w-8 h-8 mt-1 bg-green-600">
-                <AvatarFallback className="bg-green-600 text-white text-sm font-semibold">
+              <Avatar className="w-8 h-8 mt-1">
+                <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   AI
                 </AvatarFallback>
               </Avatar>
@@ -80,29 +80,29 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
               <div className={cn(
                 "rounded-2xl px-6 py-4",
                 message.sender === 'user'
-                  ? 'bg-gray-100 ml-auto max-w-lg'
+                  ? 'bg-muted ml-auto max-w-lg'
                   : 'bg-transparent'
               )}>
-                <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
+                <p className="text-foreground whitespace-pre-wrap leading-relaxed">
                   {message.content}
                 </p>
               </div>
               
               {message.sender === 'assistant' && (
                 <div className="flex items-center gap-2 mt-3">
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                     <Copy className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                     <ThumbsUp className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                     <ThumbsDown className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                     <RotateCcw className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                     <Share className="h-4 w-4" />
                   </Button>
                 </div>
@@ -111,7 +111,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
             
             {message.sender === 'user' && (
               <Avatar className="w-8 h-8 mt-1">
-                <AvatarFallback className="bg-blue-600 text-white text-sm font-semibold">
+                <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   U
                 </AvatarFallback>
               </Avatar>
