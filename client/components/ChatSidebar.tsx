@@ -150,12 +150,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             {!collapsed && (
               <div className="flex items-center gap-2">
                 <img
-                  src={getAppLogo()}
-                  alt={`${getAppName()} Logo`}
+                  src={getAppLogo(resolvedTheme, user)}
+                  alt={`${getAppName(user)} Logo`}
                   className="w-6 h-6 rounded-lg shadow-sm"
                 />
                 <h2 className="text-lg font-semibold text-foreground tracking-tight">
-                  {getAppName()}
+                  {getAppName(user)}
                 </h2>
               </div>
             )}
