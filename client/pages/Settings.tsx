@@ -112,27 +112,27 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
 
   const renderOverview = () => (
     <div className="space-y-6">
-      <div>
+      <div className="hidden md:block">
         <h2 className="text-2xl font-bold text-foreground mb-2">Settings</h2>
         <p className="text-muted-foreground">Manage your account settings and preferences.</p>
       </div>
-      
-      <div className="grid gap-4 md:grid-cols-2">
+
+      <div className="grid gap-3 md:gap-4 grid-cols-1 md:grid-cols-2">
         {settingsMenu.slice(1).map((section) => {
           const Icon = section.icon;
           return (
-            <Card 
-              key={section.id} 
+            <Card
+              key={section.id}
               className="cursor-pointer hover:bg-muted/50 transition-colors"
               onClick={() => setActiveSection(section.id as SettingsSection)}
             >
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-3 md:pb-3 p-4 md:p-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <Icon className="h-5 w-5 text-muted-foreground" />
-                    <CardTitle className="text-base">{section.label}</CardTitle>
+                    <Icon className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <CardTitle className="text-sm md:text-base">{section.label}</CardTitle>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                 </div>
               </CardHeader>
             </Card>
