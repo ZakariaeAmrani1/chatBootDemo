@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
 import { apiService } from "@/services/api";
-import { Chat, Message, FileAttachment } from "@shared/types";
+import { Chat, Message, FileAttachment, User } from "@shared/types";
 
 const Chatbot = () => {
   const [chatState, setChatState] = useState<ChatState>({
@@ -24,6 +24,7 @@ const Chatbot = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   // Subscribe to chat service state changes
   useEffect(() => {
@@ -33,6 +34,22 @@ const Chatbot = () => {
     chatService.loadChats();
 
     return unsubscribe;
+  }, []);
+
+  // Load user data
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await apiService.getCurrentUser();
+        if (response.success && response.data) {
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to load user data:", error);
+      }
+    };
+
+    loadUser();
   }, []);
 
   const createNewChat = async (message?: string) => {
