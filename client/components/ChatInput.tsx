@@ -161,7 +161,10 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'audio/webm;codecs=opus'
+      });
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -174,10 +177,14 @@ const ChatInput: React.FC<ChatInputProps> = ({
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         await handleAudioRecorded(audioBlob);
-        stream.getTracks().forEach(track => track.stop());
+
+        // Stop all tracks
+        stream.getTracks().forEach(track => {
+          track.stop();
+        });
       };
 
-      mediaRecorder.start();
+      mediaRecorder.start(100); // Collect data every 100ms
       setIsRecording(true);
       setRecordingTime(0);
 
@@ -193,23 +200,29 @@ const ChatInput: React.FC<ChatInputProps> = ({
   }, [hasPermission]);
 
   const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && isRecording) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
-      setIsRecording(false);
-
-      if (recordingIntervalRef.current) {
-        clearInterval(recordingIntervalRef.current);
-        recordingIntervalRef.current = null;
-      }
     }
-  }, [isRecording]);
+
+    setIsRecording(false);
+
+    if (recordingIntervalRef.current) {
+      clearInterval(recordingIntervalRef.current);
+      recordingIntervalRef.current = null;
+    }
+  }, []);
 
   const handleAudioRecorded = async (audioBlob: Blob) => {
+    if (audioBlob.size < 1000) {
+      console.warn('Audio recording too short, ignoring');
+      return;
+    }
+
     setIsUploading(true);
 
     try {
       // Create a file from the blob
-      const audioFile = new File([audioBlob], `audio-${Date.now()}.webm`, {
+      const audioFile = new File([audioBlob], `voice-message-${Date.now()}.webm`, {
         type: 'audio/webm'
       });
 
@@ -217,27 +230,21 @@ const ChatInput: React.FC<ChatInputProps> = ({
       const response = await apiService.uploadFiles([audioFile]);
 
       if (response.success && response.data) {
-        setAttachedFiles(prev => [...prev, ...response.data!]);
-        // Auto-send the audio message
-        setTimeout(() => {
-          onSendMessage('🎤 Audio message', response.data);
-        }, 100);
+        // Auto-send the audio message immediately
+        onSendMessage('🎤 Voice message', response.data);
       } else {
         console.error('Failed to upload audio:', response.error);
         // Fallback to local URL
         const audioAttachment: FileAttachment = {
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          name: `audio-${Date.now()}.webm`,
+          name: `voice-message-${Date.now()}.webm`,
           type: 'audio/webm',
           size: audioBlob.size,
           url: URL.createObjectURL(audioBlob),
           uploadedAt: new Date().toISOString(),
         };
-        setAttachedFiles(prev => [...prev, audioAttachment]);
-        // Auto-send the audio message
-        setTimeout(() => {
-          onSendMessage('🎤 Audio message', [audioAttachment]);
-        }, 100);
+        // Auto-send the audio message immediately
+        onSendMessage('🎤 Voice message', [audioAttachment]);
       }
     } catch (error) {
       console.error('Error processing audio:', error);
@@ -415,53 +422,42 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 {/* Voice Recording */}
                 <div className="relative flex items-center gap-2">
                   {isRecording && (
-                    <div className="flex items-center gap-2 text-xs text-red-500 font-mono">
-                      <div className="relative">
-                        <div className="w-2 h-2 bg-red-500 rounded-full recording-indicator" />
-                        <div className="absolute inset-0 w-2 h-2 bg-red-500/30 rounded-full recording-ripple" />
+                    <div className="flex items-center gap-2 text-xs text-red-500 font-medium">
+                      <div className="flex items-center gap-1">
+                        <div className="wave-container">
+                          <div className="wave-bar"></div>
+                          <div className="wave-bar"></div>
+                          <div className="wave-bar"></div>
+                          <div className="wave-bar"></div>
+                        </div>
                       </div>
-                      <span className="font-semibold">REC {formatRecordingTime(recordingTime)}</span>
+                      <span>{formatRecordingTime(recordingTime)}</span>
                     </div>
                   )}
-                  <div className="relative">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className={cn(
-                        "h-8 w-8 p-0 rounded-lg transition-all duration-300 relative overflow-hidden",
-                        isRecording
-                          ? "text-red-500 bg-red-50 hover:bg-red-100 scale-110 shadow-lg border border-red-200"
-                          : hasPermission === false
-                          ? "text-red-400 hover:bg-red-50"
-                          : "hover:bg-muted text-muted-foreground hover:scale-110",
-                      )}
-                      onClick={toggleRecording}
-                      disabled={isSending || disabled || isUploading}
-                      title={hasPermission === false ? "Microphone permission required" : isRecording ? "Stop recording" : "Start recording"}
-                    >
-                      {/* Multiple ripple effects for recording */}
-                      {isRecording && (
-                        <>
-                          <div className="absolute inset-0 bg-red-500/15 rounded-lg animate-ping" style={{ animationDelay: '0s' }} />
-                          <div className="absolute inset-0 bg-red-500/10 rounded-lg animate-ping" style={{ animationDelay: '0.5s' }} />
-                          <div className="absolute inset-0 bg-red-500/5 rounded-lg animate-ping" style={{ animationDelay: '1s' }} />
-                        </>
-                      )}
-                      {isRecording ? (
-                        <Square className="h-4 w-4 relative z-10 recording-indicator" />
-                      ) : hasPermission === false ? (
-                        <MicOff className="h-4 w-4 relative z-10" />
-                      ) : (
-                        <Mic className="h-4 w-4 relative z-10" />
-                      )}
-                    </Button>
-
-                    {/* Outer ripple ring for recording */}
-                    {isRecording && (
-                      <div className="absolute inset-0 border-2 border-red-500/30 rounded-lg recording-ripple" />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      "h-8 w-8 p-0 rounded-lg transition-all duration-200",
+                      isRecording
+                        ? "text-red-500 bg-red-50 hover:bg-red-100"
+                        : hasPermission === false
+                        ? "text-red-400 hover:bg-red-50"
+                        : "hover:bg-muted text-muted-foreground",
                     )}
-                  </div>
+                    onClick={toggleRecording}
+                    disabled={isSending || disabled || isUploading}
+                    title={hasPermission === false ? "Microphone permission required" : isRecording ? "Stop recording" : "Start recording"}
+                  >
+                    {isRecording ? (
+                      <Square className="h-4 w-4" />
+                    ) : hasPermission === false ? (
+                      <MicOff className="h-4 w-4" />
+                    ) : (
+                      <Mic className="h-4 w-4" />
+                    )}
+                  </Button>
                 </div>
               </div>
 
