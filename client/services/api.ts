@@ -139,6 +139,45 @@ class ApiService {
     });
   }
 
+  async uploadUserAvatar(
+    userId: string,
+    avatarFile: File,
+  ): Promise<ApiResponse<User>> {
+    const formData = new FormData();
+    formData.append("avatar", avatarFile);
+
+    return this.request<User>(`/user/${userId}/avatar`, {
+      method: "POST",
+      body: formData,
+    });
+  }
+
+  async uploadLightLogo(
+    userId: string,
+    logoFile: File,
+  ): Promise<ApiResponse<User>> {
+    const formData = new FormData();
+    formData.append("lightLogo", logoFile);
+
+    return this.request<User>(`/user/${userId}/light-logo`, {
+      method: "POST",
+      body: formData,
+    });
+  }
+
+  async uploadDarkLogo(
+    userId: string,
+    logoFile: File,
+  ): Promise<ApiResponse<User>> {
+    const formData = new FormData();
+    formData.append("darkLogo", logoFile);
+
+    return this.request<User>(`/user/${userId}/dark-logo`, {
+      method: "POST",
+      body: formData,
+    });
+  }
+
   // File operations
   async uploadFiles(files: File[]): Promise<ApiResponse<FileAttachment[]>> {
     const formData = new FormData();

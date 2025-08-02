@@ -9,7 +9,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Chatbot from "./pages/Chatbot";
 import Settings from "./pages/Settings";
@@ -56,6 +55,26 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+// Root Route Component (redirect based on authentication state)
+const RootRoute = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
+            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          </div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return <Navigate to={isAuthenticated ? "/chat" : "/login"} replace />;
+};
+
 // Public Route Component (redirect to chat if already authenticated)
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -83,15 +102,8 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
-      {/* Public routes */}
-      <Route
-        path="/"
-        element={
-          <PublicRoute>
-            <Index />
-          </PublicRoute>
-        }
-      />
+      {/* Root route - redirects based on auth state */}
+      <Route path="/" element={<RootRoute />} />
       <Route
         path="/login"
         element={

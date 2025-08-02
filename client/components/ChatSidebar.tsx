@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/components/ThemeProvider";
+import { getAppLogo, getAppName } from "@/lib/app-config";
 import {
   MessageSquare,
   Plus,
@@ -68,6 +70,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { resolvedTheme } = useTheme();
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -145,12 +148,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             {!collapsed && (
               <div className="flex items-center gap-2">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
-                  alt="ChatNova Logo"
+                  src={getAppLogo(resolvedTheme, user)}
+                  alt={`${getAppName(user)} Logo`}
                   className="w-6 h-6 rounded-lg shadow-sm"
                 />
                 <h2 className="text-lg font-semibold text-foreground tracking-tight">
-                  ChatNova
+                  {getAppName(user)}
                 </h2>
               </div>
             )}
@@ -375,8 +378,18 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex justify-center">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer shadow-sm transition-all duration-200">
-                      {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                    <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200">
+                      {user?.avatar ? (
+                        <img
+                          src={user.avatar}
+                          alt="User Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-semibold text-sm">
+                          {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </TooltipTrigger>
@@ -426,8 +439,18 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <Separator className="my-2 bg-border/50" />
 
               <div className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted/50 cursor-pointer group">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
+                  {user?.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt="User Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-white font-semibold text-sm">
+                      {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                    </span>
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">

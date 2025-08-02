@@ -50,29 +50,29 @@ const Chatbot = () => {
       name: "V1",
       fullName: "ChatNova V1",
       color: "text-slate-600",
-      bgColor: "bg-slate-50",
-      borderColor: "border-slate-200",
+      bgColor: "bg-transparent",
+      borderColor: "border-slate-300",
     },
     {
       name: "V2",
       fullName: "ChatNova V2",
       color: "text-blue-600",
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
+      bgColor: "bg-transparent",
+      borderColor: "border-blue-300",
     },
     {
       name: "V3",
       fullName: "ChatNova V3",
       color: "text-purple-600",
-      bgColor: "bg-purple-50",
-      borderColor: "border-purple-200",
+      bgColor: "bg-transparent",
+      borderColor: "border-purple-300",
     },
     {
       name: "V4",
       fullName: "ChatNova V4",
       color: "text-orange-600",
-      bgColor: "bg-orange-50",
-      borderColor: "border-orange-200",
+      bgColor: "bg-transparent",
+      borderColor: "border-orange-300",
     },
   ];
 
@@ -374,9 +374,11 @@ const Chatbot = () => {
                     key={version.fullName}
                     onClick={() => setSelectedVersion(version.fullName)}
                     className={cn(
-                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200",
-                      "hover:bg-muted/60",
-                      selectedVersion === version.fullName && version.bgColor,
+                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 border",
+                      "hover:bg-muted/30",
+                      selectedVersion === version.fullName
+                        ? `bg-transparent ${version.borderColor}`
+                        : "border-transparent hover:border-muted",
                     )}
                   >
                     <span
@@ -427,6 +429,7 @@ const Chatbot = () => {
             isLoading={chatState.isLoading}
             error={chatState.error}
             onMessageUpdate={handleMessageUpdate}
+            user={user}
           />
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,9 @@ import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import FadeInText from "@/components/FadeInText";
-import type { Message } from "@shared/types";
+import { useTheme } from "@/components/ThemeProvider";
+import { getAppLogo } from "@/lib/app-config";
+import type { Message, User } from "@shared/types";
 
 interface ChatAreaProps {
   messages: Message[];
@@ -20,6 +22,7 @@ interface ChatAreaProps {
   error?: string | null;
   onRegenerateMessage?: (messageId: string) => void;
   onMessageUpdate?: (messageId: string, updates: Partial<Message>) => void;
+  user?: User | null;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -31,9 +34,16 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   error = null,
   onRegenerateMessage,
   onMessageUpdate,
+  user,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { resolvedTheme } = useTheme();
+
+  // Get the appropriate AI logo based on theme and user settings
+  const getAILogo = () => {
+    return getAppLogo(resolvedTheme, user);
+  };
 
   // Copy message content to clipboard
   const handleCopy = async (content: string) => {
@@ -252,6 +262,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           >
             {message.type === "assistant" && (
               <Avatar className="w-8 h-8 mt-1">
+                <AvatarImage
+                  src={getAILogo()}
+                  alt="AI"
+                  className="rounded-full"
+                />
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   AI
                 </AvatarFallback>
@@ -358,8 +373,15 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
             {message.type === "user" && (
               <Avatar className="w-8 h-8 mt-1">
+                {user?.avatar ? (
+                  <AvatarImage
+                    src={user.avatar}
+                    alt="User"
+                    className="rounded-full"
+                  />
+                ) : null}
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
-                  U
+                  {user?.displayName?.charAt(0).toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
             )}
@@ -370,6 +392,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         {isThinking && (
           <div className="flex gap-4 justify-start">
             <Avatar className="w-8 h-8 mt-1">
+              <AvatarImage
+                src={getAILogo()}
+                alt="AI"
+                className="rounded-full"
+              />
               <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                 AI
               </AvatarFallback>
@@ -394,6 +421,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         {error && (
           <div className="flex gap-4 justify-start">
             <Avatar className="w-8 h-8 mt-1">
+              <AvatarImage
+                src={getAILogo()}
+                alt="AI"
+                className="rounded-full"
+              />
               <AvatarFallback className="bg-destructive text-destructive-foreground text-sm font-semibold">
                 !
               </AvatarFallback>

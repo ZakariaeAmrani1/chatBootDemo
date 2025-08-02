@@ -10,7 +10,14 @@ import {
   updateChat,
   deleteChat,
 } from "./routes/chats";
-import { getCurrentUser, updateUser, updateUserSettings } from "./routes/users";
+import {
+  getCurrentUser,
+  updateUser,
+  updateUserSettings,
+  uploadAvatar,
+  uploadLightLogo,
+  uploadDarkLogo,
+} from "./routes/users";
 import { uploadFiles, serveFile, getFileInfo } from "./routes/files";
 import {
   getDataStats,
@@ -49,6 +56,9 @@ export function createServer() {
   app.get("/api/user", getCurrentUser);
   app.put("/api/user/:userId", updateUser);
   app.put("/api/user/:userId/settings", updateUserSettings);
+  app.post("/api/user/:userId/avatar", ...uploadAvatar);
+  app.post("/api/user/:userId/light-logo", ...uploadLightLogo);
+  app.post("/api/user/:userId/dark-logo", ...uploadDarkLogo);
 
   // File API routes
   app.post("/api/files/upload", ...uploadFiles);

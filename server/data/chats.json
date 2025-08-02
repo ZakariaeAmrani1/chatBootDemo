@@ -6,8 +6,8 @@
       "model": "gpt-4",
       "chatbootVersion": "Chatboot V3",
       "createdAt": "2025-08-02T18:19:09.970Z",
-      "updatedAt": "2025-08-02T18:19:13.180Z",
-      "messageCount": 2,
+      "updatedAt": "2025-08-02T18:36:04.241Z",
+      "messageCount": 4,
       "userId": "user-1"
     },
     {
@@ -17,6 +17,16 @@
       "chatbootVersion": "Chatboot V3",
       "createdAt": "2025-08-02T18:19:19.801Z",
       "updatedAt": "2025-08-02T18:19:19.801Z",
+      "messageCount": 0,
+      "userId": "user-1"
+    },
+    {
+      "id": "8051ef6d-d8eb-419a-a1e2-5643df09dd50",
+      "title": "New Chat",
+      "model": "gpt-4",
+      "chatbootVersion": "ChatNova V1",
+      "createdAt": "2025-08-02T18:33:06.678Z",
+      "updatedAt": "2025-08-02T18:33:06.678Z",
       "messageCount": 0,
       "userId": "user-1"
     }
@@ -35,6 +45,20 @@
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
       "timestamp": "2025-08-02T18:19:13.180Z"
+    },
+    {
+      "id": "1c0ea60d-34a2-4855-8e1d-f143155aaf3d",
+      "chatId": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-02T18:36:01.570Z"
+    },
+    {
+      "id": "7c357b07-5325-433f-b07b-47a6af5d0852",
+      "chatId": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "type": "assistant",
+      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
+      "timestamp": "2025-08-02T18:36:04.241Z"
     }
   ]
 }

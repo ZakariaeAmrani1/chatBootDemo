@@ -13,9 +13,12 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, MessageSquare, Mail, Lock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/components/ThemeProvider";
+import { getAppLogo, getAppName } from "@/lib/app-config";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
+  const { resolvedTheme } = useTheme();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -66,8 +69,8 @@ const Login: React.FC = () => {
         <div className="text-center">
           <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mb-4">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800"
-              alt="ChatNova Logo"
+              src={getAppLogo(resolvedTheme)}
+              alt={`${getAppName()} Logo`}
               className="w-16 h-16 rounded-2xl"
             />
           </div>

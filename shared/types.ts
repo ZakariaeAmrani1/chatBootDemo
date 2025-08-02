@@ -49,6 +49,10 @@ export interface UserSettings {
   screenReader: boolean;
   grokApiKey?: string;
   appUrl?: string;
+  // App customization settings
+  appName?: string;
+  lightLogo?: string;
+  darkLogo?: string;
 }
 
 export interface Message {

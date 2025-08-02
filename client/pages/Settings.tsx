@@ -21,6 +21,7 @@ import {
   Settings2,
   Check,
   EyeOff,
+  Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,6 +52,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import SuccessDialog from "@/components/SuccessDialog";
 import { useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/contexts/AuthContext";
+import { getAppName, getAppLogo } from "@/lib/app-config";
 
 interface SettingsProps {
   onClose: () => void;
@@ -70,7 +72,8 @@ type SettingsSection =
   | "data"
   | "language"
   | "voice"
-  | "accessibility";
+  | "accessibility"
+  | "app";
 
 const Settings: React.FC<SettingsProps> = ({
   onClose,
@@ -92,6 +95,9 @@ const Settings: React.FC<SettingsProps> = ({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
   const [showApiKey, setShowApiKey] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [isUploadingLightLogo, setIsUploadingLightLogo] = useState(false);
+  const [isUploadingDarkLogo, setIsUploadingDarkLogo] = useState(false);
 
   // Use auth context for user data instead of local state
   const { user, updateUser } = useAuth();
@@ -179,8 +185,7 @@ const Settings: React.FC<SettingsProps> = ({
       setPendingChanges(newChanges);
       setHasUnsavedChanges(true);
 
-      // Update local state immediately for responsive UI
-      setUser((prev) => (prev ? { ...prev, [key]: value } : null));
+      // Note: AuthContext will handle the state update when profile is saved
     } else {
       // For settings (including appearance), update immediately with auto-save
       updateUserSettings({ [key]: value });
@@ -237,9 +242,152 @@ const Settings: React.FC<SettingsProps> = ({
     onRefresh?.();
   };
 
+  const handleAvatarUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    setIsUploadingAvatar(true);
+    setError(null);
+
+    try {
+      const response = await apiService.uploadUserAvatar(user.id, file);
+      if (response.success && response.data) {
+        // Update user via AuthContext
+        updateUser(response.data);
+        // Call the callback to update parent component
+        onUserUpdate?.(response.data);
+        setLastSaveTime(new Date());
+      } else {
+        setError(response.error || "Failed to upload avatar");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to upload avatar",
+      );
+    } finally {
+      setIsUploadingAvatar(false);
+      // Reset the input
+      event.target.value = "";
+    }
+  };
+
+  const handleLightLogoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    setIsUploadingLightLogo(true);
+    setError(null);
+
+    try {
+      const response = await apiService.uploadLightLogo(user.id, file);
+      if (response.success && response.data) {
+        updateUser(response.data);
+        setLastSaveTime(new Date());
+      } else {
+        setError(response.error || "Failed to upload light logo");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to upload light logo",
+      );
+    } finally {
+      setIsUploadingLightLogo(false);
+      event.target.value = "";
+    }
+  };
+
+  const handleDarkLogoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    setIsUploadingDarkLogo(true);
+    setError(null);
+
+    try {
+      const response = await apiService.uploadDarkLogo(user.id, file);
+      if (response.success && response.data) {
+        updateUser(response.data);
+        setLastSaveTime(new Date());
+      } else {
+        setError(response.error || "Failed to upload dark logo");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to upload dark logo",
+      );
+    } finally {
+      setIsUploadingDarkLogo(false);
+      event.target.value = "";
+    }
+  };
+
   const settingsMenu = [
     { id: "overview", label: "Overview", icon: Settings2 },
     { id: "profile", label: "Profile", icon: User },
+    { id: "app", label: "App Customization", icon: Smartphone },
     { id: "appearance", label: "Appearance", icon: Palette },
     { id: "notifications", label: "Notifications", icon: Bell },
     { id: "privacy", label: "Privacy & Security", icon: Shield },
@@ -317,12 +465,40 @@ const Settings: React.FC<SettingsProps> = ({
 
       <div className="space-y-4">
         <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-            U
+          <div className="w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-white font-bold text-xl">
+                {user?.displayName?.charAt(0).toUpperCase() || "U"}
+              </span>
+            )}
           </div>
-          <Button variant="outline" size="sm">
-            Change Avatar
-          </Button>
+          <div>
+            <input
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+              onChange={handleAvatarUpload}
+              className="hidden"
+              id="avatar-upload"
+              disabled={isUploadingAvatar}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => document.getElementById("avatar-upload")?.click()}
+              disabled={isUploadingAvatar}
+            >
+              {isUploadingAvatar ? "Uploading..." : "Change Avatar"}
+            </Button>
+            <p className="text-xs text-muted-foreground mt-1">
+              JPEG, PNG, GIF, WebP up to 5MB
+            </p>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -974,12 +1150,141 @@ const Settings: React.FC<SettingsProps> = ({
     </div>
   );
 
+  const renderAppCustomization = () => (
+    <div className="space-y-6">
+      <div>
+        <p className="text-sm text-muted-foreground">
+          Customize your app branding and appearance.
+        </p>
+      </div>
+
+      <div className="space-y-6">
+        {/* App Name */}
+        <div className="space-y-3">
+          <Label htmlFor="appName">App Name</Label>
+          <Input
+            id="appName"
+            placeholder="ChatNova"
+            value={user?.settings.appName || getAppName(user)}
+            onChange={(e) => updateSetting("appName", e.target.value)}
+            disabled={isSaving}
+          />
+          <p className="text-xs text-muted-foreground">
+            The name appears in the sidebar and throughout the app
+          </p>
+        </div>
+
+        <Separator />
+
+        {/* Light Theme Logo */}
+        <div className="space-y-4">
+          <div>
+            <Label>Light Theme Logo</Label>
+            <p className="text-sm text-muted-foreground">
+              Logo displayed when using light theme
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-lg border border-border overflow-hidden bg-background flex items-center justify-center">
+              <img
+                src={getAppLogo("light", user)}
+                alt="Current Light Theme Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                onChange={handleLightLogoUpload}
+                className="hidden"
+                id="light-logo-upload"
+                disabled={isUploadingLightLogo}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  document.getElementById("light-logo-upload")?.click()
+                }
+                disabled={isUploadingLightLogo}
+              >
+                {isUploadingLightLogo ? "Uploading..." : "Upload Light Logo"}
+              </Button>
+              <p className="text-xs text-muted-foreground mt-1">
+                {user?.settings.lightLogo ? (
+                  <>Custom logo uploaded · </>
+                ) : (
+                  <>Using default logo · </>
+                )}
+                JPEG, PNG, GIF, WebP up to 5MB
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Dark Theme Logo */}
+        <div className="space-y-4">
+          <div>
+            <Label>Dark Theme Logo</Label>
+            <p className="text-sm text-muted-foreground">
+              Logo displayed when using dark theme
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-lg border border-border overflow-hidden bg-background flex items-center justify-center">
+              <img
+                src={getAppLogo("dark", user)}
+                alt="Current Dark Theme Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                onChange={handleDarkLogoUpload}
+                className="hidden"
+                id="dark-logo-upload"
+                disabled={isUploadingDarkLogo}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  document.getElementById("dark-logo-upload")?.click()
+                }
+                disabled={isUploadingDarkLogo}
+              >
+                {isUploadingDarkLogo ? "Uploading..." : "Upload Dark Logo"}
+              </Button>
+              <p className="text-xs text-muted-foreground mt-1">
+                {user?.settings.darkLogo ? (
+                  <>Custom logo uploaded · </>
+                ) : (
+                  <>Using default logo · </>
+                )}
+                JPEG, PNG, GIF, WebP up to 5MB
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeSection) {
       case "overview":
         return renderOverview();
       case "profile":
         return renderProfile();
+      case "app":
+        return renderAppCustomization();
       case "appearance":
         return renderAppearance();
       case "notifications":
@@ -1031,7 +1336,7 @@ const Settings: React.FC<SettingsProps> = ({
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <p className="text-destructive mb-4">Error: {error}</p>
-              <Button onClick={loadUserData}>Try Again</Button>
+              <Button onClick={onClose}>Close</Button>
             </div>
           </div>
         </div>
