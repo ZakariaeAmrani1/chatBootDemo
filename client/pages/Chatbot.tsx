@@ -35,80 +35,52 @@ const Chatbot = () => {
     return unsubscribe;
   }, []);
 
-  const createNewChat = () => {
-    const newChat: Chat = {
-      id: Date.now().toString(),
-      title: "New chat",
-      messages: [],
-      createdAt: new Date(),
-    };
-    setChats((prev) => [newChat, ...prev]);
-    setCurrentChatId(newChat.id);
+  const createNewChat = async (message?: string) => {
+    if (message) {
+      // Create chat with initial message
+      await chatService.createChat({
+        title: "New Chat",
+        model: selectedModel,
+        message: message
+      });
+    } else {
+      // Just create empty chat (will be done on first message)
+      // For now, do nothing - chat will be created when user sends first message
+    }
   };
 
-  const addMessage = (content: string, attachments?: FileAttachment[]) => {
-    if (!currentChat) return;
+  const addMessage = async (content: string, attachments?: FileAttachment[]) => {
+    if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content,
-      sender: "user",
-      timestamp: new Date(),
-      attachments,
-    };
-
-    // Generate title from content or first attachment name
-    const generateTitle = () => {
-      if (content.trim()) {
-        return content.slice(0, 30) + (content.length > 30 ? "..." : "");
-      }
-      if (attachments && attachments.length > 0) {
-        return `📎 ${attachments[0].name}`;
-      }
-      return "New chat";
-    };
-
-    // Update chat title if it's the first message
-    const updatedChat = {
-      ...currentChat,
-      title:
-        currentChat.messages.length === 0 ? generateTitle() : currentChat.title,
-      messages: [...currentChat.messages, userMessage],
-    };
-
-    setChats((prev) =>
-      prev.map((chat) => (chat.id === currentChatId ? updatedChat : chat)),
-    );
-
-    // Simulate assistant response
-    setTimeout(() => {
-      let assistantContent =
-        "I'm a demo assistant response. In a real implementation, this would connect to your AI model.";
-
-      if (attachments && attachments.length > 0) {
-        const fileTypes = attachments.map((a) => {
-          if (a.type.startsWith("image/")) return "image";
-          if (a.type === "application/pdf") return "PDF";
-          return "file";
+    try {
+      if (!chatState.currentChat) {
+        // Create new chat with this message
+        await chatService.createChat({
+          title: "New Chat",
+          model: selectedModel,
+          message: content
         });
-        assistantContent = `I can see you've shared ${attachments.length} ${fileTypes.join(", ")}(s). In a real implementation, I would analyze these files and provide relevant insights.`;
+      } else {
+        // Send message to existing chat
+        await chatService.sendMessage({
+          chatId: chatState.currentChat.id,
+          message: content
+        });
       }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+    }
+  };
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: assistantContent,
-        sender: "assistant",
-        timestamp: new Date(),
-      };
+  const handleChatSelect = async (chatId: string) => {
+    const chat = chatState.chats.find(c => c.id === chatId);
+    if (chat) {
+      await chatService.selectChat(chat);
+    }
+  };
 
-      setChats((prev) =>
-        prev.map((chat) =>
-          chat.id === currentChatId
-            ? { ...chat, messages: [...chat.messages, assistantMessage] }
-            : chat,
-        ),
-      );
-    }, 1000);
+  const handleDeleteChat = async (chatId: string) => {
+    await chatService.deleteChat(chatId);
   };
 
   return (
