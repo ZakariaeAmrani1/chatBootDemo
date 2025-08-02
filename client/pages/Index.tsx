@@ -25,40 +25,24 @@ export default function Index() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
       <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <MessageSquare className="h-8 w-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            AI Chatbot Interface
+          </h1>
+          <p className="text-gray-600 mb-8">
+            A professional ChatGPT-like interface with modern design, file uploads, voice recording, and multiple AI models.
+          </p>
+          <Link to="/chat">
+            <Button size="lg" className="w-full">
+              <MessageSquare className="h-5 w-5 mr-2" />
+              Launch Chatbot
+            </Button>
+          </Link>
+          <p className="mt-4 text-sm text-gray-500">{exampleFromServer}</p>
+        </div>
       </div>
     </div>
   );
