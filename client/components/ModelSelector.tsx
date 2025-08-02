@@ -67,7 +67,7 @@ export function ModelSelector({
           <label
             key={model.id}
             className={cn(
-              "relative flex items-center gap-2 px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-200 hover:scale-105",
+              "relative flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
               selectedModel === model.id
                 ? `${model.bgColor} ${model.borderColor.replace("hover:", "")} shadow-sm`
                 : `bg-background border-border hover:border-muted-foreground/40`,
