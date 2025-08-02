@@ -36,6 +36,40 @@ const Chatbot = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("Chatboot Pro");
 
+  // Version configurations with colors
+  const versions = [
+    {
+      name: "Chatboot Free",
+      color: "bg-slate-500",
+      textColor: "text-slate-600",
+      bgColor: "bg-slate-50",
+      darkBgColor: "dark:bg-slate-900/50"
+    },
+    {
+      name: "Chatboot Plus",
+      color: "bg-blue-500",
+      textColor: "text-blue-600",
+      bgColor: "bg-blue-50",
+      darkBgColor: "dark:bg-blue-900/50"
+    },
+    {
+      name: "Chatboot Pro",
+      color: "bg-purple-500",
+      textColor: "text-purple-600",
+      bgColor: "bg-purple-50",
+      darkBgColor: "dark:bg-purple-900/50"
+    },
+    {
+      name: "Chatboot Enterprise",
+      color: "bg-gradient-to-r from-amber-500 to-orange-500",
+      textColor: "text-orange-600",
+      bgColor: "bg-gradient-to-r from-amber-50 to-orange-50",
+      darkBgColor: "dark:bg-gradient-to-r dark:from-amber-900/50 dark:to-orange-900/50"
+    }
+  ];
+
+  const getCurrentVersion = () => versions.find(v => v.name === selectedVersion) || versions[2];
+
   // Authentication and theme context
   const { user, updateUser } = useAuth();
   const { setTheme } = useTheme();
@@ -306,25 +340,55 @@ const Chatbot = () => {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="text-lg font-semibold text-foreground hover:bg-muted/50 px-3 py-2 h-auto"
+                  className={cn(
+                    "group relative flex items-center gap-3 px-4 py-2 h-auto rounded-lg border",
+                    "hover:shadow-sm transition-all duration-200 hover:scale-[1.02]",
+                    getCurrentVersion().bgColor,
+                    getCurrentVersion().darkBgColor,
+                    "border-border/50 hover:border-border"
+                  )}
                 >
-                  {selectedVersion}
-                  <ChevronDown className="h-4 w-4 ml-2" />
+                  <div className={cn(
+                    "w-3 h-3 rounded-full shadow-sm",
+                    getCurrentVersion().color
+                  )} />
+                  <span className={cn(
+                    "text-sm font-medium",
+                    getCurrentVersion().textColor
+                  )}>
+                    {selectedVersion}
+                  </span>
+                  <ChevronDown className="h-3 w-3 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
-                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Free")}>
-                  Chatboot Free
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Plus")}>
-                  Chatboot Plus
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Pro")}>
-                  Chatboot Pro
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedVersion("Chatboot Enterprise")}>
-                  Chatboot Enterprise
-                </DropdownMenuItem>
+              <DropdownMenuContent align="start" className="w-56 p-2">
+                {versions.map((version) => (
+                  <DropdownMenuItem
+                    key={version.name}
+                    onClick={() => setSelectedVersion(version.name)}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer",
+                      "hover:bg-muted/60 transition-colors duration-150",
+                      selectedVersion === version.name && "bg-muted"
+                    )}
+                  >
+                    <div className={cn(
+                      "w-3 h-3 rounded-full shadow-sm",
+                      version.color
+                    )} />
+                    <div className="flex-1">
+                      <div className={cn(
+                        "text-sm font-medium",
+                        version.textColor
+                      )}>
+                        {version.name}
+                      </div>
+                    </div>
+                    {selectedVersion === version.name && (
+                      <div className="w-2 h-2 rounded-full bg-primary" />
+                    )}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
