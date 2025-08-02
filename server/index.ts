@@ -21,5 +21,17 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Chat API routes
+  app.get("/api/chats", getChats);
+  app.get("/api/chats/:chatId/messages", getChatMessages);
+  app.post("/api/chats", createChat);
+  app.post("/api/chats/message", sendMessage);
+  app.delete("/api/chats/:chatId", deleteChat);
+
+  // User API routes
+  app.get("/api/user", getCurrentUser);
+  app.put("/api/user/:userId", updateUser);
+  app.put("/api/user/:userId/settings", updateUserSettings);
+
   return app;
 }
