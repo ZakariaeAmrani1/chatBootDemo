@@ -91,6 +91,7 @@ const Settings: React.FC<SettingsProps> = ({
   const [pendingChanges, setPendingChanges] = useState<Partial<UserType>>({});
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
+  const [showApiKey, setShowApiKey] = useState(false);
 
   // Theme context for immediate theme application
   const { setTheme } = useTheme();
