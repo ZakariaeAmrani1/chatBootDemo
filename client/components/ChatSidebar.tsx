@@ -238,51 +238,59 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     "group flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
                     "hover:bg-muted/50",
                     currentChatId === chat.id ? "bg-muted" : "",
+                    editingChatId === chat.id && "bg-muted",
                   )}
-                  onClick={() => onChatSelect(chat.id)}
+                  onClick={() => editingChatId !== chat.id && onChatSelect(chat.id)}
                 >
                   <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
-                  <span
-                    className="text-sm text-foreground flex-1 min-w-0 pr-2"
-                    title={chat.title}
-                  >
-                    {chat.title.length > 25 ? `${chat.title.substring(0, 25)}...` : chat.title}
-                  </span>
 
-                  {/* Three dots menu */}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" side="right">
-                      <DropdownMenuItem
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // TODO: Implement edit functionality
-                        }}
-                      >
-                        <Edit3 className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteChat(chat.id, e);
-                        }}
-                        className="text-destructive focus:text-destructive"
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  {editingChatId === chat.id ? (
+                    <Input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, chat.id)}
+                      onBlur={() => handleEditSave(chat.id)}
+                      className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
+                      autoFocus
+                    />
+                  ) : (
+                    <span
+                      className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                      title={chat.title}
+                    >
+                      {chat.title.length > 25 ? `${chat.title.substring(0, 25)}...` : chat.title}
+                    </span>
+                  )}
+
+                  {editingChatId !== chat.id && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" side="right">
+                        <DropdownMenuItem
+                          onClick={(e) => handleEditClick(chat, e)}
+                        >
+                          <Edit3 className="mr-2 h-4 w-4" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={(e) => handleDeleteClick(chat.id, e)}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
                 </div>
               ),
             )}
