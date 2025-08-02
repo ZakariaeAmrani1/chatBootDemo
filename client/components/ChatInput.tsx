@@ -86,16 +86,16 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="border-t border-border bg-background p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="border-t border-border bg-background p-4">
+      <div className="max-w-4xl mx-auto space-y-4">
         
         {/* Attached Files Display */}
         {attachedFiles.length > 0 && (
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {attachedFiles.map((file, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 bg-muted px-4 py-2 rounded-xl text-sm border animate-in slide-in-from-bottom-2 duration-300"
+                className="flex items-center gap-2 bg-muted px-3 py-1.5 rounded-lg text-xs border animate-in slide-in-from-bottom-2 duration-300"
               >
                 {file.type.startsWith('image/') ? (
                   <Image className="h-4 w-4 text-blue-500" />
@@ -119,10 +119,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         {/* Main Input Area */}
         <form onSubmit={handleSubmit} className="relative">
           <div className={cn(
-            "relative border-2 rounded-2xl bg-background overflow-hidden transition-all duration-300",
-            "focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/40",
+            "relative border rounded-xl bg-background overflow-hidden transition-all duration-300",
+            "focus-within:ring-1 focus-within:ring-primary/20 focus-within:border-primary/40",
             "hover:border-border/60",
-            isSending ? "border-primary/40 ring-2 ring-primary/20" : "border-border"
+            isSending ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
           )}>
             <Textarea
               ref={textareaRef}
@@ -132,8 +132,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               placeholder="Message ChatGPT..."
               disabled={isSending}
               className={cn(
-                "resize-none border-0 bg-transparent px-6 py-5 pr-32 focus:ring-0 min-h-[60px] max-h-[200px]",
-                "text-foreground placeholder:text-muted-foreground text-base leading-relaxed",
+                "resize-none border-0 bg-transparent px-4 py-3 pr-24 focus:ring-0 min-h-[44px] max-h-[200px]",
+                "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
                 "transition-all duration-300",
                 isSending && "opacity-70"
               )}
@@ -141,22 +141,22 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             />
             
             {/* Character counter */}
-            <div className="absolute top-3 right-20 text-xs text-muted-foreground">
+            <div className="absolute top-2 right-16 text-xs text-muted-foreground">
               {message.length}/4000
             </div>
             
             {/* Action Buttons */}
-            <div className="absolute right-3 bottom-3 flex items-center gap-2">
+            <div className="absolute right-2 bottom-2 flex items-center gap-1">
               {/* Attachment Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-10 w-10 p-0 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-110"
+                    className="h-8 w-8 p-0 hover:bg-muted rounded-lg transition-all duration-200 hover:scale-110"
                     disabled={isSending}
                   >
-                    <Paperclip className="h-5 w-5 text-muted-foreground" />
+                    <Paperclip className="h-4 w-4 text-muted-foreground" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
@@ -181,15 +181,15 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "h-10 w-10 p-0 rounded-xl transition-all duration-200 hover:scale-110",
-                  isRecording 
-                    ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse" 
+                  "h-8 w-8 p-0 rounded-lg transition-all duration-200 hover:scale-110",
+                  isRecording
+                    ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse"
                     : "hover:bg-muted text-muted-foreground"
                 )}
                 onClick={toggleRecording}
                 disabled={isSending}
               >
-                {isRecording ? <Square className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+                {isRecording ? <Square className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               </Button>
 
               {/* Send Button */}
@@ -197,18 +197,18 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 type="submit"
                 size="sm"
                 className={cn(
-                  "h-10 w-10 p-0 rounded-xl transition-all duration-300",
+                  "h-8 w-8 p-0 rounded-lg transition-all duration-300",
                   "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
-                  "shadow-lg hover:shadow-xl disabled:opacity-50",
+                  "shadow-md hover:shadow-lg disabled:opacity-50",
                   "transform hover:scale-110 active:scale-95",
                   isSending && "animate-pulse"
                 )}
                 disabled={(!message.trim() && attachedFiles.length === 0) || isSending}
               >
                 {isSending ? (
-                  <Loader2 className="h-5 w-5 animate-spin text-white" />
+                  <Loader2 className="h-4 w-4 animate-spin text-white" />
                 ) : (
-                  <Send className="h-5 w-5 text-white" />
+                  <Send className="h-4 w-4 text-white" />
                 )}
               </Button>
             </div>
