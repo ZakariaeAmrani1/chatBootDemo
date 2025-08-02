@@ -137,7 +137,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {attachedFiles.map((attachment) => (
                 <div key={attachment.id} className="relative group">
-                  <FileAttachmentDisplay attachment={attachment} />
+                  <FileAttachmentDisplay attachment={attachment} variant="input" />
                   <Button
                     variant="ghost"
                     size="sm"
