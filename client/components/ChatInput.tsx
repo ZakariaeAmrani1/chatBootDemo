@@ -153,7 +153,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         )}
 
         {/* Main Input Area */}
-        <form onSubmit={handleSubmit} className="relative">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <div
             className={cn(
               "relative border rounded-xl bg-background overflow-hidden transition-all duration-300",
@@ -172,7 +172,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               placeholder="Message ChatGPT..."
               disabled={isSending}
               className={cn(
-                "resize-none border-0 bg-transparent px-4 py-3 pr-24 focus:ring-0 min-h-[44px] max-h-[200px]",
+                "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 min-h-[44px] max-h-[200px]",
                 "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
                 "transition-all duration-300",
                 isSending && "opacity-70",
@@ -181,12 +181,14 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             />
 
             {/* Character counter */}
-            <div className="absolute top-2 right-16 text-xs text-muted-foreground">
+            <div className="absolute top-2 right-4 text-xs text-muted-foreground">
               {message.length}/4000
             </div>
+          </div>
 
-            {/* Action Buttons */}
-            <div className="absolute right-2 bottom-2 flex items-center gap-1">
+          {/* Action Buttons Row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1">
               {/* Attachment Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -199,7 +201,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                     <Paperclip className="h-4 w-4 text-muted-foreground" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="start" className="w-48">
                   <DropdownMenuItem onClick={handleFileUpload}>
                     <FileText className="h-4 w-4 mr-2 text-blue-500" />
                     Upload file
@@ -246,29 +248,29 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                   <Mic className="h-4 w-4" />
                 )}
               </Button>
-
-              {/* Send Button */}
-              <Button
-                type="submit"
-                size="sm"
-                className={cn(
-                  "h-8 w-8 p-0 rounded-lg transition-all duration-300",
-                  "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
-                  "shadow-md hover:shadow-lg disabled:opacity-50",
-                  "transform hover:scale-110 active:scale-95",
-                  isSending && "animate-pulse",
-                )}
-                disabled={
-                  (!message.trim() && attachedFiles.length === 0) || isSending
-                }
-              >
-                {isSending ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-white" />
-                ) : (
-                  <Send className="h-4 w-4 text-white" />
-                )}
-              </Button>
             </div>
+
+            {/* Send Button */}
+            <Button
+              type="submit"
+              size="sm"
+              className={cn(
+                "h-8 w-8 p-0 rounded-lg transition-all duration-300",
+                "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
+                "shadow-md hover:shadow-lg disabled:opacity-50",
+                "transform hover:scale-110 active:scale-95",
+                isSending && "animate-pulse",
+              )}
+              disabled={
+                (!message.trim() && attachedFiles.length === 0) || isSending
+              }
+            >
+              {isSending ? (
+                <Loader2 className="h-4 w-4 animate-spin text-white" />
+              ) : (
+                <Send className="h-4 w-4 text-white" />
+              )}
+            </Button>
           </div>
         </form>
 
