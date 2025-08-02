@@ -153,7 +153,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         )}
 
         {/* Main Input Area */}
-        <form onSubmit={handleSubmit} className="space-y-2">
+        <form onSubmit={handleSubmit}>
           <div
             className={cn(
               "relative border rounded-xl bg-background overflow-hidden transition-all duration-300",
@@ -164,113 +164,116 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 : "border-border",
             )}
           >
-            <Textarea
-              ref={textareaRef}
-              value={message}
-              onChange={handleTextareaChange}
-              onKeyDown={handleKeyDown}
-              placeholder="Message ChatGPT..."
-              disabled={isSending}
-              className={cn(
-                "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 min-h-[44px] max-h-[200px]",
-                "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
-                "transition-all duration-300",
-                isSending && "opacity-70",
-              )}
-              rows={1}
-            />
+            {/* First Row - Textarea */}
+            <div className="relative">
+              <Textarea
+                ref={textareaRef}
+                value={message}
+                onChange={handleTextareaChange}
+                onKeyDown={handleKeyDown}
+                placeholder="Message ChatGPT..."
+                disabled={isSending}
+                className={cn(
+                  "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 min-h-[44px] max-h-[200px]",
+                  "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
+                  "transition-all duration-300",
+                  isSending && "opacity-70",
+                )}
+                rows={1}
+              />
 
-            {/* Character counter */}
-            <div className="absolute top-2 right-4 text-xs text-muted-foreground">
-              {message.length}/4000
+              {/* Character counter */}
+              <div className="absolute top-2 right-4 text-xs text-muted-foreground">
+                {message.length}/4000
+              </div>
             </div>
-          </div>
 
-          {/* Action Buttons Row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              {/* Attachment Menu */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 hover:bg-muted rounded-lg transition-all duration-200 hover:scale-110"
-                    disabled={isSending}
-                  >
-                    <Paperclip className="h-4 w-4 text-muted-foreground" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48">
-                  <DropdownMenuItem onClick={handleFileUpload}>
-                    <FileText className="h-4 w-4 mr-2 text-blue-500" />
-                    Upload file
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    input.multiple = true;
-                    input.onchange = (e) => handleFileSelect((e.target as HTMLInputElement).files);
-                    input.click();
-                  }}>
-                    <Image className="h-4 w-4 mr-2 text-green-500" />
-                    Upload photo
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      /* Handle camera */
-                    }}
-                  >
-                    <Camera className="h-4 w-4 mr-2 text-purple-500" />
-                    Take photo
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            {/* Second Row - Action Buttons */}
+            <div className="flex items-center justify-between px-3 pb-3">
+              <div className="flex items-center gap-1">
+                {/* Attachment Menu */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 hover:bg-muted rounded-lg transition-all duration-200 hover:scale-110"
+                      disabled={isSending}
+                    >
+                      <Paperclip className="h-4 w-4 text-muted-foreground" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    <DropdownMenuItem onClick={handleFileUpload}>
+                      <FileText className="h-4 w-4 mr-2 text-blue-500" />
+                      Upload file
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.accept = 'image/*';
+                      input.multiple = true;
+                      input.onchange = (e) => handleFileSelect((e.target as HTMLInputElement).files);
+                      input.click();
+                    }}>
+                      <Image className="h-4 w-4 mr-2 text-green-500" />
+                      Upload photo
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        /* Handle camera */
+                      }}
+                    >
+                      <Camera className="h-4 w-4 mr-2 text-purple-500" />
+                      Take photo
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-              {/* Voice Recording */}
+                {/* Voice Recording */}
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-8 w-8 p-0 rounded-lg transition-all duration-200 hover:scale-110",
+                    isRecording
+                      ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse"
+                      : "hover:bg-muted text-muted-foreground",
+                  )}
+                  onClick={toggleRecording}
+                  disabled={isSending}
+                >
+                  {isRecording ? (
+                    <Square className="h-4 w-4" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+
+              {/* Send Button */}
               <Button
-                type="button"
-                variant="ghost"
+                type="submit"
                 size="sm"
                 className={cn(
-                  "h-8 w-8 p-0 rounded-lg transition-all duration-200 hover:scale-110",
-                  isRecording
-                    ? "text-red-500 bg-red-50 hover:bg-red-100 animate-pulse"
-                    : "hover:bg-muted text-muted-foreground",
+                  "h-8 w-8 p-0 rounded-lg transition-all duration-300",
+                  "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
+                  "shadow-md hover:shadow-lg disabled:opacity-50",
+                  "transform hover:scale-110 active:scale-95",
+                  isSending && "animate-pulse",
                 )}
-                onClick={toggleRecording}
-                disabled={isSending}
+                disabled={
+                  (!message.trim() && attachedFiles.length === 0) || isSending
+                }
               >
-                {isRecording ? (
-                  <Square className="h-4 w-4" />
+                {isSending ? (
+                  <Loader2 className="h-4 w-4 animate-spin text-white" />
                 ) : (
-                  <Mic className="h-4 w-4" />
+                  <Send className="h-4 w-4 text-white" />
                 )}
               </Button>
             </div>
-
-            {/* Send Button */}
-            <Button
-              type="submit"
-              size="sm"
-              className={cn(
-                "h-8 w-8 p-0 rounded-lg transition-all duration-300",
-                "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
-                "shadow-md hover:shadow-lg disabled:opacity-50",
-                "transform hover:scale-110 active:scale-95",
-                isSending && "animate-pulse",
-              )}
-              disabled={
-                (!message.trim() && attachedFiles.length === 0) || isSending
-              }
-            >
-              {isSending ? (
-                <Loader2 className="h-4 w-4 animate-spin text-white" />
-              ) : (
-                <Send className="h-4 w-4 text-white" />
-              )}
-            </Button>
           </div>
         </form>
 
