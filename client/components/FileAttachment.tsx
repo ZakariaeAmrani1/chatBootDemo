@@ -1,5 +1,11 @@
 import React from "react";
-import { FileText, Image as ImageIcon, FileArchive, Download, Eye } from "lucide-react";
+import {
+  FileText,
+  Image as ImageIcon,
+  FileArchive,
+  Download,
+  Eye,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { FileAttachment } from "@/pages/Chatbot";
@@ -13,12 +19,12 @@ interface FileAttachmentProps {
 const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   attachment,
   className,
-  variant = "chat"
+  variant = "chat",
 }) => {
   const isImage = attachment.type.startsWith("image/");
   const isPDF = attachment.type === "application/pdf";
   const isText = attachment.type.startsWith("text/");
-  
+
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -60,9 +66,10 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
 
   // For images, show preview
   if (isImage && attachment.url) {
-    const imageClasses = variant === "input"
-      ? "w-16 h-16 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity"
-      : "max-w-xs max-h-64 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity";
+    const imageClasses =
+      variant === "input"
+        ? "w-16 h-16 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity"
+        : "max-w-xs max-h-64 rounded-lg border border-border object-cover cursor-pointer hover:opacity-90 transition-opacity";
 
     return (
       <div className={cn("space-y-2", className)}>

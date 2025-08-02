@@ -49,7 +49,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
       }
 
       // Send the message with attachments
-      onSendMessage(message.trim(), attachedFiles.length > 0 ? attachedFiles : undefined);
+      onSendMessage(
+        message.trim(),
+        attachedFiles.length > 0 ? attachedFiles : undefined,
+      );
 
       // Clear and reset
       setTimeout(() => {
@@ -109,11 +112,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
   const removeFile = (attachmentId: string) => {
     setAttachedFiles((prev) => {
-      const fileToRemove = prev.find(f => f.id === attachmentId);
+      const fileToRemove = prev.find((f) => f.id === attachmentId);
       if (fileToRemove?.url) {
         URL.revokeObjectURL(fileToRemove.url);
       }
-      return prev.filter(f => f.id !== attachmentId);
+      return prev.filter((f) => f.id !== attachmentId);
     });
   };
 
@@ -124,7 +127,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         {attachedFiles.length > 0 && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium text-foreground">Attachments ({attachedFiles.length})</h4>
+              <h4 className="text-sm font-medium text-foreground">
+                Attachments ({attachedFiles.length})
+              </h4>
               <Button
                 variant="ghost"
                 size="sm"
@@ -137,7 +142,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {attachedFiles.map((attachment) => (
                 <div key={attachment.id} className="relative group">
-                  <FileAttachmentDisplay attachment={attachment} variant="input" />
+                  <FileAttachmentDisplay
+                    attachment={attachment}
+                    variant="input"
+                  />
                   <Button
                     variant="ghost"
                     size="sm"
@@ -158,9 +166,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             className={cn(
               "relative border rounded-xl bg-background overflow-hidden transition-all duration-300",
               "hover:border-border/60",
-              isSending
-                ? "border-primary/40"
-                : "border-border",
+              isSending ? "border-primary/40" : "border-border",
             )}
           >
             {/* First Row - Textarea */}
@@ -207,14 +213,19 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                       <FileText className="h-4 w-4 mr-2 text-blue-500" />
                       Upload file
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => {
-                      const input = document.createElement('input');
-                      input.type = 'file';
-                      input.accept = 'image/*';
-                      input.multiple = true;
-                      input.onchange = (e) => handleFileSelect((e.target as HTMLInputElement).files);
-                      input.click();
-                    }}>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        const input = document.createElement("input");
+                        input.type = "file";
+                        input.accept = "image/*";
+                        input.multiple = true;
+                        input.onchange = (e) =>
+                          handleFileSelect(
+                            (e.target as HTMLInputElement).files,
+                          );
+                        input.click();
+                      }}
+                    >
                       <Image className="h-4 w-4 mr-2 text-green-500" />
                       Upload photo
                     </DropdownMenuItem>

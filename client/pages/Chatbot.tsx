@@ -83,9 +83,7 @@ const Chatbot = () => {
     const updatedChat = {
       ...currentChat,
       title:
-        currentChat.messages.length === 0
-          ? generateTitle()
-          : currentChat.title,
+        currentChat.messages.length === 0 ? generateTitle() : currentChat.title,
       messages: [...currentChat.messages, userMessage],
     };
 
@@ -95,15 +93,16 @@ const Chatbot = () => {
 
     // Simulate assistant response
     setTimeout(() => {
-      let assistantContent = "I'm a demo assistant response. In a real implementation, this would connect to your AI model.";
+      let assistantContent =
+        "I'm a demo assistant response. In a real implementation, this would connect to your AI model.";
 
       if (attachments && attachments.length > 0) {
-        const fileTypes = attachments.map(a => {
-          if (a.type.startsWith('image/')) return 'image';
-          if (a.type === 'application/pdf') return 'PDF';
-          return 'file';
+        const fileTypes = attachments.map((a) => {
+          if (a.type.startsWith("image/")) return "image";
+          if (a.type === "application/pdf") return "PDF";
+          return "file";
         });
-        assistantContent = `I can see you've shared ${attachments.length} ${fileTypes.join(', ')}(s). In a real implementation, I would analyze these files and provide relevant insights.`;
+        assistantContent = `I can see you've shared ${attachments.length} ${fileTypes.join(", ")}(s). In a real implementation, I would analyze these files and provide relevant insights.`;
       }
 
       const assistantMessage: Message = {

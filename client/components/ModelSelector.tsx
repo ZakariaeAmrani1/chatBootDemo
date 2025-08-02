@@ -82,8 +82,6 @@ export function ModelSelector({
               className="sr-only"
             />
 
-
-
             <span
               className={cn(
                 "text-sm font-medium transition-colors",
