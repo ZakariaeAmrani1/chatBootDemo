@@ -24,7 +24,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, selectedModel, onModelCha
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+      <div className="h-full flex flex-col items-center justify-center p-8 text-center">
         <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
           <svg
             width="32"
