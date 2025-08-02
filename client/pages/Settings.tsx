@@ -727,7 +727,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.highContrast}
+            checked={user?.settings.highContrast || false}
             onCheckedChange={(checked) =>
               updateSetting("highContrast", checked)
             }
@@ -742,7 +742,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.reducedMotion}
+            checked={user?.settings.reducedMotion || false}
             onCheckedChange={(checked) =>
               updateSetting("reducedMotion", checked)
             }
@@ -757,7 +757,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.screenReader}
+            checked={user?.settings.screenReader || false}
             onCheckedChange={(checked) =>
               updateSetting("screenReader", checked)
             }
