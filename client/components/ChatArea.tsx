@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,7 @@ import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import FadeInText from "@/components/FadeInText";
+import { useTheme } from "@/components/ThemeProvider";
 import type { Message } from "@shared/types";
 
 interface ChatAreaProps {
@@ -34,6 +35,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { resolvedTheme } = useTheme();
+
+  // Get the appropriate logo based on theme
+  const getAILogo = () => {
+    return resolvedTheme === "dark"
+      ? "https://cdn.builder.io/api/v1/image/assets%2Fc773263620b04439b4c3604feae0f6da%2F680de7f4e8714a929d2efe1fd2107b8f?format=webp&width=800"
+      : "https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800";
+  };
 
   // Copy message content to clipboard
   const handleCopy = async (content: string) => {
@@ -252,6 +261,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           >
             {message.type === "assistant" && (
               <Avatar className="w-8 h-8 mt-1">
+                <AvatarImage src={getAILogo()} alt="AI" className="rounded-full" />
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   AI
                 </AvatarFallback>
@@ -370,6 +380,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         {isThinking && (
           <div className="flex gap-4 justify-start">
             <Avatar className="w-8 h-8 mt-1">
+              <AvatarImage src={getAILogo()} alt="AI" className="rounded-full" />
               <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                 AI
               </AvatarFallback>
@@ -394,6 +405,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         {error && (
           <div className="flex gap-4 justify-start">
             <Avatar className="w-8 h-8 mt-1">
+              <AvatarImage src={getAILogo()} alt="AI" className="rounded-full" />
               <AvatarFallback className="bg-destructive text-destructive-foreground text-sm font-semibold">
                 !
               </AvatarFallback>
