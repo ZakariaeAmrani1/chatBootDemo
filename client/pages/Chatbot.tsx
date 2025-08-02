@@ -151,6 +151,7 @@ const Chatbot = () => {
           onCloseSidebar={() => setSidebarOpen(false)}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          onOpenSettings={() => setSettingsOpen(true)}
         />
       </div>
 
