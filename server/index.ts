@@ -49,6 +49,7 @@ export function createServer() {
   app.get("/api/user", getCurrentUser);
   app.put("/api/user/:userId", updateUser);
   app.put("/api/user/:userId/settings", updateUserSettings);
+  app.post("/api/user/:userId/avatar", ...uploadAvatar);
 
   // File API routes
   app.post("/api/files/upload", ...uploadFiles);
