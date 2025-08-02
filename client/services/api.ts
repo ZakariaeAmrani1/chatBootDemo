@@ -8,6 +8,9 @@ import {
   ApiResponse,
   FileAttachment,
   DataStats,
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
 } from "@shared/types";
 
 const API_BASE = "/api";
@@ -159,6 +162,48 @@ class ApiService {
     return this.request<null>("/data/clear-files", {
       method: "POST",
     });
+  }
+
+  // Authentication operations
+  async login(
+    email: string,
+    password: string,
+  ): Promise<ApiResponse<AuthResponse>> {
+    return this.request<AuthResponse>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+  }
+
+  async register(data: RegisterRequest): Promise<ApiResponse<AuthResponse>> {
+    return this.request<AuthResponse>("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async verifyToken(): Promise<ApiResponse<User>> {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      return { success: false, error: "No token found" };
+    }
+
+    return this.request<User>("/auth/verify", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  async logout(): Promise<void> {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("currentUser");
+  }
+
+  // Models operations
+  async getModels(): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>("/models");
   }
 
   // Utility method to get file URL

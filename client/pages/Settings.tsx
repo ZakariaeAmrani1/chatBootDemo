@@ -50,6 +50,7 @@ import { User as UserType, UserSettings, DataStats } from "@shared/types";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import SuccessDialog from "@/components/SuccessDialog";
 import { useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface SettingsProps {
   onClose: () => void;
@@ -80,9 +81,8 @@ const Settings: React.FC<SettingsProps> = ({
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
-  const [user, setUser] = useState<UserType | null>(null);
   const [dataStats, setDataStats] = useState<DataStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -93,54 +93,17 @@ const Settings: React.FC<SettingsProps> = ({
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
   const [showApiKey, setShowApiKey] = useState(false);
 
+  // Use auth context for user data instead of local state
+  const { user, updateUser } = useAuth();
   // Theme context for immediate theme application
   const { setTheme } = useTheme();
 
-  // Load user data on mount
+  // Load data stats on mount (user data comes from AuthContext)
   useEffect(() => {
-    loadUserData();
     loadDataStats();
   }, []);
 
-  // Apply user's appearance settings when user data loads
-  useEffect(() => {
-    if (user?.settings) {
-      // Apply theme
-      if (user.settings.theme) {
-        setTheme(user.settings.theme as "light" | "dark" | "system");
-      }
-
-      // Apply font size
-      if (user.settings.fontSize) {
-        applyFontSize(user.settings.fontSize);
-      }
-
-      // Apply density
-      if (user.settings.density) {
-        applyDensity(user.settings.density);
-      }
-    }
-  }, [user, setTheme]);
-
-  const loadUserData = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await apiService.getCurrentUser();
-      if (response.success && response.data) {
-        setUser(response.data);
-      } else {
-        setError(response.error || "Failed to load user data");
-      }
-    } catch (error) {
-      setError(
-        error instanceof Error ? error.message : "Failed to load user data",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // User data is now provided by AuthContext, no need to load separately
 
   const loadDataStats = async () => {
     try {
@@ -162,7 +125,8 @@ const Settings: React.FC<SettingsProps> = ({
     try {
       const response = await apiService.updateUser(user.id, updates);
       if (response.success && response.data) {
-        setUser(response.data);
+        // Update user via AuthContext instead of local state
+        updateUser(response.data);
         // Call the callback to update parent component
         onUserUpdate?.(response.data);
       } else {
@@ -189,7 +153,8 @@ const Settings: React.FC<SettingsProps> = ({
         settingsUpdates,
       );
       if (response.success && response.data) {
-        setUser(response.data);
+        // Update user via AuthContext instead of local state
+        updateUser(response.data);
       } else {
         setError(response.error || "Failed to update settings");
       }
@@ -225,14 +190,7 @@ const Settings: React.FC<SettingsProps> = ({
         setTheme(value as "light" | "dark" | "system");
       }
 
-      // Special handling for fontSize and density to apply CSS classes
-      if (key === "fontSize") {
-        applyFontSize(value);
-      }
-
-      if (key === "density") {
-        applyDensity(value);
-      }
+      // Settings will be applied automatically via AuthContext when user data updates
     }
   };
 
@@ -245,30 +203,7 @@ const Settings: React.FC<SettingsProps> = ({
     setLastSaveTime(new Date());
   };
 
-  const applyFontSize = (fontSize: string) => {
-    const root = document.documentElement;
-    // Remove existing font size classes
-    root.classList.remove(
-      "font-small",
-      "font-medium",
-      "font-large",
-      "font-extra-large",
-    );
-    // Add new font size class
-    root.classList.add(`font-${fontSize}`);
-  };
-
-  const applyDensity = (density: string) => {
-    const root = document.documentElement;
-    // Remove existing density classes
-    root.classList.remove(
-      "density-compact",
-      "density-comfortable",
-      "density-spacious",
-    );
-    // Add new density class
-    root.classList.add(`density-${density}`);
-  };
+  // Settings application is now handled by AuthContext and Chatbot component
 
   const handleClearChatHistory = () => {
     setShowConfirmDialog(true);
@@ -883,7 +818,7 @@ const Settings: React.FC<SettingsProps> = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="english">English</SelectItem>
-              <SelectItem value="spanish">Español</SelectItem>
+              <SelectItem value="spanish">Espa��ol</SelectItem>
               <SelectItem value="french">Français</SelectItem>
               <SelectItem value="german">Deutsch</SelectItem>
               <SelectItem value="chinese">中文</SelectItem>
@@ -1201,7 +1136,7 @@ const Settings: React.FC<SettingsProps> = ({
                   <Button
                     variant="outline"
                     className="w-full md:w-auto"
-                    onClick={() => setActiveSection("overview")}
+                    onClick={onClose}
                   >
                     Cancel
                   </Button>
@@ -1209,8 +1144,11 @@ const Settings: React.FC<SettingsProps> = ({
                     className="w-full md:w-auto"
                     onClick={
                       activeSection === "profile"
-                        ? handleSaveProfileChanges
-                        : undefined
+                        ? async () => {
+                            await handleSaveProfileChanges();
+                            onClose();
+                          }
+                        : onClose
                     }
                     disabled={
                       activeSection === "profile"

@@ -18,6 +18,8 @@ import {
   clearUploadedFiles,
 } from "./routes/data";
 import { handleMessageFeedback } from "./routes/feedback";
+import { getModels, addModel } from "./routes/models";
+import { loginUser, registerUser, verifyUserToken } from "./routes/auth";
 
 export function createServer() {
   const app = express();
@@ -60,6 +62,15 @@ export function createServer() {
 
   // Feedback API routes
   app.post("/api/messages/feedback", handleMessageFeedback);
+
+  // Models API routes
+  app.get("/api/models", getModels);
+  app.post("/api/models", addModel);
+
+  // Authentication API routes
+  app.post("/api/auth/login", loginUser);
+  app.post("/api/auth/register", registerUser);
+  app.get("/api/auth/verify", verifyUserToken);
 
   return app;
 }

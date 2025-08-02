@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown, Check, Zap, Brain, Sparkles, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { apiService } from "@/services/api";
 import {
   Popover,
   PopoverContent,
@@ -23,54 +24,56 @@ interface ModelSelectorCompactProps {
   onModelChange: (modelId: string) => void;
 }
 
-const models: ModelOption[] = [
-  {
-    id: "gpt-4",
-    name: "GPT-4",
-    shortName: "GPT-4",
-    description: "Most capable model",
-    color: "text-emerald-600 dark:text-emerald-400",
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-    icon: Brain,
-    badge: "Best",
-  },
-  {
-    id: "gpt-4-turbo",
-    name: "GPT-4 Turbo",
-    shortName: "Turbo",
-    description: "Faster & cheaper",
-    color: "text-blue-600 dark:text-blue-400",
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-    icon: Zap,
-    badge: "Fast",
-  },
-  {
-    id: "claude-3",
-    name: "Claude 3",
-    shortName: "Claude",
-    description: "Anthropic's latest",
-    color: "text-purple-600 dark:text-purple-400",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    icon: Sparkles,
-    badge: "New",
-  },
-  {
-    id: "gemini-pro",
-    name: "Gemini Pro",
-    shortName: "Gemini",
-    description: "Google's model",
-    color: "text-orange-600 dark:text-orange-400",
-    bgColor: "bg-orange-50 dark:bg-orange-950/30",
-    icon: Globe,
-  },
-];
+// Icon mapping for string to component conversion
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Brain,
+  Zap,
+  Sparkles,
+  Globe,
+};
 
 export function ModelSelectorCompact({
   selectedModel,
   onModelChange,
 }: ModelSelectorCompactProps) {
   const [open, setOpen] = useState(false);
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          // Convert icon strings to components
+          const modelsWithIcons = response.data.map((model: any) => ({
+            ...model,
+            icon: iconMap[model.icon] || Brain, // Fallback to Brain if icon not found
+          }));
+          setModels(modelsWithIcons);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
   const selectedModelData = models.find((m) => m.id === selectedModel);
+
+  if (loading) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-medium text-muted-foreground">
+          Model:
+        </span>
+        <div className="h-8 w-24 bg-muted animate-pulse rounded-lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-2">

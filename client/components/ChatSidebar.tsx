@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   MessageSquare,
   Plus,
@@ -64,6 +66,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   isLoading = false,
   user,
 }) => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -329,6 +333,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Button
                       variant="ghost"
                       className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
+                      onClick={() => navigate("/upgrade")}
                     >
                       <Zap className="h-4 w-4" />
                     </Button>
@@ -341,6 +346,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Button
                       variant="ghost"
                       className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
+                      onClick={() => navigate("/library")}
                     >
                       <Archive className="h-4 w-4" />
                     </Button>
@@ -353,6 +359,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Button
                       variant="ghost"
                       className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
+                      onClick={() => navigate("/help")}
                     >
                       <HelpCircle className="h-4 w-4" />
                     </Button>
@@ -389,6 +396,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  onClick={() => navigate("/upgrade")}
                 >
                   <Zap className="h-4 w-4 mr-3" />
                   Upgrade plan
@@ -397,6 +405,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  onClick={() => navigate("/library")}
                 >
                   <Archive className="h-4 w-4 mr-3" />
                   Library
@@ -405,6 +414,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  onClick={() => navigate("/help")}
                 >
                   <HelpCircle className="h-4 w-4 mr-3" />
                   Help & FAQ
@@ -425,17 +435,30 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     {user?.email || "user@example.com"}
                   </p>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50 opacity-0 group-hover:opacity-100"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onOpenSettings?.();
-                  }}
-                >
-                  <Settings className="h-3 w-3" />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50 opacity-0 group-hover:opacity-100"
+                    >
+                      <Settings className="h-3 w-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" side="top">
+                    <DropdownMenuItem onClick={onOpenSettings}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={logout}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      <X className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </>
           )}

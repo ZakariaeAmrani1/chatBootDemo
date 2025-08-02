@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Check, Zap, Brain, Sparkles, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { apiService } from "@/services/api";
 
 interface ModelOption {
   id: string;
@@ -20,62 +21,59 @@ interface ModelSelectorCardsProps {
   onModelChange: (modelId: string) => void;
 }
 
-const models: ModelOption[] = [
-  {
-    id: "gpt-4",
-    name: "GPT-4",
-    description:
-      "Most capable model with superior reasoning and complex task handling",
-    features: ["Advanced reasoning", "Complex tasks", "High accuracy"],
-    color: "text-emerald-600 dark:text-emerald-400",
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-    borderColor: "border-emerald-200 dark:border-emerald-800",
-    icon: Brain,
-    badge: "Recommended",
-    price: "Premium",
-  },
-  {
-    id: "gpt-4-turbo",
-    name: "GPT-4 Turbo",
-    description: "Faster responses with lower cost while maintaining quality",
-    features: ["Fast responses", "Cost effective", "Good quality"],
-    color: "text-blue-600 dark:text-blue-400",
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-    borderColor: "border-blue-200 dark:border-blue-800",
-    icon: Zap,
-    badge: "Fast",
-    price: "Standard",
-  },
-  {
-    id: "claude-3",
-    name: "Claude 3",
-    description:
-      "Anthropic's latest with excellent coding and analysis capabilities",
-    features: ["Code generation", "Analysis", "Safety focused"],
-    color: "text-purple-600 dark:text-purple-400",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    borderColor: "border-purple-200 dark:border-purple-800",
-    icon: Sparkles,
-    badge: "New",
-    price: "Premium",
-  },
-  {
-    id: "gemini-pro",
-    name: "Gemini Pro",
-    description: "Google's multimodal model with image and text capabilities",
-    features: ["Multimodal", "Image analysis", "Google integration"],
-    color: "text-orange-600 dark:text-orange-400",
-    bgColor: "bg-orange-50 dark:bg-orange-950/30",
-    borderColor: "border-orange-200 dark:border-orange-800",
-    icon: Globe,
-    price: "Standard",
-  },
-];
+// Icon mapping for string to component conversion
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Brain,
+  Zap,
+  Sparkles,
+  Globe,
+};
 
 export function ModelSelectorCards({
   selectedModel,
   onModelChange,
 }: ModelSelectorCardsProps) {
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          // Convert icon strings to components
+          const modelsWithIcons = response.data.map((model: any) => ({
+            ...model,
+            icon: iconMap[model.icon] || Brain, // Fallback to Brain if icon not found
+          }));
+          setModels(modelsWithIcons);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium">Choose Model</label>
+          <span className="text-xs text-muted-foreground">Loading...</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-32 bg-muted animate-pulse rounded-lg" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">

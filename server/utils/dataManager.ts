@@ -32,9 +32,20 @@ export class DataManager {
     return data.users;
   }
 
+  static getAllUsers(): User[] {
+    return this.getUsers();
+  }
+
   static getUserById(id: string): User | null {
     const users = this.getUsers();
     return users.find((user) => user.id === id) || null;
+  }
+
+  static createUser(user: User): User {
+    const data = this.readJsonFile<{ users: User[] }>("users.json");
+    data.users.push(user);
+    this.writeJsonFile("users.json", data);
+    return user;
   }
 
   static updateUser(id: string, updates: Partial<User>): User | null {

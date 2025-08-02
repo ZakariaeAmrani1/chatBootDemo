@@ -12,6 +12,7 @@ import { chatService, ChatState } from "@/services/chatService";
 import { apiService } from "@/services/api";
 import { Chat, Message, FileAttachment, User } from "@shared/types";
 import { useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Chatbot = () => {
   const [chatState, setChatState] = useState<ChatState>({
@@ -27,9 +28,9 @@ const Chatbot = () => {
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
 
-  // Theme context for applying user's appearance settings
+  // Authentication and theme context
+  const { user, updateUser } = useAuth();
   const { setTheme } = useTheme();
 
   // Subscribe to chat service state changes
@@ -42,21 +43,7 @@ const Chatbot = () => {
     return unsubscribe;
   }, []);
 
-  // Load user data
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const response = await apiService.getCurrentUser();
-        if (response.success && response.data) {
-          setUser(response.data);
-        }
-      } catch (error) {
-        console.error("Failed to load user data:", error);
-      }
-    };
-
-    loadUser();
-  }, []);
+  // User data is now provided by AuthContext
 
   // Helper functions to apply appearance settings
   const applyFontSize = (fontSize: string) => {
@@ -80,25 +67,73 @@ const Chatbot = () => {
     root.classList.add(`density-${density}`);
   };
 
-  // Apply user's appearance settings when user data loads
+  // Function to apply all appearance settings
+  const applyAllSettings = (settings: any) => {
+    if (!settings) return;
+
+    // Apply theme
+    if (settings.theme) {
+      setTheme(settings.theme as "light" | "dark" | "system");
+    }
+
+    // Apply font size with immediate DOM update
+    if (settings.fontSize) {
+      applyFontSize(settings.fontSize);
+    }
+
+    // Apply density with immediate DOM update
+    if (settings.density) {
+      applyDensity(settings.density);
+    }
+
+    // Apply selected model
+    if (settings.selectedModel) {
+      setSelectedModel(settings.selectedModel);
+    }
+  };
+
+  // Apply user's appearance settings when user data loads or changes
   useEffect(() => {
     if (user?.settings) {
-      // Apply theme
-      if (user.settings.theme) {
-        setTheme(user.settings.theme as "light" | "dark" | "system");
-      }
-
-      // Apply font size
-      if (user.settings.fontSize) {
-        applyFontSize(user.settings.fontSize);
-      }
-
-      // Apply density
-      if (user.settings.density) {
-        applyDensity(user.settings.density);
-      }
+      applyAllSettings(user.settings);
     }
   }, [user, setTheme]);
+
+  // Additional effect to force immediate application on user change
+  useEffect(() => {
+    if (user?.settings) {
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        applyAllSettings(user.settings);
+
+        // Double-check with a small timeout for any race conditions
+        setTimeout(() => {
+          applyAllSettings(user.settings);
+        }, 50);
+      });
+    }
+  }, [user?.id]); // Trigger when user ID changes (i.e., different user logs in)
+
+  // Listen for custom settings update events
+  useEffect(() => {
+    const handleSettingsUpdate = (event: CustomEvent) => {
+      if (event.detail?.settings) {
+        applyAllSettings(event.detail.settings);
+      }
+    };
+
+    window.addEventListener(
+      "userSettingsUpdated",
+      handleSettingsUpdate as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "userSettingsUpdated",
+        handleSettingsUpdate as EventListener,
+      );
+    };
+  }, []);
 
   const createNewChat = async (message?: string) => {
     // Create chat with or without initial message
@@ -168,7 +203,7 @@ const Chatbot = () => {
     try {
       const response = await apiService.getCurrentUser();
       if (response.success && response.data) {
-        setUser(response.data);
+        updateUser(response.data);
       }
     } catch (error) {
       console.error("Failed to reload user data:", error);
@@ -176,6 +211,18 @@ const Chatbot = () => {
 
     // Also refresh chats if needed
     handleRefresh();
+  };
+
+  const handleModelChange = async (modelId: string) => {
+    setSelectedModel(modelId);
+
+    // Save model selection to user settings
+    try {
+      const userId = user?.id || "user-1";
+      await apiService.updateUserSettings(userId, { selectedModel: modelId });
+    } catch (error) {
+      console.error("Failed to save model preference:", error);
+    }
   };
 
   const handleMessageUpdate = (
@@ -269,7 +316,7 @@ const Chatbot = () => {
           <ChatArea
             messages={chatState.messages}
             selectedModel={selectedModel}
-            onModelChange={setSelectedModel}
+            onModelChange={handleModelChange}
             isThinking={chatState.isThinking}
             isLoading={chatState.isLoading}
             error={chatState.error}
@@ -292,7 +339,7 @@ const Chatbot = () => {
           onClose={() => setSettingsOpen(false)}
           isModal={true}
           onRefresh={handleUserRefresh}
-          onUserUpdate={setUser}
+          onUserUpdate={updateUser}
         />
       )}
 

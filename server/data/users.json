@@ -24,14 +24,46 @@
         "region": "us",
         "voiceEnabled": false,
         "voiceModel": "natural",
-        "speechRate": [
-          1
-        ],
+        "speechRate": [1],
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
-        "grokApiKey": "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"
-      }
+        "grokApiKey": "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",
+        "selectedModel": "gpt-4"
+      },
+      "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+    },
+    {
+      "id": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "displayName": "Alexo",
+      "email": "zaki@gmail.com",
+      "bio": "",
+      "createdAt": "2025-08-02T16:45:19.353Z",
+      "settings": {
+        "theme": "light",
+        "fontSize": "small",
+        "density": "comfortable",
+        "emailNotifications": true,
+        "pushNotifications": true,
+        "soundEnabled": true,
+        "dataCollection": true,
+        "analytics": false,
+        "shareUsage": false,
+        "autoSave": true,
+        "messageHistory": true,
+        "showTimestamps": true,
+        "enterToSend": true,
+        "language": "english",
+        "region": "us",
+        "voiceEnabled": false,
+        "voiceModel": "natural",
+        "speechRate": [1],
+        "highContrast": false,
+        "reducedMotion": false,
+        "screenReader": false,
+        "selectedModel": "gpt-4"
+      },
+      "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8"
     }
   ]
 }
