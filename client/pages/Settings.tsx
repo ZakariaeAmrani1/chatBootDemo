@@ -1119,6 +1119,127 @@ const Settings: React.FC<SettingsProps> = ({
     </div>
   );
 
+  const renderAppCustomization = () => (
+    <div className="space-y-6">
+      <div>
+        <p className="text-sm text-muted-foreground">
+          Customize your app branding and appearance.
+        </p>
+      </div>
+
+      <div className="space-y-6">
+        {/* App Name */}
+        <div className="space-y-3">
+          <Label htmlFor="appName">App Name</Label>
+          <Input
+            id="appName"
+            placeholder="ChatNova"
+            value={user?.settings.appName || ""}
+            onChange={(e) => updateSetting("appName", e.target.value)}
+            disabled={isSaving}
+          />
+          <p className="text-xs text-muted-foreground">
+            The name of your application that appears in the sidebar and other places
+          </p>
+        </div>
+
+        <Separator />
+
+        {/* Light Theme Logo */}
+        <div className="space-y-4">
+          <div>
+            <Label>Light Theme Logo</Label>
+            <p className="text-sm text-muted-foreground">
+              Logo displayed when using light theme
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-lg border border-border overflow-hidden bg-background flex items-center justify-center">
+              {user?.settings.lightLogo ? (
+                <img
+                  src={user.settings.lightLogo}
+                  alt="Light Theme Logo"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-muted-foreground text-xs">No logo</span>
+              )}
+            </div>
+            <div>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                onChange={handleLightLogoUpload}
+                className="hidden"
+                id="light-logo-upload"
+                disabled={isUploadingLightLogo}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => document.getElementById("light-logo-upload")?.click()}
+                disabled={isUploadingLightLogo}
+              >
+                {isUploadingLightLogo ? "Uploading..." : "Upload Light Logo"}
+              </Button>
+              <p className="text-xs text-muted-foreground mt-1">
+                JPEG, PNG, GIF, WebP up to 5MB
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Dark Theme Logo */}
+        <div className="space-y-4">
+          <div>
+            <Label>Dark Theme Logo</Label>
+            <p className="text-sm text-muted-foreground">
+              Logo displayed when using dark theme
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-lg border border-border overflow-hidden bg-background flex items-center justify-center">
+              {user?.settings.darkLogo ? (
+                <img
+                  src={user.settings.darkLogo}
+                  alt="Dark Theme Logo"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-muted-foreground text-xs">No logo</span>
+              )}
+            </div>
+            <div>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                onChange={handleDarkLogoUpload}
+                className="hidden"
+                id="dark-logo-upload"
+                disabled={isUploadingDarkLogo}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => document.getElementById("dark-logo-upload")?.click()}
+                disabled={isUploadingDarkLogo}
+              >
+                {isUploadingDarkLogo ? "Uploading..." : "Upload Dark Logo"}
+              </Button>
+              <p className="text-xs text-muted-foreground mt-1">
+                JPEG, PNG, GIF, WebP up to 5MB
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeSection) {
       case "overview":
