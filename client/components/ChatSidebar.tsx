@@ -43,7 +43,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           variant="outline"
         >
           <Plus className="h-4 w-4 mr-2" />
-          New chat
+          <span className="hidden sm:inline">New chat</span>
+          <span className="sm:hidden">New</span>
         </Button>
       </div>
 
