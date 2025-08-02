@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { apiService } from "@/services/api";
 
 interface ModelOption {
   id: string;
@@ -14,45 +15,6 @@ interface ModelSelectorProps {
   selectedModel: string;
   onModelChange: (modelId: string) => void;
 }
-
-const models: ModelOption[] = [
-  {
-    id: "gpt-4",
-    name: "GPT-4",
-    description: "Most capable model",
-    color: "text-emerald-600 dark:text-emerald-400",
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-    borderColor:
-      "border-emerald-200 hover:border-emerald-300 dark:border-emerald-800 dark:hover:border-emerald-700",
-  },
-  {
-    id: "gpt-4-turbo",
-    name: "GPT-4 Turbo",
-    description: "Faster & cheaper",
-    color: "text-blue-600 dark:text-blue-400",
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-    borderColor:
-      "border-blue-200 hover:border-blue-300 dark:border-blue-800 dark:hover:border-blue-700",
-  },
-  {
-    id: "claude-3",
-    name: "Claude 3",
-    description: "Anthropic's latest",
-    color: "text-purple-600 dark:text-purple-400",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    borderColor:
-      "border-purple-200 hover:border-purple-300 dark:border-purple-800 dark:hover:border-purple-700",
-  },
-  {
-    id: "gemini-pro",
-    name: "Gemini Pro",
-    description: "Google's model",
-    color: "text-orange-600 dark:text-orange-400",
-    bgColor: "bg-orange-50 dark:bg-orange-950/30",
-    borderColor:
-      "border-orange-200 hover:border-orange-300 dark:border-orange-800 dark:hover:border-orange-700",
-  },
-];
 
 export function ModelSelector({
   selectedModel,
