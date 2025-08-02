@@ -77,6 +77,11 @@ export interface SendMessageRequest {
   attachments?: File[];
 }
 
+export interface MessageFeedbackRequest {
+  messageId: string;
+  action: "like" | "dislike" | "removelike" | "removedislike";
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
