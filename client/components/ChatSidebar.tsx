@@ -191,36 +191,54 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <div
                   key={chat.id}
                   className={cn(
-                    "group relative flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
+                    "group flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
                     "hover:bg-muted/50",
                     currentChatId === chat.id ? "bg-muted" : "",
                   )}
                   onClick={() => onChatSelect(chat.id)}
                 >
                   <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
-                  <span className="text-sm truncate text-foreground flex-1 min-w-0 group-hover:pr-16 transition-all">
-                    {chat.title}
+                  <span
+                    className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                    title={chat.title}
+                  >
+                    {chat.title.length > 25 ? `${chat.title.substring(0, 25)}...` : chat.title}
                   </span>
 
-                  {/* Action buttons (visible on hover) */}
-                  <div className="absolute right-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-background/90 backdrop-blur-sm rounded px-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Edit3 className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-muted/50"
-                      onClick={(e) => handleDeleteChat(chat.id, e)}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
-                  </div>
+                  {/* Three dots menu */}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" side="right">
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // TODO: Implement edit functionality
+                        }}
+                      >
+                        <Edit3 className="mr-2 h-4 w-4" />
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteChat(chat.id, e);
+                        }}
+                        className="text-destructive focus:text-destructive"
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               ),
             )}
