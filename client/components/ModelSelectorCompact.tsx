@@ -37,7 +37,41 @@ export function ModelSelectorCompact({
   onModelChange,
 }: ModelSelectorCompactProps) {
   const [open, setOpen] = useState(false);
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          // Convert icon strings to components
+          const modelsWithIcons = response.data.map((model: any) => ({
+            ...model,
+            icon: iconMap[model.icon] || Brain, // Fallback to Brain if icon not found
+          }));
+          setModels(modelsWithIcons);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
   const selectedModelData = models.find((m) => m.id === selectedModel);
+
+  if (loading) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-medium text-muted-foreground">Model:</span>
+        <div className="h-8 w-24 bg-muted animate-pulse rounded-lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-2">
