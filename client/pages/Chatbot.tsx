@@ -31,6 +31,7 @@ const Chatbot = () => {
   ]);
   const [currentChatId, setCurrentChatId] = useState<string>('1');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const currentChat = chats.find(chat => chat.id === currentChatId);
 
@@ -95,8 +96,8 @@ const Chatbot = () => {
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out z-50",
-        "w-80 h-full",
+        "fixed lg:relative lg:translate-x-0 transition-all duration-300 ease-in-out z-50 h-full",
+        sidebarCollapsed ? "w-16" : "w-80",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <ChatSidebar
@@ -105,6 +106,8 @@ const Chatbot = () => {
           onChatSelect={setCurrentChatId}
           onNewChat={createNewChat}
           onCloseSidebar={() => setSidebarOpen(false)}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
       </div>
 
