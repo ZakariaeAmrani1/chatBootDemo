@@ -21,6 +21,7 @@ import {
   Settings2,
   Check,
   EyeOff,
+  Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
