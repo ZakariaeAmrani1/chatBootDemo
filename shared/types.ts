@@ -41,6 +41,8 @@ export interface Message {
   timestamp: string;
   attachments?: FileAttachment[];
   isThinking?: boolean;
+  liked?: boolean;
+  disliked?: boolean;
 }
 
 export interface Chat {
