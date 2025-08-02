@@ -21,6 +21,9 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   messages,
   selectedModel,
   onModelChange,
+  isThinking = false,
+  isLoading = false,
+  error = null,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
