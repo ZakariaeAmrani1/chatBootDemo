@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ModelSelector } from "@/components/ModelSelector";
+import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { cn } from "@/lib/utils";
 import type { FileAttachment } from "@/pages/Chatbot";
