@@ -58,7 +58,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, selectedModel, onModelCha
   }
 
   return (
-    <ScrollArea className="flex-1 px-4 bg-background" ref={scrollAreaRef}>
+    <ScrollArea className="h-full px-4 bg-background" ref={scrollAreaRef}>
       <div className="max-w-4xl mx-auto py-6 space-y-6">
         {messages.map((message, index) => (
           <div
