@@ -653,10 +653,28 @@ const Settings: React.FC<SettingsProps> = ({
             Disabled
           </Badge>
         </Button>
-        <Button variant="outline" className="w-full justify-start">
-          <Key className="h-4 w-4 mr-2" />
-          API Keys
-        </Button>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Key className="h-4 w-4" />
+            <Label htmlFor="grokApiKey">Grok API Key</Label>
+          </div>
+          <Input
+            id="grokApiKey"
+            type="password"
+            placeholder="Enter your Grok API key..."
+            value={user?.settings.grokApiKey || ""}
+            onChange={(e) => updateSetting("grokApiKey", e.target.value)}
+            disabled={isSaving}
+            className="font-mono text-sm"
+          />
+          <p className="text-xs text-muted-foreground">
+            Your API key is stored locally and used to enable AI chat functionality.
+            Get your key from{" "}
+            <a href="https://console.groq.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              Groq Console
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
