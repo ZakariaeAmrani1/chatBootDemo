@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/components/ThemeProvider";
+import { getAppLogo, getAppName } from "@/lib/app-config";
 
 const Register: React.FC = () => {
   const { register } = useAuth();
