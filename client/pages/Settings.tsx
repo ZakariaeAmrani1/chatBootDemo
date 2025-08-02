@@ -165,6 +165,30 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
+  const handleClearChatHistory = async () => {
+    if (!confirm('Are you sure you want to clear all chat history? This action cannot be undone.')) {
+      return;
+    }
+
+    setIsClearing(true);
+    setError(null);
+
+    try {
+      const response = await apiService.clearChatHistory();
+      if (response.success) {
+        // Reload data stats to show updated sizes
+        await loadDataStats();
+        alert('Chat history cleared successfully');
+      } else {
+        setError(response.error || 'Failed to clear chat history');
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to clear chat history');
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
   const settingsMenu = [
     { id: "overview", label: "Overview", icon: User },
     { id: "profile", label: "Profile", icon: User },
