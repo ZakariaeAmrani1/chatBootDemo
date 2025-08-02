@@ -21,6 +21,7 @@ interface ChatAreaProps {
   error?: string | null;
   onRegenerateMessage?: (messageId: string) => void;
   onMessageUpdate?: (messageId: string, updates: Partial<Message>) => void;
+  user?: User | null;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
