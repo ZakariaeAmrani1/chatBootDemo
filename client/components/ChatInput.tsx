@@ -295,7 +295,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
                   isSending && "animate-pulse",
                 )}
                 disabled={
-                  (!message.trim() && attachedFiles.length === 0) || isSending
+                  (!message.trim() && attachedFiles.length === 0) || isSending || disabled || isUploading
                 }
               >
                 {isSending ? (
