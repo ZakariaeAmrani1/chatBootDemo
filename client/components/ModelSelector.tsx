@@ -67,7 +67,7 @@ export function ModelSelector({
           <label
             key={model.id}
             className={cn(
-              "relative flex items-center gap-2 px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-200 hover:scale-105",
+              "relative flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
               selectedModel === model.id
                 ? `${model.bgColor} ${model.borderColor.replace("hover:", "")} shadow-sm`
                 : `bg-background border-border hover:border-muted-foreground/40`,
@@ -81,25 +81,6 @@ export function ModelSelector({
               onChange={() => onModelChange(model.id)}
               className="sr-only"
             />
-
-            {/* Radio indicator */}
-            <div
-              className={cn(
-                "w-3 h-3 rounded-full border transition-all duration-200 flex items-center justify-center",
-                selectedModel === model.id
-                  ? model.color.replace("text-", "border-")
-                  : "border-muted-foreground/40",
-              )}
-            >
-              {selectedModel === model.id && (
-                <div
-                  className={cn(
-                    "w-1.5 h-1.5 rounded-full transition-all duration-200",
-                    model.color.replace("text-", "bg-"),
-                  )}
-                />
-              )}
-            </div>
 
             <span
               className={cn(
