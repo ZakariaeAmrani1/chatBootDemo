@@ -30,6 +30,99 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   onRegenerateMessage,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+  const [likedMessages, setLikedMessages] = useState<Set<string>>(new Set());
+  const [dislikedMessages, setDislikedMessages] = useState<Set<string>>(new Set());
+
+  // Copy message content to clipboard
+  const handleCopy = async (content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      toast({
+        title: "Copied to clipboard",
+        description: "Message content has been copied.",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to copy",
+        description: "Could not copy message to clipboard.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle thumbs up
+  const handleLike = (messageId: string) => {
+    const newLiked = new Set(likedMessages);
+    const newDisliked = new Set(dislikedMessages);
+
+    if (likedMessages.has(messageId)) {
+      newLiked.delete(messageId);
+    } else {
+      newLiked.add(messageId);
+      newDisliked.delete(messageId); // Remove from disliked if present
+    }
+
+    setLikedMessages(newLiked);
+    setDislikedMessages(newDisliked);
+
+    toast({
+      title: newLiked.has(messageId) ? "Message liked" : "Like removed",
+      description: "Your feedback has been recorded.",
+    });
+  };
+
+  // Handle thumbs down
+  const handleDislike = (messageId: string) => {
+    const newLiked = new Set(likedMessages);
+    const newDisliked = new Set(dislikedMessages);
+
+    if (dislikedMessages.has(messageId)) {
+      newDisliked.delete(messageId);
+    } else {
+      newDisliked.add(messageId);
+      newLiked.delete(messageId); // Remove from liked if present
+    }
+
+    setLikedMessages(newLiked);
+    setDislikedMessages(newDisliked);
+
+    toast({
+      title: newDisliked.has(messageId) ? "Message disliked" : "Dislike removed",
+      description: "Your feedback has been recorded.",
+    });
+  };
+
+  // Handle regenerate message
+  const handleRegenerate = (messageId: string) => {
+    if (onRegenerateMessage) {
+      onRegenerateMessage(messageId);
+    } else {
+      toast({
+        title: "Regeneration not available",
+        description: "Message regeneration is not implemented yet.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle share message
+  const handleShare = async (content: string) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "AI Message",
+          text: content,
+        });
+      } catch (error) {
+        // User cancelled or error occurred, fallback to clipboard
+        await handleCopy(content);
+      }
+    } else {
+      // Fallback to clipboard if Web Share API is not available
+      await handleCopy(content);
+    }
+  };
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
