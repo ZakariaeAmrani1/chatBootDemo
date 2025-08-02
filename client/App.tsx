@@ -43,7 +43,16 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {!isOnline && (
+        <div className="bg-yellow-500 text-yellow-900 px-4 py-2 text-center text-sm font-medium">
+          🔌 You're offline. Some features may not work properly.
+        </div>
+      )}
+      {children}
+    </>
+  );
 };
 
 // Public Route Component (redirect to chat if already authenticated)
