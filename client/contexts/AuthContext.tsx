@@ -124,6 +124,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const updateUser = (userData: User) => {
     setUser(userData);
     localStorage.setItem('currentUser', JSON.stringify(userData));
+
+    // Ensure settings are applied immediately when user data is updated
+    if (userData.settings) {
+      requestAnimationFrame(() => {
+        // Dispatch a custom event to trigger settings application
+        window.dispatchEvent(new CustomEvent('userSettingsUpdated', {
+          detail: { user: userData, settings: userData.settings }
+        }));
+      });
+    }
   };
 
   const value: AuthContextType = {
