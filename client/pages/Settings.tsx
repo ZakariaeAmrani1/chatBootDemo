@@ -166,7 +166,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderProfile = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Profile</h3>
         <p className="text-sm text-muted-foreground">
           Manage your personal information and preferences.
         </p>
