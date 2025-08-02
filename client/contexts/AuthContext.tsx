@@ -94,11 +94,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
           const response = await apiService.verifyToken();
           if (!response.success) {
-            console.log("Periodic token validation failed, logging out");
             handleAuthFailure();
           }
         } catch (error) {
-          console.error("Periodic token validation error:", error);
           handleAuthFailure();
         }
       }
