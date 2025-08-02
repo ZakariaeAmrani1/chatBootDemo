@@ -6,6 +6,7 @@ import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import SettingsPage from "@/pages/Settings";
 
 export interface FileAttachment {
   id: string;
