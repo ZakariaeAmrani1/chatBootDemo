@@ -190,14 +190,7 @@ const Settings: React.FC<SettingsProps> = ({
         setTheme(value as "light" | "dark" | "system");
       }
 
-      // Special handling for fontSize and density to apply CSS classes
-      if (key === "fontSize") {
-        applyFontSize(value);
-      }
-
-      if (key === "density") {
-        applyDensity(value);
-      }
+      // Settings will be applied automatically via AuthContext when user data updates
     }
   };
 
