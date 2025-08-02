@@ -161,6 +161,11 @@ class ApiService {
     });
   }
 
+  // Models operations
+  async getModels(): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>("/models");
+  }
+
   // Utility method to get file URL
   getFileUrl(filename: string): string {
     return `${API_BASE}/files/${filename}`;
