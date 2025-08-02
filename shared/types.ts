@@ -86,6 +86,7 @@ export interface FileAttachment {
 export interface CreateChatRequest {
   title?: string;
   model: string;
+  chatbootVersion?: string;
   message?: string;
   attachments?: File[];
 }
