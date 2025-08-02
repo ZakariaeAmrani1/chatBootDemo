@@ -487,7 +487,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.autoSave}
+            checked={user?.settings.autoSave || false}
             onCheckedChange={(checked) => updateSetting("autoSave", checked)}
           />
         </div>
@@ -500,7 +500,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.messageHistory}
+            checked={user?.settings.messageHistory || false}
             onCheckedChange={(checked) =>
               updateSetting("messageHistory", checked)
             }
@@ -515,7 +515,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.showTimestamps}
+            checked={user?.settings.showTimestamps || false}
             onCheckedChange={(checked) =>
               updateSetting("showTimestamps", checked)
             }
@@ -530,7 +530,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.enterToSend}
+            checked={user?.settings.enterToSend || false}
             onCheckedChange={(checked) => updateSetting("enterToSend", checked)}
           />
         </div>
@@ -603,7 +603,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-2">
           <Label>Language</Label>
           <Select
-            value={settings.language}
+            value={user?.settings.language || 'english'}
             onValueChange={(value) => updateSetting("language", value)}
           >
             <SelectTrigger>
@@ -623,7 +623,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-2">
           <Label>Region</Label>
           <Select
-            value={settings.region}
+            value={user?.settings.region || 'us'}
             onValueChange={(value) => updateSetting("region", value)}
           >
             <SelectTrigger>
@@ -660,19 +660,19 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.voiceEnabled}
+            checked={user?.settings.voiceEnabled || false}
             onCheckedChange={(checked) =>
               updateSetting("voiceEnabled", checked)
             }
           />
         </div>
 
-        {settings.voiceEnabled && (
+        {user?.settings.voiceEnabled && (
           <>
             <div className="space-y-2">
               <Label>Voice Model</Label>
               <Select
-                value={settings.voiceModel}
+                value={user?.settings.voiceModel || 'natural'}
                 onValueChange={(value) => updateSetting("voiceModel", value)}
               >
                 <SelectTrigger>
@@ -690,7 +690,7 @@ const Settings: React.FC<SettingsProps> = ({
               <Label>Speech Rate</Label>
               <div className="px-2">
                 <Slider
-                  value={settings.speechRate}
+                  value={user?.settings.speechRate || [1]}
                   onValueChange={(value) => updateSetting("speechRate", value)}
                   max={2}
                   min={0.5}
