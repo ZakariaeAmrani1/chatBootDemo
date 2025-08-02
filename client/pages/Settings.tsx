@@ -660,17 +660,32 @@ const Settings: React.FC<SettingsProps> = ({
             <Key className="h-4 w-4" />
             <Label htmlFor="grokApiKey">Grok API Key</Label>
           </div>
-          <Input
-            id="grokApiKey"
-            type="password"
-            placeholder="Enter your Grok API key..."
-            value={user?.settings.grokApiKey || ""}
-            onChange={(e) => updateSetting("grokApiKey", e.target.value)}
-            disabled={isSaving}
-            className="font-mono text-sm"
-          />
+          <div className="relative">
+            <Input
+              id="grokApiKey"
+              type={showApiKey ? "text" : "password"}
+              placeholder="Enter your Grok API key..."
+              value={user?.settings.grokApiKey || ""}
+              onChange={(e) => updateSetting("grokApiKey", e.target.value)}
+              disabled={isSaving}
+              className="font-mono text-sm pr-10"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+              onClick={() => setShowApiKey(!showApiKey)}
+            >
+              {showApiKey ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
           <p className="text-xs text-muted-foreground">
-            Your API key is stored locally and used to enable AI chat functionality.
+            Your API key is stored securely and used to enable AI chat functionality.
             Get your key from{" "}
             <a href="https://console.groq.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
               Groq Console
