@@ -76,21 +76,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [chatToDelete, setChatToDelete] = useState<string | null>(null);
 
-  // Get the appropriate logo based on theme and user settings
-  const getAppLogo = () => {
-    if (resolvedTheme === "dark") {
-      return user?.settings?.darkLogo ||
-        "https://cdn.builder.io/api/v1/image/assets%2Fc773263620b04439b4c3604feae0f6da%2F680de7f4e8714a929d2efe1fd2107b8f?format=webp&width=800";
-    } else {
-      return user?.settings?.lightLogo ||
-        "https://cdn.builder.io/api/v1/image/assets%2Fcf4d383aa0a8496e86e8c6800eea5338%2F79be983dd7f84bc9bc3d5b287efc9a36?format=webp&width=800";
-    }
-  };
 
-  // Get the app name from user settings or use default
-  const getAppName = () => {
-    return user?.settings?.appName || "ChatNova";
-  };
 
   const handleDeleteClick = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
