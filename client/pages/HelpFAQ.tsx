@@ -157,7 +157,7 @@ const HelpFAQ: React.FC = () => {
   const supportResources = [
     {
       title: "User Guide",
-      description: "Complete guide to using Chatboot effectively",
+      description: "Complete guide to using ChatNova effectively",
       icon: <Book className="w-6 h-6" />,
       link: "#",
     },
@@ -169,7 +169,7 @@ const HelpFAQ: React.FC = () => {
     },
     {
       title: "Community Forum",
-      description: "Connect with other Chatboot users",
+      description: "Connect with other ChatNova users",
       icon: <MessageCircle className="w-6 h-6" />,
       link: "#",
     },
@@ -205,7 +205,7 @@ const HelpFAQ: React.FC = () => {
             Help & FAQ
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Find answers to common questions and get help with using Chatboot
+            Find answers to common questions and get help with using ChatNova
             effectively.
           </p>
         </div>
