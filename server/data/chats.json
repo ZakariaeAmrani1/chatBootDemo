@@ -107,6 +107,15 @@
       "updatedAt": "2025-08-02T17:24:08.913Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "6a3c7287-7872-49c5-8873-fd675969fd83",
+      "title": "🎤 Voice message",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:24:53.356Z",
+      "updatedAt": "2025-08-02T17:24:53.487Z",
+      "messageCount": 1,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -385,6 +394,23 @@
       "type": "assistant",
       "content": "📣 Recording...\n\n\"Hey there! I'm not here right now, but I wanted to leave you a message. Please leave a message after the beep and I'll get back to you as soon as I can. Thanks!\" *beep*",
       "timestamp": "2025-08-02T17:24:08.913Z"
+    },
+    {
+      "id": "64c107f7-717f-493a-9ae1-94fe2e450b62",
+      "chatId": "6a3c7287-7872-49c5-8873-fd675969fd83",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:24:53.487Z",
+      "attachments": [
+        {
+          "id": "e4a06466-329a-4b52-94b6-3ee55ab257b6",
+          "name": "voice-message-1754155494594.webm",
+          "size": 31073,
+          "type": "audio/webm",
+          "url": "/api/files/dd28c54c-1974-4f42-9b7b-06c4b44543c0.webm",
+          "uploadedAt": "2025-08-02T17:24:53.271Z"
+        }
+      ]
     }
   ]
 }
