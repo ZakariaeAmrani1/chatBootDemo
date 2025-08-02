@@ -238,7 +238,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderAppearance = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Appearance</h3>
         <p className="text-sm text-muted-foreground">
           Customize how the interface looks and feels.
         </p>
@@ -307,7 +306,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderNotifications = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Notifications</h3>
         <p className="text-sm text-muted-foreground">
           Configure how you receive notifications.
         </p>
@@ -365,7 +363,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderPrivacy = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Privacy & Security</h3>
         <p className="text-sm text-muted-foreground">
           Control your privacy and security settings.
         </p>
@@ -436,7 +433,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderChatSettings = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Chat Settings</h3>
         <p className="text-sm text-muted-foreground">
           Customize your chat experience.
         </p>
@@ -505,7 +501,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderDataStorage = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Data & Storage</h3>
         <p className="text-sm text-muted-foreground">
           Manage your data and storage preferences.
         </p>
@@ -559,7 +554,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderLanguage = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Language & Region</h3>
         <p className="text-sm text-muted-foreground">
           Set your language and regional preferences.
         </p>
@@ -612,7 +606,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderVoice = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Voice & Speech</h3>
         <p className="text-sm text-muted-foreground">
           Configure voice and speech settings.
         </p>
@@ -680,7 +673,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderAccessibility = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Accessibility</h3>
         <p className="text-sm text-muted-foreground">
           Configure accessibility features.
         </p>
