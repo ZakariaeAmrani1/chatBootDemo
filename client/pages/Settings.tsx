@@ -655,7 +655,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     }
   };
 
-  const containerClasses = isModal 
+  const containerClasses = isModal
     ? "fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
     : "min-h-screen bg-background";
 
@@ -667,8 +667,8 @@ const Settings: React.FC<SettingsProps> = ({ onClose, onBack, isModal = true }) 
     <div className={containerClasses}>
       <div className={contentClasses}>
         <div className="flex h-full">
-          {/* Sidebar Navigation */}
-          <div className="w-64 border-r border-border bg-muted/30 p-4 overflow-y-auto">
+          {/* Sidebar Navigation - Hidden on mobile */}
+          <div className="hidden md:block w-64 border-r border-border bg-muted/30 p-4 overflow-y-auto">
             <div className="space-y-1">
               {settingsMenu.map((item) => {
                 const Icon = item.icon;
