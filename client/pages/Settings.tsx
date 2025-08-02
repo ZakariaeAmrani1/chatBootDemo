@@ -42,6 +42,8 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { apiService } from "@/services/api";
+import { User, UserSettings } from "@shared/types";
 
 interface SettingsProps {
   onClose: () => void;
