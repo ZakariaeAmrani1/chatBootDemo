@@ -28,9 +28,9 @@ const Chatbot = () => {
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
 
-  // Theme context for applying user's appearance settings
+  // Authentication and theme context
+  const { user, updateUser } = useAuth();
   const { setTheme } = useTheme();
 
   // Subscribe to chat service state changes
