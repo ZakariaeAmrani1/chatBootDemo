@@ -59,7 +59,9 @@
       "chatId": "f366762b-6bd7-4914-9716-627a9b614767",
       "type": "assistant",
       "content": "Hello! It's great to meet you. How can I assist you today?",
-      "timestamp": "2025-08-02T14:58:01.970Z"
+      "timestamp": "2025-08-02T14:58:01.970Z",
+      "liked": true,
+      "disliked": false
     },
     {
       "id": "c87a64c1-230a-4839-b88f-696e3b410092",
@@ -73,7 +75,9 @@
       "chatId": "f366762b-6bd7-4914-9716-627a9b614767",
       "type": "assistant",
       "content": "Let me break this down for you step by step. Your message about \"good\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
-      "timestamp": "2025-08-02T14:58:07.237Z"
+      "timestamp": "2025-08-02T14:58:07.237Z",
+      "liked": false,
+      "disliked": true
     },
     {
       "id": "f8db2126-864d-46ed-ae24-8a6dc0f10bff",
@@ -129,7 +133,9 @@
       "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
       "type": "assistant",
       "content": "I'm just a language model, I don't have emotions or feelings like humans do. However, I'm functioning properly and ready to assist you with any questions or tasks you may have! How can I help you today?",
-      "timestamp": "2025-08-02T15:05:45.803Z"
+      "timestamp": "2025-08-02T15:05:45.803Z",
+      "liked": true,
+      "disliked": false
     },
     {
       "id": "308f8524-2884-4aae-af13-d2833c10d428",
