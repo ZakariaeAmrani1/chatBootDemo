@@ -102,16 +102,18 @@ class ChatService {
         const newChat = response.data;
         
         // Add to chats list
-        this.setState({ 
+        this.setState({
           chats: [newChat, ...this.state.chats],
           currentChat: newChat,
           messages: [],
           isLoading: false,
-          isThinking: true // AI is thinking
+          isThinking: request.message ? true : false // Only thinking if there was a message
         });
 
-        // Start polling for new messages (AI response)
-        this.startPollingForMessages(newChat.id);
+        // Start polling for new messages (AI response) only if there was a message
+        if (request.message && request.message.trim()) {
+          this.startPollingForMessages(newChat.id);
+        }
         
         return newChat;
       } else {
