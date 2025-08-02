@@ -48,6 +48,7 @@
     {
       "id": "gemini-pro",
       "name": "Gemini Pro",
+      "shortName": "Gemini",
       "description": "Google's multimodal model with image and text capabilities",
       "features": ["Multimodal", "Image analysis", "Google integration"],
       "color": "text-orange-600 dark:text-orange-400",
