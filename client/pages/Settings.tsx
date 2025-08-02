@@ -181,9 +181,10 @@ const Settings: React.FC<SettingsProps> = ({
 
     // Check if this is a profile field or settings field
     const profileFields = ["displayName", "email", "bio"];
+    const appearanceFields = ["theme", "fontSize", "density"];
 
     if (profileFields.includes(key)) {
-      // For profile fields, only update local state and track changes
+      // For profile fields, only update local state and track changes (manual save)
       const newChanges = { ...pendingChanges, [key]: value };
       setPendingChanges(newChanges);
       setHasUnsavedChanges(true);
@@ -191,7 +192,7 @@ const Settings: React.FC<SettingsProps> = ({
       // Update local state immediately for responsive UI
       setUser(prev => prev ? { ...prev, [key]: value } : null);
     } else {
-      // For settings, update immediately as before
+      // For settings (including appearance), update immediately with auto-save
       updateUserSettings({ [key]: value });
     }
   };
