@@ -11,8 +11,8 @@ import {
   Archive,
   HelpCircle,
   Zap,
-  ChevronLeft,
-  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -148,7 +148,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <MessageSquare className="h-3 w-3 text-white" />
                 </div>
                 <h2 className="text-lg font-semibold text-foreground tracking-tight">
-                  ChatGPT
+                  Chatboot
                 </h2>
               </div>
             )}
@@ -172,9 +172,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     onClick={onToggleCollapse}
                   >
                     {collapsed ? (
-                      <ChevronRight className="h-4 w-4" />
+                      <PanelLeftOpen className="h-4 w-4" />
                     ) : (
-                      <ChevronLeft className="h-4 w-4" />
+                      <PanelLeftClose className="h-4 w-4" />
                     )}
                   </Button>
                 </TooltipTrigger>
