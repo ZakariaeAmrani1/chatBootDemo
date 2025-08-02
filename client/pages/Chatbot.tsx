@@ -27,6 +27,9 @@ const Chatbot = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
+  // Theme context for applying user's appearance settings
+  const { setTheme } = useTheme();
+
   // Subscribe to chat service state changes
   useEffect(() => {
     const unsubscribe = chatService.subscribe(setChatState);
