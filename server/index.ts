@@ -18,6 +18,7 @@ import {
   clearUploadedFiles,
 } from "./routes/data";
 import { handleMessageFeedback } from "./routes/feedback";
+import { getModels, addModel } from "./routes/models";
 
 export function createServer() {
   const app = express();
