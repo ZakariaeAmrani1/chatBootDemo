@@ -36,6 +36,9 @@ const App = () => (
                 />
               }
             />
+            <Route path="/upgrade" element={<UpgradePlan />} />
+            <Route path="/library" element={<Library />} />
+            <Route path="/help" element={<HelpFAQ />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
