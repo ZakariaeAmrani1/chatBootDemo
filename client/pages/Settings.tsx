@@ -281,6 +281,78 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
+  const handleLightLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    setIsUploadingLightLogo(true);
+    setError(null);
+
+    try {
+      const response = await apiService.uploadLightLogo(user.id, file);
+      if (response.success && response.data) {
+        updateUser(response.data);
+        setLastSaveTime(new Date());
+      } else {
+        setError(response.error || "Failed to upload light logo");
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to upload light logo");
+    } finally {
+      setIsUploadingLightLogo(false);
+      event.target.value = "";
+    }
+  };
+
+  const handleDarkLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    setIsUploadingDarkLogo(true);
+    setError(null);
+
+    try {
+      const response = await apiService.uploadDarkLogo(user.id, file);
+      if (response.success && response.data) {
+        updateUser(response.data);
+        setLastSaveTime(new Date());
+      } else {
+        setError(response.error || "Failed to upload dark logo");
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to upload dark logo");
+    } finally {
+      setIsUploadingDarkLogo(false);
+      event.target.value = "";
+    }
+  };
+
   const settingsMenu = [
     { id: "overview", label: "Overview", icon: Settings2 },
     { id: "profile", label: "Profile", icon: User },
