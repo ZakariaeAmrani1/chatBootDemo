@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import FadeInText from "@/components/FadeInText";
@@ -16,6 +17,7 @@ interface ChatAreaProps {
   isThinking?: boolean;
   isLoading?: boolean;
   error?: string | null;
+  onRegenerateMessage?: (messageId: string) => void;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -25,6 +27,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   isThinking = false,
   isLoading = false,
   error = null,
+  onRegenerateMessage,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
