@@ -44,6 +44,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onCloseSidebar,
   collapsed,
   onToggleCollapse,
+  onOpenSettings,
 }) => {
   return (
     <TooltipProvider>
