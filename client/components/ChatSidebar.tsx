@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import { cn } from "@/lib/utils";
-import type { Chat } from "@shared/types";
+import type { Chat, User } from "@shared/types";
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -36,6 +36,7 @@ interface ChatSidebarProps {
   onOpenSettings?: () => void;
   onDeleteChat?: (chatId: string) => void;
   isLoading?: boolean;
+  user?: User | null;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
@@ -49,6 +50,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onOpenSettings,
   onDeleteChat,
   isLoading = false,
+  user,
 }) => {
   const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -278,9 +280,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 </TooltipTrigger>
                 <TooltipContent side="right">
                   <div className="text-left">
-                    <p className="font-semibold">User</p>
+                    <p className="font-semibold">{user?.displayName || "User"}</p>
                     <p className="text-xs text-muted-foreground">
-                      user@example.com
+                      {user?.email || "user@example.com"}
                     </p>
                   </div>
                 </TooltipContent>
@@ -324,10 +326,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">
-                    User
+                    {user?.displayName || "User"}
                   </p>
                   <p className="text-xs text-muted-foreground truncate">
-                    user@example.com
+                    {user?.email || "user@example.com"}
                   </p>
                 </div>
                 <Button
