@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { MessageSquare, Plus, Settings, Share2, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import ChatSidebar from '@/components/ChatSidebar';
-import ChatArea from '@/components/ChatArea';
-import ChatInput from '@/components/ChatInput';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import React, { useState } from "react";
+import { MessageSquare, Plus, Settings, Share2, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import ChatSidebar from "@/components/ChatSidebar";
+import ChatArea from "@/components/ChatArea";
+import ChatInput from "@/components/ChatInput";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export interface Message {
   id: string;
   content: string;
-  sender: 'user' | 'assistant';
+  sender: "user" | "assistant";
   timestamp: Date;
 }
 
@@ -24,26 +24,26 @@ export interface Chat {
 const Chatbot = () => {
   const [chats, setChats] = useState<Chat[]>([
     {
-      id: '1',
-      title: 'New chat',
+      id: "1",
+      title: "New chat",
       messages: [],
-      createdAt: new Date()
-    }
+      createdAt: new Date(),
+    },
   ]);
-  const [currentChatId, setCurrentChatId] = useState<string>('1');
+  const [currentChatId, setCurrentChatId] = useState<string>("1");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  const currentChat = chats.find(chat => chat.id === currentChatId);
+  const currentChat = chats.find((chat) => chat.id === currentChatId);
 
   const createNewChat = () => {
     const newChat: Chat = {
       id: Date.now().toString(),
-      title: 'New chat',
+      title: "New chat",
       messages: [],
-      createdAt: new Date()
+      createdAt: new Date(),
     };
-    setChats(prev => [newChat, ...prev]);
+    setChats((prev) => [newChat, ...prev]);
     setCurrentChatId(newChat.id);
   };
 
@@ -53,35 +53,41 @@ const Chatbot = () => {
     const userMessage: Message = {
       id: Date.now().toString(),
       content,
-      sender: 'user',
-      timestamp: new Date()
+      sender: "user",
+      timestamp: new Date(),
     };
 
     // Update chat title if it's the first message
     const updatedChat = {
       ...currentChat,
-      title: currentChat.messages.length === 0 ? content.slice(0, 30) + '...' : currentChat.title,
-      messages: [...currentChat.messages, userMessage]
+      title:
+        currentChat.messages.length === 0
+          ? content.slice(0, 30) + "..."
+          : currentChat.title,
+      messages: [...currentChat.messages, userMessage],
     };
 
-    setChats(prev => prev.map(chat => 
-      chat.id === currentChatId ? updatedChat : chat
-    ));
+    setChats((prev) =>
+      prev.map((chat) => (chat.id === currentChatId ? updatedChat : chat)),
+    );
 
     // Simulate assistant response
     setTimeout(() => {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "I'm a demo assistant response. In a real implementation, this would connect to your AI model.",
-        sender: 'assistant',
-        timestamp: new Date()
+        content:
+          "I'm a demo assistant response. In a real implementation, this would connect to your AI model.",
+        sender: "assistant",
+        timestamp: new Date(),
       };
 
-      setChats(prev => prev.map(chat => 
-        chat.id === currentChatId 
-          ? { ...chat, messages: [...chat.messages, assistantMessage] }
-          : chat
-      ));
+      setChats((prev) =>
+        prev.map((chat) =>
+          chat.id === currentChatId
+            ? { ...chat, messages: [...chat.messages, assistantMessage] }
+            : chat,
+        ),
+      );
     }, 1000);
   };
 
@@ -89,18 +95,20 @@ const Chatbot = () => {
     <div className="flex h-screen bg-background transition-colors duration-300">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div className={cn(
-        "fixed lg:relative lg:translate-x-0 transition-all duration-300 ease-in-out z-50 h-full",
-        sidebarCollapsed ? "w-16" : "w-80",
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
+      <div
+        className={cn(
+          "fixed lg:relative lg:translate-x-0 transition-all duration-300 ease-in-out z-50 h-full",
+          sidebarCollapsed ? "w-16" : "w-80",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
         <ChatSidebar
           chats={chats}
           currentChatId={currentChatId}
@@ -125,9 +133,7 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <h1 className="text-lg font-semibold text-foreground">
-              ChatGPT
-            </h1>
+            <h1 className="text-lg font-semibold text-foreground">ChatGPT</h1>
           </div>
 
           <div className="flex items-center gap-2">

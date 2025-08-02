@@ -1,10 +1,19 @@
-import React from 'react';
-import { Monitor, Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useTheme } from './ThemeProvider';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useTheme } from "./ThemeProvider";
+import { cn } from "@/lib/utils";
 
 interface ThemeSelectorProps {
   collapsed?: boolean;
@@ -14,12 +23,12 @@ export function ThemeSelector({ collapsed = false }: ThemeSelectorProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
 
   const themeOptions = [
-    { value: 'light', label: 'Light', icon: Sun },
-    { value: 'dark', label: 'Dark', icon: Moon },
-    { value: 'system', label: 'System', icon: Monitor },
+    { value: "light", label: "Light", icon: Sun },
+    { value: "dark", label: "Dark", icon: Moon },
+    { value: "system", label: "System", icon: Monitor },
   ] as const;
 
-  const currentTheme = themeOptions.find(option => option.value === theme);
+  const currentTheme = themeOptions.find((option) => option.value === theme);
   const CurrentIcon = currentTheme?.icon || Monitor;
 
   if (collapsed) {
@@ -46,13 +55,15 @@ export function ThemeSelector({ collapsed = false }: ThemeSelectorProps) {
                       onClick={() => setTheme(option.value)}
                       className={cn(
                         "flex items-center",
-                        theme === option.value && "bg-accent"
+                        theme === option.value && "bg-accent",
                       )}
                     >
                       <Icon className="h-4 w-4 mr-2" />
                       {option.label}
                       {theme === option.value && (
-                        <span className="ml-auto text-xs text-muted-foreground">✓</span>
+                        <span className="ml-auto text-xs text-muted-foreground">
+                          ✓
+                        </span>
                       )}
                     </DropdownMenuItem>
                   );
@@ -89,7 +100,7 @@ export function ThemeSelector({ collapsed = false }: ThemeSelectorProps) {
               onClick={() => setTheme(option.value)}
               className={cn(
                 "flex items-center",
-                theme === option.value && "bg-accent"
+                theme === option.value && "bg-accent",
               )}
             >
               <Icon className="h-4 w-4 mr-2" />

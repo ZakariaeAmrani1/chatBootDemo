@@ -1,12 +1,29 @@
-import React from 'react';
-import { MessageSquare, Plus, Settings, Trash2, Edit3, X, Archive, HelpCircle, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ThemeSelector } from '@/components/ThemeSelector';
-import { cn } from '@/lib/utils';
-import type { Chat } from '@/pages/Chatbot';
+import React from "react";
+import {
+  MessageSquare,
+  Plus,
+  Settings,
+  Trash2,
+  Edit3,
+  X,
+  Archive,
+  HelpCircle,
+  Zap,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ThemeSelector } from "@/components/ThemeSelector";
+import { cn } from "@/lib/utils";
+import type { Chat } from "@/pages/Chatbot";
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -25,15 +42,24 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onNewChat,
   onCloseSidebar,
   collapsed,
-  onToggleCollapse
+  onToggleCollapse,
 }) => {
   return (
     <TooltipProvider>
       <div className="h-full bg-background text-foreground flex flex-col border-r border-border">
         {/* Header */}
-        <div className={cn("border-b border-border", collapsed ? "p-2" : "p-4")}>
-          <div className={cn("flex items-center mb-4", collapsed ? "justify-center" : "justify-between")}>
-            {!collapsed && <h2 className="text-lg font-semibold text-foreground">ChatGPT</h2>}
+        <div
+          className={cn("border-b border-border", collapsed ? "p-2" : "p-4")}
+        >
+          <div
+            className={cn(
+              "flex items-center mb-4",
+              collapsed ? "justify-center" : "justify-between",
+            )}
+          >
+            {!collapsed && (
+              <h2 className="text-lg font-semibold text-foreground">ChatGPT</h2>
+            )}
             <div className="flex items-center gap-1">
               {!collapsed && (
                 <Button
@@ -53,16 +79,20 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     className="text-muted-foreground hover:text-foreground hover:bg-accent hidden lg:flex"
                     onClick={onToggleCollapse}
                   >
-                    {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+                    {collapsed ? (
+                      <ChevronRight className="h-4 w-4" />
+                    ) : (
+                      <ChevronLeft className="h-4 w-4" />
+                    )}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
-                  {collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                  {collapsed ? "Expand sidebar" : "Collapse sidebar"}
                 </TooltipContent>
               </Tooltip>
             </div>
           </div>
-          
+
           {collapsed ? (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -74,9 +104,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <Plus className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="right">
-                New chat
-              </TooltipContent>
+              <TooltipContent side="right">New chat</TooltipContent>
             </Tooltip>
           ) : (
             <Button
@@ -93,7 +121,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         {/* Chat History */}
         <ScrollArea className={cn("flex-1", collapsed ? "px-1" : "px-2")}>
           <div className="space-y-1 py-2">
-            {chats.map((chat) => (
+            {chats.map((chat) =>
               collapsed ? (
                 <Tooltip key={chat.id}>
                   <TooltipTrigger asChild>
@@ -101,16 +129,14 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                       className={cn(
                         "flex items-center justify-center p-2 rounded-lg cursor-pointer transition-colors",
                         "hover:bg-accent",
-                        currentChatId === chat.id ? "bg-accent" : ""
+                        currentChatId === chat.id ? "bg-accent" : "",
                       )}
                       onClick={() => onChatSelect(chat.id)}
                     >
                       <MessageSquare className="h-4 w-4 text-muted-foreground" />
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent side="right">
-                    {chat.title}
-                  </TooltipContent>
+                  <TooltipContent side="right">{chat.title}</TooltipContent>
                 </Tooltip>
               ) : (
                 <div
@@ -118,7 +144,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   className={cn(
                     "group relative flex items-center px-3 py-2 rounded-lg cursor-pointer transition-colors",
                     "hover:bg-accent",
-                    currentChatId === chat.id ? "bg-accent" : ""
+                    currentChatId === chat.id ? "bg-accent" : "",
                   )}
                   onClick={() => onChatSelect(chat.id)}
                 >
@@ -126,7 +152,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   <span className="text-sm truncate flex-1 text-foreground">
                     {chat.title}
                   </span>
-                  
+
                   {/* Action buttons (visible on hover) */}
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Button
@@ -145,13 +171,18 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     </Button>
                   </div>
                 </div>
-              )
-            ))}
+              ),
+            )}
           </div>
         </ScrollArea>
 
         {/* Bottom Section */}
-        <div className={cn("border-t border-border space-y-2", collapsed ? "p-2" : "p-4")}>
+        <div
+          className={cn(
+            "border-t border-border space-y-2",
+            collapsed ? "p-2" : "p-4",
+          )}
+        >
           {collapsed ? (
             <>
               <Tooltip>
@@ -163,11 +194,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Zap className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="right">
-                  Upgrade plan
-                </TooltipContent>
+                <TooltipContent side="right">Upgrade plan</TooltipContent>
               </Tooltip>
-              
+
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -177,11 +206,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Archive className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="right">
-                  Library
-                </TooltipContent>
+                <TooltipContent side="right">Library</TooltipContent>
               </Tooltip>
-              
+
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -191,15 +218,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <HelpCircle className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="right">
-                  Help & FAQ
-                </TooltipContent>
+                <TooltipContent side="right">Help & FAQ</TooltipContent>
               </Tooltip>
-              
+
               <ThemeSelector collapsed={collapsed} />
-              
+
               <Separator className="my-2 bg-border" />
-              
+
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex justify-center">
@@ -225,7 +250,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Zap className="h-4 w-4 mr-3" />
                 Upgrade plan
               </Button>
-              
+
               <Button
                 variant="ghost"
                 className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -233,7 +258,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Archive className="h-4 w-4 mr-3" />
                 Library
               </Button>
-              
+
               <Button
                 variant="ghost"
                 className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -241,18 +266,22 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <HelpCircle className="h-4 w-4 mr-3" />
                 Help & FAQ
               </Button>
-              
+
               <ThemeSelector collapsed={collapsed} />
-              
+
               <Separator className="my-2 bg-border" />
-              
+
               <div className="flex items-center gap-3 px-3 py-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                   U
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">User</p>
-                  <p className="text-xs text-muted-foreground truncate">user@example.com</p>
+                  <p className="text-sm font-medium text-foreground truncate">
+                    User
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    user@example.com
+                  </p>
                 </div>
                 <Button
                   variant="ghost"
