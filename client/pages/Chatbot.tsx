@@ -209,7 +209,7 @@ const Chatbot = () => {
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
-            <ThemeToggle />
+
             <Button
               variant="ghost"
               size="sm"
