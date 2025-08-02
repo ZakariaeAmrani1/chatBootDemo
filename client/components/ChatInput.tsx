@@ -397,38 +397,52 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 <div className="relative flex items-center gap-2">
                   {isRecording && (
                     <div className="flex items-center gap-2 text-xs text-red-500 font-mono">
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                      {formatRecordingTime(recordingTime)}
+                      <div className="relative">
+                        <div className="w-2 h-2 bg-red-500 rounded-full recording-indicator" />
+                        <div className="absolute inset-0 w-2 h-2 bg-red-500/30 rounded-full recording-ripple" />
+                      </div>
+                      <span className="font-semibold">REC {formatRecordingTime(recordingTime)}</span>
                     </div>
                   )}
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "h-8 w-8 p-0 rounded-lg transition-all duration-300 relative overflow-hidden",
-                      isRecording
-                        ? "text-red-500 bg-red-50 hover:bg-red-100 scale-110 shadow-lg"
-                        : hasPermission === false
-                        ? "text-red-400 hover:bg-red-50"
-                        : "hover:bg-muted text-muted-foreground hover:scale-110",
-                    )}
-                    onClick={toggleRecording}
-                    disabled={isSending || disabled || isUploading}
-                    title={hasPermission === false ? "Microphone permission required" : isRecording ? "Stop recording" : "Start recording"}
-                  >
-                    {/* Animated background for recording */}
+                  <div className="relative">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className={cn(
+                        "h-8 w-8 p-0 rounded-lg transition-all duration-300 relative overflow-hidden",
+                        isRecording
+                          ? "text-red-500 bg-red-50 hover:bg-red-100 scale-110 shadow-lg border border-red-200"
+                          : hasPermission === false
+                          ? "text-red-400 hover:bg-red-50"
+                          : "hover:bg-muted text-muted-foreground hover:scale-110",
+                      )}
+                      onClick={toggleRecording}
+                      disabled={isSending || disabled || isUploading}
+                      title={hasPermission === false ? "Microphone permission required" : isRecording ? "Stop recording" : "Start recording"}
+                    >
+                      {/* Multiple ripple effects for recording */}
+                      {isRecording && (
+                        <>
+                          <div className="absolute inset-0 bg-red-500/15 rounded-lg animate-ping" style={{ animationDelay: '0s' }} />
+                          <div className="absolute inset-0 bg-red-500/10 rounded-lg animate-ping" style={{ animationDelay: '0.5s' }} />
+                          <div className="absolute inset-0 bg-red-500/5 rounded-lg animate-ping" style={{ animationDelay: '1s' }} />
+                        </>
+                      )}
+                      {isRecording ? (
+                        <Square className="h-4 w-4 relative z-10 recording-indicator" />
+                      ) : hasPermission === false ? (
+                        <MicOff className="h-4 w-4 relative z-10" />
+                      ) : (
+                        <Mic className="h-4 w-4 relative z-10" />
+                      )}
+                    </Button>
+
+                    {/* Outer ripple ring for recording */}
                     {isRecording && (
-                      <div className="absolute inset-0 bg-red-500/20 rounded-lg animate-ping" />
+                      <div className="absolute inset-0 border-2 border-red-500/30 rounded-lg recording-ripple" />
                     )}
-                    {isRecording ? (
-                      <Square className="h-4 w-4 relative z-10" />
-                    ) : hasPermission === false ? (
-                      <MicOff className="h-4 w-4 relative z-10" />
-                    ) : (
-                      <Mic className="h-4 w-4 relative z-10" />
-                    )}
-                  </Button>
+                  </div>
                 </div>
               </div>
 
