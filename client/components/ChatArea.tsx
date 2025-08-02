@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
+import FileAttachmentDisplay from "@/components/FileAttachment";
 import type { Message } from "@/pages/Chatbot";
 
 interface ChatAreaProps {
@@ -95,15 +96,31 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
             >
               <div
                 className={cn(
-                  "rounded-2xl px-6 py-4",
+                  "rounded-2xl px-6 py-4 space-y-3",
                   message.sender === "user"
                     ? "bg-muted ml-auto max-w-lg"
                     : "bg-transparent",
                 )}
               >
-                <p className="text-foreground whitespace-pre-wrap leading-relaxed">
-                  {message.content}
-                </p>
+                {/* File attachments */}
+                {message.attachments && message.attachments.length > 0 && (
+                  <div className="space-y-2">
+                    {message.attachments.map((attachment) => (
+                      <FileAttachmentDisplay
+                        key={attachment.id}
+                        attachment={attachment}
+                        className="max-w-sm"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Message content */}
+                {message.content && (
+                  <p className="text-foreground whitespace-pre-wrap leading-relaxed">
+                    {message.content}
+                  </p>
+                )}
               </div>
 
               {message.sender === "assistant" && (
