@@ -30,7 +30,36 @@ export function ModelSelectorDropdown({
   selectedModel,
   onModelChange,
 }: ModelSelectorDropdownProps) {
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          setModels(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
   const selectedModelData = models.find((m) => m.id === selectedModel);
+
+  if (loading) {
+    return (
+      <div className="space-y-2">
+        <label className="text-xs font-medium text-muted-foreground">Model</label>
+        <div className="h-10 bg-muted animate-pulse rounded-md" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2">
