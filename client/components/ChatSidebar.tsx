@@ -207,104 +207,108 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         {/* Bottom Section */}
         <div
           className={cn(
-            "border-t border-border space-y-2",
-            collapsed ? "p-2" : "p-4",
+            "border-t border-border/50 bg-background/30 backdrop-blur-sm space-y-3",
+            collapsed ? "p-3" : "p-4",
           )}
         >
           {collapsed ? (
             <>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-10 px-2"
-                  >
-                    <Zap className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">Upgrade plan</TooltipContent>
-              </Tooltip>
+              <div className="space-y-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-11 px-3 rounded-xl transition-all duration-200 hover:shadow-sm"
+                    >
+                      <Zap className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Upgrade plan</TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-11 px-3 rounded-xl transition-all duration-200 hover:shadow-sm"
+                    >
+                      <Archive className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Library</TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-11 px-3 rounded-xl transition-all duration-200 hover:shadow-sm"
+                    >
+                      <HelpCircle className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Help & FAQ</TooltipContent>
+                </Tooltip>
+
+                <ThemeSelector collapsed={collapsed} />
+              </div>
+
+              <Separator className="my-3 bg-border/50" />
 
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-10 px-2"
-                  >
-                    <Archive className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">Library</TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-accent h-10 px-2"
-                  >
-                    <HelpCircle className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">Help & FAQ</TooltipContent>
-              </Tooltip>
-
-              <ThemeSelector collapsed={collapsed} />
-
-              <Separator className="my-2 bg-border" />
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="flex justify-center">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer">
+                  <div className="flex justify-center p-2">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-sm cursor-pointer shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105">
                       U
                     </div>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">
-                  <div>
-                    <p className="font-medium">User</p>
-                    <p className="text-xs text-gray-400">user@example.com</p>
+                  <div className="text-left">
+                    <p className="font-semibold">User</p>
+                    <p className="text-xs text-muted-foreground">user@example.com</p>
                   </div>
                 </TooltipContent>
               </Tooltip>
             </>
           ) : (
             <>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent"
-              >
-                <Zap className="h-4 w-4 mr-3" />
-                Upgrade plan
-              </Button>
+              <div className="space-y-1">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent h-11 px-4 rounded-xl transition-all duration-200 hover:shadow-sm font-medium"
+                >
+                  <Zap className="h-5 w-5 mr-3" />
+                  Upgrade plan
+                </Button>
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent"
-              >
-                <Archive className="h-4 w-4 mr-3" />
-                Library
-              </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent h-11 px-4 rounded-xl transition-all duration-200 hover:shadow-sm font-medium"
+                >
+                  <Archive className="h-5 w-5 mr-3" />
+                  Library
+                </Button>
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent"
-              >
-                <HelpCircle className="h-4 w-4 mr-3" />
-                Help & FAQ
-              </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent h-11 px-4 rounded-xl transition-all duration-200 hover:shadow-sm font-medium"
+                >
+                  <HelpCircle className="h-5 w-5 mr-3" />
+                  Help & FAQ
+                </Button>
 
-              <ThemeSelector collapsed={collapsed} />
+                <ThemeSelector collapsed={collapsed} />
+              </div>
 
-              <Separator className="my-2 bg-border" />
+              <Separator className="my-4 bg-border/50" />
 
-              <div className="flex items-center gap-3 px-3 py-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-accent/50 transition-all duration-200 cursor-pointer group">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-md group-hover:shadow-lg transition-all duration-200">
                   U
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">
+                  <p className="text-sm font-semibold text-foreground truncate">
                     User
                   </p>
                   <p className="text-xs text-muted-foreground truncate">
@@ -314,9 +318,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+                  className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-all duration-200 opacity-0 group-hover:opacity-100"
                 >
-                  <Settings className="h-3 w-3" />
+                  <Settings className="h-4 w-4" />
                 </Button>
               </div>
             </>
