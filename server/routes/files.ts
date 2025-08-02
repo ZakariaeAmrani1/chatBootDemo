@@ -36,6 +36,14 @@ const fileFilter = (
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    // Audio file types
+    "audio/webm",
+    "audio/wav",
+    "audio/mp3",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/mp4",
+    "audio/x-m4a",
   ];
 
   if (allowedTypes.includes(file.mimetype)) {
