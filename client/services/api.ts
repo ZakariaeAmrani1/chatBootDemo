@@ -37,9 +37,18 @@ class ApiService {
 
     try {
       const response = await fetch(url, config);
+
+      if (!response.ok) {
+        return {
+          success: false,
+          error: `HTTP ${response.status}: ${response.statusText}`,
+        };
+      }
+
       const data = await response.json();
       return data as ApiResponse<T>;
     } catch (error) {
+      console.error(`API request failed for ${url}:`, error);
       return {
         success: false,
         error: error instanceof Error ? error.message : "Network error",
