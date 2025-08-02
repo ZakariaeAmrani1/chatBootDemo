@@ -331,6 +331,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Button
                       variant="ghost"
                       className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
+                      onClick={() => navigate("/upgrade")}
                     >
                       <Zap className="h-4 w-4" />
                     </Button>
