@@ -198,7 +198,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
                 onChange={handleTextareaChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Message ChatGPT..."
-                disabled={isSending}
+                disabled={isSending || disabled}
                 className={cn(
                   "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none min-h-[44px] max-h-[200px]",
                   "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
