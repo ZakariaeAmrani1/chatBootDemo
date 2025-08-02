@@ -30,7 +30,8 @@
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
-        "grokApiKey": "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"
+        "grokApiKey": "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",
+        "selectedModel": "gpt-4"
       }
     }
   ]
