@@ -1081,7 +1081,13 @@ const Settings: React.FC<SettingsProps> = ({
                   >
                     Cancel
                   </Button>
-                  <Button className="w-full md:w-auto">Save Changes</Button>
+                  <Button
+                    className="w-full md:w-auto"
+                    onClick={activeSection === "profile" ? handleSaveProfileChanges : undefined}
+                    disabled={activeSection === "profile" ? (!hasUnsavedChanges || isSaving) : false}
+                  >
+                    {activeSection === "profile" && isSaving ? "Saving..." : "Save Changes"}
+                  </Button>
                 </div>
               </div>
             )}
