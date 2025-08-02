@@ -31,6 +31,7 @@ export interface UserSettings {
   reducedMotion: boolean;
   screenReader: boolean;
   grokApiKey?: string;
+  appUrl?: string;
 }
 
 export interface Message {
