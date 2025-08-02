@@ -273,7 +273,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
                       : "hover:bg-muted text-muted-foreground",
                   )}
                   onClick={toggleRecording}
-                  disabled={isSending}
+                  disabled={isSending || disabled}
                 >
                   {isRecording ? (
                     <Square className="h-4 w-4" />
