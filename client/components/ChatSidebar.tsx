@@ -433,11 +433,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
       <ConfirmDialog
         open={deleteConfirmOpen}
-        onOpenChange={(open) => {
-          if (!open) {
-            handleDeleteCancel();
-          }
-        }}
+        onOpenChange={setDeleteConfirmOpen}
         title="Delete Chat"
         description="Are you sure you want to delete this chat? This action cannot be undone and will permanently remove all messages in this conversation."
         confirmText="Delete"
