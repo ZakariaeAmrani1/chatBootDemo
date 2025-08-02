@@ -118,7 +118,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         setUser(null);
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     };
 
