@@ -32,7 +32,8 @@
         "screenReader": false,
         "grokApiKey": "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",
         "selectedModel": "gpt-4"
-      }
+      },
+      "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      }]
     }
-  ]
-}
+  
