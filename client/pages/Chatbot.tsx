@@ -67,45 +67,52 @@ const Chatbot = () => {
     root.classList.add(`density-${density}`);
   };
 
+  // Function to apply all appearance settings
+  const applyAllSettings = (settings: any) => {
+    if (!settings) return;
+
+    // Apply theme
+    if (settings.theme) {
+      setTheme(settings.theme as "light" | "dark" | "system");
+    }
+
+    // Apply font size with immediate DOM update
+    if (settings.fontSize) {
+      applyFontSize(settings.fontSize);
+    }
+
+    // Apply density with immediate DOM update
+    if (settings.density) {
+      applyDensity(settings.density);
+    }
+
+    // Apply selected model
+    if (settings.selectedModel) {
+      setSelectedModel(settings.selectedModel);
+    }
+  };
+
   // Apply user's appearance settings when user data loads or changes
   useEffect(() => {
     if (user?.settings) {
-      // Apply theme immediately
-      if (user.settings.theme) {
-        setTheme(user.settings.theme as "light" | "dark" | "system");
-      }
-
-      // Apply font size immediately
-      if (user.settings.fontSize) {
-        applyFontSize(user.settings.fontSize);
-      }
-
-      // Apply density immediately
-      if (user.settings.density) {
-        applyDensity(user.settings.density);
-      }
-
-      // Apply selected model
-      if (user.settings.selectedModel) {
-        setSelectedModel(user.settings.selectedModel);
-      }
+      applyAllSettings(user.settings);
     }
   }, [user, setTheme]);
 
-  // Ensure settings are applied immediately when user logs in
+  // Additional effect to force immediate application on user change
   useEffect(() => {
-    if (user) {
-      // Force reapplication of settings to ensure they take effect immediately
-      setTimeout(() => {
-        if (user.settings?.fontSize) {
-          applyFontSize(user.settings.fontSize);
-        }
-        if (user.settings?.density) {
-          applyDensity(user.settings.density);
-        }
-      }, 0);
+    if (user?.settings) {
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        applyAllSettings(user.settings);
+
+        // Double-check with a small timeout for any race conditions
+        setTimeout(() => {
+          applyAllSettings(user.settings);
+        }, 50);
+      });
     }
-  }, [user]);
+  }, [user?.id]); // Trigger when user ID changes (i.e., different user logs in)
 
   const createNewChat = async (message?: string) => {
     // Create chat with or without initial message
