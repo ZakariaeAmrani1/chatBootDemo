@@ -34,5 +34,10 @@ export function createServer() {
   app.put("/api/user/:userId", updateUser);
   app.put("/api/user/:userId/settings", updateUserSettings);
 
+  // File API routes
+  app.post("/api/files/upload", ...uploadFiles);
+  app.get("/api/files/:filename", serveFile);
+  app.get("/api/files/info/:fileId", getFileInfo);
+
   return app;
 }
