@@ -184,23 +184,24 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <div
                   key={chat.id}
                   className={cn(
-                    "group relative flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
+                    "group relative flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors overflow-hidden",
                     "hover:bg-muted/50",
                     currentChatId === chat.id ? "bg-muted" : "",
                   )}
                   onClick={() => onChatSelect(chat.id)}
                 >
                   <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
-                  <span className="text-sm truncate flex-1 text-foreground">
+                  <span className="text-sm truncate flex-1 text-foreground min-w-0 pr-2">
                     {chat.title}
                   </span>
 
                   {/* Action buttons (visible on hover) */}
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
                     <Button
                       variant="ghost"
                       size="sm"
                       className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Edit3 className="h-3 w-3" />
                     </Button>
