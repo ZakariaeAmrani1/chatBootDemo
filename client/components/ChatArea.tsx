@@ -81,19 +81,19 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
   }
 
   return (
-    <ScrollArea className="flex-1 px-4" ref={scrollAreaRef}>
+    <ScrollArea className="flex-1 px-6 bg-gradient-to-b from-gray-50/50 to-white" ref={scrollAreaRef}>
       <div className="max-w-4xl mx-auto py-8 space-y-8">
         {messages.map((message, index) => (
           <div
             key={message.id}
             className={cn(
-              "flex gap-4",
+              "group flex gap-4 hover:bg-gray-50/50 rounded-2xl p-4 -m-4 transition-all duration-300",
               message.sender === 'user' ? 'justify-end' : 'justify-start'
             )}
           >
             {message.sender === 'assistant' && (
-              <Avatar className="w-8 h-8 mt-1 bg-green-600">
-                <AvatarFallback className="bg-green-600 text-white text-sm font-semibold">
+              <Avatar className="w-10 h-10 mt-1">
+                <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-sm font-semibold shadow-lg">
                   AI
                 </AvatarFallback>
               </Avatar>
@@ -104,31 +104,34 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
               message.sender === 'user' ? 'ml-12' : 'mr-12'
             )}>
               <div className={cn(
-                "rounded-2xl px-6 py-4",
-                message.sender === 'user' 
-                  ? 'bg-gray-100 ml-auto max-w-lg' 
-                  : 'bg-transparent'
+                "rounded-2xl px-6 py-4 transition-all duration-300",
+                message.sender === 'user'
+                  ? 'bg-gradient-to-br from-blue-500 to-purple-600 text-white ml-auto max-w-lg shadow-lg hover:shadow-xl'
+                  : 'bg-white border border-gray-200 shadow-sm hover:shadow-md'
               )}>
-                <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
+                <p className={cn(
+                  "whitespace-pre-wrap leading-relaxed",
+                  message.sender === 'user' ? 'text-white' : 'text-gray-900'
+                )}>
                   {message.content}
                 </p>
               </div>
               
               {message.sender === 'assistant' && (
-                <div className="flex items-center gap-2 mt-3">
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                <div className="flex items-center gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Button variant="ghost" size="sm" className="h-9 w-9 p-0 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-300 hover:scale-110">
                     <Copy className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-9 w-9 p-0 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-300 hover:scale-110">
                     <ThumbsUp className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-9 w-9 p-0 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 hover:scale-110">
                     <ThumbsDown className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-9 w-9 p-0 text-gray-400 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-300 hover:scale-110">
                     <RotateCcw className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
+                  <Button variant="ghost" size="sm" className="h-9 w-9 p-0 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300 hover:scale-110">
                     <Share className="h-4 w-4" />
                   </Button>
                 </div>
@@ -136,8 +139,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
             </div>
             
             {message.sender === 'user' && (
-              <Avatar className="w-8 h-8 mt-1">
-                <AvatarFallback className="bg-blue-600 text-white text-sm font-semibold">
+              <Avatar className="w-10 h-10 mt-1">
+                <AvatarFallback className="bg-gradient-to-br from-blue-600 to-purple-700 text-white text-sm font-semibold shadow-lg">
                   U
                 </AvatarFallback>
               </Avatar>
