@@ -197,6 +197,14 @@ const Chatbot = () => {
           <ChatInput onSendMessage={addMessage} />
         </div>
       </div>
+
+      {/* Settings Modal */}
+      {settingsOpen && (
+        <SettingsPage
+          onClose={() => setSettingsOpen(false)}
+          isModal={true}
+        />
+      )}
     </div>
   );
 };
