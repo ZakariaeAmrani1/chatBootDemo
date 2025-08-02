@@ -1,22 +1,24 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { 
-  Search, 
-  Filter, 
-  BookOpen, 
-  FileText, 
-  Image, 
-  Code, 
+import {
+  Search,
+  Filter,
+  BookOpen,
+  FileText,
+  Image,
+  Code,
   Download,
   Share2,
   MoreHorizontal,
   Calendar,
-  Tag
+  Tag,
+  ArrowLeft
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -26,6 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const Library: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
 
@@ -126,6 +129,18 @@ const Library: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/chat")}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Chat
+          </Button>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">
