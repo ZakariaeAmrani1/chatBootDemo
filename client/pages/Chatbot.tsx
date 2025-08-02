@@ -150,15 +150,21 @@ const Chatbot = () => {
         {/* Chat area - Scrollable */}
         <div className="flex-1 overflow-hidden">
           <ChatArea
-            messages={currentChat?.messages || []}
+            messages={chatState.messages}
             selectedModel={selectedModel}
             onModelChange={setSelectedModel}
+            isThinking={chatState.isThinking}
+            isLoading={chatState.isLoading}
+            error={chatState.error}
           />
         </div>
 
         {/* Chat Input - Fixed at bottom */}
         <div className="sticky bottom-0 z-10">
-          <ChatInput onSendMessage={addMessage} />
+          <ChatInput
+            onSendMessage={addMessage}
+            disabled={chatState.isLoading || chatState.isThinking}
+          />
         </div>
       </div>
 
