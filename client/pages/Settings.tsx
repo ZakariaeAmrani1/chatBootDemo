@@ -153,7 +153,8 @@ const Settings: React.FC<SettingsProps> = ({
         settingsUpdates,
       );
       if (response.success && response.data) {
-        setUser(response.data);
+        // Update user via AuthContext instead of local state
+        updateUser(response.data);
       } else {
         setError(response.error || "Failed to update settings");
       }
@@ -847,7 +848,7 @@ const Settings: React.FC<SettingsProps> = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="english">English</SelectItem>
-              <SelectItem value="spanish">Español</SelectItem>
+              <SelectItem value="spanish">Espa��ol</SelectItem>
               <SelectItem value="french">Français</SelectItem>
               <SelectItem value="german">Deutsch</SelectItem>
               <SelectItem value="chinese">中文</SelectItem>
