@@ -21,7 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ThemeSelector } from "@/components/ThemeSelector";
+
 import { cn } from "@/lib/utils";
 import type { Chat, User } from "@shared/types";
 
