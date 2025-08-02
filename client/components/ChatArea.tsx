@@ -5,13 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FileAttachmentDisplay from "@/components/FileAttachment";
+import { ModelSelectorCards } from "@/components/ModelSelectorCards";
 import type { Message } from "@/pages/Chatbot";
 
 interface ChatAreaProps {
   messages: Message[];
+  selectedModel: string;
+  onModelChange: (modelId: string) => void;
 }
 
-const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
+const ChatArea: React.FC<ChatAreaProps> = ({
+  messages,
+  selectedModel,
+  onModelChange,
+}) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -21,56 +28,43 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="text-muted-foreground"
-          >
-            <path
-              d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
-              fill="currentColor"
+      <ScrollArea className="h-full">
+        <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
+          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-muted-foreground"
+            >
+              <path
+                d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-semibold text-foreground mb-2">
+            How can I help you today?
+          </h3>
+          <p className="text-muted-foreground mb-8">
+            Choose your AI model and start a conversation
+          </p>
+
+          {/* Model Selection */}
+          <div className="w-full max-w-4xl pb-8">
+            <ModelSelectorCards
+              selectedModel={selectedModel}
+              onModelChange={onModelChange}
             />
-          </svg>
-        </div>
-        <h3 className="text-2xl font-semibold text-foreground mb-4">
-          How can I help you today?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Create image</h4>
-            <p className="text-sm text-muted-foreground">
-              Generate creative and custom images with DALL·E
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Analyze data</h4>
-            <p className="text-sm text-muted-foreground">
-              Upload and analyze documents, spreadsheets, and more
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Summarize text</h4>
-            <p className="text-sm text-muted-foreground">
-              Extract key points from long documents and articles
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
-            <h4 className="font-medium text-foreground mb-2">Write code</h4>
-            <p className="text-sm text-muted-foreground">
-              Debug and create code in various programming languages
-            </p>
           </div>
         </div>
-      </div>
+      </ScrollArea>
     );
   }
 
   return (
-    <ScrollArea className="flex-1 px-4 bg-background" ref={scrollAreaRef}>
+    <ScrollArea className="h-full px-4 bg-background" ref={scrollAreaRef}>
       <div className="max-w-4xl mx-auto py-6 space-y-6">
         {messages.map((message, index) => (
           <div

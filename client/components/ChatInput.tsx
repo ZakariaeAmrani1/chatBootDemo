@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ModelSelector } from "@/components/ModelSelector";
+
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { cn } from "@/lib/utils";
 import type { FileAttachment } from "@/pages/Chatbot";
@@ -31,7 +31,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("gpt-4");
+
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -286,12 +286,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             </div>
           </div>
         </form>
-
-        {/* Model Selection */}
-        <ModelSelector
-          selectedModel={selectedModel}
-          onModelChange={setSelectedModel}
-        />
 
         {/* Hidden file input */}
         <input
