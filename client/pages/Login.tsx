@@ -14,6 +14,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, MessageSquare, Mail, Lock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/components/ThemeProvider";
+import { getAppLogo, getAppName } from "@/lib/app-config";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
