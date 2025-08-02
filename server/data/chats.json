@@ -119,7 +119,9 @@
       "chatId": "b277c9e8-8c29-4159-978e-8d2bcf17dfe5",
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T15:05:35.646Z"
+      "timestamp": "2025-08-02T15:05:35.646Z",
+      "liked": true,
+      "disliked": false
     },
     {
       "id": "3e02ed9e-e942-4908-89cf-6e8badd14625",
