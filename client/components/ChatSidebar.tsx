@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import { cn } from "@/lib/utils";
-import type { Chat } from "@/pages/Chatbot";
+import type { Chat } from "@shared/types";
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -34,6 +34,8 @@ interface ChatSidebarProps {
   collapsed: boolean;
   onToggleCollapse: () => void;
   onOpenSettings?: () => void;
+  onDeleteChat?: (chatId: string) => void;
+  isLoading?: boolean;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
@@ -45,7 +47,15 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   collapsed,
   onToggleCollapse,
   onOpenSettings,
+  onDeleteChat,
+  isLoading = false,
 }) => {
+  const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onDeleteChat) {
+      onDeleteChat(chatId);
+    }
+  };
   return (
     <TooltipProvider>
       <div className="h-full bg-background text-foreground flex flex-col border-r border-border shadow-sm">
@@ -109,7 +119,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={onNewChat}
+                  onClick={() => onNewChat()}
                   className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10"
                   variant="outline"
                 >
@@ -120,7 +130,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             </Tooltip>
           ) : (
             <Button
-              onClick={onNewChat}
+              onClick={() => onNewChat()}
               className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border"
               variant="outline"
             >
@@ -196,6 +206,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                       variant="ghost"
                       size="sm"
                       className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive hover:bg-muted/50"
+                      onClick={(e) => handleDeleteChat(chat.id, e)}
                     >
                       <Trash2 className="h-3 w-3" />
                     </Button>

@@ -6,18 +6,24 @@ import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelSelectorCards } from "@/components/ModelSelectorCards";
-import type { Message } from "@/pages/Chatbot";
+import type { Message } from "@shared/types";
 
 interface ChatAreaProps {
   messages: Message[];
   selectedModel: string;
   onModelChange: (modelId: string) => void;
+  isThinking?: boolean;
+  isLoading?: boolean;
+  error?: string | null;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
   messages,
   selectedModel,
   onModelChange,
+  isThinking = false,
+  isLoading = false,
+  error = null,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -71,10 +77,10 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             key={message.id}
             className={cn(
               "flex gap-4",
-              message.sender === "user" ? "justify-end" : "justify-start",
+              message.type === "user" ? "justify-end" : "justify-start",
             )}
           >
-            {message.sender === "assistant" && (
+            {message.type === "assistant" && (
               <Avatar className="w-8 h-8 mt-1">
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   AI
@@ -85,13 +91,13 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             <div
               className={cn(
                 "flex-1 max-w-3xl",
-                message.sender === "user" ? "ml-12" : "mr-12",
+                message.type === "user" ? "ml-12" : "mr-12",
               )}
             >
               <div
                 className={cn(
                   "rounded-2xl px-6 py-4 space-y-3",
-                  message.sender === "user"
+                  message.type === "user"
                     ? "bg-muted ml-auto max-w-lg"
                     : "bg-transparent",
                 )}
@@ -117,7 +123,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 )}
               </div>
 
-              {message.sender === "assistant" && (
+              {message.type === "assistant" && (
                 <div className="flex items-center gap-2 mt-3">
                   <Button
                     variant="ghost"
@@ -158,7 +164,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
               )}
             </div>
 
-            {message.sender === "user" && (
+            {message.type === "user" && (
               <Avatar className="w-8 h-8 mt-1">
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                   U
@@ -167,6 +173,55 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             )}
           </div>
         ))}
+
+        {/* Thinking indicator */}
+        {isThinking && (
+          <div className="flex gap-4 justify-start">
+            <Avatar className="w-8 h-8 mt-1">
+              <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+                AI
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 max-w-3xl mr-12">
+              <div className="bg-transparent rounded-2xl px-6 py-4">
+                <div className="flex items-end gap-2 text-muted-foreground">
+                  <span className="text-sm">thinking</span>
+                  <div className="flex gap-1 items-end">
+                    <div
+                      className="w-1 h-1 bg-current rounded-full animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    ></div>
+                    <div
+                      className="w-1 h-1 bg-current rounded-full animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    ></div>
+                    <div
+                      className="w-1 h-1 bg-current rounded-full animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error display */}
+        {error && (
+          <div className="flex gap-4 justify-start">
+            <Avatar className="w-8 h-8 mt-1">
+              <AvatarFallback className="bg-destructive text-destructive-foreground text-sm font-semibold">
+                !
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 max-w-3xl mr-12">
+              <div className="bg-destructive/10 border border-destructive/20 rounded-2xl px-6 py-4">
+                <p className="text-destructive text-sm">Error: {error}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
     </ScrollArea>

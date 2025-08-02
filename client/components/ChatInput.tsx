@@ -21,16 +21,22 @@ import {
 
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { cn } from "@/lib/utils";
-import type { FileAttachment } from "@/pages/Chatbot";
+import type { FileAttachment } from "@shared/types";
+import { apiService } from "@/services/api";
 
 interface ChatInputProps {
   onSendMessage: (message: string, attachments?: FileAttachment[]) => void;
+  disabled?: boolean;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
+const ChatInput: React.FC<ChatInputProps> = ({
+  onSendMessage,
+  disabled = false,
+}) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -86,19 +92,38 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     textarea.style.height = Math.min(textarea.scrollHeight, 200) + "px";
   };
 
-  const handleFileSelect = (files: FileList | null) => {
-    if (files) {
-      const newFiles = Array.from(files).map((file) => {
-        const fileAttachment: FileAttachment = {
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          url: URL.createObjectURL(file),
-        };
-        return fileAttachment;
-      });
-      setAttachedFiles((prev) => [...prev, ...newFiles]);
+  const handleFileSelect = async (files: FileList | null) => {
+    if (files && files.length > 0) {
+      setIsUploading(true);
+
+      try {
+        const filesArray = Array.from(files);
+        const response = await apiService.uploadFiles(filesArray);
+
+        if (response.success && response.data) {
+          setAttachedFiles((prev) => [...prev, ...response.data!]);
+        } else {
+          console.error("Failed to upload files:", response.error);
+          // Fallback to local URLs for now
+          const newFiles = filesArray.map((file) => {
+            const fileAttachment: FileAttachment = {
+              id:
+                Date.now().toString() + Math.random().toString(36).substr(2, 9),
+              name: file.name,
+              type: file.type,
+              size: file.size,
+              url: URL.createObjectURL(file),
+              uploadedAt: new Date().toISOString(),
+            };
+            return fileAttachment;
+          });
+          setAttachedFiles((prev) => [...prev, ...newFiles]);
+        }
+      } catch (error) {
+        console.error("Error uploading files:", error);
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -177,7 +202,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 onChange={handleTextareaChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Message ChatGPT..."
-                disabled={isSending}
+                disabled={isSending || disabled}
                 className={cn(
                   "resize-none border-0 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none min-h-[44px] max-h-[200px]",
                   "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
@@ -203,7 +228,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0 hover:bg-muted rounded-lg transition-all duration-200 hover:scale-110"
-                      disabled={isSending}
+                      disabled={isSending || disabled || isUploading}
                     >
                       <Paperclip className="h-4 w-4 text-muted-foreground" />
                     </Button>
@@ -252,7 +277,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                       : "hover:bg-muted text-muted-foreground",
                   )}
                   onClick={toggleRecording}
-                  disabled={isSending}
+                  disabled={isSending || disabled}
                 >
                   {isRecording ? (
                     <Square className="h-4 w-4" />
@@ -274,7 +299,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                   isSending && "animate-pulse",
                 )}
                 disabled={
-                  (!message.trim() && attachedFiles.length === 0) || isSending
+                  (!message.trim() && attachedFiles.length === 0) ||
+                  isSending ||
+                  disabled ||
+                  isUploading
                 }
               >
                 {isSending ? (

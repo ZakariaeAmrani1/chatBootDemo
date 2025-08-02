@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MessageSquare, Plus, Settings, Share2, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -7,122 +7,83 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import SettingsPage from "@/pages/Settings";
-
-export interface FileAttachment {
-  id: string;
-  name: string;
-  type: string;
-  size: number;
-  url?: string;
-  data?: string;
-}
-
-export interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "assistant";
-  timestamp: Date;
-  attachments?: FileAttachment[];
-}
-
-export interface Chat {
-  id: string;
-  title: string;
-  messages: Message[];
-  createdAt: Date;
-}
+import { chatService, ChatState } from "@/services/chatService";
+import { apiService } from "@/services/api";
+import { Chat, Message, FileAttachment } from "@shared/types";
 
 const Chatbot = () => {
-  const [chats, setChats] = useState<Chat[]>([
-    {
-      id: "1",
-      title: "New chat",
-      messages: [],
-      createdAt: new Date(),
-    },
-  ]);
-  const [currentChatId, setCurrentChatId] = useState<string>("1");
+  const [chatState, setChatState] = useState<ChatState>({
+    chats: [],
+    currentChat: null,
+    messages: [],
+    isLoading: false,
+    isThinking: false,
+    error: null,
+  });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [settingsOpen, setSettingsOpen] = useState(false);
 
-  const currentChat = chats.find((chat) => chat.id === currentChatId);
+  // Subscribe to chat service state changes
+  useEffect(() => {
+    const unsubscribe = chatService.subscribe(setChatState);
 
-  const createNewChat = () => {
-    const newChat: Chat = {
-      id: Date.now().toString(),
-      title: "New chat",
-      messages: [],
-      createdAt: new Date(),
-    };
-    setChats((prev) => [newChat, ...prev]);
-    setCurrentChatId(newChat.id);
+    // Load initial chats
+    chatService.loadChats();
+
+    return unsubscribe;
+  }, []);
+
+  const createNewChat = async (message?: string) => {
+    // Create chat with or without initial message
+    await chatService.createChat({
+      title: "New Chat",
+      model: selectedModel,
+      message: message, // This can be undefined for empty chats
+    });
   };
 
-  const addMessage = (content: string, attachments?: FileAttachment[]) => {
-    if (!currentChat) return;
+  const addMessage = async (
+    content: string,
+    attachments?: FileAttachment[],
+  ) => {
+    if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content,
-      sender: "user",
-      timestamp: new Date(),
-      attachments,
-    };
-
-    // Generate title from content or first attachment name
-    const generateTitle = () => {
-      if (content.trim()) {
-        return content.slice(0, 30) + (content.length > 30 ? "..." : "");
-      }
-      if (attachments && attachments.length > 0) {
-        return `📎 ${attachments[0].name}`;
-      }
-      return "New chat";
-    };
-
-    // Update chat title if it's the first message
-    const updatedChat = {
-      ...currentChat,
-      title:
-        currentChat.messages.length === 0 ? generateTitle() : currentChat.title,
-      messages: [...currentChat.messages, userMessage],
-    };
-
-    setChats((prev) =>
-      prev.map((chat) => (chat.id === currentChatId ? updatedChat : chat)),
-    );
-
-    // Simulate assistant response
-    setTimeout(() => {
-      let assistantContent =
-        "I'm a demo assistant response. In a real implementation, this would connect to your AI model.";
-
-      if (attachments && attachments.length > 0) {
-        const fileTypes = attachments.map((a) => {
-          if (a.type.startsWith("image/")) return "image";
-          if (a.type === "application/pdf") return "PDF";
-          return "file";
+    try {
+      if (!chatState.currentChat) {
+        // Create new chat with this message
+        await chatService.createChat({
+          title: "New Chat",
+          model: selectedModel,
+          message: content,
         });
-        assistantContent = `I can see you've shared ${attachments.length} ${fileTypes.join(", ")}(s). In a real implementation, I would analyze these files and provide relevant insights.`;
+      } else {
+        // Send message to existing chat
+        await chatService.sendMessage({
+          chatId: chatState.currentChat.id,
+          message: content,
+        });
       }
+    } catch (error) {
+      console.error("Failed to send message:", error);
+    }
+  };
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: assistantContent,
-        sender: "assistant",
-        timestamp: new Date(),
-      };
+  const handleChatSelect = async (chatId: string) => {
+    const chat = chatState.chats.find((c) => c.id === chatId);
+    if (chat) {
+      await chatService.selectChat(chat);
+    }
+  };
 
-      setChats((prev) =>
-        prev.map((chat) =>
-          chat.id === currentChatId
-            ? { ...chat, messages: [...chat.messages, assistantMessage] }
-            : chat,
-        ),
-      );
-    }, 1000);
+  const handleDeleteChat = async (chatId: string) => {
+    await chatService.deleteChat(chatId);
+  };
+
+  const handleRefresh = () => {
+    // Reload chats after clearing history
+    chatService.loadChats();
   };
 
   return (
@@ -144,14 +105,16 @@ const Chatbot = () => {
         )}
       >
         <ChatSidebar
-          chats={chats}
-          currentChatId={currentChatId}
-          onChatSelect={setCurrentChatId}
+          chats={chatState.chats}
+          currentChatId={chatState.currentChat?.id || ""}
+          onChatSelect={handleChatSelect}
           onNewChat={createNewChat}
           onCloseSidebar={() => setSidebarOpen(false)}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           onOpenSettings={() => setSettingsOpen(true)}
+          onDeleteChat={handleDeleteChat}
+          isLoading={chatState.isLoading}
         />
       </div>
 
@@ -190,21 +153,31 @@ const Chatbot = () => {
         {/* Chat area - Scrollable */}
         <div className="flex-1 overflow-hidden">
           <ChatArea
-            messages={currentChat?.messages || []}
+            messages={chatState.messages}
             selectedModel={selectedModel}
             onModelChange={setSelectedModel}
+            isThinking={chatState.isThinking}
+            isLoading={chatState.isLoading}
+            error={chatState.error}
           />
         </div>
 
         {/* Chat Input - Fixed at bottom */}
         <div className="sticky bottom-0 z-10">
-          <ChatInput onSendMessage={addMessage} />
+          <ChatInput
+            onSendMessage={addMessage}
+            disabled={chatState.isLoading || chatState.isThinking}
+          />
         </div>
       </div>
 
       {/* Settings Modal */}
       {settingsOpen && (
-        <SettingsPage onClose={() => setSettingsOpen(false)} isModal={true} />
+        <SettingsPage
+          onClose={() => setSettingsOpen(false)}
+          isModal={true}
+          onRefresh={handleRefresh}
+        />
       )}
     </div>
   );

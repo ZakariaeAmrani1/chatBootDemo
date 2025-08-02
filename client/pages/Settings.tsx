@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowLeft,
   User,
@@ -42,11 +42,16 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { apiService } from "@/services/api";
+import { User as UserType, UserSettings, DataStats } from "@shared/types";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface SettingsProps {
   onClose: () => void;
   onBack?: () => void;
   isModal?: boolean;
+  onRefresh?: () => void;
 }
 
 type SettingsSection =
@@ -65,53 +70,146 @@ const Settings: React.FC<SettingsProps> = ({
   onClose,
   onBack,
   isModal = true,
+  onRefresh,
 }) => {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("overview");
-  const [settings, setSettings] = useState({
-    // Profile settings
-    displayName: "User",
-    email: "user@example.com",
-    bio: "",
+  const [user, setUser] = useState<UserType | null>(null);
+  const [dataStats, setDataStats] = useState<DataStats | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
-    // Appearance settings
-    theme: "system",
-    fontSize: "medium",
-    density: "comfortable",
+  // Load user data on mount
+  useEffect(() => {
+    loadUserData();
+    loadDataStats();
+  }, []);
 
-    // Notification settings
-    emailNotifications: true,
-    pushNotifications: true,
-    soundEnabled: true,
+  const loadUserData = async () => {
+    setIsLoading(true);
+    setError(null);
 
-    // Privacy settings
-    dataCollection: true,
-    analytics: false,
-    shareUsage: false,
+    try {
+      const response = await apiService.getCurrentUser();
+      if (response.success && response.data) {
+        setUser(response.data);
+      } else {
+        setError(response.error || "Failed to load user data");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to load user data",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    // Chat settings
-    autoSave: true,
-    messageHistory: true,
-    showTimestamps: true,
-    enterToSend: true,
+  const loadDataStats = async () => {
+    try {
+      const response = await apiService.getDataStats();
+      if (response.success && response.data) {
+        setDataStats(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to load data stats:", error);
+    }
+  };
 
-    // Language settings
-    language: "english",
-    region: "us",
+  const updateUserProfile = async (updates: Partial<UserType>) => {
+    if (!user) return;
 
-    // Voice settings
-    voiceEnabled: false,
-    voiceModel: "natural",
-    speechRate: [1],
+    setIsSaving(true);
+    setError(null);
 
-    // Accessibility settings
-    highContrast: false,
-    reducedMotion: false,
-    screenReader: false,
-  });
+    try {
+      const response = await apiService.updateUser(user.id, updates);
+      if (response.success && response.data) {
+        setUser(response.data);
+      } else {
+        setError(response.error || "Failed to update profile");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to update profile",
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const updateUserSettings = async (settingsUpdates: Partial<UserSettings>) => {
+    if (!user) return;
+
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      const response = await apiService.updateUserSettings(
+        user.id,
+        settingsUpdates,
+      );
+      if (response.success && response.data) {
+        setUser(response.data);
+      } else {
+        setError(response.error || "Failed to update settings");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to update settings",
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const updateSetting = (key: string, value: any) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
+    if (!user) return;
+
+    // Check if this is a profile field or settings field
+    const profileFields = ["displayName", "email", "bio"];
+
+    if (profileFields.includes(key)) {
+      updateUserProfile({ [key]: value });
+    } else {
+      updateUserSettings({ [key]: value });
+    }
+  };
+
+  const handleClearChatHistory = () => {
+    setShowConfirmDialog(true);
+  };
+
+  const handleConfirmClear = async () => {
+    setIsClearing(true);
+    setError(null);
+
+    try {
+      const response = await apiService.clearChatHistory();
+      if (response.success) {
+        // Reload data stats to show updated sizes
+        await loadDataStats();
+        setShowSuccessDialog(true);
+      } else {
+        setError(response.error || "Failed to clear chat history");
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to clear chat history",
+      );
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
+  const handleSuccessClose = () => {
+    // Close settings modal and refresh the page
+    onClose();
+    onRefresh?.();
   };
 
   const settingsMenu = [
@@ -166,7 +264,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderProfile = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Profile</h3>
         <p className="text-sm text-muted-foreground">
           Manage your personal information and preferences.
         </p>
@@ -187,8 +284,9 @@ const Settings: React.FC<SettingsProps> = ({
             <Label htmlFor="displayName">Display Name</Label>
             <Input
               id="displayName"
-              value={settings.displayName}
+              value={user?.displayName || ""}
               onChange={(e) => updateSetting("displayName", e.target.value)}
+              disabled={isSaving}
             />
           </div>
           <div className="space-y-2">
@@ -196,8 +294,9 @@ const Settings: React.FC<SettingsProps> = ({
             <Input
               id="email"
               type="email"
-              value={settings.email}
+              value={user?.email || ""}
               onChange={(e) => updateSetting("email", e.target.value)}
+              disabled={isSaving}
             />
           </div>
         </div>
@@ -207,9 +306,10 @@ const Settings: React.FC<SettingsProps> = ({
           <Textarea
             id="bio"
             placeholder="Tell us about yourself..."
-            value={settings.bio}
+            value={user?.bio || ""}
             onChange={(e) => updateSetting("bio", e.target.value)}
             rows={3}
+            disabled={isSaving}
           />
         </div>
       </div>
@@ -239,7 +339,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderAppearance = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Appearance</h3>
         <p className="text-sm text-muted-foreground">
           Customize how the interface looks and feels.
         </p>
@@ -256,7 +355,7 @@ const Settings: React.FC<SettingsProps> = ({
             ].map(({ value, label, icon: Icon }) => (
               <Button
                 key={value}
-                variant={settings.theme === value ? "default" : "outline"}
+                variant={user?.settings.theme === value ? "default" : "outline"}
                 className="flex flex-col items-center gap-2 h-auto py-3"
                 onClick={() => updateSetting("theme", value)}
               >
@@ -270,7 +369,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <Label>Font Size</Label>
           <Select
-            value={settings.fontSize}
+            value={user?.settings.fontSize || "medium"}
             onValueChange={(value) => updateSetting("fontSize", value)}
           >
             <SelectTrigger>
@@ -288,7 +387,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <Label>Display Density</Label>
           <Select
-            value={settings.density}
+            value={user?.settings.density || "comfortable"}
             onValueChange={(value) => updateSetting("density", value)}
           >
             <SelectTrigger>
@@ -308,7 +407,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderNotifications = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Notifications</h3>
         <p className="text-sm text-muted-foreground">
           Configure how you receive notifications.
         </p>
@@ -323,7 +421,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.emailNotifications}
+            checked={user?.settings.emailNotifications || false}
             onCheckedChange={(checked) =>
               updateSetting("emailNotifications", checked)
             }
@@ -338,7 +436,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.pushNotifications}
+            checked={user?.settings.pushNotifications || false}
             onCheckedChange={(checked) =>
               updateSetting("pushNotifications", checked)
             }
@@ -353,7 +451,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.soundEnabled}
+            checked={user?.settings.soundEnabled || false}
             onCheckedChange={(checked) =>
               updateSetting("soundEnabled", checked)
             }
@@ -366,7 +464,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderPrivacy = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Privacy & Security</h3>
         <p className="text-sm text-muted-foreground">
           Control your privacy and security settings.
         </p>
@@ -381,7 +478,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.dataCollection}
+            checked={user?.settings.dataCollection || false}
             onCheckedChange={(checked) =>
               updateSetting("dataCollection", checked)
             }
@@ -396,7 +493,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.analytics}
+            checked={user?.settings.analytics || false}
             onCheckedChange={(checked) => updateSetting("analytics", checked)}
           />
         </div>
@@ -409,7 +506,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.shareUsage}
+            checked={user?.settings.shareUsage || false}
             onCheckedChange={(checked) => updateSetting("shareUsage", checked)}
           />
         </div>
@@ -437,7 +534,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderChatSettings = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Chat Settings</h3>
         <p className="text-sm text-muted-foreground">
           Customize your chat experience.
         </p>
@@ -452,7 +548,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.autoSave}
+            checked={user?.settings.autoSave || false}
             onCheckedChange={(checked) => updateSetting("autoSave", checked)}
           />
         </div>
@@ -465,7 +561,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.messageHistory}
+            checked={user?.settings.messageHistory || false}
             onCheckedChange={(checked) =>
               updateSetting("messageHistory", checked)
             }
@@ -480,7 +576,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.showTimestamps}
+            checked={user?.settings.showTimestamps || false}
             onCheckedChange={(checked) =>
               updateSetting("showTimestamps", checked)
             }
@@ -495,7 +591,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.enterToSend}
+            checked={user?.settings.enterToSend || false}
             onCheckedChange={(checked) => updateSetting("enterToSend", checked)}
           />
         </div>
@@ -506,7 +602,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderDataStorage = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Data & Storage</h3>
         <p className="text-sm text-muted-foreground">
           Manage your data and storage preferences.
         </p>
@@ -524,20 +619,26 @@ const Settings: React.FC<SettingsProps> = ({
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Chat History</span>
-                <span>2.1 MB</span>
+                <span>
+                  {dataStats?.chatHistory.sizeFormatted || "Loading..."}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Attachments</span>
-                <span>156 MB</span>
+                <span>File Metadata</span>
+                <span>
+                  {dataStats?.uploadedFiles.sizeFormatted || "Loading..."}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Settings</span>
-                <span>0.1 MB</span>
+                <span>User Settings</span>
+                <span>
+                  {dataStats?.userSettings.sizeFormatted || "Loading..."}
+                </span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
-                <span>Total</span>
-                <span>158.2 MB / 1 GB</span>
+                <span>Total JSON Data</span>
+                <span>{dataStats?.totalSizeFormatted || "Loading..."}</span>
               </div>
             </div>
           </CardContent>
@@ -548,9 +649,14 @@ const Settings: React.FC<SettingsProps> = ({
             <Download className="h-4 w-4 mr-2" />
             Export All Data
           </Button>
-          <Button variant="destructive" className="w-full justify-start">
+          <Button
+            variant="destructive"
+            className="w-full justify-start"
+            onClick={handleClearChatHistory}
+            disabled={isClearing}
+          >
             <Trash2 className="h-4 w-4 mr-2" />
-            Clear All Chat History
+            {isClearing ? "Clearing..." : "Clear All Chat History"}
           </Button>
         </div>
       </div>
@@ -560,7 +666,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderLanguage = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Language & Region</h3>
         <p className="text-sm text-muted-foreground">
           Set your language and regional preferences.
         </p>
@@ -570,7 +675,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-2">
           <Label>Language</Label>
           <Select
-            value={settings.language}
+            value={user?.settings.language || "english"}
             onValueChange={(value) => updateSetting("language", value)}
           >
             <SelectTrigger>
@@ -590,7 +695,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-2">
           <Label>Region</Label>
           <Select
-            value={settings.region}
+            value={user?.settings.region || "us"}
             onValueChange={(value) => updateSetting("region", value)}
           >
             <SelectTrigger>
@@ -613,7 +718,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderVoice = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Voice & Speech</h3>
         <p className="text-sm text-muted-foreground">
           Configure voice and speech settings.
         </p>
@@ -628,19 +732,19 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.voiceEnabled}
+            checked={user?.settings.voiceEnabled || false}
             onCheckedChange={(checked) =>
               updateSetting("voiceEnabled", checked)
             }
           />
         </div>
 
-        {settings.voiceEnabled && (
+        {user?.settings.voiceEnabled && (
           <>
             <div className="space-y-2">
               <Label>Voice Model</Label>
               <Select
-                value={settings.voiceModel}
+                value={user?.settings.voiceModel || "natural"}
                 onValueChange={(value) => updateSetting("voiceModel", value)}
               >
                 <SelectTrigger>
@@ -658,7 +762,7 @@ const Settings: React.FC<SettingsProps> = ({
               <Label>Speech Rate</Label>
               <div className="px-2">
                 <Slider
-                  value={settings.speechRate}
+                  value={user?.settings.speechRate || [1]}
                   onValueChange={(value) => updateSetting("speechRate", value)}
                   max={2}
                   min={0.5}
@@ -681,7 +785,6 @@ const Settings: React.FC<SettingsProps> = ({
   const renderAccessibility = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Accessibility</h3>
         <p className="text-sm text-muted-foreground">
           Configure accessibility features.
         </p>
@@ -696,7 +799,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.highContrast}
+            checked={user?.settings.highContrast || false}
             onCheckedChange={(checked) =>
               updateSetting("highContrast", checked)
             }
@@ -711,7 +814,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.reducedMotion}
+            checked={user?.settings.reducedMotion || false}
             onCheckedChange={(checked) =>
               updateSetting("reducedMotion", checked)
             }
@@ -726,7 +829,7 @@ const Settings: React.FC<SettingsProps> = ({
             </p>
           </div>
           <Switch
-            checked={settings.screenReader}
+            checked={user?.settings.screenReader || false}
             onCheckedChange={(checked) =>
               updateSetting("screenReader", checked)
             }
@@ -770,6 +873,50 @@ const Settings: React.FC<SettingsProps> = ({
   const contentClasses = isModal
     ? "bg-background rounded-lg w-full max-w-4xl h-[85vh] md:h-[80vh] overflow-hidden flex flex-col"
     : "w-full";
+
+  if (isLoading) {
+    return (
+      <div className={containerClasses}>
+        <div className={contentClasses}>
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading settings...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={containerClasses}>
+        <div className={contentClasses}>
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <p className="text-destructive mb-4">Error: {error}</p>
+              <Button onClick={loadUserData}>Try Again</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className={containerClasses}>
+        <div className={contentClasses}>
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <p className="text-muted-foreground">No user data found</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={containerClasses}>
@@ -865,6 +1012,28 @@ const Settings: React.FC<SettingsProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        open={showConfirmDialog}
+        onOpenChange={setShowConfirmDialog}
+        title="Clear Chat History"
+        description="Are you sure you want to clear all chat history? This action cannot be undone and will permanently delete all your conversations."
+        confirmText="Clear All"
+        cancelText="Cancel"
+        onConfirm={handleConfirmClear}
+        destructive={true}
+      />
+
+      {/* Success Dialog */}
+      <SuccessDialog
+        open={showSuccessDialog}
+        onOpenChange={setShowSuccessDialog}
+        title="Chat History Cleared"
+        description="Your chat history has been successfully cleared. All conversations have been permanently removed."
+        buttonText="Continue"
+        onClose={handleSuccessClose}
+      />
     </div>
   );
 };
