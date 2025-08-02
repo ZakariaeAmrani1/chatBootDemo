@@ -85,7 +85,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-background transition-colors duration-300">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div 
@@ -114,7 +114,7 @@ const Chatbot = () => {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
         {/* Header */}
-        <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+        <header className="flex items-center justify-between p-4 border-b border-border bg-background">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
@@ -124,7 +124,7 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-foreground">
               ChatGPT
             </h1>
           </div>
