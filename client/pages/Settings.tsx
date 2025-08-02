@@ -98,8 +98,57 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
+  const updateUserProfile = async (updates: Partial<User>) => {
+    if (!user) return;
+
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      const response = await apiService.updateUser(user.id, updates);
+      if (response.success && response.data) {
+        setUser(response.data);
+      } else {
+        setError(response.error || 'Failed to update profile');
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to update profile');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const updateUserSettings = async (settingsUpdates: Partial<UserSettings>) => {
+    if (!user) return;
+
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      const response = await apiService.updateUserSettings(user.id, settingsUpdates);
+      if (response.success && response.data) {
+        setUser(response.data);
+      } else {
+        setError(response.error || 'Failed to update settings');
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to update settings');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const updateSetting = (key: string, value: any) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
+    if (!user) return;
+
+    // Check if this is a profile field or settings field
+    const profileFields = ['displayName', 'email', 'bio'];
+
+    if (profileFields.includes(key)) {
+      updateUserProfile({ [key]: value });
+    } else {
+      updateUserSettings({ [key]: value });
+    }
   };
 
   const settingsMenu = [
