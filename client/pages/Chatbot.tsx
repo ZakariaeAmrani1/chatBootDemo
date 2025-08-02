@@ -12,6 +12,7 @@ import { chatService, ChatState } from "@/services/chatService";
 import { apiService } from "@/services/api";
 import { Chat, Message, FileAttachment, User } from "@shared/types";
 import { useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Chatbot = () => {
   const [chatState, setChatState] = useState<ChatState>({
