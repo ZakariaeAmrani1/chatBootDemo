@@ -178,7 +178,10 @@ const Chatbot = () => {
     handleRefresh();
   };
 
-  const handleMessageUpdate = (messageId: string, updates: Partial<Message>) => {
+  const handleMessageUpdate = (
+    messageId: string,
+    updates: Partial<Message>,
+  ) => {
     // Update the message in the chatService state
     chatService.updateMessage(messageId, updates);
   };

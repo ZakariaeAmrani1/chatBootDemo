@@ -723,8 +723,8 @@ const Settings: React.FC<SettingsProps> = ({
             className="font-mono text-sm"
           />
           <p className="text-xs text-muted-foreground">
-            The base URL for your application. This is used when generating share links for chats.
-            Update this when deploying to production.
+            The base URL for your application. This is used when generating
+            share links for chats. Update this when deploying to production.
           </p>
         </div>
       </div>

@@ -48,7 +48,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>{cancelText}</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleCancel}>
+            {cancelText}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             className={

@@ -253,7 +253,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     currentChatId === chat.id ? "bg-muted" : "",
                     editingChatId === chat.id && "bg-muted",
                   )}
-                  onClick={() => editingChatId !== chat.id && onChatSelect(chat.id)}
+                  onClick={() =>
+                    editingChatId !== chat.id && onChatSelect(chat.id)
+                  }
                 >
                   <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
 
@@ -271,7 +273,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                       className="text-sm text-foreground flex-1 min-w-0 pr-2"
                       title={chat.title}
                     >
-                      {chat.title.length > 25 ? `${chat.title.substring(0, 25)}...` : chat.title}
+                      {chat.title.length > 25
+                        ? `${chat.title.substring(0, 25)}...`
+                        : chat.title}
                     </span>
                   )}
 

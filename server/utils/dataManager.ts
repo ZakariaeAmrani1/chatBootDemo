@@ -141,11 +141,16 @@ export class DataManager {
     const data = this.readJsonFile<{ chats: Chat[]; messages: Message[] }>(
       "chats.json",
     );
-    const messageIndex = data.messages.findIndex((message) => message.id === id);
+    const messageIndex = data.messages.findIndex(
+      (message) => message.id === id,
+    );
 
     if (messageIndex === -1) return null;
 
-    data.messages[messageIndex] = { ...data.messages[messageIndex], ...updates };
+    data.messages[messageIndex] = {
+      ...data.messages[messageIndex],
+      ...updates,
+    };
     this.writeJsonFile("chats.json", data);
     return data.messages[messageIndex];
   }

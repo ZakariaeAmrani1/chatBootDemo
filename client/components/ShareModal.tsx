@@ -45,7 +45,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
         title: "Link copied!",
         description: "Share link has been copied to your clipboard.",
       });
-      
+
       // Reset copied state after 2 seconds
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -86,11 +86,12 @@ const ShareModal: React.FC<ShareModalProps> = ({
             Share Chat
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              Share this conversation with others. Anyone with the link can view this chat.
+              Share this conversation with others. Anyone with the link can view
+              this chat.
             </p>
           </div>
 
@@ -130,14 +131,18 @@ const ShareModal: React.FC<ShareModalProps> = ({
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </Button>
-            <Button variant="outline" onClick={() => window.open(shareLink, '_blank')}>
+            <Button
+              variant="outline"
+              onClick={() => window.open(shareLink, "_blank")}
+            >
               <ExternalLink className="h-4 w-4 mr-2" />
               Preview
             </Button>
           </div>
 
           <div className="text-xs text-muted-foreground bg-muted/50 p-3 rounded-md">
-            <strong>Note:</strong> Shared chats are read-only. Recipients can view the conversation but cannot add messages or modify it.
+            <strong>Note:</strong> Shared chats are read-only. Recipients can
+            view the conversation but cannot add messages or modify it.
           </div>
         </div>
       </DialogContent>

@@ -269,8 +269,8 @@ class ChatService {
   }
 
   updateMessage(messageId: string, updates: Partial<Message>): void {
-    const updatedMessages = this.state.messages.map(msg =>
-      msg.id === messageId ? { ...msg, ...updates } : msg
+    const updatedMessages = this.state.messages.map((msg) =>
+      msg.id === messageId ? { ...msg, ...updates } : msg,
     );
     this.setState({ messages: updatedMessages });
   }

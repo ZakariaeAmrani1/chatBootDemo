@@ -70,7 +70,10 @@ class ApiService {
     });
   }
 
-  async updateChat(chatId: string, updates: Partial<Chat>): Promise<ApiResponse<Chat>> {
+  async updateChat(
+    chatId: string,
+    updates: Partial<Chat>,
+  ): Promise<ApiResponse<Chat>> {
     return this.request<Chat>(`/chats/${chatId}`, {
       method: "PUT",
       body: JSON.stringify(updates),

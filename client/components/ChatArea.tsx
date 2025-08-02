@@ -114,9 +114,10 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       if (response.success) {
         // Update local state immediately for better UX
         if (onMessageUpdate) {
-          const updates = action === "like"
-            ? { liked: true, disliked: false }
-            : { liked: false };
+          const updates =
+            action === "like"
+              ? { liked: true, disliked: false }
+              : { liked: false };
           onMessageUpdate(messageId, updates);
         }
       } else {
@@ -147,9 +148,10 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       if (response.success) {
         // Update local state immediately for better UX
         if (onMessageUpdate) {
-          const updates = action === "dislike"
-            ? { disliked: true, liked: false }
-            : { disliked: false };
+          const updates =
+            action === "dislike"
+              ? { disliked: true, liked: false }
+              : { disliked: false };
           onMessageUpdate(messageId, updates);
         }
       } else {
