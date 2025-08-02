@@ -68,7 +68,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="border-t border-border bg-white p-4">
+    <div className="border-t border-border bg-background p-4">
       <div className="max-w-4xl mx-auto">
         {/* Model Selection */}
         <div className="flex items-center justify-between mb-3">
@@ -119,14 +119,14 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
         {/* Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="relative border border-gray-300 rounded-lg bg-white overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-400">
+          <div className="relative border border-input rounded-lg bg-background overflow-hidden focus-within:ring-1 focus-within:ring-ring focus-within:border-ring">
             <Textarea
               ref={textareaRef}
               value={message}
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
               placeholder="Message ChatGPT..."
-              className="resize-none border-0 bg-transparent px-3 py-3 pr-20 focus:ring-0 min-h-[48px] max-h-[200px] text-gray-900 placeholder:text-gray-500"
+              className="resize-none border-0 bg-transparent px-3 py-3 pr-20 focus:ring-0 min-h-[48px] max-h-[200px] text-foreground placeholder:text-muted-foreground"
               rows={1}
             />
             
@@ -193,7 +193,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         />
 
         {/* Footer Text */}
-        <p className="text-xs text-gray-500 text-center mt-3">
+        <p className="text-xs text-muted-foreground text-center mt-3">
           ChatGPT can make mistakes. Check important info.
         </p>
       </div>
