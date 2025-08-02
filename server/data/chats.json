@@ -53,6 +53,33 @@
       "updatedAt": "2025-08-02T17:07:40.126Z",
       "messageCount": 2,
       "userId": "user-1"
+    },
+    {
+      "id": "6f5d8735-6664-4e6c-91b7-886c0c203d8e",
+      "title": "New Chat",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:15:31.076Z",
+      "updatedAt": "2025-08-02T17:15:33.411Z",
+      "messageCount": 2,
+      "userId": "user-1"
+    },
+    {
+      "id": "c14d34dc-ef79-4957-a8af-9db987291c41",
+      "title": "good",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:15:44.565Z",
+      "updatedAt": "2025-08-02T17:16:00.737Z",
+      "messageCount": 4,
+      "userId": "user-1"
+    },
+    {
+      "id": "c45df998-5a24-41fa-8326-4f8fe37f8dd4",
+      "title": "New Chat",
+      "model": "gpt-4",
+      "createdAt": "2025-08-02T17:16:03.999Z",
+      "updatedAt": "2025-08-02T17:16:06.479Z",
+      "messageCount": 2,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -201,6 +228,62 @@
       "type": "assistant",
       "content": "I'll play along! 🎤\n\n\"Hey there! 👋 It's [Your Name] leaving you a message. 📱 I just wanted to say hi and catch up. How's your day going so far? 🤔 I hope everything's going well. I was thinking about you and wanted to reach out. 🤗 Take care and talk to you soon! 👋 Bye for now!\"",
       "timestamp": "2025-08-02T17:07:40.126Z"
+    },
+    {
+      "id": "dbd95283-c79f-47d3-b0d9-8924e7a1c420",
+      "chatId": "6f5d8735-6664-4e6c-91b7-886c0c203d8e",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:15:31.076Z"
+    },
+    {
+      "id": "007c0f18-ed84-4ac7-9524-58ae05ceb44f",
+      "chatId": "6f5d8735-6664-4e6c-91b7-886c0c203d8e",
+      "type": "assistant",
+      "content": "I'd be happy to create a voice message for you. What would you like me to say? Would you like it to be a personal message, a motivational message, or something else?",
+      "timestamp": "2025-08-02T17:15:33.411Z"
+    },
+    {
+      "id": "ea4b50e8-19c2-430a-af74-4dad63a3911e",
+      "chatId": "c14d34dc-ef79-4957-a8af-9db987291c41",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:15:44.565Z"
+    },
+    {
+      "id": "b9829a63-4aa8-43bc-ab26-ff8ba4e6107e",
+      "chatId": "c14d34dc-ef79-4957-a8af-9db987291c41",
+      "type": "assistant",
+      "content": "📞 (ringing)\n\nHello? This is [Your Name]. I'm not available to take your call right now, but I wanted to leave you a message. *pauses*",
+      "timestamp": "2025-08-02T17:15:46.833Z"
+    },
+    {
+      "id": "0cd25e72-b54f-4afc-8150-5fb28446b998",
+      "chatId": "c14d34dc-ef79-4957-a8af-9db987291c41",
+      "type": "user",
+      "content": "good",
+      "timestamp": "2025-08-02T17:15:58.842Z"
+    },
+    {
+      "id": "6e96a465-034c-4f2d-ad2c-5a0d3397ad3e",
+      "chatId": "c14d34dc-ef79-4957-a8af-9db987291c41",
+      "type": "assistant",
+      "content": "\"Good\" indeed! How can I help you today?",
+      "timestamp": "2025-08-02T17:16:00.737Z"
+    },
+    {
+      "id": "4f98b714-d466-4aa0-a00a-54d932080d83",
+      "chatId": "c45df998-5a24-41fa-8326-4f8fe37f8dd4",
+      "type": "user",
+      "content": "🎤 Voice message",
+      "timestamp": "2025-08-02T17:16:03.999Z"
+    },
+    {
+      "id": "84bbeba8-e9fa-45f7-a1c0-8cbfdce2cbf4",
+      "chatId": "c45df998-5a24-41fa-8326-4f8fe37f8dd4",
+      "type": "assistant",
+      "content": "📞 \"Hello! I'm leaving you a voice message. 😊",
+      "timestamp": "2025-08-02T17:16:06.479Z"
     }
   ]
 }
