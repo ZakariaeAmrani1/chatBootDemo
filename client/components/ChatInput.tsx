@@ -107,6 +107,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
         if (response.success && response.data) {
           setAttachedFiles((prev) => [...prev, ...response.data!]);
+          console.log('Files uploaded successfully:', response.data);
         } else {
           console.error("Failed to upload files:", response.error);
           // Fallback to local URLs for now
@@ -123,6 +124,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
             return fileAttachment;
           });
           setAttachedFiles((prev) => [...prev, ...newFiles]);
+          console.log('Using fallback file URLs:', newFiles);
         }
       } catch (error) {
         console.error("Error uploading files:", error);
