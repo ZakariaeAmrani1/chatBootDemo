@@ -10,6 +10,7 @@ import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
 import { apiService } from "@/services/api";
 import { Chat, Message, FileAttachment, User } from "@shared/types";
+import { useTheme } from "@/components/ThemeProvider";
 
 const Chatbot = () => {
   const [chatState, setChatState] = useState<ChatState>({
