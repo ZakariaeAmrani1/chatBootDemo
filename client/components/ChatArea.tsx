@@ -37,15 +37,37 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   // Copy message content to clipboard
   const handleCopy = async (content: string) => {
     try {
-      await navigator.clipboard.writeText(content);
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(content);
+      } else {
+        // Fallback to older method
+        const textArea = document.createElement('textarea');
+        textArea.value = content;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textArea);
+
+        if (!successful) {
+          throw new Error('Copy command failed');
+        }
+      }
+
       toast({
         title: "Copied to clipboard",
         description: "Message content has been copied.",
       });
     } catch (error) {
+      console.error('Copy failed:', error);
       toast({
         title: "Failed to copy",
-        description: "Could not copy message to clipboard.",
+        description: "Could not copy message to clipboard. Please select and copy manually.",
         variant: "destructive",
       });
     }
