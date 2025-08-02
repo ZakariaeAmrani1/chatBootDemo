@@ -382,12 +382,7 @@ const Settings: React.FC<SettingsProps> = ({
           </p>
           <Button
             size="sm"
-            onClick={() => {
-              updateUserProfile(pendingChanges);
-              setPendingChanges({});
-              setHasUnsavedChanges(false);
-              setLastSaveTime(new Date());
-            }}
+            onClick={handleSaveProfileChanges}
             disabled={isSaving}
           >
             {isSaving ? "Saving..." : "Save Now"}
