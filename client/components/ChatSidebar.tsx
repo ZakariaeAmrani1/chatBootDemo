@@ -120,7 +120,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={onNewChat}
+                  onClick={() => onNewChat()}
                   className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10"
                   variant="outline"
                 >
