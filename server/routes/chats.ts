@@ -116,7 +116,7 @@ export const createChat: RequestHandler = (req, res) => {
       id: chatId,
       title: title || "New Chat",
       model: model,
-      chatbootVersion: chatbootVersion || "Chatboot V3", // Default to V3
+      chatbootVersion: chatbootVersion || "ChatNova V3", // Default to V3
       createdAt: now,
       updatedAt: now,
       messageCount: 0,
