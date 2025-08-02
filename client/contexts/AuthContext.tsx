@@ -49,8 +49,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Separate useEffect for online/offline listeners
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const handleOnline = () => {
+      if (isMountedRef.current) setIsOnline(true);
+    };
+    const handleOffline = () => {
+      if (isMountedRef.current) setIsOnline(false);
+    };
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
