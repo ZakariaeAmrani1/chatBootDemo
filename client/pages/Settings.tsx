@@ -340,6 +340,11 @@ const Settings: React.FC<SettingsProps> = ({
               value={user?.displayName || ""}
               onChange={(e) => updateSetting("displayName", e.target.value)}
               disabled={isSaving}
+              className={cn(
+                hasUnsavedChanges && pendingChanges.displayName !== undefined
+                  ? "border-orange-300 focus:border-orange-500"
+                  : ""
+              )}
             />
           </div>
           <div className="space-y-2">
@@ -350,6 +355,11 @@ const Settings: React.FC<SettingsProps> = ({
               value={user?.email || ""}
               onChange={(e) => updateSetting("email", e.target.value)}
               disabled={isSaving}
+              className={cn(
+                hasUnsavedChanges && pendingChanges.email !== undefined
+                  ? "border-orange-300 focus:border-orange-500"
+                  : ""
+              )}
             />
           </div>
         </div>
@@ -363,6 +373,11 @@ const Settings: React.FC<SettingsProps> = ({
             onChange={(e) => updateSetting("bio", e.target.value)}
             rows={3}
             disabled={isSaving}
+            className={cn(
+              hasUnsavedChanges && pendingChanges.bio !== undefined
+                ? "border-orange-300 focus:border-orange-500"
+                : ""
+            )}
           />
         </div>
       </div>
