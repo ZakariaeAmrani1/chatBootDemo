@@ -181,6 +181,7 @@ const Chatbot = () => {
     await chatService.createChat({
       title: "New Chat",
       model: selectedModel,
+      chatbootVersion: selectedVersion,
       message: message, // This can be undefined for empty chats
     });
   };
@@ -197,6 +198,7 @@ const Chatbot = () => {
         const newChat = await chatService.createChat({
           title: "New Chat",
           model: selectedModel,
+          chatbootVersion: selectedVersion,
         });
 
         if (newChat) {
