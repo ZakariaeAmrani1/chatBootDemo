@@ -223,8 +223,9 @@ const Settings: React.FC<SettingsProps> = ({
             <Label htmlFor="displayName">Display Name</Label>
             <Input
               id="displayName"
-              value={settings.displayName}
+              value={user?.displayName || ''}
               onChange={(e) => updateSetting("displayName", e.target.value)}
+              disabled={isSaving}
             />
           </div>
           <div className="space-y-2">
@@ -232,8 +233,9 @@ const Settings: React.FC<SettingsProps> = ({
             <Input
               id="email"
               type="email"
-              value={settings.email}
+              value={user?.email || ''}
               onChange={(e) => updateSetting("email", e.target.value)}
+              disabled={isSaving}
             />
           </div>
         </div>
@@ -243,9 +245,10 @@ const Settings: React.FC<SettingsProps> = ({
           <Textarea
             id="bio"
             placeholder="Tell us about yourself..."
-            value={settings.bio}
+            value={user?.bio || ''}
             onChange={(e) => updateSetting("bio", e.target.value)}
             rows={3}
+            disabled={isSaving}
           />
         </div>
       </div>
