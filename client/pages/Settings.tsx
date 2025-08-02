@@ -378,7 +378,7 @@ const Settings: React.FC<SettingsProps> = ({
       {hasUnsavedChanges && (
         <div className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg">
           <p className="text-sm text-orange-700">
-            You have unsaved changes. They will be saved automatically in a moment.
+            You have unsaved changes. Click "Save Now" or use the "Save Changes" button to save.
           </p>
           <Button
             size="sm"
