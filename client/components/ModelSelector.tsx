@@ -20,6 +20,39 @@ export function ModelSelector({
   selectedModel,
   onModelChange,
 }: ModelSelectorProps) {
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          setModels(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-2">
+        <label className="text-xs font-medium text-muted-foreground">Model</label>
+        <div className="flex flex-wrap gap-2">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-8 w-20 bg-muted animate-pulse rounded-xl" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-2">
       <label className="text-xs font-medium text-muted-foreground">Model</label>
