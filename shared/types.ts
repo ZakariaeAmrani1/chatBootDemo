@@ -67,6 +67,7 @@ export interface Chat {
   id: string;
   title: string;
   model: string;
+  chatbootVersion: string;
   createdAt: string;
   updatedAt: string;
   messageCount: number;
