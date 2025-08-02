@@ -1185,15 +1185,11 @@ const Settings: React.FC<SettingsProps> = ({
 
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 rounded-lg border border-border overflow-hidden bg-background flex items-center justify-center">
-              {user?.settings.lightLogo ? (
-                <img
-                  src={user.settings.lightLogo}
-                  alt="Light Theme Logo"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-muted-foreground text-xs">No logo</span>
-              )}
+              <img
+                src={getAppLogo("light", user)}
+                alt="Current Light Theme Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <input
@@ -1213,6 +1209,11 @@ const Settings: React.FC<SettingsProps> = ({
                 {isUploadingLightLogo ? "Uploading..." : "Upload Light Logo"}
               </Button>
               <p className="text-xs text-muted-foreground mt-1">
+                {user?.settings.lightLogo ? (
+                  <>Custom logo uploaded · </>
+                ) : (
+                  <>Using default logo · </>
+                )}
                 JPEG, PNG, GIF, WebP up to 5MB
               </p>
             </div>
