@@ -74,7 +74,7 @@ export function ThemeSelector({ collapsed = false }: ThemeSelectorProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="w-full justify-start text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+          className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent"
         >
           <CurrentIcon className="h-4 w-4 mr-2" />
           {currentTheme?.label}
