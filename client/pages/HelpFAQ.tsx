@@ -70,15 +70,15 @@ const HelpFAQ: React.FC = () => {
   const faqs = [
     {
       category: "getting-started",
-      question: "How do I get started with ChatGPT?",
+      question: "How do I get started with Chatboot?",
       answer:
-        "Getting started is easy! Simply create an account, and you can begin chatting immediately. Type your questions or requests in the chat box, and ChatGPT will respond. You can ask about anything from writing help to coding assistance to general knowledge questions.",
+        "Getting started is easy! Simply create an account, and you can begin chatting immediately. Type your questions or requests in the chat box, and Chatboot will respond. You can ask about anything from writing help to coding assistance to general knowledge questions.",
     },
     {
       category: "getting-started",
-      question: "What can I use ChatGPT for?",
+      question: "What can I use Chatboot for?",
       answer:
-        "ChatGPT can help with a wide variety of tasks including writing and editing, coding and programming, research and analysis, creative brainstorming, language translation, math and problem-solving, and much more. It's designed to be a versatile AI assistant for both personal and professional use.",
+        "Chatboot can help with a wide variety of tasks including writing and editing, coding and programming, research and analysis, creative brainstorming, language translation, math and problem-solving, and much more. It's designed to be a versatile AI assistant for both personal and professional use.",
     },
     {
       category: "features",
@@ -88,27 +88,27 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "features",
-      question: "Can ChatGPT browse the internet?",
+      question: "Can Chatboot browse the internet?",
       answer:
-        "ChatGPT Plus subscribers have access to Browse with Bing, which allows ChatGPT to search the internet for current information and provide up-to-date responses. Free users have access to training data up to April 2024.",
+        "Chatboot Plus subscribers have access to Browse with Bing, which allows Chatboot to search the internet for current information and provide up-to-date responses. Free users have access to training data up to April 2024.",
     },
     {
       category: "features",
-      question: "How do I upload files to ChatGPT?",
+      question: "How do I upload files to Chatboot?",
       answer:
-        "ChatGPT Plus subscribers can upload various file types including documents, images, and code files. Simply click the attachment icon in the chat input area and select your file. ChatGPT can analyze, summarize, edit, and work with your uploaded content.",
+        "Chatboot Plus subscribers can upload various file types including documents, images, and code files. Simply click the attachment icon in the chat input area and select your file. Chatboot can analyze, summarize, edit, and work with your uploaded content.",
     },
     {
       category: "account",
-      question: "How much does ChatGPT cost?",
+      question: "How much does Chatboot cost?",
       answer:
-        "ChatGPT offers a free tier with access to GPT-3.5. ChatGPT Plus costs $20/month and includes access to GPT-4, faster response times, priority access, and additional features like Browse with Bing and Advanced Data Analysis.",
+        "Chatboot offers a free tier with access to GPT-3.5. Chatboot Plus costs $20/month and includes access to GPT-4, faster response times, priority access, and additional features like Browse with Bing and Advanced Data Analysis.",
     },
     {
       category: "account",
       question: "How do I cancel my subscription?",
       answer:
-        "You can cancel your ChatGPT Plus subscription at any time through your account settings. Go to 'Manage my subscription' and select 'Cancel plan'. You'll continue to have access to Plus features until the end of your current billing period.",
+        "You can cancel your Chatboot Plus subscription at any time through your account settings. Go to 'Manage my subscription' and select 'Cancel plan'. You'll continue to have access to Plus features until the end of your current billing period.",
     },
     {
       category: "account",
@@ -118,9 +118,9 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "privacy",
-      question: "How is my data used to train ChatGPT?",
+      question: "How is my data used to train Chatboot?",
       answer:
-        "By default, conversations may be used to improve our models. However, ChatGPT Plus, Team, and Enterprise users can opt out of having their data used for training. You can control this setting in your account preferences.",
+        "By default, conversations may be used to improve our models. However, Chatboot Plus, Team, and Enterprise users can opt out of having their data used for training. You can control this setting in your account preferences.",
     },
     {
       category: "privacy",
@@ -136,28 +136,28 @@ const HelpFAQ: React.FC = () => {
     },
     {
       category: "technical",
-      question: "Why is ChatGPT slow or unavailable?",
+      question: "Why is Chatboot slow or unavailable?",
       answer:
-        "High demand can sometimes cause slower response times or temporary unavailability. ChatGPT Plus subscribers get priority access during peak times. If you're experiencing persistent issues, try refreshing the page or checking our status page.",
+        "High demand can sometimes cause slower response times or temporary unavailability. Chatboot Plus subscribers get priority access during peak times. If you're experiencing persistent issues, try refreshing the page or checking our status page.",
     },
     {
       category: "technical",
-      question: "What should I do if ChatGPT gives incorrect information?",
+      question: "What should I do if Chatboot gives incorrect information?",
       answer:
-        "While ChatGPT is highly capable, it can sometimes provide inaccurate information. Always verify important information from authoritative sources. You can help improve ChatGPT by providing feedback on responses using the thumbs up/down buttons.",
+        "While Chatboot is highly capable, it can sometimes provide inaccurate information. Always verify important information from authoritative sources. You can help improve Chatboot by providing feedback on responses using the thumbs up/down buttons.",
     },
     {
       category: "technical",
       question: "Are there usage limits?",
       answer:
-        "Free users have access to ChatGPT with some usage limitations during peak times. ChatGPT Plus users get priority access and higher usage limits. GPT-4 has specific message caps (50 messages every 3 hours) to ensure availability for all Plus users.",
+        "Free users have access to Chatboot with some usage limitations during peak times. Chatboot Plus users get priority access and higher usage limits. GPT-4 has specific message caps (50 messages every 3 hours) to ensure availability for all Plus users.",
     },
   ];
 
   const supportResources = [
     {
       title: "User Guide",
-      description: "Complete guide to using ChatGPT effectively",
+      description: "Complete guide to using Chatboot effectively",
       icon: <Book className="w-6 h-6" />,
       link: "#",
     },
@@ -169,7 +169,7 @@ const HelpFAQ: React.FC = () => {
     },
     {
       title: "Community Forum",
-      description: "Connect with other ChatGPT users",
+      description: "Connect with other Chatboot users",
       icon: <MessageCircle className="w-6 h-6" />,
       link: "#",
     },
@@ -205,7 +205,7 @@ const HelpFAQ: React.FC = () => {
             Help & FAQ
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Find answers to common questions and get help with using ChatGPT
+            Find answers to common questions and get help with using Chatboot
             effectively.
           </p>
         </div>

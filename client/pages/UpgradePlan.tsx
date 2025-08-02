@@ -16,7 +16,7 @@ const UpgradePlan: React.FC = () => {
 
   const plans = [
     {
-      name: "ChatGPT Plus",
+      name: "Chatboot Plus",
       price: "$20",
       period: "per month",
       description: "For power users who need more capabilities",
@@ -36,7 +36,7 @@ const UpgradePlan: React.FC = () => {
       buttonVariant: "default" as const,
     },
     {
-      name: "ChatGPT Team",
+      name: "Chatboot Team",
       price: "$25",
       period: "per user/month",
       description: "For teams that need to collaborate",
@@ -56,7 +56,7 @@ const UpgradePlan: React.FC = () => {
       buttonVariant: "outline" as const,
     },
     {
-      name: "ChatGPT Enterprise",
+      name: "Chatboot Enterprise",
       price: "Custom",
       period: "pricing",
       description: "For organizations with advanced needs",
@@ -99,7 +99,7 @@ const UpgradePlan: React.FC = () => {
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Upgrade to unlock more powerful AI capabilities, faster responses,
-            and advanced features to enhance your ChatGPT experience.
+            and advanced features to enhance your Chatboot experience.
           </p>
         </div>
 
@@ -111,10 +111,10 @@ const UpgradePlan: React.FC = () => {
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
-                Current Plan: ChatGPT Free
+                Current Plan: Chatboot Free
               </CardTitle>
               <CardDescription>
-                You're currently using the free version of ChatGPT with access
+                You're currently using the free version of Chatboot with access
                 to GPT-3.5
               </CardDescription>
             </CardHeader>
