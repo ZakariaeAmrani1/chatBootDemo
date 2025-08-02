@@ -32,7 +32,7 @@ export function ThemeSelector({ collapsed = false }: ThemeSelectorProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-10 w-10 p-0 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                  className="h-10 w-10 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
                 >
                   <CurrentIcon className="h-4 w-4" />
                 </Button>
