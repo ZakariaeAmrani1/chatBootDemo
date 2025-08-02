@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { MessageFeedbackRequest, ApiResponse } from "@shared/types";
-import { dataManager } from "../utils/dataManager";
+import { DataManager } from "../utils/dataManager";
 
 export const handleMessageFeedback: RequestHandler = async (req, res) => {
   try {
