@@ -33,6 +33,7 @@
     {
       "id": "claude-3",
       "name": "Claude 3",
+      "shortName": "Claude",
       "description": "Anthropic's latest with excellent coding and analysis capabilities",
       "features": ["Code generation", "Analysis", "Safety focused"],
       "color": "text-purple-600 dark:text-purple-400",
