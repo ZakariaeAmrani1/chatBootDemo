@@ -295,7 +295,7 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <h1 className="text-lg font-semibold text-foreground">ChatGPT</h1>
+            <h1 className="text-lg font-semibold text-foreground">Chatboot</h1>
           </div>
 
           <div className="flex items-center gap-2">
