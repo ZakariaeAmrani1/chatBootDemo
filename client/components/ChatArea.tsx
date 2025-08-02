@@ -36,26 +36,46 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
   // Copy message content to clipboard
   const handleCopy = async (content: string) => {
-    try {
-      // Try modern clipboard API first
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(content);
-      } else {
-        // Fallback to older method
-        const textArea = document.createElement('textarea');
-        textArea.value = content;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
+    // Fallback function using older method
+    const fallbackCopy = () => {
+      const textArea = document.createElement('textarea');
+      textArea.value = content;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
 
+      try {
         const successful = document.execCommand('copy');
         document.body.removeChild(textArea);
+        return successful;
+      } catch (err) {
+        document.body.removeChild(textArea);
+        throw err;
+      }
+    };
 
-        if (!successful) {
-          throw new Error('Copy command failed');
+    try {
+      // Try modern clipboard API first, but always fall back if it fails
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(content);
+        } catch (clipboardError) {
+          // If clipboard API fails (permissions, etc.), use fallback
+          console.log('Clipboard API failed, using fallback:', clipboardError.message);
+          const success = fallbackCopy();
+          if (!success) {
+            throw new Error('Fallback copy method failed');
+          }
+        }
+      } else {
+        // No modern clipboard API available, use fallback
+        const success = fallbackCopy();
+        if (!success) {
+          throw new Error('Copy command not supported');
         }
       }
 
