@@ -8,6 +8,9 @@ import {
   ApiResponse,
   FileAttachment,
   DataStats,
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
 } from "@shared/types";
 
 const API_BASE = "/api";
