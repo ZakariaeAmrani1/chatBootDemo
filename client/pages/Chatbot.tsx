@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MessageSquare, Plus, Settings, Share2, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -7,30 +7,9 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import SettingsPage from "@/pages/Settings";
-
-export interface FileAttachment {
-  id: string;
-  name: string;
-  type: string;
-  size: number;
-  url?: string;
-  data?: string;
-}
-
-export interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "assistant";
-  timestamp: Date;
-  attachments?: FileAttachment[];
-}
-
-export interface Chat {
-  id: string;
-  title: string;
-  messages: Message[];
-  createdAt: Date;
-}
+import { chatService, ChatState } from "@/services/chatService";
+import { apiService } from "@/services/api";
+import { Chat, Message, FileAttachment } from "@shared/types";
 
 const Chatbot = () => {
   const [chats, setChats] = useState<Chat[]>([
