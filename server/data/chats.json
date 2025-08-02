@@ -29,11 +29,11 @@
     },
     {
       "id": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
-      "title": "New Chat",
+      "title": "hello",
       "model": "gpt-4",
       "createdAt": "2025-08-02T15:06:22.102Z",
-      "updatedAt": "2025-08-02T15:06:24.379Z",
-      "messageCount": 2,
+      "updatedAt": "2025-08-02T15:11:13.937Z",
+      "messageCount": 4,
       "userId": "user-1"
     }
   ],
@@ -135,6 +135,20 @@
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
       "timestamp": "2025-08-02T15:06:24.379Z"
+    },
+    {
+      "id": "4fcd61f5-80fe-4e61-a5a2-fc236ef67227",
+      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-02T15:11:12.157Z"
+    },
+    {
+      "id": "afcaccd9-04e5-4056-bdfe-b4268eb5b3d0",
+      "chatId": "3606278d-4c96-4bdf-8b94-c4ed38ec3369",
+      "type": "assistant",
+      "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
+      "timestamp": "2025-08-02T15:11:13.937Z"
     }
   ]
 }
