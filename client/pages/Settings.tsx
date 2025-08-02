@@ -103,25 +103,7 @@ const Settings: React.FC<SettingsProps> = ({
     loadDataStats();
   }, []);
 
-  const loadUserData = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await apiService.getCurrentUser();
-      if (response.success && response.data) {
-        setUser(response.data);
-      } else {
-        setError(response.error || "Failed to load user data");
-      }
-    } catch (error) {
-      setError(
-        error instanceof Error ? error.message : "Failed to load user data",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // User data is now provided by AuthContext, no need to load separately
 
   const loadDataStats = async () => {
     try {
