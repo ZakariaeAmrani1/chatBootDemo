@@ -235,20 +235,32 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={() => handleCopy(message.content)}
+                    title="Copy message"
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    className={cn(
+                      "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
+                      likedMessages.has(message.id) && "text-green-600 hover:text-green-700"
+                    )}
+                    onClick={() => handleLike(message.id)}
+                    title="Like message"
                   >
                     <ThumbsUp className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    className={cn(
+                      "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
+                      dislikedMessages.has(message.id) && "text-red-600 hover:text-red-700"
+                    )}
+                    onClick={() => handleDislike(message.id)}
+                    title="Dislike message"
                   >
                     <ThumbsDown className="h-4 w-4" />
                   </Button>
@@ -256,6 +268,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={() => handleRegenerate(message.id)}
+                    title="Regenerate response"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
@@ -263,6 +277,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={() => handleShare(message.content)}
+                    title="Share message"
                   >
                     <Share className="h-4 w-4" />
                   </Button>
