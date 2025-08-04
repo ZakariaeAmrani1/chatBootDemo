@@ -134,6 +134,22 @@ export class DataManager {
     // Remove chat and all its messages
     data.chats.splice(chatIndex, 1);
     data.messages = data.messages.filter((message) => message.chatId !== id);
+
+    // Also clean up any remaining references to the deleted file in other messages
+    if (chat.pdfFile) {
+      data.messages = data.messages.map(message => {
+        if (message.attachments) {
+          message.attachments = message.attachments.filter(
+            attachment => attachment.id !== chat.pdfFile?.id
+          );
+          if (message.attachments.length === 0) {
+            delete message.attachments;
+          }
+        }
+        return message;
+      });
+    }
+
     this.writeJsonFile("chats.json", data);
     return true;
   }
