@@ -146,6 +146,17 @@ const Library: React.FC = () => {
     }
   };
 
+  const handleDownload = (item: any) => {
+    if (item.downloadUrl) {
+      const link = document.createElement("a");
+      link.href = item.downloadUrl;
+      link.download = item.title;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
