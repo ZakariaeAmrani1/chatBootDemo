@@ -137,6 +137,37 @@ export function PDFPreview({
           </div>
         </div>
         <div className="flex items-center gap-1">
+          {/* Preset width buttons */}
+          <div className="hidden lg:flex items-center gap-1 mr-2">
+            <Button
+              onClick={() => onWidthChange(320)}
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-xs"
+              title="Small width"
+            >
+              S
+            </Button>
+            <Button
+              onClick={() => onWidthChange(384)}
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-xs"
+              title="Medium width"
+            >
+              M
+            </Button>
+            <Button
+              onClick={() => onWidthChange(480)}
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-xs"
+              title="Large width"
+            >
+              L
+            </Button>
+          </div>
+
           <Button
             onClick={handleDownload}
             variant="ghost"
