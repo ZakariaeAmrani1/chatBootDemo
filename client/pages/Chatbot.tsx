@@ -205,13 +205,15 @@ const Chatbot = () => {
   }, []);
 
   const createNewChat = async (message?: string) => {
+    if (!user) return;
+
     // Create chat with or without initial message
     await chatService.createChat({
       title: "New Chat",
       model: selectedModel,
       chatbootVersion: selectedVersion,
       message: message, // This can be undefined for empty chats
-    });
+    }, user.id);
   };
 
   const handleStartChat = async (model: string, pdfFile: File) => {
