@@ -87,7 +87,7 @@ const Library: React.FC = () => {
       id: pdf.id,
       title: pdf.name,
       description: `PDF document uploaded on ${new Date(pdf.uploadedAt).toLocaleDateString()}`,
-      type: "document",
+      type: "document" as const,
       category: "Documents",
       date: pdf.uploadedAt,
       size: `${(pdf.size / 1024).toFixed(1)} KB`,
@@ -100,7 +100,7 @@ const Library: React.FC = () => {
       id: model.id,
       title: model.name,
       description: model.description,
-      type: "model",
+      type: "model" as const,
       category: "AI Models",
       date: new Date().toISOString(), // Models don't have dates, use current
       size: model.enabled ? "Available" : "Unavailable",
