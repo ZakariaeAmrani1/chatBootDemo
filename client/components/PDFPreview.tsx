@@ -1,0 +1,142 @@
+import React, { useState } from "react";
+import { X, FileText, Download, Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import type { FileAttachment } from "@shared/types";
+
+interface PDFPreviewProps {
+  pdfFile: FileAttachment;
+  isOpen: boolean;
+  onToggle: () => void;
+  className?: string;
+}
+
+export function PDFPreview({
+  pdfFile,
+  isOpen,
+  onToggle,
+  className,
+}: PDFPreviewProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = pdfFile.url;
+    link.download = pdfFile.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+  };
+
+  if (!isOpen) {
+    return (
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-20">
+        <Button
+          onClick={onToggle}
+          variant="outline"
+          size="sm"
+          className="shadow-lg bg-background border-border hover:bg-muted"
+          title="Show PDF preview"
+        >
+          <Eye className="h-4 w-4 mr-2" />
+          View PDF
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={cn(
+        "fixed right-0 top-0 h-full bg-background border-l border-border shadow-lg z-20 flex flex-col",
+        "transition-all duration-300 ease-in-out",
+        isOpen ? "w-96" : "w-0",
+        className
+      )}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur-sm">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <FileText className="h-4 w-4 text-red-500 flex-shrink-0" />
+          <div className="flex-1 min-w-0">
+            <h3
+              className="text-sm font-medium truncate"
+              title={pdfFile.name}
+            >
+              {pdfFile.name}
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              {formatFileSize(pdfFile.size)}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <Button
+            onClick={handleDownload}
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            title="Download PDF"
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <Button
+            onClick={onToggle}
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            title="Close PDF preview"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* PDF Viewer */}
+      <div className="flex-1 relative bg-gray-50 dark:bg-gray-900">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              <p className="text-sm text-muted-foreground">Loading PDF...</p>
+            </div>
+          </div>
+        )}
+        
+        <iframe
+          src={`${pdfFile.url}#toolbar=1&navpanes=0&scrollbar=1`}
+          className="w-full h-full border-none"
+          title={`PDF Preview: ${pdfFile.name}`}
+          onLoad={() => setIsLoading(false)}
+          onError={() => setIsLoading(false)}
+        />
+        
+        {/* Fallback for browsers that don't support PDF viewing */}
+        <div className="absolute bottom-4 left-4 right-4">
+          <div className="bg-background/90 backdrop-blur-sm border border-border rounded-lg p-3">
+            <p className="text-xs text-muted-foreground mb-2">
+              Can't view PDF inline?
+            </p>
+            <Button
+              onClick={handleDownload}
+              variant="outline"
+              size="sm"
+              className="w-full"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Download to view
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

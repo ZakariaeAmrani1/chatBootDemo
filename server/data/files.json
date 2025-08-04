@@ -231,6 +231,14 @@
       "type": "application/pdf",
       "url": "/api/files/1ed8ebca-1be7-45ea-85b0-00241db199cc.pdf",
       "uploadedAt": "2025-08-04T14:50:10.154Z"
+    },
+    {
+      "id": "16a8e053-bb73-4051-a4e2-fc94fa8ec74e",
+      "name": "zakariae-amrani-cv.pdf",
+      "size": 471,
+      "type": "application/pdf",
+      "url": "/api/files/b74dbfcd-c09f-436c-a40f-8a29d292293b.pdf",
+      "uploadedAt": "2025-08-04T14:53:15.841Z"
     }
   ]
 }
