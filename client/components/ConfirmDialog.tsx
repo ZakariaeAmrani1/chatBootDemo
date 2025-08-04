@@ -33,7 +33,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 }) => {
   const handleConfirm = () => {
     onConfirm();
-    // Don't call onOpenChange here, let the parent handle it
+    onOpenChange(false);
   };
 
   const handleCancel = () => {
