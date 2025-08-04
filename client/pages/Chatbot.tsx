@@ -403,6 +403,22 @@ const Chatbot = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* PDF Preview Toggle */}
+            {chatState.currentChat?.pdfFile && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setPdfPreviewOpen(!pdfPreviewOpen)}
+                className="hidden sm:flex"
+                title={pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
+              >
+                <Eye className="h-4 w-4" />
+                <span className="ml-1 hidden md:inline">
+                  {pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
+                </span>
+              </Button>
+            )}
+
             <Button
               variant="ghost"
               size="sm"
