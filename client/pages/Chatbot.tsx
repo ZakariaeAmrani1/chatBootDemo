@@ -427,6 +427,7 @@ const Chatbot = () => {
             onStartChat={handleStartChat}
             user={user}
             hasActiveChat={!!chatState.currentChat}
+            currentChatHasPdf={!!chatState.currentChat?.pdfFile}
           />
         </div>
 
