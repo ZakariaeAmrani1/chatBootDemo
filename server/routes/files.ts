@@ -129,6 +129,26 @@ export const serveFile: RequestHandler = (req, res) => {
   }
 };
 
+// Get all files
+export const getAllFiles: RequestHandler = (req, res) => {
+  try {
+    const files = DataManager.getFiles();
+
+    const response: ApiResponse<FileAttachment[]> = {
+      success: true,
+      data: files,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<FileAttachment[]> = {
+      success: false,
+      error: "Failed to get files",
+    };
+    res.status(500).json(response);
+  }
+};
+
 // Get file information
 export const getFileInfo: RequestHandler = (req, res) => {
   try {
