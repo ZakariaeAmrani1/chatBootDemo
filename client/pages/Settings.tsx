@@ -809,13 +809,52 @@ const Settings: React.FC<SettingsProps> = ({
             Your API key is stored securely and used to enable AI chat
             functionality. Get your key from{" "}
             <a
-              href="https://console.groq.com/"
+              href="https://aistudio.google.com/app/apikey"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              Groq Console
+              Google AI Studio
             </a>
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Settings2 className="h-4 w-4" />
+            <Label htmlFor="geminiModel">Gemini Model</Label>
+          </div>
+          <Select
+            value={user?.settings.geminiModel || "gemini-1.5-flash-latest"}
+            onValueChange={(value) => updateSetting("geminiModel", value)}
+            disabled={isSaving}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select Gemini model" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="gemini-1.5-flash-latest">
+                Gemini 1.5 Flash (Latest) - Fast & Efficient
+              </SelectItem>
+              <SelectItem value="gemini-1.5-pro-latest">
+                Gemini 1.5 Pro (Latest) - Most Capable
+              </SelectItem>
+              <SelectItem value="gemini-1.0-pro-latest">
+                Gemini 1.0 Pro (Latest) - Balanced
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash">
+                Gemini 1.5 Flash - Stable
+              </SelectItem>
+              <SelectItem value="gemini-1.5-pro">
+                Gemini 1.5 Pro - Stable
+              </SelectItem>
+              <SelectItem value="gemini-1.0-pro">
+                Gemini 1.0 Pro - Stable
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            Choose the Gemini model that best fits your needs. Flash models are faster, Pro models are more capable.
           </p>
         </div>
 
