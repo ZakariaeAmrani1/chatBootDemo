@@ -292,11 +292,9 @@ const Library: React.FC = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         {item.type === "document" && item.downloadUrl && (
-                          <DropdownMenuItem asChild>
-                            <a href={item.downloadUrl} download>
-                              <Download className="w-4 h-4 mr-2" />
-                              Download
-                            </a>
+                          <DropdownMenuItem onClick={() => handleDownload(item)}>
+                            <Download className="w-4 h-4 mr-2" />
+                            Download
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem>
