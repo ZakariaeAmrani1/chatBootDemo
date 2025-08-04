@@ -25,6 +25,7 @@ import {
   clearChatHistory,
   clearUploadedFiles,
 } from "./routes/data";
+import { resetUserSettings } from "./routes/data-reset";
 import { handleMessageFeedback } from "./routes/feedback";
 import { getModels, addModel } from "./routes/models";
 import { loginUser, registerUser, verifyUserToken } from "./routes/auth";
