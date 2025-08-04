@@ -424,8 +424,9 @@ async function generateAIResponse(
     if (modelType === "cloud") {
       // Use Gemini API for Cloud model
       const geminiApiKey = user?.settings?.geminiApiKey;
+      const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
       if (geminiApiKey && geminiApiKey.trim()) {
-        return await callGeminiAPI(userMessage, geminiApiKey);
+        return await callGeminiAPI(userMessage, geminiApiKey, geminiModel);
       }
     } else if (modelType === "local-cloud") {
       // Use Local Cloud backend
