@@ -236,14 +236,15 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             How can I help you today?
           </h3>
           <p className="text-muted-foreground mb-8">
-            Choose your AI model and start a conversation
+            Choose your AI model and upload a PDF to start analyzing
           </p>
 
-          {/* Model Selection */}
+          {/* Model and PDF Selection */}
           <div className="w-full max-w-4xl pb-8">
-            <ModelSelectorCards
+            <ModelAndPDFSelector
               selectedModel={selectedModel}
               onModelChange={onModelChange}
+              onStartChat={onStartChat || (() => {})}
             />
           </div>
         </div>
