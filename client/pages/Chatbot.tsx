@@ -114,10 +114,8 @@ const Chatbot = () => {
 
   // Load user's selected model when user is authenticated
   useEffect(() => {
-    if (user?.settings) {
-      // Use user's selected model or fall back to "cloud" if none set
-      const userModel = user.settings.selectedModel || "cloud";
-      setSelectedModel(userModel);
+    if (user?.settings?.selectedModel) {
+      setSelectedModel(user.settings.selectedModel);
     }
   }, [user?.settings?.selectedModel]);
 
