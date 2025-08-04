@@ -38,7 +38,7 @@ export function PDFPreview({
 
   if (!isOpen) {
     return (
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-20">
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-20 hidden sm:block">
         <Button
           onClick={onToggle}
           variant="outline"
@@ -47,7 +47,7 @@ export function PDFPreview({
           title="Show PDF preview"
         >
           <Eye className="h-4 w-4 mr-2" />
-          View PDF
+          <span className="hidden md:inline">View PDF</span>
         </Button>
       </div>
     );
