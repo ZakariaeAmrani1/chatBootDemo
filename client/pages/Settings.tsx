@@ -779,7 +779,7 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Key className="h-4 w-4" />
-            <Label htmlFor="grokApiKey">Grok API Key</Label>
+            <Label htmlFor="geminiApiKey">Gemini API Key</Label>
           </div>
           <div className="relative">
             <Input
