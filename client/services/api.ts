@@ -67,12 +67,17 @@ class ApiService {
   }
 
   async createChat(request: CreateChatRequest): Promise<ApiResponse<Chat>> {
+    // Get the current user ID from localStorage or use default
+    const currentUser = localStorage.getItem("currentUser");
+    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+
     if (request.pdfFile) {
       // Use FormData for file upload
       const formData = new FormData();
       formData.append("title", request.title || "New Chat");
       formData.append("model", request.model);
       formData.append("chatbootVersion", request.chatbootVersion || "");
+      formData.append("userId", userId);
       if (request.message) {
         formData.append("message", request.message);
       }
@@ -84,9 +89,10 @@ class ApiService {
       });
     } else {
       // Regular JSON request without file
+      const requestWithUserId = { ...request, userId };
       return this.request<Chat>("/chats", {
         method: "POST",
-        body: JSON.stringify(request),
+        body: JSON.stringify(requestWithUserId),
       });
     }
   }
