@@ -45,48 +45,90 @@ const upload = multer({
 
 export const uploadPDF = upload.single("pdfFile");
 
-// Function to call Grok API
-async function callGrokAPI(
+// Function to call Gemini API
+async function callGeminiAPI(
   userMessage: string,
   apiKey: string,
 ): Promise<string> {
   try {
     const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "llama3-8b-8192", // Fast Llama model
-          messages: [
+          contents: [
             {
-              role: "user",
-              content: userMessage,
+              parts: [
+                {
+                  text: userMessage,
+                },
+              ],
             },
           ],
-          max_tokens: 1000,
-          temperature: 0.7,
+          generationConfig: {
+            temperature: 0.7,
+            topK: 1,
+            topP: 1,
+            maxOutputTokens: 1000,
+          },
         }),
       },
     );
 
     if (!response.ok) {
       throw new Error(
-        `Grok API error: ${response.status} ${response.statusText}`,
+        `Gemini API error: ${response.status} ${response.statusText}`,
       );
     }
 
     const data = await response.json();
     return (
-      data.choices[0]?.message?.content ||
+      data.candidates?.[0]?.content?.parts?.[0]?.text ||
       "I apologize, but I couldn't generate a response. Please try again."
     );
   } catch (error) {
-    console.error("Grok API error:", error);
+    console.error("Gemini API error:", error);
     return "I'm currently unable to connect to the AI service. Please check your API key or try again later.";
+  }
+}
+
+// Function to call Local Cloud backend (commented for now)
+async function callLocalCloudAPI(
+  userMessage: string,
+  pdfContext?: string,
+): Promise<string> {
+  try {
+    // TODO: Uncomment and configure when local backend is ready
+    /*
+    const response = await fetch("http://localhost:3001/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: userMessage,
+        pdfContext: pdfContext,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Local Cloud API error: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    return data.response || "I apologize, but I couldn't generate a response. Please try again.";
+    */
+
+    // Fallback response for now
+    return `[Local Cloud Response] I've analyzed your message: "${userMessage}". This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.`;
+  } catch (error) {
+    console.error("Local Cloud API error:", error);
+    return "I'm currently unable to connect to the local AI service. Please ensure your local backend is running.";
   }
 }
 

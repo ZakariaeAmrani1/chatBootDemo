@@ -31,7 +31,7 @@
         "reducedMotion": false,
         "screenReader": false,
         "grokApiKey": "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",
-        "selectedModel": "gpt-4"
+        "selectedModel": "cloud"
       },
       "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
@@ -65,7 +65,7 @@
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
-        "selectedModel": "local-cloud"
+        "selectedModel": "cloud"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8",
       "avatar": "/api/files/avatar-339da6c7-e48b-4cf9-b2c5-066285d5f90c.png"
