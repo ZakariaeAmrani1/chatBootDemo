@@ -404,22 +404,36 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
-// AI response generator with Grok API integration
+// AI response generator with Gemini API and Local Cloud integration
 async function generateAIResponse(
   userMessage: string,
   userId: string = "user-1",
+  chatId?: string,
 ): Promise<string> {
-  // Try to get user's Grok API key
   try {
     const user = DataManager.getUserById(userId);
-    const grokApiKey = user?.settings?.grokApiKey;
 
-    if (grokApiKey && grokApiKey.trim()) {
-      // Use Grok API
-      return await callGrokAPI(userMessage, grokApiKey);
+    // Get the chat to determine which model to use
+    let modelType = "cloud"; // default
+    if (chatId) {
+      const chat = DataManager.getChatById(chatId);
+      modelType = chat?.model || "cloud";
+    }
+
+    if (modelType === "cloud") {
+      // Use Gemini API for Cloud model
+      const geminiApiKey = user?.settings?.geminiApiKey;
+      if (geminiApiKey && geminiApiKey.trim()) {
+        return await callGeminiAPI(userMessage, geminiApiKey);
+      }
+    } else if (modelType === "local-cloud") {
+      // Use Local Cloud backend
+      const chat = chatId ? DataManager.getChatById(chatId) : null;
+      const pdfContext = chat?.pdfFile?.name;
+      return await callLocalCloudAPI(userMessage, pdfContext);
     }
   } catch (error) {
-    console.error("Error accessing user API key:", error);
+    console.error("Error accessing AI services:", error);
   }
 
   // Fallback to simulated responses
