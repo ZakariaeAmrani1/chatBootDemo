@@ -466,7 +466,9 @@ async function generateAIResponse(
       }
 
       try {
-        return await callGeminiAPI(userMessage, geminiApiKey, geminiModel);
+        // Get chat history for context (excluding the current message)
+        const chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+        return await callGeminiAPI(userMessage, geminiApiKey, geminiModel, chatHistory);
       } catch (error) {
         console.error("Gemini API error:", error);
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
