@@ -243,12 +243,14 @@ const Chatbot = () => {
 
     try {
       if (!chatState.currentChat) {
+        if (!user) return;
+
         // Create new chat first, then send the message with attachments
         const newChat = await chatService.createChat({
           title: "New Chat",
           model: selectedModel,
           chatbootVersion: selectedVersion,
-        });
+        }, user.id);
 
         if (newChat) {
           // Now send the message with attachments to the new chat
