@@ -444,14 +444,6 @@ const Chatbot = () => {
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline">Share</span>
             </Button>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSettingsOpen(true)}
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
           </div>
         </header>
 
