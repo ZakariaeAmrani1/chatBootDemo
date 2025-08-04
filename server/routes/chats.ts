@@ -203,6 +203,19 @@ export const createChat: RequestHandler = (req, res) => {
 
         DataManager.addMessage(aiMessage);
       }, 2000); // 2 second delay to simulate thinking
+    } else if (pdfFile) {
+      // If no initial message but PDF is uploaded, create a welcome message
+      setTimeout(async () => {
+        const aiMessage: Message = {
+          id: uuidv4(),
+          chatId: chatId,
+          type: "assistant",
+          content: `Hello! I've successfully received your PDF document "${pdfFile.name}". I'm ready to help you analyze and answer questions about this document. What would you like to know?`,
+          timestamp: new Date().toISOString(),
+        };
+
+        DataManager.addMessage(aiMessage);
+      }, 1500);
     }
 
     const response: ApiResponse<Chat> = {
