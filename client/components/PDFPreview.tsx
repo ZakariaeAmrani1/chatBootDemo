@@ -52,22 +52,22 @@ export function PDFPreview({
     document.body.style.userSelect = 'none';
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isResizing) return;
-
-    const deltaX = startX - e.clientX;
-    const newWidth = Math.min(Math.max(startWidth + deltaX, 320), window.innerWidth * 0.8);
-    onWidthChange(newWidth);
-  };
-
-  const handleMouseUp = () => {
-    setIsResizing(false);
-    document.body.style.cursor = '';
-    document.body.style.userSelect = '';
-  };
-
   // Add global mouse event listeners
   React.useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+
+      const deltaX = startX - e.clientX;
+      const newWidth = Math.min(Math.max(startWidth + deltaX, 320), window.innerWidth * 0.8);
+      onWidthChange(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+
     if (isResizing) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
@@ -77,7 +77,7 @@ export function PDFPreview({
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isResizing, startX, startWidth, width, onWidthChange]);
+  }, [isResizing, startX, startWidth, onWidthChange]);
 
   if (!isOpen) {
     return (
