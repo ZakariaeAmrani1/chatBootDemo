@@ -287,6 +287,14 @@
       "type": "application/pdf",
       "url": "/api/files/89b34de1-0467-46e0-bda8-2d284557260e.pdf",
       "uploadedAt": "2025-08-04T15:37:24.601Z"
+    },
+    {
+      "id": "197d4bc9-730a-46af-975f-daa94bd136f2",
+      "name": "Eryx  Espace Admin (1).pdf",
+      "size": 11345,
+      "type": "application/pdf",
+      "url": "/api/files/3ee5ea04-f73c-412b-b0c5-fb189410988c.pdf",
+      "uploadedAt": "2025-08-04T15:53:02.040Z"
     }
   ]
 }
