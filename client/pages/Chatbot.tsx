@@ -189,6 +189,23 @@ const Chatbot = () => {
     });
   };
 
+  const handleStartChat = async (model: string, pdfFile: File) => {
+    try {
+      // Update selected model to match the one chosen
+      setSelectedModel(model);
+
+      // Create chat with the selected model and PDF
+      await chatService.createChat({
+        title: "New Chat",
+        model: model,
+        chatbootVersion: selectedVersion,
+        pdfFile: pdfFile,
+      });
+    } catch (error) {
+      console.error("Failed to start chat:", error);
+    }
+  };
+
   const addMessage = async (
     content: string,
     attachments?: FileAttachment[],
