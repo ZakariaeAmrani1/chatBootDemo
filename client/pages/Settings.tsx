@@ -783,11 +783,11 @@ const Settings: React.FC<SettingsProps> = ({
           </div>
           <div className="relative">
             <Input
-              id="grokApiKey"
+              id="geminiApiKey"
               type={showApiKey ? "text" : "password"}
-              placeholder="Enter your Grok API key..."
-              value={user?.settings.grokApiKey || ""}
-              onChange={(e) => updateSetting("grokApiKey", e.target.value)}
+              placeholder="Enter your Gemini API key..."
+              value={user?.settings.geminiApiKey || ""}
+              onChange={(e) => updateSetting("geminiApiKey", e.target.value)}
               disabled={isSaving}
               className="font-mono text-sm pr-10"
             />
