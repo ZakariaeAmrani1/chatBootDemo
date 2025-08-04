@@ -467,7 +467,17 @@ async function generateAIResponse(
 
       try {
         // Get chat history for context (excluding the current message)
-        const chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+        let chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+
+        // Remove the last message if it's a user message matching the current message
+        // This prevents sending the same message twice to Gemini
+        if (chatHistory.length > 0) {
+          const lastMessage = chatHistory[chatHistory.length - 1];
+          if (lastMessage.type === "user" && lastMessage.content === userMessage) {
+            chatHistory = chatHistory.slice(0, -1);
+          }
+        }
+
         return await callGeminiAPI(userMessage, geminiApiKey, geminiModel, chatHistory);
       } catch (error) {
         console.error("Gemini API error:", error);
