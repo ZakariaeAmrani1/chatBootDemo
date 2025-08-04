@@ -277,6 +277,18 @@ class ChatService {
     );
     this.setState({ messages: updatedMessages });
   }
+
+  updateCurrentChat(updates: Partial<Chat>): void {
+    if (this.state.currentChat) {
+      const updatedChat = { ...this.state.currentChat, ...updates };
+      this.setState({
+        currentChat: updatedChat,
+        chats: this.state.chats.map(chat =>
+          chat.id === updatedChat.id ? updatedChat : chat
+        )
+      });
+    }
+  }
 }
 
 export const chatService = new ChatService();
