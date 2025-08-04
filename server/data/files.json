@@ -135,6 +135,30 @@
       "type": "image/png",
       "url": "/api/files/e7515bf4-bb1d-402e-972f-418bdbda5a2a.png",
       "uploadedAt": "2025-08-02T17:54:30.959Z"
+    },
+    {
+      "id": "ae58a83a-b836-4221-8628-dadacde35a10",
+      "name": "ChatGPT Image Mar 29, 2025, 11_41_24 PM.png",
+      "size": 1865977,
+      "type": "image/png",
+      "url": "/api/files/b23159f0-4041-4e7a-94ae-5566f7d9b2e7.png",
+      "uploadedAt": "2025-08-02T19:04:37.920Z"
+    },
+    {
+      "id": "790f93b3-4f41-4a85-98ac-6b8b004074c6",
+      "name": "Screenshot 2025-01-14 124431.png",
+      "size": 150071,
+      "type": "image/png",
+      "url": "/api/files/592df999-ec05-4133-81ff-2902914aa2ec.png",
+      "uploadedAt": "2025-08-03T17:45:57.956Z"
+    },
+    {
+      "id": "89171abc-9150-4c97-a482-f103f760aab6",
+      "name": "votre_document.pdf",
+      "size": 610430,
+      "type": "application/pdf",
+      "url": "/api/files/ca63bb6d-2402-491e-bd3d-4a6982860238.pdf",
+      "uploadedAt": "2025-08-03T17:53:14.686Z"
     }
   ]
 }

@@ -42,9 +42,9 @@
       "bio": "",
       "createdAt": "2025-08-02T16:45:19.353Z",
       "settings": {
-        "theme": "system",
+        "theme": "light",
         "fontSize": "small",
-        "density": "comfortable",
+        "density": "compact",
         "emailNotifications": true,
         "pushNotifications": true,
         "soundEnabled": true,

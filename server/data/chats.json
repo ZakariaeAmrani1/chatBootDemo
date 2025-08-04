@@ -1,64 +1,102 @@
 {
   "chats": [
     {
-      "id": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "id": "c4189d27-b85b-4bb9-bcc5-ff4ca0946c65",
       "title": "hello",
       "model": "gpt-4",
-      "chatbootVersion": "Chatboot V3",
-      "createdAt": "2025-08-02T18:19:09.970Z",
-      "updatedAt": "2025-08-02T18:36:04.241Z",
-      "messageCount": 4,
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-03T08:27:17.151Z",
+      "updatedAt": "2025-08-03T08:27:19.999Z",
+      "messageCount": 2,
       "userId": "user-1"
     },
     {
-      "id": "e1c4ae48-b232-4179-a356-e97fc10c8a37",
-      "title": "New Chat",
-      "model": "gpt-4",
-      "chatbootVersion": "Chatboot V3",
-      "createdAt": "2025-08-02T18:19:19.801Z",
-      "updatedAt": "2025-08-02T18:19:19.801Z",
-      "messageCount": 0,
+      "id": "03f41c1e-74bd-4a42-abb7-ed86bfe140e0",
+      "title": "hello",
+      "model": "gpt-4-turbo",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-03T17:46:05.094Z",
+      "updatedAt": "2025-08-03T17:46:07.972Z",
+      "messageCount": 2,
       "userId": "user-1"
     },
     {
-      "id": "8051ef6d-d8eb-419a-a1e2-5643df09dd50",
+      "id": "40b00f94-e643-4c65-a8e0-82f2f34fa097",
+      "title": "",
+      "model": "gpt-4",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-03T17:53:16.450Z",
+      "updatedAt": "2025-08-03T17:53:18.584Z",
+      "messageCount": 2,
+      "userId": "user-1"
+    },
+    {
+      "id": "06a3160b-4f6f-4c58-8c14-a82b238536ba",
       "title": "New Chat",
       "model": "gpt-4",
-      "chatbootVersion": "ChatNova V1",
-      "createdAt": "2025-08-02T18:33:06.678Z",
-      "updatedAt": "2025-08-02T18:33:06.678Z",
+      "chatbootVersion": "ChatNova V4",
+      "createdAt": "2025-08-03T18:00:40.849Z",
+      "updatedAt": "2025-08-03T18:00:40.849Z",
       "messageCount": 0,
       "userId": "user-1"
     }
   ],
   "messages": [
     {
-      "id": "18828a8a-f8f9-4b8a-b0b2-ebe26778cbe7",
-      "chatId": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "id": "84a57cf0-e3e7-4dfe-815d-6c8b60ae2951",
+      "chatId": "c4189d27-b85b-4bb9-bcc5-ff4ca0946c65",
       "type": "user",
       "content": "hello",
-      "timestamp": "2025-08-02T18:19:11.210Z"
+      "timestamp": "2025-08-03T08:27:17.157Z"
     },
     {
-      "id": "fe9dd37a-5a39-40a4-ae11-f975ccaef238",
-      "chatId": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "id": "51f61537-d496-4d30-af66-e27b084321e1",
+      "chatId": "c4189d27-b85b-4bb9-bcc5-ff4ca0946c65",
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T18:19:13.180Z"
+      "timestamp": "2025-08-03T08:27:19.999Z",
+      "liked": true,
+      "disliked": false
     },
     {
-      "id": "1c0ea60d-34a2-4855-8e1d-f143155aaf3d",
-      "chatId": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "id": "b38e653c-86dd-4cdf-9c53-0c5b6b7663cd",
+      "chatId": "03f41c1e-74bd-4a42-abb7-ed86bfe140e0",
       "type": "user",
       "content": "hello",
-      "timestamp": "2025-08-02T18:36:01.570Z"
+      "timestamp": "2025-08-03T17:46:05.105Z"
     },
     {
-      "id": "7c357b07-5325-433f-b07b-47a6af5d0852",
-      "chatId": "989d3e90-1826-4988-9b20-62ebc49c56b4",
+      "id": "6b01f88a-f5a7-4316-9c0a-731557096e20",
+      "chatId": "03f41c1e-74bd-4a42-abb7-ed86bfe140e0",
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
-      "timestamp": "2025-08-02T18:36:04.241Z"
+      "timestamp": "2025-08-03T17:46:07.972Z",
+      "liked": true,
+      "disliked": false
+    },
+    {
+      "id": "6dd2e763-ec56-4dff-91c0-e6d7a59c8b21",
+      "chatId": "40b00f94-e643-4c65-a8e0-82f2f34fa097",
+      "type": "user",
+      "content": "",
+      "timestamp": "2025-08-03T17:53:16.474Z",
+      "attachments": [
+        {
+          "id": "89171abc-9150-4c97-a482-f103f760aab6",
+          "name": "votre_document.pdf",
+          "size": 610430,
+          "type": "application/pdf",
+          "url": "/api/files/ca63bb6d-2402-491e-bd3d-4a6982860238.pdf",
+          "uploadedAt": "2025-08-03T17:53:14.686Z"
+        }
+      ]
+    },
+    {
+      "id": "c77fca54-b0ee-4c3d-8234-863779319b61",
+      "chatId": "40b00f94-e643-4c65-a8e0-82f2f34fa097",
+      "type": "assistant",
+      "content": "It seems like you may have accidentally sent a blank message! Don't worry, it happens to the best of us. Is there something on your mind that you'd like to talk about or ask? I'm here to listen and help if I can!",
+      "timestamp": "2025-08-03T17:53:18.584Z"
     }
   ]
 }
