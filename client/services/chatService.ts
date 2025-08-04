@@ -116,8 +116,8 @@ class ChatService {
           isThinking: request.message ? true : false, // Only thinking if there was a message
         });
 
-        // Start polling for new messages (AI response) only if there was a message
-        if (request.message && request.message.trim()) {
+        // Start polling for new messages (AI response) if there was a message or PDF file
+        if ((request.message && request.message.trim()) || request.pdfFile) {
           this.startPollingForMessages(newChat.id);
         }
 
