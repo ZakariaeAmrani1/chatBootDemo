@@ -43,7 +43,7 @@ const Chatbot = () => {
   });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("gpt-4");
+  const [selectedModel, setSelectedModel] = useState("cloud"); // Default to valid model
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
