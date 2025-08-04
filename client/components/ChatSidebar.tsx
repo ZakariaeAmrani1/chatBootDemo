@@ -86,12 +86,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
     // Clean up state
     setChatToDelete(null);
-    setDeleteConfirmOpen(false);
-  };
-
-  const handleDeleteCancel = () => {
-    setChatToDelete(null);
-    setDeleteConfirmOpen(false);
   };
 
   const handleEditClick = (chat: Chat, e: React.MouseEvent) => {
