@@ -12,6 +12,39 @@ import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import path from "path";
 
+// Configure multer for PDF uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "server/uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueId = uuidv4();
+    const extension = path.extname(file.originalname);
+    cb(null, `${uniqueId}${extension}`);
+  },
+});
+
+const fileFilter = (
+  req: any,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) => {
+  // Only allow PDF files for chat uploads
+  if (file.mimetype === "application/pdf") {
+    cb(null, true);
+  } else {
+    cb(new Error("Only PDF files are allowed"), false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+});
+
+export const uploadPDF = upload.single("pdfFile");
+
 // Function to call Grok API
 async function callGrokAPI(
   userMessage: string,
