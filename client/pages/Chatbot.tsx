@@ -365,7 +365,8 @@ const Chatbot = () => {
       <div
         className="flex-1 flex flex-col min-w-0 h-screen"
         style={{
-          marginRight: chatState.currentChat?.pdfFile && pdfPreviewOpen ? `${pdfPreviewWidth}px` : '0px',
+          marginRight: chatState.currentChat?.pdfFile && pdfPreviewOpen ?
+            (window.innerWidth < 640 ? '0px' : `${pdfPreviewWidth}px`) : '0px',
           transition: 'margin-right 0.3s ease-in-out',
         }}
       >
