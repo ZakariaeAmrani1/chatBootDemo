@@ -67,10 +67,28 @@ class ApiService {
   }
 
   async createChat(request: CreateChatRequest): Promise<ApiResponse<Chat>> {
-    return this.request<Chat>("/chats", {
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+    if (request.pdfFile) {
+      // Use FormData for file upload
+      const formData = new FormData();
+      formData.append("title", request.title || "New Chat");
+      formData.append("model", request.model);
+      formData.append("chatbootVersion", request.chatbootVersion || "");
+      if (request.message) {
+        formData.append("message", request.message);
+      }
+      formData.append("pdfFile", request.pdfFile);
+
+      return this.request<Chat>("/chats", {
+        method: "POST",
+        body: formData,
+      });
+    } else {
+      // Regular JSON request without file
+      return this.request<Chat>("/chats", {
+        method: "POST",
+        body: JSON.stringify(request),
+      });
+    }
   }
 
   async sendMessage(
