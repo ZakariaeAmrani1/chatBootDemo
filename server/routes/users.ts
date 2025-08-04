@@ -71,6 +71,10 @@ export const updateUserSettings: RequestHandler = (req, res) => {
     const userId = req.params.userId || "user-1";
     const settingsUpdates = req.body;
 
+    console.log("Debug - Updating user settings for:", userId);
+    console.log("Debug - Settings updates:", settingsUpdates);
+    console.log("Debug - Contains geminiApiKey:", !!settingsUpdates.geminiApiKey);
+
     const user = DataManager.getUserById(userId);
     if (!user) {
       const response: ApiResponse<User> = {
@@ -83,6 +87,8 @@ export const updateUserSettings: RequestHandler = (req, res) => {
     const updatedUser = DataManager.updateUser(userId, {
       settings: { ...user.settings, ...settingsUpdates },
     });
+
+    console.log("Debug - Updated user geminiApiKey length:", updatedUser?.settings?.geminiApiKey?.length || 0);
 
     const response: ApiResponse<User> = {
       success: true,
