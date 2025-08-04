@@ -102,7 +102,9 @@ class ChatService {
     this.setState({ isLoading: true, error: null });
 
     try {
-      const response = await apiService.createChat(request);
+      // Add userId to request if provided
+      const requestWithUserId = userId ? { ...request, userId } : request;
+      const response = await apiService.createChat(requestWithUserId);
 
       if (response.success && response.data) {
         const newChat = response.data;
