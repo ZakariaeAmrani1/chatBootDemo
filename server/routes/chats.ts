@@ -148,6 +148,22 @@ export const createChat: RequestHandler = (req, res) => {
     const chatId = uuidv4();
     const now = new Date().toISOString();
 
+    // Handle PDF file if uploaded
+    let pdfFile: FileAttachment | undefined;
+    if (req.file) {
+      pdfFile = {
+        id: uuidv4(),
+        name: req.file.originalname,
+        size: req.file.size,
+        type: req.file.mimetype,
+        url: `/api/files/${req.file.filename}`,
+        uploadedAt: now,
+      };
+
+      // Store file info in the data manager
+      DataManager.addFile(pdfFile);
+    }
+
     // Create the chat
     const chat: Chat = {
       id: chatId,
@@ -158,6 +174,7 @@ export const createChat: RequestHandler = (req, res) => {
       updatedAt: now,
       messageCount: 0,
       userId: userId,
+      pdfFile: pdfFile, // Include the PDF file
     };
 
     const createdChat = DataManager.createChat(chat);
