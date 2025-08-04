@@ -239,14 +239,16 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             Choose your AI model and upload a PDF to start analyzing
           </p>
 
-          {/* Model and PDF Selection */}
-          <div className="w-full max-w-4xl pb-8">
-            <ModelAndPDFSelector
-              selectedModel={selectedModel}
-              onModelChange={onModelChange}
-              onStartChat={onStartChat || (() => {})}
-            />
-          </div>
+          {/* Model and PDF Selection - Only show if no chat is active */}
+          {!onStartChat && (
+            <div className="w-full max-w-4xl pb-8">
+              <ModelAndPDFSelector
+                selectedModel={selectedModel}
+                onModelChange={onModelChange}
+                onStartChat={() => {}}
+              />
+            </div>
+          )}
         </div>
       </ScrollArea>
     );
