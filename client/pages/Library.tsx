@@ -111,14 +111,6 @@ const Library: React.FC = () => {
     })),
   ];
 
-  const categories = [
-    "All",
-    "Marketing",
-    "Development",
-    "Design",
-    "Management",
-    "Research",
-  ];
   const typeFilters = [
     { key: "all", label: "All Items", icon: <BookOpen className="w-4 h-4" /> },
     {
@@ -126,7 +118,7 @@ const Library: React.FC = () => {
       label: "Documents",
       icon: <FileText className="w-4 h-4" />,
     },
-    { key: "code", label: "Code", icon: <Code className="w-4 h-4" /> },
+    { key: "model", label: "Models", icon: <Brain className="w-4 h-4" /> },
     { key: "design", label: "Design", icon: <Image className="w-4 h-4" /> },
   ];
 
