@@ -98,7 +98,9 @@ const Settings: React.FC<SettingsProps> = ({
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isUploadingLightLogo, setIsUploadingLightLogo] = useState(false);
   const [isUploadingDarkLogo, setIsUploadingDarkLogo] = useState(false);
-  const [selectedDeletionItems, setSelectedDeletionItems] = useState<string[]>([]);
+  const [selectedDeletionItems, setSelectedDeletionItems] = useState<string[]>(
+    [],
+  );
   const [showDeletionDialog, setShowDeletionDialog] = useState(false);
 
   // Use auth context for user data instead of local state
@@ -243,10 +245,8 @@ const Settings: React.FC<SettingsProps> = ({
   };
 
   const handleDeletionToggle = (item: string) => {
-    setSelectedDeletionItems(prev =>
-      prev.includes(item)
-        ? prev.filter(i => i !== item)
-        : [...prev, item]
+    setSelectedDeletionItems((prev) =>
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item],
     );
   };
 
@@ -260,30 +260,34 @@ const Settings: React.FC<SettingsProps> = ({
       // Call different APIs based on selected items
       const promises = [];
 
-      if (selectedDeletionItems.includes('chatHistory')) {
+      if (selectedDeletionItems.includes("chatHistory")) {
         promises.push(apiService.clearChatHistory());
       }
-      if (selectedDeletionItems.includes('uploadedFiles')) {
+      if (selectedDeletionItems.includes("uploadedFiles")) {
         promises.push(apiService.clearUploadedFiles());
       }
-      if (selectedDeletionItems.includes('userSettings')) {
+      if (selectedDeletionItems.includes("userSettings")) {
         promises.push(apiService.resetUserSettings());
       }
 
       const results = await Promise.all(promises);
-      const allSuccessful = results.every(result => result.success);
+      const allSuccessful = results.every((result) => result.success);
 
       if (allSuccessful) {
         await loadDataStats();
         setShowSuccessDialog(true);
         setSelectedDeletionItems([]);
       } else {
-        const failures = results.filter(result => !result.success);
-        setError(`Failed to delete some items: ${failures.map(f => f.error).join(', ')}`);
+        const failures = results.filter((result) => !result.success);
+        setError(
+          `Failed to delete some items: ${failures.map((f) => f.error).join(", ")}`,
+        );
       }
     } catch (error) {
       setError(
-        error instanceof Error ? error.message : "Failed to delete selected data",
+        error instanceof Error
+          ? error.message
+          : "Failed to delete selected data",
       );
     } finally {
       setIsClearing(false);
@@ -1090,36 +1094,48 @@ const Settings: React.FC<SettingsProps> = ({
                   <input
                     type="checkbox"
                     id="chatHistory"
-                    checked={selectedDeletionItems.includes('chatHistory')}
-                    onChange={() => handleDeletionToggle('chatHistory')}
+                    checked={selectedDeletionItems.includes("chatHistory")}
+                    onChange={() => handleDeletionToggle("chatHistory")}
                     className="h-4 w-4 rounded border-gray-300"
                   />
-                  <label htmlFor="chatHistory" className="text-sm flex-1 cursor-pointer">
-                    Chat History ({dataStats?.chatHistory.sizeFormatted || "Loading..."})
+                  <label
+                    htmlFor="chatHistory"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Chat History (
+                    {dataStats?.chatHistory.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     id="uploadedFiles"
-                    checked={selectedDeletionItems.includes('uploadedFiles')}
-                    onChange={() => handleDeletionToggle('uploadedFiles')}
+                    checked={selectedDeletionItems.includes("uploadedFiles")}
+                    onChange={() => handleDeletionToggle("uploadedFiles")}
                     className="h-4 w-4 rounded border-gray-300"
                   />
-                  <label htmlFor="uploadedFiles" className="text-sm flex-1 cursor-pointer">
-                    Uploaded Files ({dataStats?.uploadedFiles.sizeFormatted || "Loading..."})
+                  <label
+                    htmlFor="uploadedFiles"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Uploaded Files (
+                    {dataStats?.uploadedFiles.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     id="userSettings"
-                    checked={selectedDeletionItems.includes('userSettings')}
-                    onChange={() => handleDeletionToggle('userSettings')}
+                    checked={selectedDeletionItems.includes("userSettings")}
+                    onChange={() => handleDeletionToggle("userSettings")}
                     className="h-4 w-4 rounded border-gray-300"
                   />
-                  <label htmlFor="userSettings" className="text-sm flex-1 cursor-pointer">
-                    User Settings ({dataStats?.userSettings.sizeFormatted || "Loading..."})
+                  <label
+                    htmlFor="userSettings"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    User Settings (
+                    {dataStats?.userSettings.sizeFormatted || "Loading..."})
                   </label>
                 </div>
               </div>
@@ -1131,7 +1147,9 @@ const Settings: React.FC<SettingsProps> = ({
                 disabled={selectedDeletionItems.length === 0 || isClearing}
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                {isClearing ? "Deleting..." : `Delete Selected (${selectedDeletionItems.length})`}
+                {isClearing
+                  ? "Deleting..."
+                  : `Delete Selected (${selectedDeletionItems.length})`}
               </Button>
             </CardContent>
           </Card>
@@ -1655,15 +1673,21 @@ const Settings: React.FC<SettingsProps> = ({
         open={showDeletionDialog}
         onOpenChange={setShowDeletionDialog}
         title="Delete Selected Data"
-        description={`Are you sure you want to delete the following data types? This action cannot be undone.\n\n${selectedDeletionItems.map(item => {
-          switch(item) {
-            case 'chatHistory': return '• Chat History - All your conversations will be permanently deleted';
-            case 'uploadedFiles': return '• Uploaded Files - All PDF files and attachments will be permanently deleted';
-            case 'userSettings': return '• User Settings - All preferences will be reset to default values';
-            default: return `• ${item}`;
-          }
-        }).join('\n')}`}
-        confirmText={`Delete ${selectedDeletionItems.length} Item${selectedDeletionItems.length !== 1 ? 's' : ''}`}
+        description={`Are you sure you want to delete the following data types? This action cannot be undone.\n\n${selectedDeletionItems
+          .map((item) => {
+            switch (item) {
+              case "chatHistory":
+                return "• Chat History - All your conversations will be permanently deleted";
+              case "uploadedFiles":
+                return "• Uploaded Files - All PDF files and attachments will be permanently deleted";
+              case "userSettings":
+                return "• User Settings - All preferences will be reset to default values";
+              default:
+                return `• ${item}`;
+            }
+          })
+          .join("\n")}`}
+        confirmText={`Delete ${selectedDeletionItems.length} Item${selectedDeletionItems.length !== 1 ? "s" : ""}`}
         cancelText="Cancel"
         onConfirm={handleConfirmSelectiveDeletion}
         destructive={true}

@@ -215,12 +215,15 @@ const Chatbot = () => {
     if (!user) return;
 
     // Create chat with or without initial message
-    await chatService.createChat({
-      title: "New Chat",
-      model: selectedModel,
-      chatbootVersion: selectedVersion,
-      message: message, // This can be undefined for empty chats
-    }, user.id);
+    await chatService.createChat(
+      {
+        title: "New Chat",
+        model: selectedModel,
+        chatbootVersion: selectedVersion,
+        message: message, // This can be undefined for empty chats
+      },
+      user.id,
+    );
   };
 
   const handleStartChat = async (model: string, pdfFile: File) => {
@@ -238,12 +241,15 @@ const Chatbot = () => {
       }
 
       // Create chat with the selected model and PDF
-      await chatService.createChat({
-        title: "New Chat",
-        model: model,
-        chatbootVersion: selectedVersion,
-        pdfFile: pdfFile,
-      }, user.id);
+      await chatService.createChat(
+        {
+          title: "New Chat",
+          model: model,
+          chatbootVersion: selectedVersion,
+          pdfFile: pdfFile,
+        },
+        user.id,
+      );
     } catch (error) {
       console.error("Failed to start chat:", error);
     }
@@ -260,11 +266,14 @@ const Chatbot = () => {
         if (!user) return;
 
         // Create new chat first, then send the message with attachments
-        const newChat = await chatService.createChat({
-          title: "New Chat",
-          model: selectedModel,
-          chatbootVersion: selectedVersion,
-        }, user.id);
+        const newChat = await chatService.createChat(
+          {
+            title: "New Chat",
+            model: selectedModel,
+            chatbootVersion: selectedVersion,
+          },
+          user.id,
+        );
 
         if (newChat) {
           // Now send the message with attachments to the new chat
@@ -348,7 +357,9 @@ const Chatbot = () => {
     // Update current chat's model if there's an active chat
     if (chatState.currentChat) {
       try {
-        await apiService.updateChat(chatState.currentChat.id, { model: modelId });
+        await apiService.updateChat(chatState.currentChat.id, {
+          model: modelId,
+        });
         // Update the local chat state to reflect the change
         chatService.updateCurrentChat({ model: modelId });
       } catch (error) {

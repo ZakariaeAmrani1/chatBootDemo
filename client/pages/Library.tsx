@@ -57,8 +57,8 @@ const Library: React.FC = () => {
         const filesResponse = await apiService.getAllFiles();
         if (filesResponse.success && filesResponse.data) {
           // Filter for PDF files only
-          const pdfFiles = filesResponse.data.filter(file =>
-            file.type === 'application/pdf'
+          const pdfFiles = filesResponse.data.filter(
+            (file) => file.type === "application/pdf",
           );
           setPdfs(pdfFiles);
         }
@@ -81,7 +81,7 @@ const Library: React.FC = () => {
   // Convert data to library items format
   const libraryItems = [
     // PDF documents
-    ...pdfs.map(pdf => ({
+    ...pdfs.map((pdf) => ({
       id: pdf.id,
       title: pdf.name,
       description: `PDF document uploaded on ${new Date(pdf.uploadedAt).toLocaleDateString()}`,
@@ -94,7 +94,7 @@ const Library: React.FC = () => {
       downloadUrl: pdf.url,
     })),
     // AI Models
-    ...models.map(model => ({
+    ...models.map((model) => ({
       id: model.id,
       title: model.name,
       description: model.description,
@@ -102,7 +102,12 @@ const Library: React.FC = () => {
       category: "AI Models",
       date: new Date().toISOString(), // Models don't have dates, use current
       size: model.enabled ? "Available" : "Unavailable",
-      icon: model.id === "cloud" ? <Globe className="w-5 h-5" /> : <Brain className="w-5 h-5" />,
+      icon:
+        model.id === "cloud" ? (
+          <Globe className="w-5 h-5" />
+        ) : (
+          <Brain className="w-5 h-5" />
+        ),
       tags: model.features || ["ai", "model"],
       badge: model.badge,
       enabled: model.enabled,
@@ -289,7 +294,9 @@ const Library: React.FC = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         {item.type === "document" && item.downloadUrl && (
-                          <DropdownMenuItem onClick={() => handleDownload(item)}>
+                          <DropdownMenuItem
+                            onClick={() => handleDownload(item)}
+                          >
                             <Download className="w-4 h-4 mr-2" />
                             Download
                           </DropdownMenuItem>
@@ -312,7 +319,11 @@ const Library: React.FC = () => {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1">
                       {item.tags.slice(0, 3).map((tag, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="text-xs"
+                        >
                           <Tag className="w-3 h-3 mr-1" />
                           {tag}
                         </Badge>
@@ -348,10 +359,10 @@ const Library: React.FC = () => {
               {searchQuery
                 ? "Try adjusting your search terms or filters."
                 : activeTab === "document"
-                ? "No PDF documents found. Upload PDF files to see them here."
-                : activeTab === "model"
-                ? "No models available. Check your configuration."
-                : "Your library is empty. Start uploading files to see content here."}
+                  ? "No PDF documents found. Upload PDF files to see them here."
+                  : activeTab === "model"
+                    ? "No models available. Check your configuration."
+                    : "Your library is empty. Start uploading files to see content here."}
             </p>
             {searchQuery && (
               <Button variant="outline" onClick={() => setSearchQuery("")}>

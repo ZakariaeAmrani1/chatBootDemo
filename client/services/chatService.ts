@@ -98,7 +98,10 @@ class ChatService {
     }
   }
 
-  async createChat(request: CreateChatRequest, userId?: string): Promise<Chat | null> {
+  async createChat(
+    request: CreateChatRequest,
+    userId?: string,
+  ): Promise<Chat | null> {
     this.setState({ isLoading: true, error: null });
 
     try {
@@ -283,9 +286,9 @@ class ChatService {
       const updatedChat = { ...this.state.currentChat, ...updates };
       this.setState({
         currentChat: updatedChat,
-        chats: this.state.chats.map(chat =>
-          chat.id === updatedChat.id ? updatedChat : chat
-        )
+        chats: this.state.chats.map((chat) =>
+          chat.id === updatedChat.id ? updatedChat : chat,
+        ),
       });
     }
   }

@@ -473,12 +473,20 @@ async function generateAIResponse(
         // This prevents sending the same message twice to Gemini
         if (chatHistory.length > 0) {
           const lastMessage = chatHistory[chatHistory.length - 1];
-          if (lastMessage.type === "user" && lastMessage.content === userMessage) {
+          if (
+            lastMessage.type === "user" &&
+            lastMessage.content === userMessage
+          ) {
             chatHistory = chatHistory.slice(0, -1);
           }
         }
 
-        return await callGeminiAPI(userMessage, geminiApiKey, geminiModel, chatHistory);
+        return await callGeminiAPI(
+          userMessage,
+          geminiApiKey,
+          geminiModel,
+          chatHistory,
+        );
       } catch (error) {
         console.error("Gemini API error:", error);
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;

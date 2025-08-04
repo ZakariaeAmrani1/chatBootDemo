@@ -9,7 +9,7 @@ const DATA_DIR = path.join(process.cwd(), "server/data");
 export const resetUserSettings: RequestHandler = (req, res) => {
   try {
     const usersFilePath = path.join(DATA_DIR, "users.json");
-    
+
     if (!fs.existsSync(usersFilePath)) {
       const response: ApiResponse<null> = {
         success: false,
@@ -19,7 +19,7 @@ export const resetUserSettings: RequestHandler = (req, res) => {
     }
 
     const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-    
+
     // Reset all users' settings to default values
     const defaultSettings = {
       theme: "light",
@@ -43,12 +43,12 @@ export const resetUserSettings: RequestHandler = (req, res) => {
       highContrast: false,
       reducedMotion: false,
       screenReader: false,
-      selectedModel: "cloud"
+      selectedModel: "cloud",
     };
 
     usersData.users = usersData.users.map((user: any) => ({
       ...user,
-      settings: { ...defaultSettings }
+      settings: { ...defaultSettings },
     }));
 
     fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));

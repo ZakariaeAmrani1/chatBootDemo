@@ -113,7 +113,7 @@ export class DataManager {
     if (chat.pdfFile) {
       try {
         // Extract filename from URL (e.g., "/api/files/filename.pdf" -> "filename.pdf")
-        const filename = chat.pdfFile.url.split('/').pop();
+        const filename = chat.pdfFile.url.split("/").pop();
         if (filename) {
           const filePath = path.join(process.cwd(), "server/uploads", filename);
           if (fs.existsSync(filePath)) {
@@ -122,8 +122,12 @@ export class DataManager {
         }
 
         // Also remove from files.json
-        const filesData = this.readJsonFile<{ files: FileAttachment[] }>("files.json");
-        filesData.files = filesData.files.filter(file => file.id !== chat.pdfFile?.id);
+        const filesData = this.readJsonFile<{ files: FileAttachment[] }>(
+          "files.json",
+        );
+        filesData.files = filesData.files.filter(
+          (file) => file.id !== chat.pdfFile?.id,
+        );
         this.writeJsonFile("files.json", filesData);
       } catch (error) {
         console.error("Failed to delete PDF file:", error);
@@ -137,10 +141,10 @@ export class DataManager {
 
     // Also clean up any remaining references to the deleted file in other messages
     if (chat.pdfFile) {
-      data.messages = data.messages.map(message => {
+      data.messages = data.messages.map((message) => {
         if (message.attachments) {
           message.attachments = message.attachments.filter(
-            attachment => attachment.id !== chat.pdfFile?.id
+            (attachment) => attachment.id !== chat.pdfFile?.id,
           );
           if (message.attachments.length === 0) {
             delete message.attachments;

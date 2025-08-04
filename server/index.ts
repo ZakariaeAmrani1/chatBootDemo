@@ -19,7 +19,12 @@ import {
   uploadLightLogo,
   uploadDarkLogo,
 } from "./routes/users";
-import { uploadFiles, serveFile, getFileInfo, getAllFiles } from "./routes/files";
+import {
+  uploadFiles,
+  serveFile,
+  getFileInfo,
+  getAllFiles,
+} from "./routes/files";
 import {
   getDataStats,
   clearChatHistory,
