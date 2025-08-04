@@ -20,12 +20,12 @@
     },
     {
       "id": "a482f75e-f5b4-487e-8849-68abf68f3030",
-      "title": "New Chat",
+      "title": "hello",
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
       "createdAt": "2025-08-04T14:26:02.996Z",
-      "updatedAt": "2025-08-04T14:26:02.996Z",
-      "messageCount": 0,
+      "updatedAt": "2025-08-04T14:26:10.744Z",
+      "messageCount": 3,
       "userId": "user-1",
       "pdfFile": {
         "id": "049dcca3-3961-4aec-9d63-51e081b5f88c",
@@ -34,6 +34,34 @@
         "type": "application/pdf",
         "url": "/api/files/2881c46b-ef9f-4de3-ba92-f10650c02e5c.pdf",
         "uploadedAt": "2025-08-04T14:26:02.996Z"
+      }
+    },
+    {
+      "id": "14b9054b-bf88-4827-8b12-8181533a8b04",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:26:23.735Z",
+      "updatedAt": "2025-08-04T14:26:23.735Z",
+      "messageCount": 0,
+      "userId": "user-1"
+    },
+    {
+      "id": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
+      "title": "hello",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:26:27.004Z",
+      "updatedAt": "2025-08-04T14:26:32.397Z",
+      "messageCount": 3,
+      "userId": "user-1",
+      "pdfFile": {
+        "id": "7b1182c0-7a34-4092-929e-7457b9bbd858",
+        "name": "sss.pdf",
+        "size": 69016,
+        "type": "application/pdf",
+        "url": "/api/files/d2ecf0c5-bb05-4ceb-82dd-b0b605e5b3a7.pdf",
+        "uploadedAt": "2025-08-04T14:26:27.004Z"
       }
     }
   ],
@@ -114,6 +142,48 @@
       "type": "assistant",
       "content": "I understand what you're asking. Let me help you with that. Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
       "timestamp": "2025-08-04T14:23:10.413Z"
+    },
+    {
+      "id": "70978c91-9484-46f7-b649-2112dc3eb160",
+      "chatId": "a482f75e-f5b4-487e-8849-68abf68f3030",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:26:04.496Z"
+    },
+    {
+      "id": "0011c457-9bd8-496d-a57f-0cc02c3f9b2e",
+      "chatId": "a482f75e-f5b4-487e-8849-68abf68f3030",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:26:09.242Z"
+    },
+    {
+      "id": "a929071f-3f8c-48d6-b64a-81065ae26e46",
+      "chatId": "a482f75e-f5b4-487e-8849-68abf68f3030",
+      "type": "assistant",
+      "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+      "timestamp": "2025-08-04T14:26:10.744Z"
+    },
+    {
+      "id": "192b01b8-2232-4b62-b85b-1160ee5d90e0",
+      "chatId": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:26:28.504Z"
+    },
+    {
+      "id": "b6630739-beec-43e0-8479-c00583edeacf",
+      "chatId": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:26:30.896Z"
+    },
+    {
+      "id": "bf139219-0b7e-43ff-b086-3fc278850f34",
+      "chatId": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
+      "type": "assistant",
+      "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+      "timestamp": "2025-08-04T14:26:32.397Z"
     }
   ]
 }
