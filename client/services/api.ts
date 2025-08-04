@@ -236,6 +236,12 @@ class ApiService {
     });
   }
 
+  async resetUserSettings(): Promise<ApiResponse<null>> {
+    return this.request<null>("/data/reset-settings", {
+      method: "POST",
+    });
+  }
+
   // Authentication operations
   async login(
     email: string,
