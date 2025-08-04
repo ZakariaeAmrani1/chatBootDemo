@@ -425,52 +425,32 @@ async function generateAIResponse(
       // Use Gemini API for Cloud model
       const geminiApiKey = user?.settings?.geminiApiKey;
       const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
-      if (geminiApiKey && geminiApiKey.trim()) {
+
+      if (!geminiApiKey || !geminiApiKey.trim()) {
+        return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
+      }
+
+      try {
         return await callGeminiAPI(userMessage, geminiApiKey, geminiModel);
+      } catch (error) {
+        console.error("Gemini API error:", error);
+        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
       }
     } else if (modelType === "local-cloud") {
       // Use Local Cloud backend
-      const chat = chatId ? DataManager.getChatById(chatId) : null;
-      const pdfContext = chat?.pdfFile?.name;
-      return await callLocalCloudAPI(userMessage, pdfContext);
+      try {
+        const chat = chatId ? DataManager.getChatById(chatId) : null;
+        const pdfContext = chat?.pdfFile?.name;
+        return await callLocalCloudAPI(userMessage, pdfContext);
+      } catch (error) {
+        console.error("Local Cloud API error:", error);
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      }
     }
   } catch (error) {
     console.error("Error accessing AI services:", error);
+    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
   }
 
-  // Fallback to simulated responses
-  const responses = [
-    "I understand what you're asking. Let me help you with that.",
-    "That's an interesting question! Here's what I think...",
-    "Based on your message, I can provide some insights.",
-    "Let me break this down for you step by step.",
-    "I'm here to help! Here's my response to your query.",
-    "Thank you for your message. I'll do my best to assist you.",
-    "That's a great point. Let me elaborate on that topic.",
-    "I see what you mean. Here's my perspective on this matter.",
-  ];
-
-  const randomResponse =
-    responses[Math.floor(Math.random() * responses.length)];
-
-  // Add some context based on the user message
-  if (
-    userMessage.toLowerCase().includes("hello") ||
-    userMessage.toLowerCase().includes("hi")
-  ) {
-    return "Hello! It's great to meet you. How can I assist you today?";
-  }
-
-  if (userMessage.toLowerCase().includes("help")) {
-    return "I'm here to help! Please let me know what specific assistance you need, and I'll do my best to provide you with useful information.";
-  }
-
-  if (
-    userMessage.toLowerCase().includes("code") ||
-    userMessage.toLowerCase().includes("programming")
-  ) {
-    return "I'd be happy to help with coding! Whether you need help with debugging, learning new concepts, or writing code, I'm here to assist. What programming topic would you like to explore?";
-  }
-
-  return `${randomResponse} Your message about "${userMessage.substring(0, 30)}${userMessage.length > 30 ? "..." : ""}" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!`;
+  return "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.";
 }
