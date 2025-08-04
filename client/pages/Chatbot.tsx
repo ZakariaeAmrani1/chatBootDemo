@@ -77,6 +77,7 @@ const Chatbot = () => {
   const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Brain,
     Globe,
+    Sparkles,
   };
 
   // Authentication and theme context
