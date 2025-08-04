@@ -486,6 +486,14 @@ const Chatbot = () => {
         appUrl={user?.settings?.appUrl || "http://localhost:8080"}
       />
 
+      {/* Mobile PDF overlay */}
+      {chatState.currentChat?.pdfFile && pdfPreviewOpen && (
+        <div
+          className="sm:hidden fixed inset-0 bg-black/50 z-10"
+          onClick={() => setPdfPreviewOpen(false)}
+        />
+      )}
+
       {/* PDF Preview */}
       {chatState.currentChat?.pdfFile && (
         <PDFPreview
