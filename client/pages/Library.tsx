@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -18,7 +18,8 @@ import {
   BookOpen,
   FileText,
   Image,
-  Code,
+  Brain,
+  Globe,
   Download,
   Share2,
   MoreHorizontal,
@@ -32,6 +33,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { apiService } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
+import type { Chat, FileAttachment, ChatModel } from "@shared/types";
 
 const Library: React.FC = () => {
   const navigate = useNavigate();
