@@ -6,8 +6,11 @@ import {
   CreateChatRequest,
   SendMessageRequest,
   ApiResponse,
+  FileAttachment,
 } from "@shared/types";
 import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
+import path from "path";
 
 // Function to call Grok API
 async function callGrokAPI(
