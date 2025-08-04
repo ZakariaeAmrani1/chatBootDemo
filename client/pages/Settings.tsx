@@ -1639,7 +1639,7 @@ const Settings: React.FC<SettingsProps> = ({
         </div>
       </div>
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation Dialog for Chat History */}
       <ConfirmDialog
         open={showConfirmDialog}
         onOpenChange={setShowConfirmDialog}
@@ -1648,6 +1648,25 @@ const Settings: React.FC<SettingsProps> = ({
         confirmText="Clear All"
         cancelText="Cancel"
         onConfirm={handleConfirmClear}
+        destructive={true}
+      />
+
+      {/* Selective Deletion Dialog */}
+      <ConfirmDialog
+        open={showDeletionDialog}
+        onOpenChange={setShowDeletionDialog}
+        title="Delete Selected Data"
+        description={`Are you sure you want to delete the following data types? This action cannot be undone.\n\n${selectedDeletionItems.map(item => {
+          switch(item) {
+            case 'chatHistory': return '• Chat History - All your conversations will be permanently deleted';
+            case 'uploadedFiles': return '• Uploaded Files - All PDF files and attachments will be permanently deleted';
+            case 'userSettings': return '• User Settings - All preferences will be reset to default values';
+            default: return `• ${item}`;
+          }
+        }).join('\n')}`}
+        confirmText={`Delete ${selectedDeletionItems.length} Item${selectedDeletionItems.length !== 1 ? 's' : ''}`}
+        cancelText="Cancel"
+        onConfirm={handleConfirmSelectiveDeletion}
         destructive={true}
       />
 
