@@ -50,8 +50,33 @@ async function callGeminiAPI(
   userMessage: string,
   apiKey: string,
   model: string = "gemini-1.5-flash-latest",
+  chatHistory: Message[] = [],
 ): Promise<string> {
   try {
+    // Format chat history for Gemini API
+    const contents = [];
+
+    // Add previous messages from chat history
+    for (const message of chatHistory) {
+      if (message.type === "user") {
+        contents.push({
+          role: "user",
+          parts: [{ text: message.content }],
+        });
+      } else if (message.type === "assistant") {
+        contents.push({
+          role: "model",
+          parts: [{ text: message.content }],
+        });
+      }
+    }
+
+    // Add the current user message
+    contents.push({
+      role: "user",
+      parts: [{ text: userMessage }],
+    });
+
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -60,15 +85,7 @@ async function callGeminiAPI(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: userMessage,
-                },
-              ],
-            },
-          ],
+          contents: contents,
           generationConfig: {
             temperature: 0.7,
             topK: 1,
