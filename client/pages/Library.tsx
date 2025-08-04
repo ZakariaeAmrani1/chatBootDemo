@@ -39,82 +39,76 @@ import type { Chat, FileAttachment, ChatModel } from "@shared/types";
 
 const Library: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const [pdfs, setPdfs] = useState<FileAttachment[]>([]);
+  const [models, setModels] = useState<ChatModel[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Fetch PDFs from user's chats
+  useEffect(() => {
+    const fetchLibraryData = async () => {
+      if (!user?.id) return;
+
+      setIsLoading(true);
+      try {
+        // Get user's chats to find PDFs
+        const chatsResponse = await apiService.getChats(user.id);
+        if (chatsResponse.success && chatsResponse.data) {
+          const allPdfs: FileAttachment[] = [];
+          chatsResponse.data.forEach((chat: Chat) => {
+            if (chat.pdfFile) {
+              allPdfs.push(chat.pdfFile);
+            }
+          });
+          setPdfs(allPdfs);
+        }
+
+        // Get available models
+        const modelsResponse = await apiService.getModels();
+        if (modelsResponse.success && modelsResponse.data) {
+          setModels(modelsResponse.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch library data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLibraryData();
+  }, [user?.id]);
+
+  // Convert data to library items format
   const libraryItems = [
-    {
-      id: "1",
-      title: "Marketing Campaign Strategy",
-      description:
-        "Comprehensive plan for Q4 marketing initiatives including social media, email campaigns, and content strategy.",
+    // PDF documents
+    ...pdfs.map(pdf => ({
+      id: pdf.id,
+      title: pdf.name,
+      description: `PDF document uploaded on ${new Date(pdf.uploadedAt).toLocaleDateString()}`,
       type: "document",
-      category: "Marketing",
-      date: "2024-01-15",
-      size: "2.3 MB",
+      category: "Documents",
+      date: pdf.uploadedAt,
+      size: `${(pdf.size / 1024).toFixed(1)} KB`,
       icon: <FileText className="w-5 h-5" />,
-      tags: ["strategy", "marketing", "planning"],
-    },
-    {
-      id: "2",
-      title: "React Component Library",
-      description:
-        "Collection of reusable React components with TypeScript definitions and Storybook documentation.",
-      type: "code",
-      category: "Development",
-      date: "2024-01-12",
-      size: "854 KB",
-      icon: <Code className="w-5 h-5" />,
-      tags: ["react", "typescript", "components"],
-    },
-    {
-      id: "3",
-      title: "Brand Identity Guidelines",
-      description:
-        "Complete brand guidelines including logo usage, color palette, typography, and visual style principles.",
-      type: "design",
-      category: "Design",
-      date: "2024-01-10",
-      size: "5.1 MB",
-      icon: <Image className="w-5 h-5" />,
-      tags: ["branding", "design", "guidelines"],
-    },
-    {
-      id: "4",
-      title: "Project Management Playbook",
-      description:
-        "Best practices and templates for managing software development projects from inception to deployment.",
-      type: "document",
-      category: "Management",
-      date: "2024-01-08",
-      size: "1.7 MB",
-      icon: <BookOpen className="w-5 h-5" />,
-      tags: ["project management", "templates", "processes"],
-    },
-    {
-      id: "5",
-      title: "API Documentation Template",
-      description:
-        "Standardized template for documenting REST APIs with examples, authentication, and error handling.",
-      type: "document",
-      category: "Development",
-      date: "2024-01-05",
-      size: "943 KB",
-      icon: <FileText className="w-5 h-5" />,
-      tags: ["api", "documentation", "template"],
-    },
-    {
-      id: "6",
-      title: "User Research Findings",
-      description:
-        "Compiled insights from user interviews, surveys, and usability testing sessions for product improvements.",
-      type: "document",
-      category: "Research",
-      date: "2024-01-03",
-      size: "3.2 MB",
-      icon: <FileText className="w-5 h-5" />,
-      tags: ["research", "users", "insights"],
-    },
+      tags: ["pdf", "document"],
+      downloadUrl: pdf.url,
+    })),
+    // AI Models
+    ...models.map(model => ({
+      id: model.id,
+      title: model.name,
+      description: model.description,
+      type: "model",
+      category: "AI Models",
+      date: new Date().toISOString(), // Models don't have dates, use current
+      size: model.enabled ? "Available" : "Unavailable",
+      icon: model.id === "cloud" ? <Globe className="w-5 h-5" /> : <Brain className="w-5 h-5" />,
+      tags: model.features || ["ai", "model"],
+      badge: model.badge,
+      enabled: model.enabled,
+    })),
   ];
 
   const categories = [
