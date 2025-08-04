@@ -22,6 +22,7 @@ interface ChatAreaProps {
   error?: string | null;
   onRegenerateMessage?: (messageId: string) => void;
   onMessageUpdate?: (messageId: string, updates: Partial<Message>) => void;
+  onStartChat?: (model: string, pdfFile: File) => void;
   user?: User | null;
 }
 
