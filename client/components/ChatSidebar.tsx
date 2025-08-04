@@ -11,8 +11,6 @@ import {
   Edit3,
   X,
   Archive,
-  HelpCircle,
-  Zap,
   PanelLeftClose,
   PanelLeftOpen,
   MoreHorizontal,
