@@ -49,7 +49,17 @@ const Chatbot = () => {
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
   const [models, setModels] = useState<any[]>([]);
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
-  const [pdfPreviewWidth, setPdfPreviewWidth] = useState(384); // Default width (w-96)
+  const [pdfPreviewWidth, setPdfPreviewWidth] = useState(() => {
+    // Load saved width from localStorage, default to 384px
+    const saved = localStorage.getItem('pdfPreviewWidth');
+    return saved ? parseInt(saved, 10) : 384;
+  });
+
+  // Save width changes to localStorage
+  const handlePdfWidthChange = (width: number) => {
+    setPdfPreviewWidth(width);
+    localStorage.setItem('pdfPreviewWidth', width.toString());
+  };
 
   // Load models for display
   useEffect(() => {
