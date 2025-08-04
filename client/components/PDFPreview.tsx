@@ -80,20 +80,7 @@ export function PDFPreview({
   }, [isResizing, startX, startWidth, onWidthChange]);
 
   if (!isOpen) {
-    return (
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-20 hidden sm:block">
-        <Button
-          onClick={onToggle}
-          variant="outline"
-          size="sm"
-          className="shadow-lg bg-background border-border hover:bg-muted"
-          title="Show PDF preview"
-        >
-          <Eye className="h-4 w-4 mr-2" />
-          <span className="hidden md:inline">View PDF</span>
-        </Button>
-      </div>
-    );
+    return null;
   }
 
   return (
