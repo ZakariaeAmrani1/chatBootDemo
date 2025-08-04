@@ -77,7 +77,7 @@ export function PDFPreview({
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isResizing, startX, startWidth]);
+  }, [isResizing, startX, startWidth, width, onWidthChange]);
 
   if (!isOpen) {
     return (
