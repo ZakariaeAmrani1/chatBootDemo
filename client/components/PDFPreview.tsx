@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, FileText, Download, Eye, EyeOff } from "lucide-react";
+import { X, FileText, Download, Eye, EyeOff, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { FileAttachment } from "@shared/types";
