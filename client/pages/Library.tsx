@@ -202,7 +202,7 @@ const Library: React.FC = () => {
 
           {/* Type Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
+            <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:grid-cols-3">
               {typeFilters.map((filter) => (
                 <TabsTrigger
                   key={filter.key}
