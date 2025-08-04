@@ -66,6 +66,7 @@
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
+        "geminiModel": "gemini-1.5-flash-latest",
         "selectedModel": "cloud"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8",
