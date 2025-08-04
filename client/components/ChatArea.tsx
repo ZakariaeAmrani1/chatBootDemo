@@ -35,6 +35,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   error = null,
   onRegenerateMessage,
   onMessageUpdate,
+  onStartChat,
   user,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
