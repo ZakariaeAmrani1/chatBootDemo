@@ -98,7 +98,7 @@ class ChatService {
     }
   }
 
-  async createChat(request: CreateChatRequest): Promise<Chat | null> {
+  async createChat(request: CreateChatRequest, userId?: string): Promise<Chat | null> {
     this.setState({ isLoading: true, error: null });
 
     try {
