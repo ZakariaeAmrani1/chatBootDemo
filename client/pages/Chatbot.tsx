@@ -44,41 +44,34 @@ const Chatbot = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
+  const [models, setModels] = useState<any[]>([]);
 
-  // Version configurations with colors
-  const versions = [
-    {
-      name: "V1",
-      fullName: "ChatNova V1",
-      color: "text-slate-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-slate-300",
-    },
-    {
-      name: "V2",
-      fullName: "ChatNova V2",
-      color: "text-blue-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-blue-300",
-    },
-    {
-      name: "V3",
-      fullName: "ChatNova V3",
-      color: "text-purple-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-purple-300",
-    },
-    {
-      name: "V4",
-      fullName: "ChatNova V4",
-      color: "text-orange-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-orange-300",
-    },
-  ];
+  // Load models for display
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          setModels(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      }
+    };
+    loadModels();
+  }, []);
 
-  const getCurrentVersion = () =>
-    versions.find((v) => v.fullName === selectedVersion) || versions[2];
+  // Get current model info
+  const getCurrentModel = () => {
+    const model = models.find((m) => m.id === selectedModel);
+    return model || { name: "No Model", color: "text-muted-foreground", icon: "Brain" };
+  };
+
+  // Icon mapping
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    Brain,
+    Globe,
+  };
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
