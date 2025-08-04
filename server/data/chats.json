@@ -117,6 +117,24 @@
         "url": "/api/files/dd947736-6da4-4a18-8efa-68ff7588d458.pdf",
         "uploadedAt": "2025-08-04T14:34:06.156Z"
       }
+    },
+    {
+      "id": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
+      "title": "what this pdf is talking about",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:44:10.567Z",
+      "updatedAt": "2025-08-04T14:44:27.841Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "ab85369b-cb92-42c6-97df-16dc860378c6",
+        "name": "sss.pdf",
+        "size": 69016,
+        "type": "application/pdf",
+        "url": "/api/files/935ddbd1-8d46-47f7-aa04-bccb5f1e2ce6.pdf",
+        "uploadedAt": "2025-08-04T14:44:10.567Z"
+      }
     }
   ],
   "messages": [
@@ -357,6 +375,44 @@
       "type": "assistant",
       "content": "I am unable to access external websites or specific files, including PDFs. Therefore, I cannot tell you what the PDF \"aaa.pdf\" is about. \n\nTo understand the content, you'll need to:\n\n1.  **Open the PDF yourself.**\n2.  **Read the text.**\n3.  **Look for a title, abstract, or introduction.** These sections usually provide a summary of the document's purpose.\n4.  **Skim through the headings and subheadings.** This will give you an overview of the topics covered.\n5.  **Read the conclusion.** This section often summarizes the main points.\n\nIf you can provide me with the text from the PDF, I can help you understand it.\n",
       "timestamp": "2025-08-04T14:34:56.480Z"
+    },
+    {
+      "id": "8c46dd64-7279-4eab-b191-27135b1d534b",
+      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-04T14:44:10.567Z",
+      "attachments": [
+        {
+          "id": "ab85369b-cb92-42c6-97df-16dc860378c6",
+          "name": "sss.pdf",
+          "size": 69016,
+          "type": "application/pdf",
+          "url": "/api/files/935ddbd1-8d46-47f7-aa04-bccb5f1e2ce6.pdf",
+          "uploadedAt": "2025-08-04T14:44:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "34c0bb11-6fc6-41c6-a979-e3ac6b2fed4c",
+      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:44:12.069Z"
+    },
+    {
+      "id": "1f418cd3-8ed2-4237-ad46-ddf1f723beef",
+      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
+      "type": "user",
+      "content": "what this pdf is talking about",
+      "timestamp": "2025-08-04T14:44:23.043Z"
+    },
+    {
+      "id": "d6da7362-ffbb-4ab2-acee-d13ed933f7c6",
+      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
+      "type": "assistant",
+      "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
+      "timestamp": "2025-08-04T14:44:27.841Z"
     }
   ]
 }

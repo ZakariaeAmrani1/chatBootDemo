@@ -836,6 +836,9 @@ const Settings: React.FC<SettingsProps> = ({
               <SelectItem value="gemini-2.5-pro">
                 Gemini 2.5 Pro - Most Advanced & Capable
               </SelectItem>
+              <SelectItem value="gemini-2.5-flash">
+                Gemini 2.5 Flash - Advanced & Fast
+              </SelectItem>
               <SelectItem value="gemini-2.0-flash-exp">
                 Gemini 2.0 Flash (Experimental) - Next Generation Fast
               </SelectItem>
