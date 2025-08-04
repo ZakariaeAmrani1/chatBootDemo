@@ -33,7 +33,7 @@ const fileFilter = (
   if (file.mimetype === "application/pdf") {
     cb(null, true);
   } else {
-    cb(new Error("Only PDF files are allowed"), false);
+    cb(new Error("Only PDF files are allowed"));
   }
 };
 
@@ -230,6 +230,7 @@ export const createChat: RequestHandler = (req, res) => {
         type: "user",
         content: message,
         timestamp: now,
+        attachments: pdfFile ? [pdfFile] : undefined, // Include PDF as attachment
       };
 
       DataManager.addMessage(userMessage);
@@ -247,7 +248,19 @@ export const createChat: RequestHandler = (req, res) => {
         DataManager.addMessage(aiMessage);
       }, 2000); // 2 second delay to simulate thinking
     } else if (pdfFile) {
-      // If no initial message but PDF is uploaded, create a welcome message
+      // If no initial message but PDF is uploaded, create a user message showing the PDF upload
+      const userMessage: Message = {
+        id: uuidv4(),
+        chatId: chatId,
+        type: "user",
+        content: `📄 Uploaded document for analysis`,
+        timestamp: now,
+        attachments: [pdfFile],
+      };
+
+      DataManager.addMessage(userMessage);
+
+      // Create a welcome message from AI
       setTimeout(async () => {
         const aiMessage: Message = {
           id: uuidv4(),

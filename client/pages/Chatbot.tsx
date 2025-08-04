@@ -8,6 +8,8 @@ import {
   X,
   Brain,
   Globe,
+  Sparkles,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +23,7 @@ import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import ShareModal from "@/components/ShareModal";
+import { PDFPreview } from "@/components/PDFPreview";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
@@ -45,6 +48,18 @@ const Chatbot = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
   const [models, setModels] = useState<any[]>([]);
+  const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
+  const [pdfPreviewWidth, setPdfPreviewWidth] = useState(() => {
+    // Load saved width from localStorage, default to 384px
+    const saved = localStorage.getItem("pdfPreviewWidth");
+    return saved ? parseInt(saved, 10) : 384;
+  });
+
+  // Save width changes to localStorage
+  const handlePdfWidthChange = (width: number) => {
+    setPdfPreviewWidth(width);
+    localStorage.setItem("pdfPreviewWidth", width.toString());
+  };
 
   // Load models for display
   useEffect(() => {
@@ -77,6 +92,7 @@ const Chatbot = () => {
   const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Brain,
     Globe,
+    Sparkles,
   };
 
   // Authentication and theme context
@@ -252,6 +268,10 @@ const Chatbot = () => {
     const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
       await chatService.selectChat(chat);
+      // Auto-open PDF preview if chat has PDF
+      if (chat.pdfFile) {
+        setPdfPreviewOpen(true);
+      }
     }
   };
 
@@ -352,7 +372,18 @@ const Chatbot = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen">
+      <div
+        className="flex-1 flex flex-col min-w-0 h-screen"
+        style={{
+          marginRight:
+            chatState.currentChat?.pdfFile && pdfPreviewOpen
+              ? window.innerWidth < 640
+                ? "0px"
+                : `${pdfPreviewWidth}px`
+              : "0px",
+          transition: "margin-right 0.3s ease-in-out",
+        }}
+      >
         {/* Header - Fixed */}
         <header className="flex items-center justify-between p-4 border-b border-border bg-background sticky top-0 z-10">
           <div className="flex items-center gap-3">
@@ -391,6 +422,22 @@ const Chatbot = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* PDF Preview Toggle */}
+            {chatState.currentChat?.pdfFile && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setPdfPreviewOpen(!pdfPreviewOpen)}
+                className="hidden sm:flex"
+                title={pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
+              >
+                <Eye className="h-4 w-4" />
+                <span className="ml-1 hidden md:inline">
+                  {pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
+                </span>
+              </Button>
+            )}
+
             <Button
               variant="ghost"
               size="sm"
@@ -400,14 +447,6 @@ const Chatbot = () => {
             >
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline">Share</span>
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSettingsOpen(true)}
-            >
-              <Settings className="h-4 w-4" />
             </Button>
           </div>
         </header>
@@ -424,6 +463,8 @@ const Chatbot = () => {
             onMessageUpdate={handleMessageUpdate}
             onStartChat={handleStartChat}
             user={user}
+            hasActiveChat={!!chatState.currentChat}
+            currentChatHasPdf={!!chatState.currentChat?.pdfFile}
           />
         </div>
 
@@ -455,6 +496,25 @@ const Chatbot = () => {
         chat={chatState.currentChat}
         appUrl={user?.settings?.appUrl || "http://localhost:8080"}
       />
+
+      {/* Mobile PDF overlay */}
+      {chatState.currentChat?.pdfFile && pdfPreviewOpen && (
+        <div
+          className="sm:hidden fixed inset-0 bg-black/50 z-10"
+          onClick={() => setPdfPreviewOpen(false)}
+        />
+      )}
+
+      {/* PDF Preview */}
+      {chatState.currentChat?.pdfFile && (
+        <PDFPreview
+          pdfFile={chatState.currentChat.pdfFile}
+          isOpen={pdfPreviewOpen}
+          onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
+          width={pdfPreviewWidth}
+          onWidthChange={handlePdfWidthChange}
+        />
+      )}
     </div>
   );
 };

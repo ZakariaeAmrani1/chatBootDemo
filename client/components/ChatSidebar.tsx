@@ -11,8 +11,6 @@ import {
   Edit3,
   X,
   Archive,
-  HelpCircle,
-  Zap,
   PanelLeftClose,
   PanelLeftOpen,
   MoreHorizontal,
@@ -338,38 +336,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <Button
                       variant="ghost"
                       className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
-                      onClick={() => navigate("/upgrade")}
-                    >
-                      <Zap className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Upgrade plan</TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
                       onClick={() => navigate("/library")}
                     >
                       <Archive className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="right">Library</TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10"
-                      onClick={() => navigate("/help")}
-                    >
-                      <HelpCircle className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Help & FAQ</TooltipContent>
                 </Tooltip>
               </div>
 
@@ -411,28 +383,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  onClick={() => navigate("/upgrade")}
-                >
-                  <Zap className="h-4 w-4 mr-3" />
-                  Upgrade plan
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   onClick={() => navigate("/library")}
                 >
                   <Archive className="h-4 w-4 mr-3" />
                   Library
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  onClick={() => navigate("/help")}
-                >
-                  <HelpCircle className="h-4 w-4 mr-3" />
-                  Help & FAQ
                 </Button>
               </div>
 
