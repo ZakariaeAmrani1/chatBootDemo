@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
-import { ModelSelectorCards } from "@/components/ModelSelectorCards";
+import { ModelAndPDFSelector } from "@/components/ModelAndPDFSelector";
 import FadeInText from "@/components/FadeInText";
 import { useTheme } from "@/components/ThemeProvider";
 import { getAppLogo } from "@/lib/app-config";
