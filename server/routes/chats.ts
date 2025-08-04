@@ -40,7 +40,7 @@ const fileFilter = (
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
 });
 
 export const uploadPDF = upload.single("pdfFile");
@@ -324,7 +324,11 @@ export const sendMessage: RequestHandler = (req, res) => {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponse(aiResponseMessage, chat.userId, chatId),
+        content: await generateAIResponse(
+          aiResponseMessage,
+          chat.userId,
+          chatId,
+        ),
         timestamp: new Date().toISOString(),
       };
 
@@ -424,7 +428,8 @@ async function generateAIResponse(
     if (modelType === "cloud") {
       // Use Gemini API for Cloud model
       const geminiApiKey = user?.settings?.geminiApiKey;
-      const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+      const geminiModel =
+        user?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
       if (!geminiApiKey || !geminiApiKey.trim()) {
         return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
@@ -434,7 +439,7 @@ async function generateAIResponse(
         return await callGeminiAPI(userMessage, geminiApiKey, geminiModel);
       } catch (error) {
         console.error("Gemini API error:", error);
-        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
       // Use Local Cloud backend
@@ -444,12 +449,12 @@ async function generateAIResponse(
         return await callLocalCloudAPI(userMessage, pdfContext);
       } catch (error) {
         console.error("Local Cloud API error:", error);
-        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     }
   } catch (error) {
     console.error("Error accessing AI services:", error);
-    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
   }
 
   return "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.";

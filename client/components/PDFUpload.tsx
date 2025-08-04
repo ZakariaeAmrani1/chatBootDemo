@@ -9,7 +9,11 @@ interface PDFUploadProps {
   className?: string;
 }
 
-export function PDFUpload({ onFileSelect, selectedFile, className }: PDFUploadProps) {
+export function PDFUpload({
+  onFileSelect,
+  selectedFile,
+  className,
+}: PDFUploadProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +40,7 @@ export function PDFUpload({ onFileSelect, selectedFile, className }: PDFUploadPr
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(false);
-    
+
     const file = event.dataTransfer.files[0];
     if (file && file.type === "application/pdf") {
       onFileSelect(file);
@@ -107,7 +111,7 @@ export function PDFUpload({ onFileSelect, selectedFile, className }: PDFUploadPr
           className={cn(
             "border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer transition-all duration-200",
             "hover:border-muted-foreground/40 hover:bg-muted/20",
-            isDragOver && "border-primary bg-primary/5"
+            isDragOver && "border-primary bg-primary/5",
           )}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}

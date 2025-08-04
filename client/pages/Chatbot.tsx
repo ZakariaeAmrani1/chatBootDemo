@@ -64,7 +64,13 @@ const Chatbot = () => {
   // Get current model info
   const getCurrentModel = () => {
     const model = models.find((m) => m.id === selectedModel);
-    return model || { name: "No Model", color: "text-muted-foreground", icon: "Brain" };
+    return (
+      model || {
+        name: "No Model",
+        color: "text-muted-foreground",
+        icon: "Brain",
+      }
+    );
   };
 
   // Icon mapping

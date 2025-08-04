@@ -869,7 +869,8 @@ const Settings: React.FC<SettingsProps> = ({
             </SelectContent>
           </Select>
           <p className="text-xs text-muted-foreground">
-            Choose the Gemini model that best fits your needs. Flash models are faster, Pro models are more capable.
+            Choose the Gemini model that best fits your needs. Flash models are
+            faster, Pro models are more capable.
           </p>
         </div>
 

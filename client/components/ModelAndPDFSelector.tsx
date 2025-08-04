@@ -36,10 +36,7 @@ export function ModelAndPDFSelector({
       {/* PDF Upload - Only show if model is selected */}
       {selectedModel && (
         <div className="animate-in fade-in duration-300">
-          <PDFUpload
-            onFileSelect={setSelectedPDF}
-            selectedFile={selectedPDF}
-          />
+          <PDFUpload onFileSelect={setSelectedPDF} selectedFile={selectedPDF} />
         </div>
       )}
 
@@ -64,8 +61,8 @@ export function ModelAndPDFSelector({
           {!selectedModel
             ? "Select an AI model to get started"
             : !selectedPDF
-            ? "Upload a PDF document to analyze"
-            : "Ready to start your conversation!"}
+              ? "Upload a PDF document to analyze"
+              : "Ready to start your conversation!"}
         </p>
         {selectedModel && !selectedPDF && (
           <p className="text-xs">
