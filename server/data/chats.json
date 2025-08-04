@@ -135,6 +135,44 @@
         "url": "/api/files/935ddbd1-8d46-47f7-aa04-bccb5f1e2ce6.pdf",
         "uploadedAt": "2025-08-04T14:44:10.567Z"
       }
+    },
+    {
+      "id": "0eceac8d-ab58-4a49-a969-646956463354",
+      "title": "what this pdf is talking about ?",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:50:10.154Z",
+      "updatedAt": "2025-08-04T14:50:32.992Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "4b6ed207-a26b-410b-a098-c0618b580f81",
+        "name": "zakariae-amrani-cv.pdf",
+        "size": 471,
+        "type": "application/pdf",
+        "url": "/api/files/1ed8ebca-1be7-45ea-85b0-00241db199cc.pdf",
+        "uploadedAt": "2025-08-04T14:50:10.154Z"
+      }
+    },
+    {
+      "id": "502c8638-cff3-439e-bf27-408aef62c832",
+      "title": "hello",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:51:20.728Z",
+      "updatedAt": "2025-08-04T14:51:30.023Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "54f2755f-3398-49a4-b19a-1e5fb7f9b5cd",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:51:35.437Z",
+      "updatedAt": "2025-08-04T14:51:35.437Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
@@ -413,6 +451,58 @@
       "type": "assistant",
       "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
       "timestamp": "2025-08-04T14:44:27.841Z"
+    },
+    {
+      "id": "e6d0d38e-a011-4642-bd55-f7e1decd24e7",
+      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-04T14:50:10.154Z",
+      "attachments": [
+        {
+          "id": "4b6ed207-a26b-410b-a098-c0618b580f81",
+          "name": "zakariae-amrani-cv.pdf",
+          "size": 471,
+          "type": "application/pdf",
+          "url": "/api/files/1ed8ebca-1be7-45ea-85b0-00241db199cc.pdf",
+          "uploadedAt": "2025-08-04T14:50:10.154Z"
+        }
+      ]
+    },
+    {
+      "id": "9904ec9b-579b-4ec2-9b5f-0562516c1e64",
+      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"zakariae-amrani-cv.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:50:11.656Z"
+    },
+    {
+      "id": "6fca3693-4f7f-481b-9782-131c6606fec6",
+      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
+      "type": "user",
+      "content": "what this pdf is talking about ?",
+      "timestamp": "2025-08-04T14:50:26.072Z"
+    },
+    {
+      "id": "28e50a00-25bb-4ed2-a33b-d77abe032bf2",
+      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
+      "type": "assistant",
+      "content": "Based on the uploaded PDF \"zakariae-amrani-cv.pdf\", this PDF is a **Curriculum Vitae (CV)** for **Zakariae Amrani**.\n\nIt outlines his professional background, qualifications, and skills, including:\n\n*   **Profile:** A summary of his professional goals and attributes.\n*   **Experience:** Details of his previous roles as a Software Engineer and Full-Stack Developer at companies like Capgemini and",
+      "timestamp": "2025-08-04T14:50:32.992Z"
+    },
+    {
+      "id": "e3646f5d-59a5-4b6f-898d-7495b82de8ff",
+      "chatId": "502c8638-cff3-439e-bf27-408aef62c832",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:51:26.935Z"
+    },
+    {
+      "id": "d371dfe2-aad7-4c3c-a096-da129b5c786d",
+      "chatId": "502c8638-cff3-439e-bf27-408aef62c832",
+      "type": "assistant",
+      "content": "Hello! How can I help you today?",
+      "timestamp": "2025-08-04T14:51:30.023Z"
     }
   ]
 }

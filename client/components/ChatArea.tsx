@@ -25,6 +25,7 @@ interface ChatAreaProps {
   onStartChat?: (model: string, pdfFile: File) => void;
   user?: User | null;
   hasActiveChat?: boolean;
+  currentChatHasPdf?: boolean;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -39,6 +40,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   onStartChat,
   user,
   hasActiveChat = false,
+  currentChatHasPdf = false,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -216,7 +218,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  if (messages.length === 0 && !hasActiveChat) {
+  // Show initial page when: no active chat OR active chat with no messages and no PDF
+  if (!hasActiveChat || (hasActiveChat && messages.length === 0 && !currentChatHasPdf)) {
     return (
       <ScrollArea className="h-full">
         <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
