@@ -263,6 +263,38 @@
       "type": "application/pdf",
       "url": "/api/files/3b24f9b0-4ef1-47a1-819d-3df8f4589f4a.pdf",
       "uploadedAt": "2025-08-04T15:13:12.476Z"
+    },
+    {
+      "id": "be8d8ca1-3ed0-4c5c-a304-a8a74f1cede5",
+      "name": "sss.pdf",
+      "size": 69016,
+      "type": "application/pdf",
+      "url": "/api/files/1b15a819-2395-4960-87dc-f25ef2e5ec90.pdf",
+      "uploadedAt": "2025-08-04T15:28:34.283Z"
+    },
+    {
+      "id": "cb646eef-df51-4c16-aeb4-0508f3fcf743",
+      "name": "zakariae-amrani-cv.pdf",
+      "size": 471,
+      "type": "application/pdf",
+      "url": "/api/files/7fa4991f-60f4-4ad3-855b-4b26e22fadfc.pdf",
+      "uploadedAt": "2025-08-04T15:35:10.247Z"
+    },
+    {
+      "id": "bc9d6219-b9dd-4e84-84c9-f8cdbc381d1d",
+      "name": "zakariae-amrani-cv.pdf",
+      "size": 471,
+      "type": "application/pdf",
+      "url": "/api/files/89b34de1-0467-46e0-bda8-2d284557260e.pdf",
+      "uploadedAt": "2025-08-04T15:37:24.601Z"
+    },
+    {
+      "id": "197d4bc9-730a-46af-975f-daa94bd136f2",
+      "name": "Eryx  Espace Admin (1).pdf",
+      "size": 11345,
+      "type": "application/pdf",
+      "url": "/api/files/3ee5ea04-f73c-412b-b0c5-fb189410988c.pdf",
+      "uploadedAt": "2025-08-04T15:53:02.040Z"
     }
   ]
 }

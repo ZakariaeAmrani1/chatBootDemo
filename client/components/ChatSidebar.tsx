@@ -86,12 +86,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
     // Clean up state
     setChatToDelete(null);
-    setDeleteConfirmOpen(false);
-  };
-
-  const handleDeleteCancel = () => {
-    setChatToDelete(null);
-    setDeleteConfirmOpen(false);
   };
 
   const handleEditClick = (chat: Chat, e: React.MouseEvent) => {
@@ -446,7 +440,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
       <ConfirmDialog
         open={deleteConfirmOpen}
-        onOpenChange={setDeleteConfirmOpen}
+        onOpenChange={(open) => {
+          setDeleteConfirmOpen(open);
+          if (!open) {
+            setChatToDelete(null);
+          }
+        }}
         title="Delete Chat"
         description="Are you sure you want to delete this chat? This action cannot be undone and will permanently remove all messages in this conversation."
         confirmText="Delete"

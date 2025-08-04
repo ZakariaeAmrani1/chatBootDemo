@@ -50,8 +50,33 @@ async function callGeminiAPI(
   userMessage: string,
   apiKey: string,
   model: string = "gemini-1.5-flash-latest",
+  chatHistory: Message[] = [],
 ): Promise<string> {
   try {
+    // Format chat history for Gemini API
+    const contents = [];
+
+    // Add previous messages from chat history
+    for (const message of chatHistory) {
+      if (message.type === "user") {
+        contents.push({
+          role: "user",
+          parts: [{ text: message.content }],
+        });
+      } else if (message.type === "assistant") {
+        contents.push({
+          role: "model",
+          parts: [{ text: message.content }],
+        });
+      }
+    }
+
+    // Add the current user message
+    contents.push({
+      role: "user",
+      parts: [{ text: userMessage }],
+    });
+
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -60,15 +85,7 @@ async function callGeminiAPI(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: userMessage,
-                },
-              ],
-            },
-          ],
+          contents: contents,
           generationConfig: {
             temperature: 0.7,
             topK: 1,
@@ -449,7 +466,27 @@ async function generateAIResponse(
       }
 
       try {
-        return await callGeminiAPI(userMessage, geminiApiKey, geminiModel);
+        // Get chat history for context (excluding the current message)
+        let chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+
+        // Remove the last message if it's a user message matching the current message
+        // This prevents sending the same message twice to Gemini
+        if (chatHistory.length > 0) {
+          const lastMessage = chatHistory[chatHistory.length - 1];
+          if (
+            lastMessage.type === "user" &&
+            lastMessage.content === userMessage
+          ) {
+            chatHistory = chatHistory.slice(0, -1);
+          }
+        }
+
+        return await callGeminiAPI(
+          userMessage,
+          geminiApiKey,
+          geminiModel,
+          chatHistory,
+        );
       } catch (error) {
         console.error("Gemini API error:", error);
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;

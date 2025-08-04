@@ -215,6 +215,10 @@ class ApiService {
     });
   }
 
+  async getAllFiles(): Promise<ApiResponse<FileAttachment[]>> {
+    return this.request<FileAttachment[]>("/files");
+  }
+
   async getFileInfo(fileId: string): Promise<ApiResponse<FileAttachment>> {
     return this.request<FileAttachment>(`/files/info/${fileId}`);
   }
@@ -232,6 +236,12 @@ class ApiService {
 
   async clearUploadedFiles(): Promise<ApiResponse<null>> {
     return this.request<null>("/data/clear-files", {
+      method: "POST",
+    });
+  }
+
+  async resetUserSettings(): Promise<ApiResponse<null>> {
+    return this.request<null>("/data/reset-settings", {
       method: "POST",
     });
   }

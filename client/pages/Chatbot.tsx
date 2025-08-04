@@ -43,7 +43,7 @@ const Chatbot = () => {
   });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("gpt-4");
+  const [selectedModel, setSelectedModel] = useState("cloud"); // Default to valid model
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
@@ -102,12 +102,22 @@ const Chatbot = () => {
   // Subscribe to chat service state changes
   useEffect(() => {
     const unsubscribe = chatService.subscribe(setChatState);
-
-    // Load initial chats
-    chatService.loadChats();
-
     return unsubscribe;
   }, []);
+
+  // Load chats when user is authenticated
+  useEffect(() => {
+    if (user && user.id) {
+      chatService.loadChats(user.id);
+    }
+  }, [user]);
+
+  // Load user's selected model when user is authenticated
+  useEffect(() => {
+    if (user?.settings?.selectedModel) {
+      setSelectedModel(user.settings.selectedModel);
+    }
+  }, [user?.settings?.selectedModel]);
 
   // User data is now provided by AuthContext
 
@@ -202,27 +212,44 @@ const Chatbot = () => {
   }, []);
 
   const createNewChat = async (message?: string) => {
+    if (!user) return;
+
     // Create chat with or without initial message
-    await chatService.createChat({
-      title: "New Chat",
-      model: selectedModel,
-      chatbootVersion: selectedVersion,
-      message: message, // This can be undefined for empty chats
-    });
+    await chatService.createChat(
+      {
+        title: "New Chat",
+        model: selectedModel,
+        chatbootVersion: selectedVersion,
+        message: message, // This can be undefined for empty chats
+      },
+      user.id,
+    );
   };
 
   const handleStartChat = async (model: string, pdfFile: File) => {
+    if (!user) return;
+
     try {
       // Update selected model to match the one chosen
       setSelectedModel(model);
 
+      // Save model selection to user settings
+      try {
+        await apiService.updateUserSettings(user.id, { selectedModel: model });
+      } catch (error) {
+        console.error("Failed to save model preference:", error);
+      }
+
       // Create chat with the selected model and PDF
-      await chatService.createChat({
-        title: "New Chat",
-        model: model,
-        chatbootVersion: selectedVersion,
-        pdfFile: pdfFile,
-      });
+      await chatService.createChat(
+        {
+          title: "New Chat",
+          model: model,
+          chatbootVersion: selectedVersion,
+          pdfFile: pdfFile,
+        },
+        user.id,
+      );
     } catch (error) {
       console.error("Failed to start chat:", error);
     }
@@ -236,12 +263,17 @@ const Chatbot = () => {
 
     try {
       if (!chatState.currentChat) {
+        if (!user) return;
+
         // Create new chat first, then send the message with attachments
-        const newChat = await chatService.createChat({
-          title: "New Chat",
-          model: selectedModel,
-          chatbootVersion: selectedVersion,
-        });
+        const newChat = await chatService.createChat(
+          {
+            title: "New Chat",
+            model: selectedModel,
+            chatbootVersion: selectedVersion,
+          },
+          user.id,
+        );
 
         if (newChat) {
           // Now send the message with attachments to the new chat
@@ -320,6 +352,19 @@ const Chatbot = () => {
       await apiService.updateUserSettings(userId, { selectedModel: modelId });
     } catch (error) {
       console.error("Failed to save model preference:", error);
+    }
+
+    // Update current chat's model if there's an active chat
+    if (chatState.currentChat) {
+      try {
+        await apiService.updateChat(chatState.currentChat.id, {
+          model: modelId,
+        });
+        // Update the local chat state to reflect the change
+        chatService.updateCurrentChat({ model: modelId });
+      } catch (error) {
+        console.error("Failed to update chat model:", error);
+      }
     }
   };
 
