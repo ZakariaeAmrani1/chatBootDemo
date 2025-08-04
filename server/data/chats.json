@@ -27,6 +27,100 @@
       "updatedAt": "2025-08-04T15:15:04.352Z",
       "messageCount": 6,
       "userId": "user-1"
+    },
+    {
+      "id": "beff9d4e-14d4-4fe8-b763-e66230f93329",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:23:22.287Z",
+      "updatedAt": "2025-08-04T15:23:22.287Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "47864de1-f929-47fa-8134-092482a0b44d",
+      "title": "give me the content of this pdf as a text",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:23:38.625Z",
+      "updatedAt": "2025-08-04T15:26:14.437Z",
+      "messageCount": 8,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "978b2e84-6778-407a-8ad5-c913a32b914a",
+        "name": "zakariae-amrani-cv.pdf",
+        "size": 471,
+        "type": "application/pdf",
+        "url": "/api/files/a5a40597-fe5b-4203-b358-f6052e2573f7.pdf",
+        "uploadedAt": "2025-08-04T15:23:38.625Z"
+      }
+    },
+    {
+      "id": "085fb5e9-dd05-4822-a354-3fbaa635018d",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:27:32.450Z",
+      "updatedAt": "2025-08-04T15:27:32.450Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "0b45dce2-43f4-4b2b-8762-38a1365567bf",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:27:41.601Z",
+      "updatedAt": "2025-08-04T15:27:41.601Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "bd67b440-634f-4025-b77e-f1b3ce644b2d",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:27:46.877Z",
+      "updatedAt": "2025-08-04T15:27:48.379Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "20415f06-4a96-4bf6-9bc1-1300af93e370",
+        "name": "zakariae-amrani-cv.pdf",
+        "size": 471,
+        "type": "application/pdf",
+        "url": "/api/files/2bedcce9-fc71-4a50-951c-9223ec400f34.pdf",
+        "uploadedAt": "2025-08-04T15:27:46.877Z"
+      }
+    },
+    {
+      "id": "bafa8985-739d-407e-af4f-acab1659df14",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:28:30.861Z",
+      "updatedAt": "2025-08-04T15:28:30.861Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "60d24b1e-c13f-4f73-b489-c3f7a3e1501b",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:28:34.283Z",
+      "updatedAt": "2025-08-04T15:28:35.784Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "be8d8ca1-3ed0-4c5c-a304-a8a74f1cede5",
+        "name": "sss.pdf",
+        "size": 69016,
+        "type": "application/pdf",
+        "url": "/api/files/1b15a819-2395-4960-87dc-f25ef2e5ec90.pdf",
+        "uploadedAt": "2025-08-04T15:28:34.283Z"
+      }
     }
   ],
   "messages": [
@@ -263,6 +357,120 @@
       "type": "assistant",
       "content": "What about Errachidia? What specific information are you looking for regarding the city?\n\nFor example, are you interested in:\n*   Its **weather**?\n*   **Tourist attractions** or things to do?\n*   **General facts** about the city?\n*   Its **location** or **geography**?\n*   **Current events** or news?\n\nPlease let me know what you'd like to know!",
       "timestamp": "2025-08-04T15:15:04.352Z"
+    },
+    {
+      "id": "2cd2153c-dbe2-48f1-8759-d2ec3db63c57",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-04T15:23:38.625Z",
+      "attachments": [
+        {
+          "id": "978b2e84-6778-407a-8ad5-c913a32b914a",
+          "name": "zakariae-amrani-cv.pdf",
+          "size": 471,
+          "type": "application/pdf",
+          "url": "/api/files/a5a40597-fe5b-4203-b358-f6052e2573f7.pdf",
+          "uploadedAt": "2025-08-04T15:23:38.625Z"
+        }
+      ]
+    },
+    {
+      "id": "c0db85dc-4509-4579-899d-ded03ca62e8b",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"zakariae-amrani-cv.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T15:23:40.127Z"
+    },
+    {
+      "id": "fed9bff8-1a1d-4c8c-8dd9-8157a547883e",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "user",
+      "content": "give me the content of this pdf as a text",
+      "timestamp": "2025-08-04T15:23:59.161Z"
+    },
+    {
+      "id": "bee82fad-26f8-4e83-a16c-1b6deb36a920",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-04T15:24:07.157Z"
+    },
+    {
+      "id": "c92f8079-ad5f-4372-be25-fd5f11f5554d",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "user",
+      "content": "witch model version are you ?",
+      "timestamp": "2025-08-04T15:25:37.963Z"
+    },
+    {
+      "id": "63e8c441-f07a-498c-a824-1bb895f02faf",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "assistant",
+      "content": "I am a large language model, trained by Google. I don't have \"versions\" in the way software typically does.\n\nRegarding the \"zakariae-amrani-cv.pdf\" document you uploaded, I'm ready to help you with any questions you have about its content.",
+      "timestamp": "2025-08-04T15:25:41.163Z"
+    },
+    {
+      "id": "aad912ee-8292-43f7-be2d-65a7037b8a5c",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "user",
+      "content": "no like are gemini 2. or 2.0 or what",
+      "timestamp": "2025-08-04T15:26:07.451Z"
+    },
+    {
+      "id": "cfa91d79-8312-46da-a0d6-faf114f2a7b1",
+      "chatId": "47864de1-f929-47fa-8134-092482a0b44d",
+      "type": "assistant",
+      "content": "I understand your curiosity about my model version!\n\nI am a large language model, trained by Google. I don't have public version numbers like \"Gemini 2.0\" that are shared with users.\n\nMy focus right now is to help you with the \"zakariae-amrani-cv.pdf\" document. What would you like to know or do with it?",
+      "timestamp": "2025-08-04T15:26:14.437Z"
+    },
+    {
+      "id": "3c0e0111-a7d7-4048-ad56-1f72164c3d0c",
+      "chatId": "bd67b440-634f-4025-b77e-f1b3ce644b2d",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-04T15:27:46.877Z",
+      "attachments": [
+        {
+          "id": "20415f06-4a96-4bf6-9bc1-1300af93e370",
+          "name": "zakariae-amrani-cv.pdf",
+          "size": 471,
+          "type": "application/pdf",
+          "url": "/api/files/2bedcce9-fc71-4a50-951c-9223ec400f34.pdf",
+          "uploadedAt": "2025-08-04T15:27:46.877Z"
+        }
+      ]
+    },
+    {
+      "id": "2dbe4582-b03a-4a41-9450-879687fdff67",
+      "chatId": "bd67b440-634f-4025-b77e-f1b3ce644b2d",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"zakariae-amrani-cv.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T15:27:48.379Z"
+    },
+    {
+      "id": "0ebc82ac-240b-4d9f-b7c9-88576be06a23",
+      "chatId": "60d24b1e-c13f-4f73-b489-c3f7a3e1501b",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-04T15:28:34.283Z",
+      "attachments": [
+        {
+          "id": "be8d8ca1-3ed0-4c5c-a304-a8a74f1cede5",
+          "name": "sss.pdf",
+          "size": 69016,
+          "type": "application/pdf",
+          "url": "/api/files/1b15a819-2395-4960-87dc-f25ef2e5ec90.pdf",
+          "uploadedAt": "2025-08-04T15:28:34.283Z"
+        }
+      ]
+    },
+    {
+      "id": "ac50545c-9266-4ccd-85f8-45da9559c0cd",
+      "chatId": "60d24b1e-c13f-4f73-b489-c3f7a3e1501b",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T15:28:35.784Z"
     }
   ]
 }

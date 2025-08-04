@@ -263,6 +263,30 @@
       "type": "application/pdf",
       "url": "/api/files/3b24f9b0-4ef1-47a1-819d-3df8f4589f4a.pdf",
       "uploadedAt": "2025-08-04T15:13:12.476Z"
+    },
+    {
+      "id": "978b2e84-6778-407a-8ad5-c913a32b914a",
+      "name": "zakariae-amrani-cv.pdf",
+      "size": 471,
+      "type": "application/pdf",
+      "url": "/api/files/a5a40597-fe5b-4203-b358-f6052e2573f7.pdf",
+      "uploadedAt": "2025-08-04T15:23:38.625Z"
+    },
+    {
+      "id": "20415f06-4a96-4bf6-9bc1-1300af93e370",
+      "name": "zakariae-amrani-cv.pdf",
+      "size": 471,
+      "type": "application/pdf",
+      "url": "/api/files/2bedcce9-fc71-4a50-951c-9223ec400f34.pdf",
+      "uploadedAt": "2025-08-04T15:27:46.877Z"
+    },
+    {
+      "id": "be8d8ca1-3ed0-4c5c-a304-a8a74f1cede5",
+      "name": "sss.pdf",
+      "size": 69016,
+      "type": "application/pdf",
+      "url": "/api/files/1b15a819-2395-4960-87dc-f25ef2e5ec90.pdf",
+      "uploadedAt": "2025-08-04T15:28:34.283Z"
     }
   ]
 }
