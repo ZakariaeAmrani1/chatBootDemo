@@ -323,7 +323,7 @@ export const sendMessage: RequestHandler = (req, res) => {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponse(aiResponseMessage, chat.userId),
+        content: await generateAIResponse(aiResponseMessage, chat.userId, chatId),
         timestamp: new Date().toISOString(),
       };
 
