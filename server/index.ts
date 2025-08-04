@@ -64,6 +64,7 @@ export function createServer() {
 
   // File API routes
   app.post("/api/files/upload", ...uploadFiles);
+  app.get("/api/files", getAllFiles);
   app.get("/api/files/:filename", serveFile);
   app.get("/api/files/info/:fileId", getFileInfo);
 
