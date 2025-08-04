@@ -357,9 +357,13 @@ const Library: React.FC = () => {
 
         {/* Quick Actions */}
         <div className="fixed bottom-6 right-6">
-          <Button size="lg" className="rounded-full shadow-lg">
+          <Button
+            size="lg"
+            className="rounded-full shadow-lg"
+            onClick={() => navigate("/chat")}
+          >
             <BookOpen className="w-5 h-5 mr-2" />
-            Add to Library
+            Start Chat
           </Button>
         </div>
       </div>
