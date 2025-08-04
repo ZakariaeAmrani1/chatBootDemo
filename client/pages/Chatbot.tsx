@@ -9,6 +9,7 @@ import {
   Brain,
   Globe,
   Sparkles,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
