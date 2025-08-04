@@ -257,6 +257,10 @@ const Chatbot = () => {
     const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
       await chatService.selectChat(chat);
+      // Auto-open PDF preview if chat has PDF
+      if (chat.pdfFile) {
+        setPdfPreviewOpen(true);
+      }
     }
   };
 
