@@ -103,24 +103,6 @@
       "updatedAt": "2025-08-04T15:28:30.861Z",
       "messageCount": 0,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "60d24b1e-c13f-4f73-b489-c3f7a3e1501b",
-      "title": "New Chat",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T15:28:34.283Z",
-      "updatedAt": "2025-08-04T15:28:35.784Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "be8d8ca1-3ed0-4c5c-a304-a8a74f1cede5",
-        "name": "sss.pdf",
-        "size": 69016,
-        "type": "application/pdf",
-        "url": "/api/files/1b15a819-2395-4960-87dc-f25ef2e5ec90.pdf",
-        "uploadedAt": "2025-08-04T15:28:34.283Z"
-      }
     }
   ],
   "messages": [
@@ -447,30 +429,6 @@
       "type": "assistant",
       "content": "Hello! I've successfully received your PDF document \"zakariae-amrani-cv.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
       "timestamp": "2025-08-04T15:27:48.379Z"
-    },
-    {
-      "id": "0ebc82ac-240b-4d9f-b7c9-88576be06a23",
-      "chatId": "60d24b1e-c13f-4f73-b489-c3f7a3e1501b",
-      "type": "user",
-      "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-04T15:28:34.283Z",
-      "attachments": [
-        {
-          "id": "be8d8ca1-3ed0-4c5c-a304-a8a74f1cede5",
-          "name": "sss.pdf",
-          "size": 69016,
-          "type": "application/pdf",
-          "url": "/api/files/1b15a819-2395-4960-87dc-f25ef2e5ec90.pdf",
-          "uploadedAt": "2025-08-04T15:28:34.283Z"
-        }
-      ]
-    },
-    {
-      "id": "ac50545c-9266-4ccd-85f8-45da9559c0cd",
-      "chatId": "60d24b1e-c13f-4f73-b489-c3f7a3e1501b",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T15:28:35.784Z"
     }
   ]
 }
