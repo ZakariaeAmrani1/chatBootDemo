@@ -1072,20 +1072,70 @@ const Settings: React.FC<SettingsProps> = ({
           </CardContent>
         </Card>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           <Button variant="outline" className="w-full justify-start">
             <Download className="h-4 w-4 mr-2" />
             Export All Data
           </Button>
-          <Button
-            variant="destructive"
-            className="w-full justify-start"
-            onClick={handleClearChatHistory}
-            disabled={isClearing}
-          >
-            <Trash2 className="h-4 w-4 mr-2" />
-            {isClearing ? "Clearing..." : "Clear All Chat History"}
-          </Button>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Data Management</CardTitle>
+              <CardDescription>
+                Select which data types you want to delete
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="chatHistory"
+                    checked={selectedDeletionItems.includes('chatHistory')}
+                    onChange={() => handleDeletionToggle('chatHistory')}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label htmlFor="chatHistory" className="text-sm flex-1 cursor-pointer">
+                    Chat History ({dataStats?.chatHistory.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="uploadedFiles"
+                    checked={selectedDeletionItems.includes('uploadedFiles')}
+                    onChange={() => handleDeletionToggle('uploadedFiles')}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label htmlFor="uploadedFiles" className="text-sm flex-1 cursor-pointer">
+                    Uploaded Files ({dataStats?.uploadedFiles.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="userSettings"
+                    checked={selectedDeletionItems.includes('userSettings')}
+                    onChange={() => handleDeletionToggle('userSettings')}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label htmlFor="userSettings" className="text-sm flex-1 cursor-pointer">
+                    User Settings ({dataStats?.userSettings.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+              </div>
+
+              <Button
+                variant="destructive"
+                className="w-full mt-4"
+                onClick={handleSelectiveDeletion}
+                disabled={selectedDeletionItems.length === 0 || isClearing}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                {isClearing ? "Deleting..." : `Delete Selected (${selectedDeletionItems.length})`}
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
