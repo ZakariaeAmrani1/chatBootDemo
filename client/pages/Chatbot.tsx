@@ -516,7 +516,7 @@ const Chatbot = () => {
           isOpen={pdfPreviewOpen}
           onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
           width={pdfPreviewWidth}
-          onWidthChange={setPdfPreviewWidth}
+          onWidthChange={handlePdfWidthChange}
         />
       )}
     </div>
