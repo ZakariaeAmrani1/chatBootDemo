@@ -58,7 +58,7 @@ export function PDFPreview({
       className={cn(
         "fixed right-0 top-0 h-full bg-background border-l border-border shadow-lg z-20 flex flex-col",
         "transition-all duration-300 ease-in-out",
-        isOpen ? "w-96" : "w-0",
+        isOpen ? "w-full sm:w-96" : "w-0",
         className
       )}
     >
