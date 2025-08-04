@@ -94,6 +94,7 @@ export interface CreateChatRequest {
   chatbootVersion?: string;
   message?: string;
   attachments?: File[];
+  pdfFile?: File; // Required PDF file for the chat
 }
 
 export interface SendMessageRequest {
