@@ -24,6 +24,7 @@ interface ChatAreaProps {
   onMessageUpdate?: (messageId: string, updates: Partial<Message>) => void;
   onStartChat?: (model: string, pdfFile: File) => void;
   user?: User | null;
+  hasActiveChat?: boolean;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -37,6 +38,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   onMessageUpdate,
   onStartChat,
   user,
+  hasActiveChat = false,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -214,7 +216,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  if (messages.length === 0) {
+  if (messages.length === 0 && !hasActiveChat) {
     return (
       <ScrollArea className="h-full">
         <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
@@ -239,16 +241,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             Choose your AI model and upload a PDF to start analyzing
           </p>
 
-          {/* Model and PDF Selection - Only show if no chat is active */}
-          {!onStartChat && (
-            <div className="w-full max-w-4xl pb-8">
-              <ModelAndPDFSelector
-                selectedModel={selectedModel}
-                onModelChange={onModelChange}
-                onStartChat={() => {}}
-              />
-            </div>
-          )}
+          {/* Model and PDF Selection */}
+          <div className="w-full max-w-4xl pb-8">
+            <ModelAndPDFSelector
+              selectedModel={selectedModel}
+              onModelChange={onModelChange}
+              onStartChat={onStartChat || (() => {})}
+            />
+          </div>
         </div>
       </ScrollArea>
     );
