@@ -341,54 +341,30 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
-                    getCurrentVersion().bgColor,
-                    getCurrentVersion().borderColor,
-                    "shadow-sm",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "text-sm font-medium transition-colors",
-                      getCurrentVersion().color,
-                    )}
-                  >
-                    {getCurrentVersion().fullName}
-                  </span>
-                  <ChevronDown className="h-3 w-3 text-muted-foreground/70" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-40 p-1">
-                {versions.map((version) => (
-                  <DropdownMenuItem
-                    key={version.fullName}
-                    onClick={() => setSelectedVersion(version.fullName)}
-                    className={cn(
-                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 border",
-                      "hover:bg-muted/30",
-                      selectedVersion === version.fullName
-                        ? `bg-transparent ${version.borderColor}`
-                        : "border-transparent hover:border-muted",
-                    )}
-                  >
+            <div
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-xl border bg-muted/30",
+                "shadow-sm",
+              )}
+            >
+              {(() => {
+                const model = getCurrentModel();
+                const IconComponent = iconMap[model.icon] || Brain;
+                return (
+                  <>
+                    <IconComponent className={cn("w-4 h-4", model.color)} />
                     <span
                       className={cn(
-                        "text-sm font-medium",
-                        selectedVersion === version.fullName
-                          ? version.color
-                          : "text-foreground",
+                        "text-sm font-medium transition-colors",
+                        model.color,
                       )}
                     >
-                      {version.name}
+                      {model.name}
                     </span>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </>
+                );
+              })()}
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
