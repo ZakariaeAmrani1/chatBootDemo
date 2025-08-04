@@ -42,7 +42,7 @@
       "bio": "",
       "createdAt": "2025-08-02T16:45:19.353Z",
       "settings": {
-        "theme": "system",
+        "theme": "light",
         "fontSize": "small",
         "density": "comfortable",
         "emailNotifications": true,
@@ -65,7 +65,7 @@
         "highContrast": false,
         "reducedMotion": false,
         "screenReader": false,
-        "selectedModel": "gpt-4"
+        "selectedModel": "local-cloud"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8",
       "avatar": "/api/files/avatar-339da6c7-e48b-4cf9-b2c5-066285d5f90c.png"

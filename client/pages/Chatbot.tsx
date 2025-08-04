@@ -421,13 +421,15 @@ const Chatbot = () => {
           />
         </div>
 
-        {/* Chat Input - Fixed at bottom */}
-        <div className="sticky bottom-0 z-10">
-          <ChatInput
-            onSendMessage={addMessage}
-            disabled={chatState.isLoading || chatState.isThinking}
-          />
-        </div>
+        {/* Chat Input - Fixed at bottom - Only show when chat is active */}
+        {chatState.currentChat && (
+          <div className="sticky bottom-0 z-10">
+            <ChatInput
+              onSendMessage={addMessage}
+              disabled={chatState.isLoading || chatState.isThinking}
+            />
+          </div>
+        )}
       </div>
 
       {/* Settings Modal */}

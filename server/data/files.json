@@ -135,6 +135,14 @@
       "type": "image/png",
       "url": "/api/files/e7515bf4-bb1d-402e-972f-418bdbda5a2a.png",
       "uploadedAt": "2025-08-02T17:54:30.959Z"
+    },
+    {
+      "id": "c31bd5d7-e9f5-4afc-9d77-6b3c5d9c3424",
+      "name": "aaa.pdf",
+      "size": 79275,
+      "type": "application/pdf",
+      "url": "/api/files/2b575e7d-41c2-4446-b6f5-7230d8c67122.pdf",
+      "uploadedAt": "2025-08-04T13:58:33.438Z"
     }
   ]
 }

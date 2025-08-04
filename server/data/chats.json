@@ -29,6 +29,34 @@
       "updatedAt": "2025-08-02T18:33:06.678Z",
       "messageCount": 0,
       "userId": "user-1"
+    },
+    {
+      "id": "d1c1ae92-41fd-4ab6-bc50-688b7fc7867b",
+      "title": "New Chat",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T13:58:33.438Z",
+      "updatedAt": "2025-08-04T13:58:34.938Z",
+      "messageCount": 1,
+      "userId": "user-1",
+      "pdfFile": {
+        "id": "c31bd5d7-e9f5-4afc-9d77-6b3c5d9c3424",
+        "name": "aaa.pdf",
+        "size": 79275,
+        "type": "application/pdf",
+        "url": "/api/files/2b575e7d-41c2-4446-b6f5-7230d8c67122.pdf",
+        "uploadedAt": "2025-08-04T13:58:33.438Z"
+      }
+    },
+    {
+      "id": "055e3cc3-194c-42b8-80f2-f9db2e4a2b37",
+      "title": "New Chat",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T13:59:21.036Z",
+      "updatedAt": "2025-08-04T13:59:21.036Z",
+      "messageCount": 0,
+      "userId": "user-1"
     }
   ],
   "messages": [
@@ -59,6 +87,13 @@
       "type": "assistant",
       "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?",
       "timestamp": "2025-08-02T18:36:04.241Z"
+    },
+    {
+      "id": "28399ab1-8152-4c1c-be3e-e367d5707b3b",
+      "chatId": "d1c1ae92-41fd-4ab6-bc50-688b7fc7867b",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T13:58:34.938Z"
     }
   ]
 }
