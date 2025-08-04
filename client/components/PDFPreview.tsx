@@ -8,6 +8,8 @@ interface PDFPreviewProps {
   pdfFile: FileAttachment;
   isOpen: boolean;
   onToggle: () => void;
+  width: number;
+  onWidthChange: (width: number) => void;
   className?: string;
 }
 
@@ -15,9 +17,14 @@ export function PDFPreview({
   pdfFile,
   isOpen,
   onToggle,
+  width,
+  onWidthChange,
   className,
 }: PDFPreviewProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isResizing, setIsResizing] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [startWidth, setStartWidth] = useState(width);
 
   const handleDownload = () => {
     const link = document.createElement("a");
@@ -57,10 +64,15 @@ export function PDFPreview({
     <div
       className={cn(
         "fixed right-0 top-0 h-full bg-background border-l border-border shadow-lg z-20 flex flex-col",
-        "transition-all duration-300 ease-in-out",
-        isOpen ? "w-full sm:w-96" : "w-0",
+        isOpen ? "" : "w-0",
         className
       )}
+      style={{
+        width: isOpen ? `${width}px` : '0px',
+        transition: isResizing ? 'none' : 'width 0.3s ease-in-out',
+        minWidth: isOpen ? '320px' : '0px',
+        maxWidth: isOpen ? '80vw' : '0px',
+      }}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur-sm">

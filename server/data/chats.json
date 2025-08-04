@@ -1,620 +1,90 @@
 {
   "chats": [
     {
-      "id": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "title": "hello",
+      "id": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
+      "title": "good",
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:21:40.556Z",
-      "updatedAt": "2025-08-04T14:23:10.413Z",
-      "messageCount": 11,
+      "createdAt": "2025-08-04T15:00:33.343Z",
+      "updatedAt": "2025-08-04T15:01:26.383Z",
+      "messageCount": 8,
       "userId": "user-1",
       "pdfFile": {
-        "id": "4b31c26f-8720-4e42-8cf1-18ab36714572",
-        "name": "aaa.pdf",
-        "size": 79275,
+        "id": "ac86c234-4c1b-4517-8c83-abe463d41c6e",
+        "name": "CV-EN.pdf",
+        "size": 85121,
         "type": "application/pdf",
-        "url": "/api/files/c5bae047-869a-4384-badf-660d8f5db5bf.pdf",
-        "uploadedAt": "2025-08-04T14:21:40.556Z"
-      }
-    },
-    {
-      "id": "a482f75e-f5b4-487e-8849-68abf68f3030",
-      "title": "hello",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:26:02.996Z",
-      "updatedAt": "2025-08-04T14:26:10.744Z",
-      "messageCount": 3,
-      "userId": "user-1",
-      "pdfFile": {
-        "id": "049dcca3-3961-4aec-9d63-51e081b5f88c",
-        "name": "aaa.pdf",
-        "size": 79275,
-        "type": "application/pdf",
-        "url": "/api/files/2881c46b-ef9f-4de3-ba92-f10650c02e5c.pdf",
-        "uploadedAt": "2025-08-04T14:26:02.996Z"
-      }
-    },
-    {
-      "id": "14b9054b-bf88-4827-8b12-8181533a8b04",
-      "title": "New Chat",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:26:23.735Z",
-      "updatedAt": "2025-08-04T14:26:23.735Z",
-      "messageCount": 0,
-      "userId": "user-1"
-    },
-    {
-      "id": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
-      "title": "hello",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:26:27.004Z",
-      "updatedAt": "2025-08-04T14:26:32.397Z",
-      "messageCount": 3,
-      "userId": "user-1",
-      "pdfFile": {
-        "id": "7b1182c0-7a34-4092-929e-7457b9bbd858",
-        "name": "sss.pdf",
-        "size": 69016,
-        "type": "application/pdf",
-        "url": "/api/files/d2ecf0c5-bb05-4ceb-82dd-b0b605e5b3a7.pdf",
-        "uploadedAt": "2025-08-04T14:26:27.004Z"
-      }
-    },
-    {
-      "id": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
-      "title": "hello",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:29:21.749Z",
-      "updatedAt": "2025-08-04T14:29:28.608Z",
-      "messageCount": 3,
-      "userId": "user-1",
-      "pdfFile": {
-        "id": "e06ed1e7-708c-4155-81f0-1198b3bebd94",
-        "name": "aaa.pdf",
-        "size": 79275,
-        "type": "application/pdf",
-        "url": "/api/files/76435591-06f5-4b19-a32c-2d1adeb4f078.pdf",
-        "uploadedAt": "2025-08-04T14:29:21.749Z"
-      }
-    },
-    {
-      "id": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "title": "hello",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:31:24.258Z",
-      "updatedAt": "2025-08-04T14:32:13.471Z",
-      "messageCount": 7,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "59460302-0216-4ea6-b2c9-2f664f35a093",
-        "name": "sss.pdf",
-        "size": 69016,
-        "type": "application/pdf",
-        "url": "/api/files/28da256a-bfb9-42d8-b045-99bdb7b16c27.pdf",
-        "uploadedAt": "2025-08-04T14:31:24.258Z"
-      }
-    },
-    {
-      "id": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "title": "can you read pdf ?",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:34:06.156Z",
-      "updatedAt": "2025-08-04T14:34:56.480Z",
-      "messageCount": 7,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "4691bde2-cfb9-44eb-a6d3-ed3739c8a4bd",
-        "name": "aaa.pdf",
-        "size": 79275,
-        "type": "application/pdf",
-        "url": "/api/files/dd947736-6da4-4a18-8efa-68ff7588d458.pdf",
-        "uploadedAt": "2025-08-04T14:34:06.156Z"
-      }
-    },
-    {
-      "id": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
-      "title": "what this pdf is talking about",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:44:10.567Z",
-      "updatedAt": "2025-08-04T14:44:27.841Z",
-      "messageCount": 4,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "ab85369b-cb92-42c6-97df-16dc860378c6",
-        "name": "sss.pdf",
-        "size": 69016,
-        "type": "application/pdf",
-        "url": "/api/files/935ddbd1-8d46-47f7-aa04-bccb5f1e2ce6.pdf",
-        "uploadedAt": "2025-08-04T14:44:10.567Z"
-      }
-    },
-    {
-      "id": "0eceac8d-ab58-4a49-a969-646956463354",
-      "title": "what this pdf is talking about ?",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:50:10.154Z",
-      "updatedAt": "2025-08-04T14:50:32.992Z",
-      "messageCount": 4,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "4b6ed207-a26b-410b-a098-c0618b580f81",
-        "name": "zakariae-amrani-cv.pdf",
-        "size": 471,
-        "type": "application/pdf",
-        "url": "/api/files/1ed8ebca-1be7-45ea-85b0-00241db199cc.pdf",
-        "uploadedAt": "2025-08-04T14:50:10.154Z"
-      }
-    },
-    {
-      "id": "502c8638-cff3-439e-bf27-408aef62c832",
-      "title": "hello",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:51:20.728Z",
-      "updatedAt": "2025-08-04T14:51:30.023Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "54f2755f-3398-49a4-b19a-1e5fb7f9b5cd",
-      "title": "New Chat",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:51:35.437Z",
-      "updatedAt": "2025-08-04T14:51:35.437Z",
-      "messageCount": 0,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "title": "what's this pdf is talking about ?",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-04T14:53:15.841Z",
-      "updatedAt": "2025-08-04T14:54:53.730Z",
-      "messageCount": 12,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "16a8e053-bb73-4051-a4e2-fc94fa8ec74e",
-        "name": "zakariae-amrani-cv.pdf",
-        "size": 471,
-        "type": "application/pdf",
-        "url": "/api/files/b74dbfcd-c09f-436c-a40f-8a29d292293b.pdf",
-        "uploadedAt": "2025-08-04T14:53:15.841Z"
+        "url": "/api/files/4a3a6fa9-ee55-48d6-b365-01ca1252cdee.pdf",
+        "uploadedAt": "2025-08-04T15:00:33.343Z"
       }
     }
   ],
   "messages": [
     {
-      "id": "bed4eeb7-a181-412c-80b0-b29be7e0f8dd",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:21:42.057Z"
-    },
-    {
-      "id": "76c830a8-d485-456c-80a5-7439447cd1fc",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "id": "ae06d441-3cf7-4123-9e41-5207bb32719a",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:21:46.149Z"
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-04T15:00:33.343Z",
+      "attachments": [
+        {
+          "id": "ac86c234-4c1b-4517-8c83-abe463d41c6e",
+          "name": "CV-EN.pdf",
+          "size": 85121,
+          "type": "application/pdf",
+          "url": "/api/files/4a3a6fa9-ee55-48d6-b365-01ca1252cdee.pdf",
+          "uploadedAt": "2025-08-04T15:00:33.343Z"
+        }
+      ]
     },
     {
-      "id": "e7ea4e4f-4e2c-42cc-bdd7-b61ea5b172b2",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "id": "df01d181-aa1a-459d-bdc2-32fefef67810",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "assistant",
-      "content": "Hello! It's great to meet you. How can I assist you today?",
-      "timestamp": "2025-08-04T14:21:47.651Z"
+      "content": "Hello! I've successfully received your PDF document \"CV-EN.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T15:00:34.844Z"
     },
     {
-      "id": "4c4b51f7-2a16-4c24-9d54-509c3a23595a",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "user",
-      "content": "can you read and analise pdfs ?",
-      "timestamp": "2025-08-04T14:22:20.850Z"
-    },
-    {
-      "id": "e1847b1f-7cc0-4277-97fc-baf7a7187e6d",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "assistant",
-      "content": "I see what you mean. Here's my perspective on this matter. Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
-      "timestamp": "2025-08-04T14:22:22.352Z"
-    },
-    {
-      "id": "c316c809-fa1c-4e1f-bb98-edd2aa10d6fd",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "user",
-      "content": "what model are you",
-      "timestamp": "2025-08-04T14:22:40.252Z"
-    },
-    {
-      "id": "fbef2a49-c2ef-4778-89d0-3d092fd83bba",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "assistant",
-      "content": "That's an interesting question! Here's what I think... Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
-      "timestamp": "2025-08-04T14:22:41.753Z"
-    },
-    {
-      "id": "7cd2e64a-8e7f-46fc-aa62-9dd691e4640f",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:23:03.927Z"
-    },
-    {
-      "id": "bbda95d3-23a8-46cb-b37b-a1afd2318e8c",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "assistant",
-      "content": "Hello! It's great to meet you. How can I assist you today?",
-      "timestamp": "2025-08-04T14:23:05.428Z"
-    },
-    {
-      "id": "b8129950-afbf-4879-9f83-8d7f462a5e93",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "id": "2e52aab8-300a-4a08-b8c0-5225ec094d27",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "user",
       "content": "good",
-      "timestamp": "2025-08-04T14:23:08.912Z"
+      "timestamp": "2025-08-04T15:00:39.605Z"
     },
     {
-      "id": "5bbcb92c-581d-49fb-8652-d01b833ff870",
-      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
-      "type": "assistant",
-      "content": "I understand what you're asking. Let me help you with that. Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
-      "timestamp": "2025-08-04T14:23:10.413Z"
-    },
-    {
-      "id": "70978c91-9484-46f7-b649-2112dc3eb160",
-      "chatId": "a482f75e-f5b4-487e-8849-68abf68f3030",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:26:04.496Z"
-    },
-    {
-      "id": "0011c457-9bd8-496d-a57f-0cc02c3f9b2e",
-      "chatId": "a482f75e-f5b4-487e-8849-68abf68f3030",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:26:09.242Z"
-    },
-    {
-      "id": "a929071f-3f8c-48d6-b64a-81065ae26e46",
-      "chatId": "a482f75e-f5b4-487e-8849-68abf68f3030",
+      "id": "94222cf2-9d76-4720-abf2-3613cc1e539b",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "assistant",
       "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
-      "timestamp": "2025-08-04T14:26:10.744Z"
+      "timestamp": "2025-08-04T15:00:41.106Z"
     },
     {
-      "id": "192b01b8-2232-4b62-b85b-1160ee5d90e0",
-      "chatId": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:26:28.504Z"
-    },
-    {
-      "id": "b6630739-beec-43e0-8479-c00583edeacf",
-      "chatId": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
+      "id": "c147a597-ed04-4eaa-b28c-f0577b7d1193",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "user",
       "content": "hello",
-      "timestamp": "2025-08-04T14:26:30.896Z"
+      "timestamp": "2025-08-04T15:01:03.939Z"
     },
     {
-      "id": "bf139219-0b7e-43ff-b086-3fc278850f34",
-      "chatId": "d2123a3f-f9d5-4a70-9d15-4732063b152d",
+      "id": "91eb2b13-e52d-43c7-b412-bb73a781bce6",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "assistant",
-      "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
-      "timestamp": "2025-08-04T14:26:32.397Z"
+      "content": "Hello!\n\nI have the \"CV-EN.pdf\" file open and ready.\n\nWhat would you like to know or do regarding the CV? For example, I can:\n\n*   Summarize the candidate's experience.\n*   Tell you about their skills.\n*   Provide their contact information.\n*   Detail their education.\n*   Answer specific questions about their work history.\n\nJust let me know how I can assist you!",
+      "timestamp": "2025-08-04T15:01:09.079Z"
     },
     {
-      "id": "f2252530-9c1f-4aa6-921a-b8df95e63cd2",
-      "chatId": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:29:23.250Z"
-    },
-    {
-      "id": "06bb4fb1-c8af-4653-8cff-72458c80e182",
-      "chatId": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
+      "id": "01d1097f-bd20-40db-be93-0270f97f95c1",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:29:27.105Z"
+      "content": "Summarize the candidate's experience.",
+      "timestamp": "2025-08-04T15:01:19.139Z"
     },
     {
-      "id": "a43eba66-dbd1-4949-96d1-866e9002a1bf",
-      "chatId": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
-      "type": "assistant",
-      "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
-      "timestamp": "2025-08-04T14:29:28.608Z"
-    },
-    {
-      "id": "2e5c5be1-e399-43cf-9f05-836cc13a1ffe",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:31:25.760Z"
-    },
-    {
-      "id": "f620462d-3b7c-475a-afbf-0dc7613e476d",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:31:29.971Z"
-    },
-    {
-      "id": "7168c1e9-63c5-4244-bd9b-a6e8c8584d0c",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "assistant",
-      "content": "You uploaded a PDF file named \"sss.pdf\" and then asked \"hello.\"\n\nSince I don't have access to external files, I cannot analyze the contents of \"sss.pdf\".  Therefore, I can't provide any information related to the file or answer any questions about it.\n\nMy response to \"hello\" is:\n\nHello! How can I help you?  (Without access to the PDF, I can only answer general questions.)\n",
-      "timestamp": "2025-08-04T14:31:32.974Z"
-    },
-    {
-      "id": "2dceeedf-d2a3-42c5-afed-0e7b38cf063b",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "user",
-      "content": "what model you are ?",
-      "timestamp": "2025-08-04T14:31:47.193Z"
-    },
-    {
-      "id": "3240e81b-4ffd-43b2-a1cb-345735cf8b1e",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "assistant",
-      "content": "Based on the uploaded PDF \"sss.pdf\" and the question \"what model you are?\", I can infer the following:\n\n*   **The PDF likely contains information about a statistical or machine learning model.** The filename \"sss.pdf\" could be an abbreviation or code name for a specific model or a class of models. The content of the PDF would provide details about the model's purpose, structure, inputs, outputs, and training methods.\n\nWithout the content of the PDF, I cannot definitively determine which model the PDF describes. To answer your question more accurately, I would need to analyze the content of \"sss.pdf\".\n",
-      "timestamp": "2025-08-04T14:31:50.300Z"
-    },
-    {
-      "id": "74408e5e-86d2-4c89-8b86-5b8bcb7ebe3b",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "user",
-      "content": "no forget the pdf which ai model are you ?",
-      "timestamp": "2025-08-04T14:32:11.011Z"
-    },
-    {
-      "id": "0f12df5b-9574-4bf0-a72c-e16d8e6dd9b2",
-      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
-      "type": "assistant",
-      "content": "I cannot access local files, including the PDF you uploaded (\"sss.pdf\"). Therefore, I cannot answer any questions based on its content.\n\nAs for the second part of your question: I am a large language model, trained by Google.\n",
-      "timestamp": "2025-08-04T14:32:13.471Z"
-    },
-    {
-      "id": "6455540c-75d0-400f-a734-e8dcf4d3c458",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:34:07.657Z"
-    },
-    {
-      "id": "56d4354a-f525-4fde-acf5-ce678f2ad71b",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "user",
-      "content": "can you read pdf ?",
-      "timestamp": "2025-08-04T14:34:12.726Z"
-    },
-    {
-      "id": "5d878009-b68c-4f13-9d97-b68a2a643b96",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "assistant",
-      "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
-      "timestamp": "2025-08-04T14:34:14.300Z"
-    },
-    {
-      "id": "cc4e1f7f-96b3-4e55-b8a7-517eb9ad33ee",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:34:28.694Z"
-    },
-    {
-      "id": "43803038-89ea-4388-9371-3469b51d3a96",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "assistant",
-      "content": "Okay, I've analyzed the PDF \"aaa.pdf\" and I understand your question is \"hello\".\n\nSince you haven't asked me a specific question about the PDF's content, and your question is simply \"hello\", I'll respond in kind:\n\n**Hello!**\n\nIs there anything specific you'd like to know or discuss about the content of the \"aaa.pdf\" file?  For example, you could ask me things like:\n\n*   \"What is the main topic of the PDF?\"\n*   \"Can you summarize the PDF?\"\n*   \"Are there any mentions of [keyword] in the PDF?\"\n*   \"What is the author's name?\"\n\nLet me know how I can help you further.\n",
-      "timestamp": "2025-08-04T14:34:32.008Z"
-    },
-    {
-      "id": "8d3feef7-42ab-4161-a460-1da615a5a4f1",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "user",
-      "content": "what this pdf is talking about ?",
-      "timestamp": "2025-08-04T14:34:53.147Z"
-    },
-    {
-      "id": "a97f108e-b66c-42c5-ae04-35f2a9caff1f",
-      "chatId": "17c95423-ddee-4b31-9f95-3a7440425785",
-      "type": "assistant",
-      "content": "I am unable to access external websites or specific files, including PDFs. Therefore, I cannot tell you what the PDF \"aaa.pdf\" is about. \n\nTo understand the content, you'll need to:\n\n1.  **Open the PDF yourself.**\n2.  **Read the text.**\n3.  **Look for a title, abstract, or introduction.** These sections usually provide a summary of the document's purpose.\n4.  **Skim through the headings and subheadings.** This will give you an overview of the topics covered.\n5.  **Read the conclusion.** This section often summarizes the main points.\n\nIf you can provide me with the text from the PDF, I can help you understand it.\n",
-      "timestamp": "2025-08-04T14:34:56.480Z"
-    },
-    {
-      "id": "8c46dd64-7279-4eab-b191-27135b1d534b",
-      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
-      "type": "user",
-      "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-04T14:44:10.567Z",
-      "attachments": [
-        {
-          "id": "ab85369b-cb92-42c6-97df-16dc860378c6",
-          "name": "sss.pdf",
-          "size": 69016,
-          "type": "application/pdf",
-          "url": "/api/files/935ddbd1-8d46-47f7-aa04-bccb5f1e2ce6.pdf",
-          "uploadedAt": "2025-08-04T14:44:10.567Z"
-        }
-      ]
-    },
-    {
-      "id": "34c0bb11-6fc6-41c6-a979-e3ac6b2fed4c",
-      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:44:12.069Z"
-    },
-    {
-      "id": "1f418cd3-8ed2-4237-ad46-ddf1f723beef",
-      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
-      "type": "user",
-      "content": "what this pdf is talking about",
-      "timestamp": "2025-08-04T14:44:23.043Z"
-    },
-    {
-      "id": "d6da7362-ffbb-4ab2-acee-d13ed933f7c6",
-      "chatId": "7a44f784-113e-49a2-b3d8-b6702f7a847f",
-      "type": "assistant",
-      "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
-      "timestamp": "2025-08-04T14:44:27.841Z"
-    },
-    {
-      "id": "e6d0d38e-a011-4642-bd55-f7e1decd24e7",
-      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
-      "type": "user",
-      "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-04T14:50:10.154Z",
-      "attachments": [
-        {
-          "id": "4b6ed207-a26b-410b-a098-c0618b580f81",
-          "name": "zakariae-amrani-cv.pdf",
-          "size": 471,
-          "type": "application/pdf",
-          "url": "/api/files/1ed8ebca-1be7-45ea-85b0-00241db199cc.pdf",
-          "uploadedAt": "2025-08-04T14:50:10.154Z"
-        }
-      ]
-    },
-    {
-      "id": "9904ec9b-579b-4ec2-9b5f-0562516c1e64",
-      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"zakariae-amrani-cv.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:50:11.656Z"
-    },
-    {
-      "id": "6fca3693-4f7f-481b-9782-131c6606fec6",
-      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
-      "type": "user",
-      "content": "what this pdf is talking about ?",
-      "timestamp": "2025-08-04T14:50:26.072Z"
-    },
-    {
-      "id": "28e50a00-25bb-4ed2-a33b-d77abe032bf2",
-      "chatId": "0eceac8d-ab58-4a49-a969-646956463354",
-      "type": "assistant",
-      "content": "Based on the uploaded PDF \"zakariae-amrani-cv.pdf\", this PDF is a **Curriculum Vitae (CV)** for **Zakariae Amrani**.\n\nIt outlines his professional background, qualifications, and skills, including:\n\n*   **Profile:** A summary of his professional goals and attributes.\n*   **Experience:** Details of his previous roles as a Software Engineer and Full-Stack Developer at companies like Capgemini and",
-      "timestamp": "2025-08-04T14:50:32.992Z"
-    },
-    {
-      "id": "e3646f5d-59a5-4b6f-898d-7495b82de8ff",
-      "chatId": "502c8638-cff3-439e-bf27-408aef62c832",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-04T14:51:26.935Z"
-    },
-    {
-      "id": "d371dfe2-aad7-4c3c-a096-da129b5c786d",
-      "chatId": "502c8638-cff3-439e-bf27-408aef62c832",
-      "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-04T14:51:30.023Z"
-    },
-    {
-      "id": "3a281ff5-189f-4ad9-ac35-2e7e37817a31",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "user",
-      "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-04T14:53:15.841Z",
-      "attachments": [
-        {
-          "id": "16a8e053-bb73-4051-a4e2-fc94fa8ec74e",
-          "name": "zakariae-amrani-cv.pdf",
-          "size": 471,
-          "type": "application/pdf",
-          "url": "/api/files/b74dbfcd-c09f-436c-a40f-8a29d292293b.pdf",
-          "uploadedAt": "2025-08-04T14:53:15.841Z"
-        }
-      ]
-    },
-    {
-      "id": "3a5adcf2-326c-469e-b225-b237d233c2b5",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"zakariae-amrani-cv.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-04T14:53:17.342Z"
-    },
-    {
-      "id": "25a15cbf-ffb9-4e7b-a6aa-53d0c418c54b",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "user",
-      "content": "what's this pdf is talking about ?",
-      "timestamp": "2025-08-04T14:53:31.312Z"
-    },
-    {
-      "id": "a6755487-a660-4896-b343-f4074a30305b",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "assistant",
-      "content": "Based on the filename \"zakariae-amrani-cv.pdf\", this PDF is a **Curriculum Vitae (CV) for Zakariae Amrani**.\n\nIt is talking about:\n\n*   **Zakariae Amrani's professional background:** His work experience, roles, responsibilities, and achievements.\n*   **His educational history:** Degrees obtained, institutions attended, and relevant academic projects.\n*   **His skills:** Technical proficiencies, languages, and other relevant abilities.\n*   **Potentially other professional information:** Such as projects, certifications, publications, or awards.\n\nIn essence, it's a comprehensive summary of Zakariae Amrani's professional journey and qualifications, typically used when applying for jobs or academic positions.",
-      "timestamp": "2025-08-04T14:53:38.284Z"
-    },
-    {
-      "id": "eac07974-2db2-4d1f-9e9f-793972d1d3b1",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "user",
-      "content": "can you give me zakariae's exeriences ?",
-      "timestamp": "2025-08-04T14:53:53.568Z"
-    },
-    {
-      "id": "53c7e97c-5a27-4bf1-8414-59b8df6a84a5",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
+      "id": "cda015bf-7155-438e-a6b7-279b6f3e9dd4",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
       "type": "assistant",
       "content": "I apologize, but I couldn't generate a response. Please try again.",
-      "timestamp": "2025-08-04T14:54:00.675Z"
-    },
-    {
-      "id": "213c60fa-1ed1-4f89-b90b-3eed7c62cb4d",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "user",
-      "content": "can you give me zakariae's exeriences ?",
-      "timestamp": "2025-08-04T14:54:08.808Z"
-    },
-    {
-      "id": "86c05643-0eff-4eef-8ff9-820a874f0505",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "assistant",
-      "content": "I apologize, but I couldn't generate a response. Please try again.",
-      "timestamp": "2025-08-04T14:54:15.436Z"
-    },
-    {
-      "id": "97292c17-5bee-4132-affa-47c31bf3d503",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "user",
-      "content": "what's this pdf is talking about ?",
-      "timestamp": "2025-08-04T14:54:19.446Z"
-    },
-    {
-      "id": "dbb7e5ef-749b-4626-b791-6ee3c57796b5",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "assistant",
-      "content": "Based on the uploaded PDF \"zakariae-amrani-cv.pdf\", this PDF is **Zakariae Amrani's Curriculum Vitae (CV)**.\n\nIt details his:\n*   **Contact Information:** Email, phone, LinkedIn, GitHub.\n*   **Summary/Objective:** Highlighting his passion for AI, Machine Learning, and Software Engineering.\n*   **Education:** His studies in Computer Science Engineering at the National School of Applied Sciences of Kenitra (ENSAK).\n*   **Experience:** Including his role as a Software Development Intern and Full Stack Developer.\n*   **Skills:** A comprehensive list of technical skills across programming languages (Python, Java, JavaScript), frameworks (React, Node.js), databases (SQL, MongoDB), cloud platforms (AWS), and AI/ML concepts (NLP, Computer Vision, Deep Learning).\n*   **Projects:** Examples of his work, such as an Intelligent Chatbot, Fake News Detection, and Real-time Object Detection.\n*   **Languages:** Arabic, French, English.\n\nIn essence, the PDF is talking about **Zakariae Amrani's professional qualifications, experience, and skills in the fields of software development, artificial intelligence, and machine learning.**",
-      "timestamp": "2025-08-04T14:54:26.731Z"
-    },
-    {
-      "id": "d41460ab-c6e7-41e6-82ae-e0265211c95b",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "user",
-      "content": "give me the experiences part",
-      "timestamp": "2025-08-04T14:54:46.352Z"
-    },
-    {
-      "id": "19559133-ff99-479d-852d-d24443e13616",
-      "chatId": "767df96e-ae8d-458c-8ada-355a117a0cdf",
-      "type": "assistant",
-      "content": "Based on the \"zakariae-amrani-cv.pdf\" document, here is the \"Experiences\" section:\n\n---\n\n### Experiences\n\n**Full Stack Developer (Internship)**\n**Capgemini** | Paris, France\n*June 2024 – August 2024*\n* Developed a comprehensive web application for managing Capgemini's internal projects.\n* Technologies used: Angular for front-end, Spring Boot for back-end, and MySQL for database.\n* Implemented RESTful APIs to ensure seamless data flow and integration between front-end and back-end.\n*",
-      "timestamp": "2025-08-04T14:54:53.730Z"
+      "timestamp": "2025-08-04T15:01:26.383Z"
     }
   ]
 }
