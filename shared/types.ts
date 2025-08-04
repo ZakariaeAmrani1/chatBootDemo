@@ -48,6 +48,7 @@ export interface UserSettings {
   reducedMotion: boolean;
   screenReader: boolean;
   geminiApiKey?: string;
+  geminiModel?: string;
   appUrl?: string;
   // App customization settings
   appName?: string;
