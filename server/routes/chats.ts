@@ -426,12 +426,6 @@ async function generateAIResponse(
       const geminiApiKey = user?.settings?.geminiApiKey;
       const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
-      console.log("Debug - User ID:", userId);
-      console.log("Debug - User found:", !!user);
-      console.log("Debug - User settings:", user?.settings);
-      console.log("Debug - Gemini API Key length:", geminiApiKey?.length || 0);
-      console.log("Debug - Gemini Model:", geminiModel);
-
       if (!geminiApiKey || !geminiApiKey.trim()) {
         return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
       }
