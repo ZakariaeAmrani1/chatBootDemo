@@ -416,6 +416,7 @@ const Chatbot = () => {
             isLoading={chatState.isLoading}
             error={chatState.error}
             onMessageUpdate={handleMessageUpdate}
+            onStartChat={handleStartChat}
             user={user}
           />
         </div>
