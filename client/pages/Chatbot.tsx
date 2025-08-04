@@ -217,6 +217,8 @@ const Chatbot = () => {
   };
 
   const handleStartChat = async (model: string, pdfFile: File) => {
+    if (!user) return;
+
     try {
       // Update selected model to match the one chosen
       setSelectedModel(model);
@@ -227,7 +229,7 @@ const Chatbot = () => {
         model: model,
         chatbootVersion: selectedVersion,
         pdfFile: pdfFile,
-      });
+      }, user.id);
     } catch (error) {
       console.error("Failed to start chat:", error);
     }
