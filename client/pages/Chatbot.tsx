@@ -6,7 +6,8 @@ import {
   Share2,
   Menu,
   X,
-  ChevronDown,
+  Brain,
+  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,41 +44,40 @@ const Chatbot = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
+  const [models, setModels] = useState<any[]>([]);
 
-  // Version configurations with colors
-  const versions = [
-    {
-      name: "V1",
-      fullName: "ChatNova V1",
-      color: "text-slate-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-slate-300",
-    },
-    {
-      name: "V2",
-      fullName: "ChatNova V2",
-      color: "text-blue-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-blue-300",
-    },
-    {
-      name: "V3",
-      fullName: "ChatNova V3",
-      color: "text-purple-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-purple-300",
-    },
-    {
-      name: "V4",
-      fullName: "ChatNova V4",
-      color: "text-orange-600",
-      bgColor: "bg-transparent",
-      borderColor: "border-orange-300",
-    },
-  ];
+  // Load models for display
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const response = await apiService.getModels();
+        if (response.success && response.data) {
+          setModels(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to load models:", error);
+      }
+    };
+    loadModels();
+  }, []);
 
-  const getCurrentVersion = () =>
-    versions.find((v) => v.fullName === selectedVersion) || versions[2];
+  // Get current model info
+  const getCurrentModel = () => {
+    const model = models.find((m) => m.id === selectedModel);
+    return (
+      model || {
+        name: "No Model",
+        color: "text-muted-foreground",
+        icon: "Brain",
+      }
+    );
+  };
+
+  // Icon mapping
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    Brain,
+    Globe,
+  };
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
@@ -193,6 +193,23 @@ const Chatbot = () => {
       chatbootVersion: selectedVersion,
       message: message, // This can be undefined for empty chats
     });
+  };
+
+  const handleStartChat = async (model: string, pdfFile: File) => {
+    try {
+      // Update selected model to match the one chosen
+      setSelectedModel(model);
+
+      // Create chat with the selected model and PDF
+      await chatService.createChat({
+        title: "New Chat",
+        model: model,
+        chatbootVersion: selectedVersion,
+        pdfFile: pdfFile,
+      });
+    } catch (error) {
+      console.error("Failed to start chat:", error);
+    }
   };
 
   const addMessage = async (
@@ -347,54 +364,30 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-105",
-                    getCurrentVersion().bgColor,
-                    getCurrentVersion().borderColor,
-                    "shadow-sm",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "text-sm font-medium transition-colors",
-                      getCurrentVersion().color,
-                    )}
-                  >
-                    {getCurrentVersion().fullName}
-                  </span>
-                  <ChevronDown className="h-3 w-3 text-muted-foreground/70" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-40 p-1">
-                {versions.map((version) => (
-                  <DropdownMenuItem
-                    key={version.fullName}
-                    onClick={() => setSelectedVersion(version.fullName)}
-                    className={cn(
-                      "flex items-center justify-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 border",
-                      "hover:bg-muted/30",
-                      selectedVersion === version.fullName
-                        ? `bg-transparent ${version.borderColor}`
-                        : "border-transparent hover:border-muted",
-                    )}
-                  >
+            <div
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-xl border bg-muted/30",
+                "shadow-sm",
+              )}
+            >
+              {(() => {
+                const model = getCurrentModel();
+                const IconComponent = iconMap[model.icon] || Brain;
+                return (
+                  <>
+                    <IconComponent className={cn("w-4 h-4", model.color)} />
                     <span
                       className={cn(
-                        "text-sm font-medium",
-                        selectedVersion === version.fullName
-                          ? version.color
-                          : "text-foreground",
+                        "text-sm font-medium transition-colors",
+                        model.color,
                       )}
                     >
-                      {version.name}
+                      {model.name}
                     </span>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </>
+                );
+              })()}
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -429,17 +422,20 @@ const Chatbot = () => {
             isLoading={chatState.isLoading}
             error={chatState.error}
             onMessageUpdate={handleMessageUpdate}
+            onStartChat={handleStartChat}
             user={user}
           />
         </div>
 
-        {/* Chat Input - Fixed at bottom */}
-        <div className="sticky bottom-0 z-10">
-          <ChatInput
-            onSendMessage={addMessage}
-            disabled={chatState.isLoading || chatState.isThinking}
-          />
-        </div>
+        {/* Chat Input - Fixed at bottom - Only show when chat is active */}
+        {chatState.currentChat && (
+          <div className="sticky bottom-0 z-10">
+            <ChatInput
+              onSendMessage={addMessage}
+              disabled={chatState.isLoading || chatState.isThinking}
+            />
+          </div>
+        )}
       </div>
 
       {/* Settings Modal */}

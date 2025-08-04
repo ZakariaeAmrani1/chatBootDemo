@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
-import { ModelSelectorCards } from "@/components/ModelSelectorCards";
+import { ModelAndPDFSelector } from "@/components/ModelAndPDFSelector";
 import FadeInText from "@/components/FadeInText";
 import { useTheme } from "@/components/ThemeProvider";
 import { getAppLogo } from "@/lib/app-config";
@@ -22,6 +22,7 @@ interface ChatAreaProps {
   error?: string | null;
   onRegenerateMessage?: (messageId: string) => void;
   onMessageUpdate?: (messageId: string, updates: Partial<Message>) => void;
+  onStartChat?: (model: string, pdfFile: File) => void;
   user?: User | null;
 }
 
@@ -34,6 +35,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   error = null,
   onRegenerateMessage,
   onMessageUpdate,
+  onStartChat,
   user,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -234,14 +236,15 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             How can I help you today?
           </h3>
           <p className="text-muted-foreground mb-8">
-            Choose your AI model and start a conversation
+            Choose your AI model and upload a PDF to start analyzing
           </p>
 
-          {/* Model Selection */}
+          {/* Model and PDF Selection */}
           <div className="w-full max-w-4xl pb-8">
-            <ModelSelectorCards
+            <ModelAndPDFSelector
               selectedModel={selectedModel}
               onModelChange={onModelChange}
+              onStartChat={onStartChat || (() => {})}
             />
           </div>
         </div>

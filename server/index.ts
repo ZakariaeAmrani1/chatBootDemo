@@ -9,6 +9,7 @@ import {
   sendMessage,
   updateChat,
   deleteChat,
+  uploadPDF,
 } from "./routes/chats";
 import {
   getCurrentUser,
@@ -47,7 +48,7 @@ export function createServer() {
   // Chat API routes
   app.get("/api/chats", getChats);
   app.get("/api/chats/:chatId/messages", getChatMessages);
-  app.post("/api/chats", createChat);
+  app.post("/api/chats", uploadPDF, createChat);
   app.post("/api/chats/message", sendMessage);
   app.put("/api/chats/:chatId", updateChat);
   app.delete("/api/chats/:chatId", deleteChat);

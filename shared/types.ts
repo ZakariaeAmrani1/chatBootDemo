@@ -47,7 +47,8 @@ export interface UserSettings {
   highContrast: boolean;
   reducedMotion: boolean;
   screenReader: boolean;
-  grokApiKey?: string;
+  geminiApiKey?: string;
+  geminiModel?: string;
   appUrl?: string;
   // App customization settings
   appName?: string;
@@ -76,6 +77,7 @@ export interface Chat {
   updatedAt: string;
   messageCount: number;
   userId: string;
+  pdfFile?: FileAttachment; // PDF file associated with this chat
 }
 
 export interface FileAttachment {
@@ -93,6 +95,7 @@ export interface CreateChatRequest {
   chatbootVersion?: string;
   message?: string;
   attachments?: File[];
+  pdfFile?: File; // Required PDF file for the chat
 }
 
 export interface SendMessageRequest {
