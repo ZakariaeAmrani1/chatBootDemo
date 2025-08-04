@@ -112,7 +112,7 @@ export function PDFPreview({
     >
       {/* Resize Handle */}
       <div
-        className="absolute left-0 top-0 w-1 h-full cursor-col-resize hover:bg-primary/20 transition-colors group"
+        className="absolute left-0 top-0 w-1 h-full cursor-col-resize hover:bg-primary/20 transition-colors group hidden sm:block"
         onMouseDown={handleMouseDown}
       >
         <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-background border border-border rounded p-1 shadow-lg">
