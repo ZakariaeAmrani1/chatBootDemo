@@ -363,7 +363,7 @@ const Chatbot = () => {
       {/* Main content */}
       <div className={cn(
         "flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen",
-        chatState.currentChat?.pdfFile && pdfPreviewOpen ? "mr-96" : ""
+        chatState.currentChat?.pdfFile && pdfPreviewOpen ? "sm:mr-96" : ""
       )}>
         {/* Header - Fixed */}
         <header className="flex items-center justify-between p-4 border-b border-border bg-background sticky top-0 z-10">
