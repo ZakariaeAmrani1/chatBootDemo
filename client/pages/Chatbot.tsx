@@ -112,6 +112,13 @@ const Chatbot = () => {
     }
   }, [user]);
 
+  // Load user's selected model when user is authenticated
+  useEffect(() => {
+    if (user?.settings?.selectedModel) {
+      setSelectedModel(user.settings.selectedModel);
+    }
+  }, [user?.settings?.selectedModel]);
+
   // User data is now provided by AuthContext
 
   // Helper functions to apply appearance settings
