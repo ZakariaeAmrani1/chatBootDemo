@@ -110,6 +110,16 @@ export function PDFPreview({
         maxWidth: isOpen ? '80vw' : '0px',
       }}
     >
+      {/* Resize Handle */}
+      <div
+        className="absolute left-0 top-0 w-1 h-full cursor-col-resize hover:bg-primary/20 transition-colors group"
+        onMouseDown={handleMouseDown}
+      >
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-background border border-border rounded p-1 shadow-lg">
+          <GripVertical className="h-3 w-3 text-muted-foreground" />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="flex items-center gap-2 flex-1 min-w-0">
