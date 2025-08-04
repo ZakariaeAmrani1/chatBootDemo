@@ -464,6 +464,15 @@ const Chatbot = () => {
         chat={chatState.currentChat}
         appUrl={user?.settings?.appUrl || "http://localhost:8080"}
       />
+
+      {/* PDF Preview */}
+      {chatState.currentChat?.pdfFile && (
+        <PDFPreview
+          pdfFile={chatState.currentChat.pdfFile}
+          isOpen={pdfPreviewOpen}
+          onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
+        />
+      )}
     </div>
   );
 };
