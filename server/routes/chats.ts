@@ -239,7 +239,7 @@ export const createChat: RequestHandler = (req, res) => {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: await generateAIResponse(message, userId),
+          content: await generateAIResponse(message, userId, chatId),
           timestamp: new Date().toISOString(),
         };
 
