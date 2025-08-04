@@ -344,6 +344,17 @@ const Chatbot = () => {
     } catch (error) {
       console.error("Failed to save model preference:", error);
     }
+
+    // Update current chat's model if there's an active chat
+    if (chatState.currentChat) {
+      try {
+        await apiService.updateChat(chatState.currentChat.id, { model: modelId });
+        // Update the local chat state to reflect the change
+        chatService.updateMessage("", {}); // This will trigger a state refresh
+      } catch (error) {
+        console.error("Failed to update chat model:", error);
+      }
+    }
   };
 
   const handleMessageUpdate = (
