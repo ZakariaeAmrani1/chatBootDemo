@@ -63,6 +63,24 @@
         "url": "/api/files/d2ecf0c5-bb05-4ceb-82dd-b0b605e5b3a7.pdf",
         "uploadedAt": "2025-08-04T14:26:27.004Z"
       }
+    },
+    {
+      "id": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
+      "title": "hello",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:29:21.749Z",
+      "updatedAt": "2025-08-04T14:29:28.608Z",
+      "messageCount": 3,
+      "userId": "user-1",
+      "pdfFile": {
+        "id": "e06ed1e7-708c-4155-81f0-1198b3bebd94",
+        "name": "aaa.pdf",
+        "size": 79275,
+        "type": "application/pdf",
+        "url": "/api/files/76435591-06f5-4b19-a32c-2d1adeb4f078.pdf",
+        "uploadedAt": "2025-08-04T14:29:21.749Z"
+      }
     }
   ],
   "messages": [
@@ -184,6 +202,27 @@
       "type": "assistant",
       "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
       "timestamp": "2025-08-04T14:26:32.397Z"
+    },
+    {
+      "id": "f2252530-9c1f-4aa6-921a-b8df95e63cd2",
+      "chatId": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:29:23.250Z"
+    },
+    {
+      "id": "06bb4fb1-c8af-4653-8cff-72458c80e182",
+      "chatId": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:29:27.105Z"
+    },
+    {
+      "id": "a43eba66-dbd1-4949-96d1-866e9002a1bf",
+      "chatId": "5baa87f2-0e9e-42c9-b97f-f59eb6e08ec1",
+      "type": "assistant",
+      "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+      "timestamp": "2025-08-04T14:29:28.608Z"
     }
   ]
 }
