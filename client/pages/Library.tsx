@@ -334,14 +334,18 @@ const Library: React.FC = () => {
         )}
 
         {/* Empty State */}
-        {filteredItems.length === 0 && (
+        {!isLoading && filteredItems.length === 0 && (
           <div className="text-center py-12">
             <BookOpen className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">No items found</h3>
             <p className="text-muted-foreground mb-4">
               {searchQuery
                 ? "Try adjusting your search terms or filters."
-                : "Your library is empty. Start saving content to see it here."}
+                : activeTab === "document"
+                ? "No documents found. Upload PDF files in your chats to see them here."
+                : activeTab === "model"
+                ? "No models available. Check your configuration."
+                : "Your library is empty. Start chatting and uploading files to see content here."}
             </p>
             {searchQuery && (
               <Button variant="outline" onClick={() => setSearchQuery("")}>
