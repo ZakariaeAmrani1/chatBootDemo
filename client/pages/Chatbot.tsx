@@ -350,7 +350,7 @@ const Chatbot = () => {
       try {
         await apiService.updateChat(chatState.currentChat.id, { model: modelId });
         // Update the local chat state to reflect the change
-        chatService.updateMessage("", {}); // This will trigger a state refresh
+        chatService.updateCurrentChat({ model: modelId });
       } catch (error) {
         console.error("Failed to update chat model:", error);
       }
