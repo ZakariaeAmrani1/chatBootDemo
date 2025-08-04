@@ -47,7 +47,7 @@ export interface UserSettings {
   highContrast: boolean;
   reducedMotion: boolean;
   screenReader: boolean;
-  grokApiKey?: string;
+  geminiApiKey?: string;
   appUrl?: string;
   // App customization settings
   appName?: string;
