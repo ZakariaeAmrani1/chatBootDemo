@@ -107,9 +107,53 @@ export class DataManager {
 
     if (chatIndex === -1) return false;
 
+    const chat = data.chats[chatIndex];
+
+    // Delete associated PDF file if it exists
+    if (chat.pdfFile) {
+      try {
+        // Extract filename from URL (e.g., "/api/files/filename.pdf" -> "filename.pdf")
+        const filename = chat.pdfFile.url.split("/").pop();
+        if (filename) {
+          const filePath = path.join(process.cwd(), "server/uploads", filename);
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+          }
+        }
+
+        // Also remove from files.json
+        const filesData = this.readJsonFile<{ files: FileAttachment[] }>(
+          "files.json",
+        );
+        filesData.files = filesData.files.filter(
+          (file) => file.id !== chat.pdfFile?.id,
+        );
+        this.writeJsonFile("files.json", filesData);
+      } catch (error) {
+        console.error("Failed to delete PDF file:", error);
+        // Continue with chat deletion even if file deletion fails
+      }
+    }
+
     // Remove chat and all its messages
     data.chats.splice(chatIndex, 1);
     data.messages = data.messages.filter((message) => message.chatId !== id);
+
+    // Also clean up any remaining references to the deleted file in other messages
+    if (chat.pdfFile) {
+      data.messages = data.messages.map((message) => {
+        if (message.attachments) {
+          message.attachments = message.attachments.filter(
+            (attachment) => attachment.id !== chat.pdfFile?.id,
+          );
+          if (message.attachments.length === 0) {
+            delete message.attachments;
+          }
+        }
+        return message;
+      });
+    }
+
     this.writeJsonFile("chats.json", data);
     return true;
   }

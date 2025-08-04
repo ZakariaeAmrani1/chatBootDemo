@@ -9,6 +9,7 @@ import {
   sendMessage,
   updateChat,
   deleteChat,
+  uploadPDF,
 } from "./routes/chats";
 import {
   getCurrentUser,
@@ -18,12 +19,18 @@ import {
   uploadLightLogo,
   uploadDarkLogo,
 } from "./routes/users";
-import { uploadFiles, serveFile, getFileInfo } from "./routes/files";
+import {
+  uploadFiles,
+  serveFile,
+  getFileInfo,
+  getAllFiles,
+} from "./routes/files";
 import {
   getDataStats,
   clearChatHistory,
   clearUploadedFiles,
 } from "./routes/data";
+import { resetUserSettings } from "./routes/data-reset";
 import { handleMessageFeedback } from "./routes/feedback";
 import { getModels, addModel } from "./routes/models";
 import { loginUser, registerUser, verifyUserToken } from "./routes/auth";
@@ -47,7 +54,7 @@ export function createServer() {
   // Chat API routes
   app.get("/api/chats", getChats);
   app.get("/api/chats/:chatId/messages", getChatMessages);
-  app.post("/api/chats", createChat);
+  app.post("/api/chats", uploadPDF, createChat);
   app.post("/api/chats/message", sendMessage);
   app.put("/api/chats/:chatId", updateChat);
   app.delete("/api/chats/:chatId", deleteChat);
@@ -62,6 +69,7 @@ export function createServer() {
 
   // File API routes
   app.post("/api/files/upload", ...uploadFiles);
+  app.get("/api/files", getAllFiles);
   app.get("/api/files/:filename", serveFile);
   app.get("/api/files/info/:fileId", getFileInfo);
 
@@ -69,6 +77,7 @@ export function createServer() {
   app.get("/api/data/stats", getDataStats);
   app.post("/api/data/clear-chats", clearChatHistory);
   app.post("/api/data/clear-files", clearUploadedFiles);
+  app.post("/api/data/reset-settings", resetUserSettings);
 
   // Feedback API routes
   app.post("/api/messages/feedback", handleMessageFeedback);

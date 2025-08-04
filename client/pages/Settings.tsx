@@ -98,6 +98,10 @@ const Settings: React.FC<SettingsProps> = ({
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isUploadingLightLogo, setIsUploadingLightLogo] = useState(false);
   const [isUploadingDarkLogo, setIsUploadingDarkLogo] = useState(false);
+  const [selectedDeletionItems, setSelectedDeletionItems] = useState<string[]>(
+    [],
+  );
+  const [showDeletionDialog, setShowDeletionDialog] = useState(false);
 
   // Use auth context for user data instead of local state
   const { user, updateUser } = useAuth();
@@ -233,6 +237,61 @@ const Settings: React.FC<SettingsProps> = ({
       );
     } finally {
       setIsClearing(false);
+    }
+  };
+
+  const handleSelectiveDeletion = () => {
+    setShowDeletionDialog(true);
+  };
+
+  const handleDeletionToggle = (item: string) => {
+    setSelectedDeletionItems((prev) =>
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item],
+    );
+  };
+
+  const handleConfirmSelectiveDeletion = async () => {
+    if (selectedDeletionItems.length === 0) return;
+
+    setIsClearing(true);
+    setError(null);
+
+    try {
+      // Call different APIs based on selected items
+      const promises = [];
+
+      if (selectedDeletionItems.includes("chatHistory")) {
+        promises.push(apiService.clearChatHistory());
+      }
+      if (selectedDeletionItems.includes("uploadedFiles")) {
+        promises.push(apiService.clearUploadedFiles());
+      }
+      if (selectedDeletionItems.includes("userSettings")) {
+        promises.push(apiService.resetUserSettings());
+      }
+
+      const results = await Promise.all(promises);
+      const allSuccessful = results.every((result) => result.success);
+
+      if (allSuccessful) {
+        await loadDataStats();
+        setShowSuccessDialog(true);
+        setSelectedDeletionItems([]);
+      } else {
+        const failures = results.filter((result) => !result.success);
+        setError(
+          `Failed to delete some items: ${failures.map((f) => f.error).join(", ")}`,
+        );
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to delete selected data",
+      );
+    } finally {
+      setIsClearing(false);
+      setShowDeletionDialog(false);
     }
   };
 
@@ -779,15 +838,15 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Key className="h-4 w-4" />
-            <Label htmlFor="grokApiKey">Grok API Key</Label>
+            <Label htmlFor="geminiApiKey">Gemini API Key</Label>
           </div>
           <div className="relative">
             <Input
-              id="grokApiKey"
+              id="geminiApiKey"
               type={showApiKey ? "text" : "password"}
-              placeholder="Enter your Grok API key..."
-              value={user?.settings.grokApiKey || ""}
-              onChange={(e) => updateSetting("grokApiKey", e.target.value)}
+              placeholder="Enter your Gemini API key..."
+              value={user?.settings.geminiApiKey || ""}
+              onChange={(e) => updateSetting("geminiApiKey", e.target.value)}
               disabled={isSaving}
               className="font-mono text-sm pr-10"
             />
@@ -809,13 +868,74 @@ const Settings: React.FC<SettingsProps> = ({
             Your API key is stored securely and used to enable AI chat
             functionality. Get your key from{" "}
             <a
-              href="https://console.groq.com/"
+              href="https://aistudio.google.com/app/apikey"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              Groq Console
+              Google AI Studio
             </a>
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Settings2 className="h-4 w-4" />
+            <Label htmlFor="geminiModel">Gemini Model</Label>
+          </div>
+          <Select
+            value={user?.settings.geminiModel || "gemini-1.5-flash-latest"}
+            onValueChange={(value) => updateSetting("geminiModel", value)}
+            disabled={isSaving}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select Gemini model" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="gemini-2.5-pro">
+                Gemini 2.5 Pro - Most Advanced & Capable
+              </SelectItem>
+              <SelectItem value="gemini-2.5-flash">
+                Gemini 2.5 Flash - Advanced & Fast
+              </SelectItem>
+              <SelectItem value="gemini-2.0-flash-exp">
+                Gemini 2.0 Flash (Experimental) - Next Generation Fast
+              </SelectItem>
+              <SelectItem value="gemini-exp-1206">
+                Gemini Experimental 1206 - Latest Experimental
+              </SelectItem>
+              <SelectItem value="gemini-1.5-pro-002">
+                Gemini 1.5 Pro-002 - Latest Production
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash-latest">
+                Gemini 1.5 Flash (Latest) - Fast & Efficient
+              </SelectItem>
+              <SelectItem value="gemini-1.5-pro-latest">
+                Gemini 1.5 Pro (Latest) - Most Capable
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash-8b-latest">
+                Gemini 1.5 Flash 8B (Latest) - Ultra Fast
+              </SelectItem>
+              <SelectItem value="gemini-1.0-pro-latest">
+                Gemini 1.0 Pro (Latest) - Balanced
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash">
+                Gemini 1.5 Flash - Stable
+              </SelectItem>
+              <SelectItem value="gemini-1.5-pro">
+                Gemini 1.5 Pro - Stable
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash-8b">
+                Gemini 1.5 Flash 8B - Ultra Fast Stable
+              </SelectItem>
+              <SelectItem value="gemini-1.0-pro">
+                Gemini 1.0 Pro - Stable
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            Choose the Gemini model that best fits your needs. Flash models are
+            faster, Pro models are more capable.
           </p>
         </div>
 
@@ -955,20 +1075,84 @@ const Settings: React.FC<SettingsProps> = ({
           </CardContent>
         </Card>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           <Button variant="outline" className="w-full justify-start">
             <Download className="h-4 w-4 mr-2" />
             Export All Data
           </Button>
-          <Button
-            variant="destructive"
-            className="w-full justify-start"
-            onClick={handleClearChatHistory}
-            disabled={isClearing}
-          >
-            <Trash2 className="h-4 w-4 mr-2" />
-            {isClearing ? "Clearing..." : "Clear All Chat History"}
-          </Button>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Data Management</CardTitle>
+              <CardDescription>
+                Select which data types you want to delete
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="chatHistory"
+                    checked={selectedDeletionItems.includes("chatHistory")}
+                    onChange={() => handleDeletionToggle("chatHistory")}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label
+                    htmlFor="chatHistory"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Chat History (
+                    {dataStats?.chatHistory.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="uploadedFiles"
+                    checked={selectedDeletionItems.includes("uploadedFiles")}
+                    onChange={() => handleDeletionToggle("uploadedFiles")}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label
+                    htmlFor="uploadedFiles"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Uploaded Files (
+                    {dataStats?.uploadedFiles.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="userSettings"
+                    checked={selectedDeletionItems.includes("userSettings")}
+                    onChange={() => handleDeletionToggle("userSettings")}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label
+                    htmlFor="userSettings"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    User Settings (
+                    {dataStats?.userSettings.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+              </div>
+
+              <Button
+                variant="destructive"
+                className="w-full mt-4"
+                onClick={handleSelectiveDeletion}
+                disabled={selectedDeletionItems.length === 0 || isClearing}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                {isClearing
+                  ? "Deleting..."
+                  : `Delete Selected (${selectedDeletionItems.length})`}
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
@@ -1472,7 +1656,7 @@ const Settings: React.FC<SettingsProps> = ({
         </div>
       </div>
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation Dialog for Chat History */}
       <ConfirmDialog
         open={showConfirmDialog}
         onOpenChange={setShowConfirmDialog}
@@ -1481,6 +1665,31 @@ const Settings: React.FC<SettingsProps> = ({
         confirmText="Clear All"
         cancelText="Cancel"
         onConfirm={handleConfirmClear}
+        destructive={true}
+      />
+
+      {/* Selective Deletion Dialog */}
+      <ConfirmDialog
+        open={showDeletionDialog}
+        onOpenChange={setShowDeletionDialog}
+        title="Delete Selected Data"
+        description={`Are you sure you want to delete the following data types? This action cannot be undone.\n\n${selectedDeletionItems
+          .map((item) => {
+            switch (item) {
+              case "chatHistory":
+                return "• Chat History - All your conversations will be permanently deleted";
+              case "uploadedFiles":
+                return "• Uploaded Files - All PDF files and attachments will be permanently deleted";
+              case "userSettings":
+                return "• User Settings - All preferences will be reset to default values";
+              default:
+                return `• ${item}`;
+            }
+          })
+          .join("\n")}`}
+        confirmText={`Delete ${selectedDeletionItems.length} Item${selectedDeletionItems.length !== 1 ? "s" : ""}`}
+        cancelText="Cancel"
+        onConfirm={handleConfirmSelectiveDeletion}
         destructive={true}
       />
 

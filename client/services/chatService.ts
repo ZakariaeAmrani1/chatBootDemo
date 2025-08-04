@@ -98,11 +98,16 @@ class ChatService {
     }
   }
 
-  async createChat(request: CreateChatRequest): Promise<Chat | null> {
+  async createChat(
+    request: CreateChatRequest,
+    userId?: string,
+  ): Promise<Chat | null> {
     this.setState({ isLoading: true, error: null });
 
     try {
-      const response = await apiService.createChat(request);
+      // Add userId to request if provided
+      const requestWithUserId = userId ? { ...request, userId } : request;
+      const response = await apiService.createChat(requestWithUserId);
 
       if (response.success && response.data) {
         const newChat = response.data;
@@ -113,11 +118,11 @@ class ChatService {
           currentChat: newChat,
           messages: [],
           isLoading: false,
-          isThinking: request.message ? true : false, // Only thinking if there was a message
+          isThinking: request.message || request.pdfFile ? true : false, // Thinking if there was a message or PDF file
         });
 
-        // Start polling for new messages (AI response) only if there was a message
-        if (request.message && request.message.trim()) {
+        // Start polling for new messages (AI response) if there was a message or PDF file
+        if ((request.message && request.message.trim()) || request.pdfFile) {
           this.startPollingForMessages(newChat.id);
         }
 
@@ -274,6 +279,18 @@ class ChatService {
       msg.id === messageId ? { ...msg, ...updates } : msg,
     );
     this.setState({ messages: updatedMessages });
+  }
+
+  updateCurrentChat(updates: Partial<Chat>): void {
+    if (this.state.currentChat) {
+      const updatedChat = { ...this.state.currentChat, ...updates };
+      this.setState({
+        currentChat: updatedChat,
+        chats: this.state.chats.map((chat) =>
+          chat.id === updatedChat.id ? updatedChat : chat,
+        ),
+      });
+    }
   }
 }
 
