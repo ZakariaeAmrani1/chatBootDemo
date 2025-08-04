@@ -348,10 +348,10 @@ const Library: React.FC = () => {
               {searchQuery
                 ? "Try adjusting your search terms or filters."
                 : activeTab === "document"
-                ? "No documents found. Upload PDF files in your chats to see them here."
+                ? "No PDF documents found. Upload PDF files to see them here."
                 : activeTab === "model"
                 ? "No models available. Check your configuration."
-                : "Your library is empty. Start chatting and uploading files to see content here."}
+                : "Your library is empty. Start uploading files to see content here."}
             </p>
             {searchQuery && (
               <Button variant="outline" onClick={() => setSearchQuery("")}>
