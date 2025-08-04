@@ -270,11 +270,18 @@ export const sendMessage: RequestHandler = (req, res) => {
 
     // Generate AI response
     setTimeout(async () => {
+      let aiResponseMessage = message;
+
+      // If chat has PDF, mention it in the context
+      if (chat.pdfFile) {
+        aiResponseMessage = `Based on the uploaded PDF "${chat.pdfFile.name}" and your question: "${message}"`;
+      }
+
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponse(message, chat.userId),
+        content: await generateAIResponse(aiResponseMessage, chat.userId),
         timestamp: new Date().toISOString(),
       };
 
