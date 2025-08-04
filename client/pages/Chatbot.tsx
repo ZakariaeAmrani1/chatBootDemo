@@ -22,6 +22,7 @@ import ChatSidebar from "@/components/ChatSidebar";
 import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import ShareModal from "@/components/ShareModal";
+import { PDFPreview } from "@/components/PDFPreview";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
@@ -46,6 +47,7 @@ const Chatbot = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
   const [models, setModels] = useState<any[]>([]);
+  const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
 
   // Load models for display
   useEffect(() => {
@@ -354,7 +356,10 @@ const Chatbot = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen">
+      <div className={cn(
+        "flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen",
+        chatState.currentChat?.pdfFile && pdfPreviewOpen ? "mr-96" : ""
+      )}>
         {/* Header - Fixed */}
         <header className="flex items-center justify-between p-4 border-b border-border bg-background sticky top-0 z-10">
           <div className="flex items-center gap-3">
