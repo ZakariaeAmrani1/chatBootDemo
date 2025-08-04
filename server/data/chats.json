@@ -113,6 +113,26 @@
       "updatedAt": "2025-08-04T15:38:25.395Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "ecdc6692-ca71-471d-b1c9-27cc123d0b35",
+      "title": "hello",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:41:30.639Z",
+      "updatedAt": "2025-08-04T15:41:35.031Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "1dfe2762-9b17-4f76-80d2-7308a2a77df3",
+      "title": "hello",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:41:36.776Z",
+      "updatedAt": "2025-08-04T15:41:40.845Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
@@ -537,6 +557,34 @@
       "type": "assistant",
       "content": "Hello there! How can I help you today?",
       "timestamp": "2025-08-04T15:38:25.395Z"
+    },
+    {
+      "id": "d522de83-88c9-4f87-a021-fc87728ca32d",
+      "chatId": "ecdc6692-ca71-471d-b1c9-27cc123d0b35",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T15:41:33.529Z"
+    },
+    {
+      "id": "561d3368-9a49-4041-920e-f972b55cdbb6",
+      "chatId": "ecdc6692-ca71-471d-b1c9-27cc123d0b35",
+      "type": "assistant",
+      "content": "[Local Cloud Response] I've analyzed your message: \"hello\". This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.",
+      "timestamp": "2025-08-04T15:41:35.031Z"
+    },
+    {
+      "id": "16a12abe-f6ed-4a19-b165-800151a5568b",
+      "chatId": "1dfe2762-9b17-4f76-80d2-7308a2a77df3",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T15:41:39.343Z"
+    },
+    {
+      "id": "55382641-96f2-4fae-bb58-65a5bb34d96e",
+      "chatId": "1dfe2762-9b17-4f76-80d2-7308a2a77df3",
+      "type": "assistant",
+      "content": "[Local Cloud Response] I've analyzed your message: \"hello\". This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.",
+      "timestamp": "2025-08-04T15:41:40.845Z"
     }
   ]
 }
