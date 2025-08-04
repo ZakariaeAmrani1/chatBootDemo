@@ -104,7 +104,7 @@ export function PDFPreview({
         className
       )}
       style={{
-        width: isOpen ? `${width}px` : '0px',
+        width: isOpen ? (window.innerWidth < 640 ? '100vw' : `${width}px`) : '0px',
         transition: isResizing ? 'none' : 'width 0.3s ease-in-out',
         minWidth: isOpen ? '320px' : '0px',
         maxWidth: isOpen ? '80vw' : '0px',
