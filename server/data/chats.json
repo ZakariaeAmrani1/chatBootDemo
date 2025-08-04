@@ -6,8 +6,8 @@
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
       "createdAt": "2025-08-04T15:00:33.343Z",
-      "updatedAt": "2025-08-04T15:01:26.383Z",
-      "messageCount": 8,
+      "updatedAt": "2025-08-04T15:10:36.907Z",
+      "messageCount": 9,
       "userId": "user-1",
       "pdfFile": {
         "id": "ac86c234-4c1b-4517-8c83-abe463d41c6e",
@@ -85,6 +85,13 @@
       "type": "assistant",
       "content": "I apologize, but I couldn't generate a response. Please try again.",
       "timestamp": "2025-08-04T15:01:26.383Z"
+    },
+    {
+      "id": "b232b73b-9e83-403d-b2e0-eece2cb6c1ac",
+      "chatId": "eb05a599-a7c7-4d49-a513-26ad7e7297fd",
+      "type": "user",
+      "content": "generate a content like the one of the pdf",
+      "timestamp": "2025-08-04T15:10:36.907Z"
     }
   ]
 }
