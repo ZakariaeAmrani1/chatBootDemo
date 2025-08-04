@@ -76,6 +76,7 @@ export interface Chat {
   updatedAt: string;
   messageCount: number;
   userId: string;
+  pdfFile?: FileAttachment; // PDF file associated with this chat
 }
 
 export interface FileAttachment {
