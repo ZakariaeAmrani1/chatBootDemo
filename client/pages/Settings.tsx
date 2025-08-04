@@ -98,7 +98,6 @@ const Settings: React.FC<SettingsProps> = ({
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isUploadingLightLogo, setIsUploadingLightLogo] = useState(false);
   const [isUploadingDarkLogo, setIsUploadingDarkLogo] = useState(false);
-  const [isClearing, setIsClearing] = useState(false);
   const [selectedDeletionItems, setSelectedDeletionItems] = useState<string[]>([]);
   const [showDeletionDialog, setShowDeletionDialog] = useState(false);
 
