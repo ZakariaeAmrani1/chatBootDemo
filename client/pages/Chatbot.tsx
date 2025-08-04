@@ -49,6 +49,7 @@ const Chatbot = () => {
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
   const [models, setModels] = useState<any[]>([]);
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
+  const [pdfPreviewWidth, setPdfPreviewWidth] = useState(384); // Default width (w-96)
 
   // Load models for display
   useEffect(() => {
@@ -361,10 +362,13 @@ const Chatbot = () => {
       </div>
 
       {/* Main content */}
-      <div className={cn(
-        "flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen",
-        chatState.currentChat?.pdfFile && pdfPreviewOpen ? "sm:mr-96" : ""
-      )}>
+      <div
+        className="flex-1 flex flex-col min-w-0 h-screen"
+        style={{
+          marginRight: chatState.currentChat?.pdfFile && pdfPreviewOpen ? `${pdfPreviewWidth}px` : '0px',
+          transition: 'margin-right 0.3s ease-in-out',
+        }}
+      >
         {/* Header - Fixed */}
         <header className="flex items-center justify-between p-4 border-b border-border bg-background sticky top-0 z-10">
           <div className="flex items-center gap-3">
@@ -500,6 +504,8 @@ const Chatbot = () => {
           pdfFile={chatState.currentChat.pdfFile}
           isOpen={pdfPreviewOpen}
           onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
+          width={pdfPreviewWidth}
+          onWidthChange={setPdfPreviewWidth}
         />
       )}
     </div>
