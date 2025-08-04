@@ -57,6 +57,24 @@
       "updatedAt": "2025-08-04T13:59:21.036Z",
       "messageCount": 0,
       "userId": "user-1"
+    },
+    {
+      "id": "fdbb35de-c585-4b09-b16e-e2355e139bfc",
+      "title": "New Chat",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T13:59:46.680Z",
+      "updatedAt": "2025-08-04T13:59:48.181Z",
+      "messageCount": 1,
+      "userId": "user-1",
+      "pdfFile": {
+        "id": "fd9640ee-eda6-4ade-863f-d978bc9f3d8a",
+        "name": "aaa.pdf",
+        "size": 79275,
+        "type": "application/pdf",
+        "url": "/api/files/3b31c344-50ee-4c28-ab7a-b3f895c48be9.pdf",
+        "uploadedAt": "2025-08-04T13:59:46.680Z"
+      }
     }
   ],
   "messages": [
@@ -94,6 +112,13 @@
       "type": "assistant",
       "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
       "timestamp": "2025-08-04T13:58:34.938Z"
+    },
+    {
+      "id": "a050a501-fc82-46f8-bdfb-efdb7d06cf48",
+      "chatId": "fdbb35de-c585-4b09-b16e-e2355e139bfc",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T13:59:48.181Z"
     }
   ]
 }
