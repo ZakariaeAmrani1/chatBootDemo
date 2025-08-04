@@ -133,6 +133,16 @@
       "updatedAt": "2025-08-04T15:41:40.845Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "c71565ed-4e99-42da-b670-815fbb9d963c",
+      "title": "New Chat",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T15:43:53.208Z",
+      "updatedAt": "2025-08-04T15:43:53.208Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
