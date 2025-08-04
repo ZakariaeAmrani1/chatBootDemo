@@ -48,8 +48,8 @@ export function PDFPreview({
     setIsResizing(true);
     setStartX(e.clientX);
     setStartWidth(width);
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
   };
 
   // Add global mouse event listeners
@@ -58,23 +58,26 @@ export function PDFPreview({
       if (!isResizing) return;
 
       const deltaX = startX - e.clientX;
-      const newWidth = Math.min(Math.max(startWidth + deltaX, 320), window.innerWidth * 0.8);
+      const newWidth = Math.min(
+        Math.max(startWidth + deltaX, 320),
+        window.innerWidth * 0.8,
+      );
       onWidthChange(newWidth);
     };
 
     const handleMouseUp = () => {
       setIsResizing(false);
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
     };
 
     if (isResizing) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
 
       return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
       };
     }
   }, [isResizing, startX, startWidth, onWidthChange]);
@@ -88,13 +91,17 @@ export function PDFPreview({
       className={cn(
         "fixed right-0 top-0 h-full bg-background border-l border-border shadow-lg z-20 flex flex-col",
         isOpen ? "" : "w-0",
-        className
+        className,
       )}
       style={{
-        width: isOpen ? (window.innerWidth < 640 ? '100vw' : `${width}px`) : '0px',
-        transition: isResizing ? 'none' : 'width 0.3s ease-in-out',
-        minWidth: isOpen ? '320px' : '0px',
-        maxWidth: isOpen ? '80vw' : '0px',
+        width: isOpen
+          ? window.innerWidth < 640
+            ? "100vw"
+            : `${width}px`
+          : "0px",
+        transition: isResizing ? "none" : "width 0.3s ease-in-out",
+        minWidth: isOpen ? "320px" : "0px",
+        maxWidth: isOpen ? "80vw" : "0px",
       }}
     >
       {/* Resize Handle */}
@@ -112,10 +119,7 @@ export function PDFPreview({
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <FileText className="h-4 w-4 text-red-500 flex-shrink-0" />
           <div className="flex-1 min-w-0">
-            <h3
-              className="text-sm font-medium truncate"
-              title={pdfFile.name}
-            >
+            <h3 className="text-sm font-medium truncate" title={pdfFile.name}>
               {pdfFile.name}
             </h3>
             <p className="text-xs text-muted-foreground">
@@ -155,7 +159,7 @@ export function PDFPreview({
             </div>
           </div>
         )}
-        
+
         <iframe
           src={`${pdfFile.url}#toolbar=1&navpanes=0&scrollbar=1`}
           className="w-full h-full border-none"
@@ -163,7 +167,7 @@ export function PDFPreview({
           onLoad={() => setIsLoading(false)}
           onError={() => setIsLoading(false)}
         />
-        
+
         {/* Fallback for browsers that don't support PDF viewing */}
         <div className="absolute bottom-4 left-4 right-4">
           <div className="bg-background/90 backdrop-blur-sm border border-border rounded-lg p-3">

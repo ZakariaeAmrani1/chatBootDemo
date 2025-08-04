@@ -51,14 +51,14 @@ const Chatbot = () => {
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
   const [pdfPreviewWidth, setPdfPreviewWidth] = useState(() => {
     // Load saved width from localStorage, default to 384px
-    const saved = localStorage.getItem('pdfPreviewWidth');
+    const saved = localStorage.getItem("pdfPreviewWidth");
     return saved ? parseInt(saved, 10) : 384;
   });
 
   // Save width changes to localStorage
   const handlePdfWidthChange = (width: number) => {
     setPdfPreviewWidth(width);
-    localStorage.setItem('pdfPreviewWidth', width.toString());
+    localStorage.setItem("pdfPreviewWidth", width.toString());
   };
 
   // Load models for display
@@ -375,9 +375,13 @@ const Chatbot = () => {
       <div
         className="flex-1 flex flex-col min-w-0 h-screen"
         style={{
-          marginRight: chatState.currentChat?.pdfFile && pdfPreviewOpen ?
-            (window.innerWidth < 640 ? '0px' : `${pdfPreviewWidth}px`) : '0px',
-          transition: 'margin-right 0.3s ease-in-out',
+          marginRight:
+            chatState.currentChat?.pdfFile && pdfPreviewOpen
+              ? window.innerWidth < 640
+                ? "0px"
+                : `${pdfPreviewWidth}px`
+              : "0px",
+          transition: "margin-right 0.3s ease-in-out",
         }}
       >
         {/* Header - Fixed */}

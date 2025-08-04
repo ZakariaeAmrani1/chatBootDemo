@@ -219,7 +219,10 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   }, [messages]);
 
   // Show initial page when: no active chat OR active chat with no messages and no PDF
-  if (!hasActiveChat || (hasActiveChat && messages.length === 0 && !currentChatHasPdf)) {
+  if (
+    !hasActiveChat ||
+    (hasActiveChat && messages.length === 0 && !currentChatHasPdf)
+  ) {
     return (
       <ScrollArea className="h-full">
         <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
