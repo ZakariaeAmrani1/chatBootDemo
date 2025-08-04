@@ -230,6 +230,13 @@ const Chatbot = () => {
       // Update selected model to match the one chosen
       setSelectedModel(model);
 
+      // Save model selection to user settings
+      try {
+        await apiService.updateUserSettings(user.id, { selectedModel: model });
+      } catch (error) {
+        console.error("Failed to save model preference:", error);
+      }
+
       // Create chat with the selected model and PDF
       await chatService.createChat({
         title: "New Chat",
