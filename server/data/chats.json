@@ -1,4 +1,101 @@
 {
-  "chats": [],
-  "messages": []
+  "chats": [
+    {
+      "id": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "title": "hello",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:21:40.556Z",
+      "updatedAt": "2025-08-04T14:23:10.413Z",
+      "messageCount": 11,
+      "userId": "user-1",
+      "pdfFile": {
+        "id": "4b31c26f-8720-4e42-8cf1-18ab36714572",
+        "name": "aaa.pdf",
+        "size": 79275,
+        "type": "application/pdf",
+        "url": "/api/files/c5bae047-869a-4384-badf-660d8f5db5bf.pdf",
+        "uploadedAt": "2025-08-04T14:21:40.556Z"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "bed4eeb7-a181-412c-80b0-b29be7e0f8dd",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"aaa.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:21:42.057Z"
+    },
+    {
+      "id": "76c830a8-d485-456c-80a5-7439447cd1fc",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:21:46.149Z"
+    },
+    {
+      "id": "e7ea4e4f-4e2c-42cc-bdd7-b61ea5b172b2",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "assistant",
+      "content": "Hello! It's great to meet you. How can I assist you today?",
+      "timestamp": "2025-08-04T14:21:47.651Z"
+    },
+    {
+      "id": "4c4b51f7-2a16-4c24-9d54-509c3a23595a",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "user",
+      "content": "can you read and analise pdfs ?",
+      "timestamp": "2025-08-04T14:22:20.850Z"
+    },
+    {
+      "id": "e1847b1f-7cc0-4277-97fc-baf7a7187e6d",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "assistant",
+      "content": "I see what you mean. Here's my perspective on this matter. Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-04T14:22:22.352Z"
+    },
+    {
+      "id": "c316c809-fa1c-4e1f-bb98-edd2aa10d6fd",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "user",
+      "content": "what model are you",
+      "timestamp": "2025-08-04T14:22:40.252Z"
+    },
+    {
+      "id": "fbef2a49-c2ef-4778-89d0-3d092fd83bba",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "assistant",
+      "content": "That's an interesting question! Here's what I think... Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-04T14:22:41.753Z"
+    },
+    {
+      "id": "7cd2e64a-8e7f-46fc-aa62-9dd691e4640f",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:23:03.927Z"
+    },
+    {
+      "id": "bbda95d3-23a8-46cb-b37b-a1afd2318e8c",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "assistant",
+      "content": "Hello! It's great to meet you. How can I assist you today?",
+      "timestamp": "2025-08-04T14:23:05.428Z"
+    },
+    {
+      "id": "b8129950-afbf-4879-9f83-8d7f462a5e93",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "user",
+      "content": "good",
+      "timestamp": "2025-08-04T14:23:08.912Z"
+    },
+    {
+      "id": "5bbcb92c-581d-49fb-8652-d01b833ff870",
+      "chatId": "f4e355fa-9e40-439d-a0c2-4b73fb948bc0",
+      "type": "assistant",
+      "content": "I understand what you're asking. Let me help you with that. Your message about \"Based on the uploaded PDF \"aaa...\" is noted. This is a simulated response - soon this will be connected to a real AI API like Grok!",
+      "timestamp": "2025-08-04T14:23:10.413Z"
+    }
+  ]
 }
