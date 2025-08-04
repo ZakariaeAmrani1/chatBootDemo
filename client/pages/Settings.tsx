@@ -239,6 +239,59 @@ const Settings: React.FC<SettingsProps> = ({
     }
   };
 
+  const handleSelectiveDeletion = () => {
+    setShowDeletionDialog(true);
+  };
+
+  const handleDeletionToggle = (item: string) => {
+    setSelectedDeletionItems(prev =>
+      prev.includes(item)
+        ? prev.filter(i => i !== item)
+        : [...prev, item]
+    );
+  };
+
+  const handleConfirmSelectiveDeletion = async () => {
+    if (selectedDeletionItems.length === 0) return;
+
+    setIsClearing(true);
+    setError(null);
+
+    try {
+      // Call different APIs based on selected items
+      const promises = [];
+
+      if (selectedDeletionItems.includes('chatHistory')) {
+        promises.push(apiService.clearChatHistory());
+      }
+      if (selectedDeletionItems.includes('uploadedFiles')) {
+        promises.push(apiService.clearUploadedFiles());
+      }
+      if (selectedDeletionItems.includes('userSettings')) {
+        promises.push(apiService.resetUserSettings());
+      }
+
+      const results = await Promise.all(promises);
+      const allSuccessful = results.every(result => result.success);
+
+      if (allSuccessful) {
+        await loadDataStats();
+        setShowSuccessDialog(true);
+        setSelectedDeletionItems([]);
+      } else {
+        const failures = results.filter(result => !result.success);
+        setError(`Failed to delete some items: ${failures.map(f => f.error).join(', ')}`);
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Failed to delete selected data",
+      );
+    } finally {
+      setIsClearing(false);
+      setShowDeletionDialog(false);
+    }
+  };
+
   const handleSuccessClose = () => {
     // Close settings modal and refresh the page
     onClose();
