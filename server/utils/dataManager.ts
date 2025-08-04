@@ -112,9 +112,6 @@ export class DataManager {
     // Delete associated PDF file if it exists
     if (chat.pdfFile) {
       try {
-        const fs = require("fs");
-        const path = require("path");
-
         // Extract filename from URL (e.g., "/api/files/filename.pdf" -> "filename.pdf")
         const filename = chat.pdfFile.url.split('/').pop();
         if (filename) {
