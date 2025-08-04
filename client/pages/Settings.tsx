@@ -833,11 +833,20 @@ const Settings: React.FC<SettingsProps> = ({
               <SelectValue placeholder="Select Gemini model" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="gemini-2.0-flash-exp">
+                Gemini 2.0 Flash (Experimental) - Next Generation Fast
+              </SelectItem>
+              <SelectItem value="gemini-exp-1206">
+                Gemini Experimental 1206 - Latest Experimental
+              </SelectItem>
               <SelectItem value="gemini-1.5-flash-latest">
                 Gemini 1.5 Flash (Latest) - Fast & Efficient
               </SelectItem>
               <SelectItem value="gemini-1.5-pro-latest">
                 Gemini 1.5 Pro (Latest) - Most Capable
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash-8b-latest">
+                Gemini 1.5 Flash 8B (Latest) - Ultra Fast
               </SelectItem>
               <SelectItem value="gemini-1.0-pro-latest">
                 Gemini 1.0 Pro (Latest) - Balanced
@@ -847,6 +856,9 @@ const Settings: React.FC<SettingsProps> = ({
               </SelectItem>
               <SelectItem value="gemini-1.5-pro">
                 Gemini 1.5 Pro - Stable
+              </SelectItem>
+              <SelectItem value="gemini-1.5-flash-8b">
+                Gemini 1.5 Flash 8B - Ultra Fast Stable
               </SelectItem>
               <SelectItem value="gemini-1.0-pro">
                 Gemini 1.0 Pro - Stable
