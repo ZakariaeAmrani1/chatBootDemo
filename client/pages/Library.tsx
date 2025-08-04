@@ -119,7 +119,6 @@ const Library: React.FC = () => {
       icon: <FileText className="w-4 h-4" />,
     },
     { key: "model", label: "Models", icon: <Brain className="w-4 h-4" /> },
-    { key: "design", label: "Design", icon: <Image className="w-4 h-4" /> },
   ];
 
   const filteredItems = libraryItems.filter((item) => {
