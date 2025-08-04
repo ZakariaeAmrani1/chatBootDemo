@@ -426,6 +426,7 @@ const Chatbot = () => {
             onMessageUpdate={handleMessageUpdate}
             onStartChat={handleStartChat}
             user={user}
+            hasActiveChat={!!chatState.currentChat}
           />
         </div>
 
