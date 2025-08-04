@@ -102,12 +102,15 @@ const Chatbot = () => {
   // Subscribe to chat service state changes
   useEffect(() => {
     const unsubscribe = chatService.subscribe(setChatState);
-
-    // Load initial chats
-    chatService.loadChats();
-
     return unsubscribe;
   }, []);
+
+  // Load chats when user is authenticated
+  useEffect(() => {
+    if (user && user.id) {
+      chatService.loadChats(user.id);
+    }
+  }, [user]);
 
   // User data is now provided by AuthContext
 
