@@ -81,6 +81,24 @@
         "url": "/api/files/76435591-06f5-4b19-a32c-2d1adeb4f078.pdf",
         "uploadedAt": "2025-08-04T14:29:21.749Z"
       }
+    },
+    {
+      "id": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "title": "hello",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-04T14:31:24.258Z",
+      "updatedAt": "2025-08-04T14:32:13.471Z",
+      "messageCount": 7,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "59460302-0216-4ea6-b2c9-2f664f35a093",
+        "name": "sss.pdf",
+        "size": 69016,
+        "type": "application/pdf",
+        "url": "/api/files/28da256a-bfb9-42d8-b045-99bdb7b16c27.pdf",
+        "uploadedAt": "2025-08-04T14:31:24.258Z"
+      }
     }
   ],
   "messages": [
@@ -223,6 +241,55 @@
       "type": "assistant",
       "content": "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
       "timestamp": "2025-08-04T14:29:28.608Z"
+    },
+    {
+      "id": "2e5c5be1-e399-43cf-9f05-836cc13a1ffe",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"sss.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-04T14:31:25.760Z"
+    },
+    {
+      "id": "f620462d-3b7c-475a-afbf-0dc7613e476d",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-04T14:31:29.971Z"
+    },
+    {
+      "id": "7168c1e9-63c5-4244-bd9b-a6e8c8584d0c",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "assistant",
+      "content": "You uploaded a PDF file named \"sss.pdf\" and then asked \"hello.\"\n\nSince I don't have access to external files, I cannot analyze the contents of \"sss.pdf\".  Therefore, I can't provide any information related to the file or answer any questions about it.\n\nMy response to \"hello\" is:\n\nHello! How can I help you?  (Without access to the PDF, I can only answer general questions.)\n",
+      "timestamp": "2025-08-04T14:31:32.974Z"
+    },
+    {
+      "id": "2dceeedf-d2a3-42c5-afed-0e7b38cf063b",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "user",
+      "content": "what model you are ?",
+      "timestamp": "2025-08-04T14:31:47.193Z"
+    },
+    {
+      "id": "3240e81b-4ffd-43b2-a1cb-345735cf8b1e",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "assistant",
+      "content": "Based on the uploaded PDF \"sss.pdf\" and the question \"what model you are?\", I can infer the following:\n\n*   **The PDF likely contains information about a statistical or machine learning model.** The filename \"sss.pdf\" could be an abbreviation or code name for a specific model or a class of models. The content of the PDF would provide details about the model's purpose, structure, inputs, outputs, and training methods.\n\nWithout the content of the PDF, I cannot definitively determine which model the PDF describes. To answer your question more accurately, I would need to analyze the content of \"sss.pdf\".\n",
+      "timestamp": "2025-08-04T14:31:50.300Z"
+    },
+    {
+      "id": "74408e5e-86d2-4c89-8b86-5b8bcb7ebe3b",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "user",
+      "content": "no forget the pdf which ai model are you ?",
+      "timestamp": "2025-08-04T14:32:11.011Z"
+    },
+    {
+      "id": "0f12df5b-9574-4bf0-a72c-e16d8e6dd9b2",
+      "chatId": "64ca7535-5c5f-436e-aa0e-4ec0b7d25145",
+      "type": "assistant",
+      "content": "I cannot access local files, including the PDF you uploaded (\"sss.pdf\"). Therefore, I cannot answer any questions based on its content.\n\nAs for the second part of your question: I am a large language model, trained by Google.\n",
+      "timestamp": "2025-08-04T14:32:13.471Z"
     }
   ]
 }

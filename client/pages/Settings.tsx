@@ -839,6 +839,9 @@ const Settings: React.FC<SettingsProps> = ({
               <SelectItem value="gemini-exp-1206">
                 Gemini Experimental 1206 - Latest Experimental
               </SelectItem>
+              <SelectItem value="gemini-1.5-pro-002">
+                Gemini 1.5 Pro-002 - Latest Production
+              </SelectItem>
               <SelectItem value="gemini-1.5-flash-latest">
                 Gemini 1.5 Flash (Latest) - Fast & Efficient
               </SelectItem>
