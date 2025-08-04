@@ -46,23 +46,21 @@ const Library: React.FC = () => {
   const [models, setModels] = useState<ChatModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch PDFs from user's chats
+  // Fetch all uploaded files and models
   useEffect(() => {
     const fetchLibraryData = async () => {
       if (!user?.id) return;
 
       setIsLoading(true);
       try {
-        // Get user's chats to find PDFs
-        const chatsResponse = await apiService.getChats(user.id);
-        if (chatsResponse.success && chatsResponse.data) {
-          const allPdfs: FileAttachment[] = [];
-          chatsResponse.data.forEach((chat: Chat) => {
-            if (chat.pdfFile) {
-              allPdfs.push(chat.pdfFile);
-            }
-          });
-          setPdfs(allPdfs);
+        // Get all uploaded files (PDFs)
+        const filesResponse = await apiService.getAllFiles();
+        if (filesResponse.success && filesResponse.data) {
+          // Filter for PDF files only
+          const pdfFiles = filesResponse.data.filter(file =>
+            file.type === 'application/pdf'
+          );
+          setPdfs(pdfFiles);
         }
 
         // Get available models
