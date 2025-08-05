@@ -210,19 +210,21 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         // First check if we have this category initialized
         if (categorized[chat.categoryId] !== undefined) {
           categorized[chat.categoryId].push(chat);
-          console.log(`Added chat "${chat.title}" to category "${chat.categoryId}"`);
+          console.log(`✓ Added "${chat.title}" to category "${chat.categoryId}"`);
         } else {
           // Category doesn't exist in our current categories, put in uncategorized
           uncategorized.push(chat);
-          console.log(`Chat "${chat.title}" has unknown categoryId "${chat.categoryId}", putting in uncategorized`);
+          console.log(`⚠ Unknown categoryId "${chat.categoryId}" for "${chat.title}"`);
         }
       } else {
         uncategorized.push(chat);
-        console.log(`Chat "${chat.title}" has no categoryId, putting in uncategorized`);
+        console.log(`ℹ No categoryId for "${chat.title}"`);
       }
     });
 
-    console.log('Organization result:', { categorized, uncategorized });
+    // Show final counts
+    const totalCategorized = Object.values(categorized).reduce((sum, arr) => sum + arr.length, 0);
+    console.log(`Result: ${totalCategorized} categorized, ${uncategorized.length} uncategorized`);
     return { categorized, uncategorized };
   }, [chats, categoryState.categories]);
 
