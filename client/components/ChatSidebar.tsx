@@ -467,7 +467,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <div className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       <MessageSquare className="h-3 w-3 mr-2" />
                       Uncategorized
-                      <span className="ml-auto">({organizedChats.uncategorized.length})</span>
                     </div>
 
                     {organizedChats.uncategorized.map((chat) => (
