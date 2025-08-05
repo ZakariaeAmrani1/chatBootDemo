@@ -34,6 +34,13 @@ import { resetUserSettings } from "./routes/data-reset";
 import { handleMessageFeedback } from "./routes/feedback";
 import { getModels, addModel } from "./routes/models";
 import { loginUser, registerUser, verifyUserToken } from "./routes/auth";
+import {
+  getCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  updateChatCategory,
+} from "./routes/categories";
 
 export function createServer() {
   const app = express();
@@ -90,6 +97,13 @@ export function createServer() {
   app.post("/api/auth/login", loginUser);
   app.post("/api/auth/register", registerUser);
   app.get("/api/auth/verify", verifyUserToken);
+
+  // Category API routes
+  app.get("/api/categories", getCategories);
+  app.post("/api/categories", createCategory);
+  app.put("/api/categories/:categoryId", updateCategory);
+  app.delete("/api/categories/:categoryId", deleteCategory);
+  app.put("/api/chats/:chatId/category", updateChatCategory);
 
   return app;
 }

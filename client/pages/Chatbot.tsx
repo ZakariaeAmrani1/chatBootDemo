@@ -315,8 +315,10 @@ const Chatbot = () => {
     try {
       const response = await apiService.updateChat(chatId, updates);
       if (response.success) {
-        // Refresh chats to show updated title
-        chatService.loadChats();
+        // Refresh chats to show updated title - make sure to pass userId
+        if (user?.id) {
+          chatService.loadChats(user.id);
+        }
       }
     } catch (error) {
       console.error("Failed to update chat:", error);
@@ -325,7 +327,9 @@ const Chatbot = () => {
 
   const handleRefresh = () => {
     // Reload chats after clearing history
-    chatService.loadChats();
+    if (user?.id) {
+      chatService.loadChats(user.id);
+    }
   };
 
   const handleUserRefresh = async () => {

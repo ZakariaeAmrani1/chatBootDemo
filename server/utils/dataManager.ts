@@ -1,6 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { User, Chat, Message, FileAttachment } from "@shared/types";
+import {
+  User,
+  Chat,
+  Message,
+  FileAttachment,
+  Category,
+  CreateCategoryRequest,
+} from "@shared/types";
 
 const DATA_DIR = path.join(process.cwd(), "server/data");
 
@@ -226,5 +233,185 @@ export class DataManager {
   static getFileById(id: string): FileAttachment | null {
     const files = this.getFiles();
     return files.find((file) => file.id === id) || null;
+  }
+
+  // Category operations
+  getCategories(): Category[] {
+    try {
+      const data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
+      return data.categories;
+    } catch (error) {
+      // If file doesn't exist, return empty array
+      return [];
+    }
+  }
+
+  getCategoriesByUserId(userId: string): Category[] {
+    const categories = this.getCategories();
+    return categories.filter((category) => category.userId === userId);
+  }
+
+  getCategoryById(id: string): Category | null {
+    const categories = this.getCategories();
+    return categories.find((category) => category.id === id) || null;
+  }
+
+  createCategory(
+    request: CreateCategoryRequest & { userId: string; isDefault?: boolean },
+  ): Category {
+    let data;
+    try {
+      data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
+    } catch (error) {
+      // If file doesn't exist, create it
+      data = { categories: [] };
+    }
+
+    const category: Category = {
+      id: request.isDefault
+        ? `default-general-${request.userId}`
+        : `cat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      name: request.name,
+      color: request.color,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      userId: request.userId,
+      isDefault: request.isDefault || false,
+    };
+
+    data.categories.push(category);
+    DataManager.writeJsonFile("categories.json", data);
+    return category;
+  }
+
+  updateCategory(
+    id: string,
+    updates: Partial<Category>,
+    userId: string,
+  ): Category | null {
+    let data;
+    try {
+      data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
+    } catch (error) {
+      return null;
+    }
+
+    const categoryIndex = data.categories.findIndex(
+      (category) => category.id === id && category.userId === userId,
+    );
+
+    if (categoryIndex === -1) return null;
+
+    // Don't allow updating default categories name
+    if (data.categories[categoryIndex].isDefault && updates.name) {
+      delete updates.name;
+    }
+
+    data.categories[categoryIndex] = {
+      ...data.categories[categoryIndex],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+
+    DataManager.writeJsonFile("categories.json", data);
+    return data.categories[categoryIndex];
+  }
+
+  deleteCategory(id: string, userId: string): boolean {
+    let data;
+    try {
+      data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
+    } catch (error) {
+      return false;
+    }
+
+    const categoryIndex = data.categories.findIndex(
+      (category) => category.id === id && category.userId === userId,
+    );
+
+    if (categoryIndex === -1) return false;
+
+    // Don't allow deleting default categories
+    if (data.categories[categoryIndex].isDefault) {
+      return false;
+    }
+
+    // Remove category from all chats before deleting
+    this.removeCategoryFromChats(id);
+
+    data.categories.splice(categoryIndex, 1);
+    DataManager.writeJsonFile("categories.json", data);
+    return true;
+  }
+
+  updateChatCategory(
+    chatId: string,
+    categoryId: string | null,
+    userId: string,
+  ): Chat | null {
+    const data = DataManager.readJsonFile<{
+      chats: Chat[];
+      messages: Message[];
+    }>("chats.json");
+    const chatIndex = data.chats.findIndex(
+      (chat) => chat.id === chatId && chat.userId === userId,
+    );
+
+    if (chatIndex === -1) return null;
+
+    data.chats[chatIndex] = {
+      ...data.chats[chatIndex],
+      categoryId: categoryId || undefined,
+      updatedAt: new Date().toISOString(),
+    };
+
+    DataManager.writeJsonFile("chats.json", data);
+    return data.chats[chatIndex];
+  }
+
+  private removeCategoryFromChats(categoryId: string): void {
+    try {
+      const data = DataManager.readJsonFile<{
+        chats: Chat[];
+        messages: Message[];
+      }>("chats.json");
+
+      data.chats = data.chats.map((chat) => {
+        if (chat.categoryId === categoryId) {
+          const { categoryId: _, ...chatWithoutCategory } = chat;
+          return chatWithoutCategory;
+        }
+        return chat;
+      });
+
+      DataManager.writeJsonFile("chats.json", data);
+    } catch (error) {
+      console.error("Error removing category from chats:", error);
+    }
+  }
+
+  // Create default category for a user if it doesn't exist
+  ensureDefaultCategory(userId: string): Category {
+    const categories = this.getCategoriesByUserId(userId);
+    const defaultCategory = categories.find((cat) => cat.isDefault);
+
+    if (defaultCategory) {
+      return defaultCategory;
+    }
+
+    // Create default category with isDefault flag
+    return this.createCategory({
+      name: "General",
+      userId,
+      isDefault: true,
+    });
   }
 }

@@ -69,6 +69,16 @@ export interface Message {
   disliked?: boolean;
 }
 
+export interface Category {
+  id: string;
+  name: string;
+  color?: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  isDefault?: boolean; // For the default "General" category
+}
+
 export interface Chat {
   id: string;
   title: string;
@@ -78,6 +88,7 @@ export interface Chat {
   updatedAt: string;
   messageCount: number;
   userId: string;
+  categoryId?: string; // Optional category assignment
   pdfFile?: FileAttachment; // PDF file associated with this chat
 }
 
@@ -109,6 +120,21 @@ export interface SendMessageRequest {
 export interface MessageFeedbackRequest {
   messageId: string;
   action: "like" | "dislike" | "removelike" | "removedislike";
+}
+
+export interface CreateCategoryRequest {
+  name: string;
+  color?: string;
+  userId?: string;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  color?: string;
+}
+
+export interface UpdateChatCategoryRequest {
+  categoryId?: string; // null to remove from category
 }
 
 export interface ApiResponse<T> {

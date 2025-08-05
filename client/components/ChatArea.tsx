@@ -9,6 +9,7 @@ import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelAndPDFSelector } from "@/components/ModelAndPDFSelector";
 import FadeInText from "@/components/FadeInText";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useTheme } from "@/components/ThemeProvider";
 import { getAppLogo } from "@/lib/app-config";
 import type { Message, User } from "@shared/types";
@@ -315,7 +316,10 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 {message.content && (
                   <div className="text-foreground">
                     {message.type === "assistant" ? (
-                      <FadeInText text={message.content} delay={50} />
+                      <MarkdownRenderer
+                        content={message.content}
+                        typewriter={false}
+                      />
                     ) : (
                       <p className="whitespace-pre-wrap leading-relaxed">
                         {message.content}
