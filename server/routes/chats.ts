@@ -527,6 +527,7 @@ async function generateAIResponseWithPDF(
   userId: string = "user-1",
   chatId?: string,
   pdfContent?: string,
+  isInitialPdfSetup: boolean = false,
 ): Promise<string> {
   try {
     const user = DataManager.getUserById(userId);
