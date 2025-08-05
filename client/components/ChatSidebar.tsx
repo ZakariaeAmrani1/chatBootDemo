@@ -189,6 +189,14 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     const categorized: { [categoryId: string]: Chat[] } = {};
     const uncategorized: Chat[] = [];
 
+    // Debug logging
+    console.log('Organizing chats:', {
+      chatsCount: chats.length,
+      categoriesCount: categoryState.categories.length,
+      chatSample: chats.slice(0, 2).map(c => ({ id: c.id, title: c.title, categoryId: c.categoryId })),
+      categories: categoryState.categories.map(c => ({ id: c.id, name: c.name }))
+    });
+
     // Initialize all categories with empty arrays
     categoryState.categories.forEach(category => {
       categorized[category.id] = [];
@@ -197,19 +205,22 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     // Sort chats into categories
     chats.forEach(chat => {
       if (chat.categoryId) {
-        // Check if the category still exists
-        const categoryExists = categoryState.categories.some(cat => cat.id === chat.categoryId);
-        if (categoryExists && categorized[chat.categoryId]) {
+        // First check if we have this category initialized
+        if (categorized[chat.categoryId] !== undefined) {
           categorized[chat.categoryId].push(chat);
+          console.log(`Added chat "${chat.title}" to category "${chat.categoryId}"`);
         } else {
-          // Category was deleted or doesn't exist, put in uncategorized
+          // Category doesn't exist in our current categories, put in uncategorized
           uncategorized.push(chat);
+          console.log(`Chat "${chat.title}" has unknown categoryId "${chat.categoryId}", putting in uncategorized`);
         }
       } else {
         uncategorized.push(chat);
+        console.log(`Chat "${chat.title}" has no categoryId, putting in uncategorized`);
       }
     });
 
+    console.log('Organization result:', { categorized, uncategorized });
     return { categorized, uncategorized };
   }, [chats, categoryState.categories]);
 
