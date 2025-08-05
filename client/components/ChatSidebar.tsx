@@ -130,6 +130,62 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   };
 
+  // Subscribe to category service
+  useEffect(() => {
+    const unsubscribe = categoryService.subscribe(setCategoryState);
+    return unsubscribe;
+  }, []);
+
+  // Load categories when user changes
+  useEffect(() => {
+    if (user?.id) {
+      categoryService.loadCategories(user.id);
+    }
+  }, [user?.id]);
+
+  // Organize chats by category
+  const organizedChats = React.useMemo(() => {
+    const categorized: { [categoryId: string]: Chat[] } = {};
+    const uncategorized: Chat[] = [];
+
+    // Initialize all categories with empty arrays
+    categoryState.categories.forEach(category => {
+      categorized[category.id] = [];
+    });
+
+    // Sort chats into categories
+    chats.forEach(chat => {
+      if (chat.categoryId && categorized[chat.categoryId]) {
+        categorized[chat.categoryId].push(chat);
+      } else {
+        uncategorized.push(chat);
+      }
+    });
+
+    return { categorized, uncategorized };
+  }, [chats, categoryState.categories]);
+
+  const toggleCategory = (categoryId: string) => {
+    const newCollapsed = new Set(collapsedCategories);
+    if (newCollapsed.has(categoryId)) {
+      newCollapsed.delete(categoryId);
+    } else {
+      newCollapsed.add(categoryId);
+    }
+    setCollapsedCategories(newCollapsed);
+  };
+
+  const moveChatToCategory = async (chatId: string, categoryId: string | null) => {
+    try {
+      const response = await apiService.updateChatCategory(chatId, categoryId);
+      if (response.success && onUpdateChat) {
+        onUpdateChat(chatId, { categoryId: categoryId || undefined });
+      }
+    } catch (error) {
+      console.error("Failed to move chat to category:", error);
+    }
+  };
+
   // Ensure proper cleanup when modal closes
   useEffect(() => {
     if (!deleteConfirmOpen) {
