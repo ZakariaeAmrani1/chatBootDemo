@@ -220,10 +220,28 @@ class ChatService {
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
 
+    // Check if this is a draft chat
+    const currentChat = this.state.chats.find(chat => chat.id === request.chatId);
+    let finalChatId = request.chatId;
+
+    if (currentChat?.isDraft) {
+      // This is the first message to a draft chat, save it first
+      const savedChat = await this.saveDraftChat(currentChat);
+      if (savedChat) {
+        finalChatId = savedChat.id;
+      } else {
+        this.setState({
+          error: "Failed to save chat",
+          isThinking: false,
+        });
+        return;
+      }
+    }
+
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
-      chatId: request.chatId,
+      chatId: finalChatId,
       type: "user",
       content: request.message,
       timestamp: new Date().toISOString(),
@@ -236,7 +254,9 @@ class ChatService {
     });
 
     try {
-      const response = await apiService.sendMessage(request);
+      // Send message to the final chat ID (either original or newly saved)
+      const messageRequest = { ...request, chatId: finalChatId };
+      const response = await apiService.sendMessage(messageRequest);
 
       if (response.success) {
         // Update the temporary message with real ID if needed
