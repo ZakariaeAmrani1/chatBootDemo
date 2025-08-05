@@ -430,12 +430,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
                           : "hover:bg-muted text-muted-foreground",
                       )}
                       onClick={startRecording}
-                      disabled={isSending || disabled || isUploading}
-                      title={
-                        hasPermission === false
-                          ? "Microphone permission required"
-                          : "Start recording"
-                      }
+                      disabled={true}
+                      title="Voice recording is disabled"
                     >
                       {hasPermission === false ? (
                         <MicOff className="h-4 w-4" />
