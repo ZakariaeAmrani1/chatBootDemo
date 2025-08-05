@@ -359,6 +359,7 @@ export const createChat: RequestHandler = (req, res) => {
             userId,
             chatId,
             pdfContent,
+            true, // This is the initial PDF setup
           ),
           timestamp: new Date().toISOString(),
         };
