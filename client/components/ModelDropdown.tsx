@@ -37,7 +37,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Globe,
 };
 
-export function ModelDropdown({ selectedModel, onModelChange, disabled = false }: ModelDropdownProps) {
+export function ModelDropdown({
+  selectedModel,
+  onModelChange,
+  disabled = false,
+}: ModelDropdownProps) {
   const [models, setModels] = useState<ModelOption[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -92,14 +96,18 @@ export function ModelDropdown({ selectedModel, onModelChange, disabled = false }
           className={cn(
             "flex items-center gap-2 px-3 py-1.5 rounded-xl border bg-muted/30",
             "shadow-sm hover:bg-muted/50 transition-colors",
-            disabled && "opacity-50 cursor-not-allowed hover:bg-muted/30"
+            disabled && "opacity-50 cursor-not-allowed hover:bg-muted/30",
           )}
         >
           {currentModel ? (
             <>
               {(() => {
                 const IconComponent = iconMap[currentModel.icon] || Brain;
-                return <IconComponent className={cn("w-4 h-4", currentModel.color)} />;
+                return (
+                  <IconComponent
+                    className={cn("w-4 h-4", currentModel.color)}
+                  />
+                );
               })()}
               <span className={cn("text-sm font-medium", currentModel.color)}>
                 {currentModel.name}
@@ -113,10 +121,12 @@ export function ModelDropdown({ selectedModel, onModelChange, disabled = false }
               </span>
             </>
           )}
-          {!disabled && <ChevronDown className="w-3 h-3 text-muted-foreground" />}
+          {!disabled && (
+            <ChevronDown className="w-3 h-3 text-muted-foreground" />
+          )}
         </Button>
       </DropdownMenuTrigger>
-      
+
       <DropdownMenuContent align="start" className="w-64">
         {models.map((model) => {
           const IconComponent = iconMap[model.icon] || Brain;
@@ -128,29 +138,33 @@ export function ModelDropdown({ selectedModel, onModelChange, disabled = false }
               onClick={() => onModelChange(model.id)}
               className={cn(
                 "flex items-start gap-3 p-3 cursor-pointer",
-                isSelected && "bg-muted"
+                isSelected && "bg-muted",
               )}
             >
               <IconComponent
                 className={cn(
                   "w-4 h-4 mt-0.5 flex-shrink-0",
-                  isSelected ? model.color : "text-muted-foreground"
+                  isSelected ? model.color : "text-muted-foreground",
                 )}
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className={cn(
-                    "font-medium text-sm",
-                    isSelected ? model.color : "text-foreground"
-                  )}>
+                  <span
+                    className={cn(
+                      "font-medium text-sm",
+                      isSelected ? model.color : "text-foreground",
+                    )}
+                  >
                     {model.name}
                   </span>
                   {model.badge && (
-                    <span className={cn(
-                      "px-1.5 py-0.5 text-xs rounded font-medium",
-                      model.bgColor,
-                      model.color
-                    )}>
+                    <span
+                      className={cn(
+                        "px-1.5 py-0.5 text-xs rounded font-medium",
+                        model.bgColor,
+                        model.color,
+                      )}
+                    >
                       {model.badge}
                     </span>
                   )}
@@ -162,10 +176,14 @@ export function ModelDropdown({ selectedModel, onModelChange, disabled = false }
                   {model.description}
                 </p>
                 {model.price && (
-                  <span className={cn(
-                    "text-xs font-medium mt-1 inline-block",
-                    model.price === "Premium" ? "text-amber-600" : "text-green-600"
-                  )}>
+                  <span
+                    className={cn(
+                      "text-xs font-medium mt-1 inline-block",
+                      model.price === "Premium"
+                        ? "text-amber-600"
+                        : "text-green-600",
+                    )}
+                  >
                     {model.price}
                   </span>
                 )}

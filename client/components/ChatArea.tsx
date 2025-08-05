@@ -2,7 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share, MessageSquare } from "lucide-react";
+import {
+  Copy,
+  ThumbsUp,
+  ThumbsDown,
+  RotateCcw,
+  Share,
+  MessageSquare,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
@@ -225,7 +232,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     !hasActiveChat ||
     (hasActiveChat && messages.length === 0 && !currentChatHasPdf)
   ) {
-
     const handleStartChat = () => {
       if (selectedModel && selectedPDF && onStartChat) {
         onStartChat(selectedModel, selectedPDF);
@@ -260,7 +266,10 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 
           {/* PDF Upload */}
           <div className="w-full max-w-4xl space-y-8 pb-8">
-            <PDFUpload onFileSelect={setSelectedPDF} selectedFile={selectedPDF} />
+            <PDFUpload
+              onFileSelect={setSelectedPDF}
+              selectedFile={selectedPDF}
+            />
 
             {/* Start Chat Button */}
             {selectedPDF && (
@@ -286,7 +295,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({
               </p>
               {!selectedPDF && (
                 <p className="text-xs">
-                  The AI will use your PDF to provide contextual answers and insights
+                  The AI will use your PDF to provide contextual answers and
+                  insights
                 </p>
               )}
             </div>

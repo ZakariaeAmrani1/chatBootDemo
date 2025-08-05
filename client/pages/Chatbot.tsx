@@ -74,8 +74,6 @@ const Chatbot = () => {
     loadModels();
   }, []);
 
-
-
   // Authentication and theme context
   const { user, updateUser } = useAuth();
   const { setTheme } = useTheme();
