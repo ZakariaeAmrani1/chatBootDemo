@@ -6,9 +6,6 @@ import {
   Share2,
   Menu,
   X,
-  Brain,
-  Globe,
-  Sparkles,
   Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,6 +21,7 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import ShareModal from "@/components/ShareModal";
 import { PDFPreview } from "@/components/PDFPreview";
+import { ModelDropdown } from "@/components/ModelDropdown";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
@@ -75,25 +73,6 @@ const Chatbot = () => {
     };
     loadModels();
   }, []);
-
-  // Get current model info
-  const getCurrentModel = () => {
-    const model = models.find((m) => m.id === selectedModel);
-    return (
-      model || {
-        name: "No Model",
-        color: "text-muted-foreground",
-        icon: "Brain",
-      }
-    );
-  };
-
-  // Icon mapping
-  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-    Brain,
-    Globe,
-    Sparkles,
-  };
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
@@ -476,30 +455,11 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <div
-              className={cn(
-                "flex items-center gap-2 px-3 py-1.5 rounded-xl border bg-muted/30",
-                "shadow-sm",
-              )}
-            >
-              {(() => {
-                const model = getCurrentModel();
-                const IconComponent = iconMap[model.icon] || Brain;
-                return (
-                  <>
-                    <IconComponent className={cn("w-4 h-4", model.color)} />
-                    <span
-                      className={cn(
-                        "text-sm font-medium transition-colors",
-                        model.color,
-                      )}
-                    >
-                      {model.name}
-                    </span>
-                  </>
-                );
-              })()}
-            </div>
+            <ModelDropdown
+              selectedModel={selectedModel}
+              onModelChange={handleModelChange}
+              disabled={!!chatState.currentChat}
+            />
           </div>
 
           <div className="flex items-center gap-2">

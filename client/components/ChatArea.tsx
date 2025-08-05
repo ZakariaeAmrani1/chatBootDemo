@@ -2,12 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
+import {
+  Copy,
+  ThumbsUp,
+  ThumbsDown,
+  RotateCcw,
+  Share,
+  MessageSquare,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
-import { ModelAndPDFSelector } from "@/components/ModelAndPDFSelector";
+import { PDFUpload } from "@/components/PDFUpload";
 import FadeInText from "@/components/FadeInText";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useTheme } from "@/components/ThemeProvider";
@@ -46,6 +53,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
+  const [selectedPDF, setSelectedPDF] = useState<File | null>(null);
 
   // Get the appropriate AI logo based on theme and user settings
   const getAILogo = () => {
@@ -224,6 +232,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     !hasActiveChat ||
     (hasActiveChat && messages.length === 0 && !currentChatHasPdf)
   ) {
+    const handleStartChat = () => {
+      if (selectedModel && selectedPDF && onStartChat) {
+        onStartChat(selectedModel, selectedPDF);
+      }
+    };
+
+    const canStartChat = selectedModel && selectedPDF;
+
     return (
       <ScrollArea className="h-full">
         <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
@@ -245,16 +261,45 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             How can I help you today?
           </h3>
           <p className="text-muted-foreground mb-8">
-            Choose your AI model and upload a PDF to start analyzing
+            Upload a PDF document to start analyzing with your selected AI model
           </p>
 
-          {/* Model and PDF Selection */}
-          <div className="w-full max-w-4xl pb-8">
-            <ModelAndPDFSelector
-              selectedModel={selectedModel}
-              onModelChange={onModelChange}
-              onStartChat={onStartChat || (() => {})}
+          {/* PDF Upload */}
+          <div className="w-full max-w-4xl space-y-8 pb-8">
+            <PDFUpload
+              onFileSelect={setSelectedPDF}
+              selectedFile={selectedPDF}
             />
+
+            {/* Start Chat Button */}
+            {selectedPDF && (
+              <div className="animate-in fade-in duration-300 flex justify-center">
+                <Button
+                  onClick={handleStartChat}
+                  disabled={!canStartChat}
+                  size="lg"
+                  className="gap-2 px-8"
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  Start Chatting
+                </Button>
+              </div>
+            )}
+
+            {/* Instructions */}
+            <div className="text-center text-sm text-muted-foreground space-y-1">
+              <p>
+                {!selectedPDF
+                  ? "Upload a PDF document to analyze"
+                  : "Ready to start your conversation!"}
+              </p>
+              {!selectedPDF && (
+                <p className="text-xs">
+                  The AI will use your PDF to provide contextual answers and
+                  insights
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </ScrollArea>
