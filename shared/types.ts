@@ -122,6 +122,21 @@ export interface MessageFeedbackRequest {
   action: "like" | "dislike" | "removelike" | "removedislike";
 }
 
+export interface CreateCategoryRequest {
+  name: string;
+  color?: string;
+  userId?: string;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  color?: string;
+}
+
+export interface UpdateChatCategoryRequest {
+  categoryId?: string; // null to remove from category
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
