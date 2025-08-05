@@ -281,7 +281,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             {!collapsed && (
               <CategoryManager
                 categories={categoryState.categories}
-                onCategoriesChange={(categories) => categoryService.updateCategoriesLocally(categories)}
+                onCategoriesChange={(categories) => {
+                  categoryService.updateCategoriesLocally(categories);
+                  // Force reload categories from server to ensure sync
+                  if (user?.id) {
+                    categoryService.loadCategories(user.id);
+                  }
+                }}
                 triggerButton={
                   <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground">
                     <Folder className="h-4 w-4 mr-2" />
