@@ -109,6 +109,24 @@
         "url": "/api/files/ffae4ea7-cf23-4878-bf16-23ca26a3ed4a.pdf",
         "uploadedAt": "2025-08-05T09:27:25.735Z"
       }
+    },
+    {
+      "id": "6dc2b631-3a20-4763-8d3c-09f9ab7f6840",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T09:38:12.970Z",
+      "updatedAt": "2025-08-05T09:38:16.788Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "e18caacd-e869-4cff-bf37-3bc811b7f013",
+        "name": "zakariae-amrani-cv.pdf",
+        "size": 471,
+        "type": "application/pdf",
+        "url": "/api/files/1d7d1177-19bd-4beb-8264-98c3ad1b3e35.pdf",
+        "uploadedAt": "2025-08-05T09:38:12.970Z"
+      }
     }
   ],
   "messages": [
@@ -287,6 +305,30 @@
       "type": "assistant",
       "content": "Oui, je suis tout à fait prêt à agir en tant qu'assistant expert pour répondre à vos questions en me basant sur le PDF fourni.\n\nCependant, le \"Contenu PDF\" que vous avez partagé est un *placeholder* (un espace réservé) et ne contient pas le texte réel du document. Il indique : `This is a placeholder for the PDF content... In a production environment, this would contain the actual extracted text from the PDF.`\n\nPour que je puisse vous aider efficacement, veuillez me fournir le contenu textuel *réel* du PDF. Une fois que j'aurai ce texte, je pourrai répondre à toutes vos questions avec précision et expertise.",
       "timestamp": "2025-08-05T09:27:32.918Z"
+    },
+    {
+      "id": "7c1c1800-f51f-41e0-911d-9836d3d9dd4f",
+      "chatId": "6dc2b631-3a20-4763-8d3c-09f9ab7f6840",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T09:38:12.970Z",
+      "attachments": [
+        {
+          "id": "e18caacd-e869-4cff-bf37-3bc811b7f013",
+          "name": "zakariae-amrani-cv.pdf",
+          "size": 471,
+          "type": "application/pdf",
+          "url": "/api/files/1d7d1177-19bd-4beb-8264-98c3ad1b3e35.pdf",
+          "uploadedAt": "2025-08-05T09:38:12.970Z"
+        }
+      ]
+    },
+    {
+      "id": "4822e16a-b621-4fb7-a304-9be5ce93b904",
+      "chatId": "6dc2b631-3a20-4763-8d3c-09f9ab7f6840",
+      "type": "assistant",
+      "content": "Le document fourni contient uniquement le texte \"Zakariae Amrani - CV\".\n\nSi vous avez des questions spécifiques basées sur ce contenu, n'hésitez pas à les poser.",
+      "timestamp": "2025-08-05T09:38:16.788Z"
     }
   ]
 }
