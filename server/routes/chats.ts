@@ -156,9 +156,8 @@ async function callLocalCloudAPI(
   isInitialPdfSetup: boolean = false,
 ): Promise<string> {
   try {
-    if (!appUrl) {
-      throw new Error("App URL not configured in user settings");
-    }
+    // Use appUrl from settings or fallback to default local URL
+    const baseUrl = appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
 
     if (pdfFilePath && isInitialPdfSetup) {
       // Initial PDF setup - send to /init-pdf with FormData
