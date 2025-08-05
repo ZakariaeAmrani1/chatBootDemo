@@ -327,7 +327,9 @@ const Chatbot = () => {
 
   const handleRefresh = () => {
     // Reload chats after clearing history
-    chatService.loadChats();
+    if (user?.id) {
+      chatService.loadChats(user.id);
+    }
   };
 
   const handleUserRefresh = async () => {
