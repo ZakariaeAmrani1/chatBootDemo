@@ -460,6 +460,7 @@ const Chatbot = () => {
             <ModelDropdown
               selectedModel={selectedModel}
               onModelChange={handleModelChange}
+              disabled={!!chatState.currentChat}
             />
           </div>
 
