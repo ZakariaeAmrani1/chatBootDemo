@@ -16,6 +16,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   typewriterSpeed = 30,
 }) => {
   const [displayedContent, setDisplayedContent] = useState(typewriter ? "" : content);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Typewriter effect
   useEffect(() => {
