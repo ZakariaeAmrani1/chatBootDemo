@@ -1,77 +1,63 @@
 {
   "chats": [
     {
-      "id": "7126efdf-f818-4ee7-8949-d468025ee356",
-      "title": "New chat",
+      "id": "012bae51-f0d7-4adf-a222-05960ae50e71",
+      "title": "tu peut analiser ce pdf ?",
       "model": "cloud",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T13:34:40.112Z",
-      "updatedAt": "2025-08-05T13:34:43.743Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T14:04:42.575Z",
+      "updatedAt": "2025-08-05T14:05:01.847Z",
+      "messageCount": 4,
+      "userId": "user-1"
     },
     {
-      "id": "95316d1a-9b0f-4a4b-94d2-4f9bf99a9f77",
-      "title": "New chat",
-      "model": "gemini-pro",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T13:39:58.808Z",
-      "updatedAt": "2025-08-05T13:40:00.681Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "976e9f13-64fa-4b0b-8c4f-d49f75b5b28b",
-      "title": "New chat",
-      "model": "cloud",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T13:40:10.883Z",
-      "updatedAt": "2025-08-05T13:40:14.404Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "5a22f4a4-b1d3-47e2-b632-10c8cb1f3b65",
-      "title": "New chat",
-      "model": "gemini-pro",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T13:41:38.619Z",
-      "updatedAt": "2025-08-05T13:41:40.495Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "116c5b62-0398-47c6-8300-faa40f1b2e78",
+      "id": "3731e595-eaaf-4b82-9d7d-cc51c0aba437",
       "title": "hello",
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T13:41:53.643Z",
-      "updatedAt": "2025-08-05T13:41:57.131Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "7c55f088-76b4-4279-a571-e057bcd764fa",
-      "title": "New chat",
-      "model": "gemini-pro",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T13:42:03.178Z",
-      "updatedAt": "2025-08-05T13:42:05.051Z",
+      "createdAt": "2025-08-05T14:05:42.880Z",
+      "updatedAt": "2025-08-05T14:05:46.031Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     },
     {
-      "id": "f79efb36-a985-4284-a7f6-87d46069ac67",
+      "id": "edb38a3a-29a7-4483-b2b5-9401b6955dbe",
       "title": "New chat",
       "model": "cloud",
       "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T13:45:49.514Z",
-      "updatedAt": "2025-08-05T13:45:51.973Z",
+      "createdAt": "2025-08-05T14:05:57.512Z",
+      "updatedAt": "2025-08-05T14:05:59.642Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
+      "title": "bonjour",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T14:06:25.236Z",
+      "updatedAt": "2025-08-05T14:06:45.304Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "c3e1573d-972b-4fae-82d3-27a5ad1d425f",
+        "name": "Network_presentation (7).pdf",
+        "size": 514921,
+        "type": "application/pdf",
+        "url": "/api/files/a32d2a29-b055-4d22-8794-0997a6b9b02a.pdf",
+        "uploadedAt": "2025-08-05T14:06:25.236Z"
+      },
+      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "07b61d21-ba85-4399-aa2b-647d2f13f874",
+      "title": "hello what's HTML",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T14:07:24.848Z",
+      "updatedAt": "2025-08-05T14:07:41.264Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
@@ -79,102 +65,112 @@
   ],
   "messages": [
     {
-      "id": "44a13e2c-d7ae-4cd4-af74-961181773eeb",
-      "chatId": "7126efdf-f818-4ee7-8949-d468025ee356",
+      "id": "bcc9a0bd-b031-4ef9-a8e8-35d79454c788",
+      "chatId": "012bae51-f0d7-4adf-a222-05960ae50e71",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T13:34:40.488Z"
+      "content": "tu peut analiser ce pdf ?",
+      "timestamp": "2025-08-05T14:04:42.581Z"
     },
     {
-      "id": "b3f6b96d-0067-429c-b48b-975456399147",
-      "chatId": "7126efdf-f818-4ee7-8949-d468025ee356",
+      "id": "31925ff1-9e09-447d-8d34-8b1e68c13ee2",
+      "chatId": "012bae51-f0d7-4adf-a222-05960ae50e71",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-05T14:04:49.993Z"
+    },
+    {
+      "id": "1f69c44c-b58a-4efc-8352-98e5876776d3",
+      "chatId": "012bae51-f0d7-4adf-a222-05960ae50e71",
+      "type": "user",
+      "content": "bonjour",
+      "timestamp": "2025-08-05T14:04:55.495Z"
+    },
+    {
+      "id": "f970c6a3-12a4-4780-8388-f60c80567638",
+      "chatId": "012bae51-f0d7-4adf-a222-05960ae50e71",
+      "type": "assistant",
+      "content": "Bonjour !\n\nConcernant votre question précédente sur l'analyse d'un PDF, je dois vous rappeler qu'en tant qu'intelligence artificielle, je n'ai pas la capacité d'ouvrir, de lire ou d'analyser directement des fichiers (comme les PDF) qui se trouvent sur votre appareil ou via un lien.\n\nMon fonctionnement est basé sur le texte. Si vous souhaitez que je vous aide avec le contenu de votre PDF, vous pouvez :\n\n1.  **Copier et coller** les passages spécifiques ou le texte que vous voulez que j'analyse directement ici dans notre conversation.\n2.  **Décrire** le contenu du PDF ou poser des questions précises à son sujet.\n\nN'hésitez pas si vous avez d'autres questions ou si vous souhaitez procéder de cette manière !",
+      "timestamp": "2025-08-05T14:05:01.847Z"
+    },
+    {
+      "id": "6528de87-6b6e-4cfc-8cd4-4400379ce760",
+      "chatId": "3731e595-eaaf-4b82-9d7d-cc51c0aba437",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-05T14:05:42.887Z"
+    },
+    {
+      "id": "cd4a8798-5bc9-4564-a43b-12e0af45cd76",
+      "chatId": "3731e595-eaaf-4b82-9d7d-cc51c0aba437",
       "type": "assistant",
       "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T13:34:43.743Z"
+      "timestamp": "2025-08-05T14:05:44.995Z"
     },
     {
-      "id": "ac05ccc8-a452-4f24-a48b-e55337b9071a",
-      "chatId": "95316d1a-9b0f-4a4b-94d2-4f9bf99a9f77",
+      "id": "fec4060e-a66d-4b41-b318-12cd1ba251c1",
+      "chatId": "edb38a3a-29a7-4483-b2b5-9401b6955dbe",
       "type": "user",
       "content": "hello",
-      "timestamp": "2025-08-05T13:39:59.181Z"
+      "timestamp": "2025-08-05T14:05:57.526Z"
     },
     {
-      "id": "2703f9d5-c31c-4d93-ac1b-3a6d20c3ffb4",
-      "chatId": "95316d1a-9b0f-4a4b-94d2-4f9bf99a9f77",
+      "id": "df8ad8b2-3f16-4116-b19c-3e353f8f8aa2",
+      "chatId": "edb38a3a-29a7-4483-b2b5-9401b6955dbe",
       "type": "assistant",
-      "content": "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.",
-      "timestamp": "2025-08-05T13:40:00.681Z"
+      "content": "Hello! How can I help you today? Or just saying hi?",
+      "timestamp": "2025-08-05T14:05:59.642Z"
     },
     {
-      "id": "67f6e593-a411-43a4-87c5-e148036c69b5",
-      "chatId": "976e9f13-64fa-4b0b-8c4f-d49f75b5b28b",
+      "id": "be67f483-1492-48c4-8e5a-7a4b39af3b7b",
+      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T13:40:11.259Z"
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T14:06:25.236Z",
+      "attachments": [
+        {
+          "id": "c3e1573d-972b-4fae-82d3-27a5ad1d425f",
+          "name": "Network_presentation (7).pdf",
+          "size": 514921,
+          "type": "application/pdf",
+          "url": "/api/files/a32d2a29-b055-4d22-8794-0997a6b9b02a.pdf",
+          "uploadedAt": "2025-08-05T14:06:25.236Z"
+        }
+      ]
     },
     {
-      "id": "0489c7cd-8600-4fa8-a1d1-671abadd1b38",
-      "chatId": "976e9f13-64fa-4b0b-8c4f-d49f75b5b28b",
+      "id": "453d18d2-96d7-441d-ba30-66ef8231f3d1",
+      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
       "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T13:40:14.404Z"
+      "content": "PDF traité et base vectorielle créée",
+      "timestamp": "2025-08-05T14:06:28.183Z"
     },
     {
-      "id": "e85fc4fc-4027-4517-8a50-56c378d55952",
-      "chatId": "5a22f4a4-b1d3-47e2-b632-10c8cb1f3b65",
+      "id": "deb97423-0f32-4ec6-8c49-d4b2cbe3a613",
+      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T13:41:38.994Z"
+      "content": "bonjour",
+      "timestamp": "2025-08-05T14:06:32.407Z"
     },
     {
-      "id": "fd7c1be1-9ca2-4f2b-a42d-ee9a900f5272",
-      "chatId": "5a22f4a4-b1d3-47e2-b632-10c8cb1f3b65",
+      "id": "d25b5691-5a4e-4c65-af89-149876c4d2a8",
+      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
       "type": "assistant",
-      "content": "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.",
-      "timestamp": "2025-08-05T13:41:40.495Z"
+      "content": "Bonjour ! Je suis ravi de vous aider. Vous souhaitez en savoir plus sur les serveurs de courrier, n'est-ce pas ? Quelle est votre question spécifique ? Veuillez me poser vos questions pour que je puisse vous fournir des informations utiles et précises.",
+      "timestamp": "2025-08-05T14:06:35.632Z"
     },
     {
-      "id": "3f22cc0c-2069-48d3-8eb5-aeb90d50a1ba",
-      "chatId": "116c5b62-0398-47c6-8300-faa40f1b2e78",
+      "id": "203c0b68-9e30-422c-81d7-8007a44fa548",
+      "chatId": "07b61d21-ba85-4399-aa2b-647d2f13f874",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T13:41:53.830Z"
+      "content": "hello what's HTML",
+      "timestamp": "2025-08-05T14:07:24.856Z"
     },
     {
-      "id": "a9bd6fb4-9834-4cc3-bc09-0f8890db24c7",
-      "chatId": "116c5b62-0398-47c6-8300-faa40f1b2e78",
+      "id": "81b831ca-3b7d-4f9c-b57a-79bbcbca8870",
+      "chatId": "07b61d21-ba85-4399-aa2b-647d2f13f874",
       "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T13:41:57.131Z"
-    },
-    {
-      "id": "a7997e81-c97f-4fa8-bcbf-9a4c8585ef8e",
-      "chatId": "7c55f088-76b4-4279-a571-e057bcd764fa",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T13:42:03.550Z"
-    },
-    {
-      "id": "28c9b0b6-1a2c-49ae-972e-4051ea3f86eb",
-      "chatId": "7c55f088-76b4-4279-a571-e057bcd764fa",
-      "type": "assistant",
-      "content": "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.",
-      "timestamp": "2025-08-05T13:42:05.051Z"
-    },
-    {
-      "id": "cfb66c90-fc3b-413b-ac8f-6cff9ae0c6f7",
-      "chatId": "f79efb36-a985-4284-a7f6-87d46069ac67",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T13:45:49.886Z"
-    },
-    {
-      "id": "0e4fda8f-60ea-4a21-82c1-a054f5024900",
-      "chatId": "f79efb36-a985-4284-a7f6-87d46069ac67",
-      "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T13:45:51.973Z"
+      "content": "HTML stands for **H**yper**T**ext **M**arkup **L**anguage.\n\nIt is the **standard language for creating web pages**. Think of it as the **skeleton or blueprint** of any webpage you see online.\n\nHere's a breakdown of what that means:\n\n1.  **HyperText:** This refers to the ability to link to other documents or resources. It's what makes the web a \"web\" of interconnected information, allowing you to click on links and navigate from one page to another.\n\n2.  **Markup:** This means that HTML uses \"tags\" to annotate text and define its structure. These tags tell the web browser how to display the content. For example:\n    *   `<p>` stands for paragraph.\n    *   `<h1>` stands for a main heading.\n    *   `<img>` is for an image.\n    *   `<a>` is for a link.",
+      "timestamp": "2025-08-05T14:07:32.683Z"
     }
   ]
 }
