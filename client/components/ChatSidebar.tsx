@@ -368,7 +368,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   const categoryChats = organizedChats.categorized[category.id] || [];
                   const isCollapsed = collapsedCategories.has(category.id);
 
-                  if (categoryChats.length === 0 && !category.isDefault) return null;
+                  // Always show categories, even if empty
 
                   return (
                     <div key={category.id} className="space-y-1">
