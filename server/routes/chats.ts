@@ -12,6 +12,15 @@ import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import FormData from "form-data";
+import axios from "axios";
+import fetch1 from "node-fetch";
+
+interface LocalApiResponse {
+  message?: string;
+  error?: string;
+  answer?: string;
+}
 
 // Configure multer for PDF uploads
 const storage = multer.diskStorage({
@@ -155,27 +164,35 @@ async function callLocalCloudAPI(
   appUrl?: string,
   isInitialPdfSetup: boolean = false,
 ): Promise<string> {
+  const baseUrl =
+    appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
   try {
     // Use appUrl from settings or fallback to default local URL
-    const baseUrl =
-      appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
 
     if (pdfFilePath && isInitialPdfSetup) {
       // Initial PDF setup - send to /init-pdf with FormData
       const initPdfUrl = `${baseUrl.replace(/\/$/, "")}/init-pdf`;
-      const FormData = require("form-data");
+      // const FormData = require("form-data");
       const formData = new FormData();
-      formData.append("message", userMessage);
+      // formData.append("message", userMessage);
 
       // Read the PDF file and attach it
       const pdfStream = fs.createReadStream(pdfFilePath);
-      formData.append("pdfFile", pdfStream, path.basename(pdfFilePath));
+      formData.append("pdf_file", pdfStream, path.basename(pdfFilePath));
+      // formData.append("pdf_file", pdfFile);
 
-      const response = await fetch(initPdfUrl, {
+      // const response = await fetch(initPdfUrl, {
+      //   method: "POST",
+      //   body: formData,
+      // });
+      const response = await fetch1(initPdfUrl, {
         method: "POST",
         body: formData,
-        headers: formData.getHeaders(),
+        headers: formData.getHeaders(), // includes correct Content-Type with boundary
       });
+
+      // const errorText = await response.text();
+      // console.error("Server response body:", errorText);
 
       if (!response.ok) {
         throw new Error(
@@ -183,14 +200,14 @@ async function callLocalCloudAPI(
         );
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as LocalApiResponse;
       return (
-        data.response ||
+        data.message ||
         "I apologize, but I couldn't generate a response. Please try again."
       );
     } else {
       // Regular chat message - use /chat endpoint with JSON
-      const chatUrl = `${baseUrl.replace(/\/$/, "")}/chat`;
+      const chatUrl = `${baseUrl.replace(/\/$/, "")}/ask`;
       const response = await fetch(chatUrl, {
         method: "POST",
         headers: {
@@ -215,7 +232,7 @@ async function callLocalCloudAPI(
     }
   } catch (error) {
     console.error("Local Cloud API error:", error);
-    return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+    return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. ${error instanceof Error ? error.message : "Unknown error"}`;
   }
 }
 

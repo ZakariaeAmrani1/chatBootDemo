@@ -67,11 +67,11 @@
         "reducedMotion": false,
         "screenReader": false,
         "geminiModel": "gemini-2.5-flash",
-        "selectedModel": "cloud",
+        "selectedModel": "local-cloud",
         "geminiApiKey": "AIzaSyDxnf409EQ6bxYQiwJlxh2pEi8osHrpV-A"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8",
-      "avatar": "/api/files/avatar-339da6c7-e48b-4cf9-b2c5-066285d5f90c.png"
+      "avatar": "/api/files/avatar-a9647eeb-8cb4-4c01-89fa-66c8dc33d77e.png"
     }
   ]
 }
