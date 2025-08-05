@@ -1,4 +1,185 @@
 {
-  "chats": [],
-  "messages": []
+  "chats": [
+    {
+      "id": "db32cabf-7bf1-4816-8f3c-0256d754a2c8",
+      "title": "New chat",
+      "model": "cloud",
+      "chatbootVersion": "1.0",
+      "createdAt": "2025-08-05T12:39:35.870Z",
+      "updatedAt": "2025-08-05T12:45:17.621Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "title": "donne moi les étapes pour créer un serveur de cour...",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T12:40:44.420Z",
+      "updatedAt": "2025-08-05T12:46:00.515Z",
+      "messageCount": 18,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "d8b2d36f-6504-46f2-bc51-d9d04356799c",
+        "name": "Network_presentation (7).pdf",
+        "size": 514921,
+        "type": "application/pdf",
+        "url": "/api/files/dfe4e2bb-8dc3-4abc-a133-ddca705d1c77.pdf",
+        "uploadedAt": "2025-08-05T12:40:44.420Z"
+      },
+      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    }
+  ],
+  "messages": [
+    {
+      "id": "b851c831-0a43-4c19-8562-91a45a92b0c8",
+      "chatId": "db32cabf-7bf1-4816-8f3c-0256d754a2c8",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-05T12:39:35.885Z"
+    },
+    {
+      "id": "0290a237-96a2-4b73-82b9-971a3db17aec",
+      "chatId": "db32cabf-7bf1-4816-8f3c-0256d754a2c8",
+      "type": "assistant",
+      "content": "Hello! How can I help you today?",
+      "timestamp": "2025-08-05T12:39:40.840Z"
+    },
+    {
+      "id": "2df1dc0e-d0bd-458f-b341-d70f2680a7d8",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T12:40:44.420Z",
+      "attachments": [
+        {
+          "id": "d8b2d36f-6504-46f2-bc51-d9d04356799c",
+          "name": "Network_presentation (7).pdf",
+          "size": 514921,
+          "type": "application/pdf",
+          "url": "/api/files/dfe4e2bb-8dc3-4abc-a133-ddca705d1c77.pdf",
+          "uploadedAt": "2025-08-05T12:40:44.420Z"
+        }
+      ]
+    },
+    {
+      "id": "9ed51a04-b1e5-4180-bcb8-8137104ea942",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "PDF traité et base vectorielle créée",
+      "timestamp": "2025-08-05T12:40:54.288Z"
+    },
+    {
+      "id": "1a484aa0-ee2d-4a8d-bc65-1d6904799bc5",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "donne moi les étapes pour créer un serveur de courier sous linux",
+      "timestamp": "2025-08-05T12:41:10.291Z"
+    },
+    {
+      "id": "689de2e1-2118-488a-aadd-a56983207548",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "0",
+      "timestamp": "2025-08-05T12:41:26.547Z"
+    },
+    {
+      "id": "07d17caf-24be-4b4f-8117-315aeb30828a",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "Pour créer un serveur de courrier sous Linux, voici les étapes à suivre :\n\n**Étape 1 : Installer les outils nécessaires**\n\n* Installez Postfix comme MTA (Mail Transfer Agent) en exécutant la commande `sudo apt-get install postfix` (pour Ubuntu-based distributions) ou `sudo yum install postfix` (pour Red Hat-based distributions).\n* Installez Dovecot comme serveur de messagerie en exécutant la commande `sudo apt-get install dovecot-common` (pour Ubuntu-based distributions) ou `sudo yum install dovecot-core` (pour Red Hat-based distributions).\n\n**Étape 2 : Configurer Postfix**\n\n* Éditez le fichier de configuration de Postfix `/etc/postfix/main.cf` en ajoutant les lignes suivantes :\n```\nmynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104\nmyhostname = votre-hôte-de-mail\n```\nRemplacez `votre-hôte-de-mail` par le nom de votre serveur.\n\n* Redémarrez Postfix en exécutant la commande `sudo service postfix restart`\n\n**Étape 3 : Configurer Dovecot**\n\n* Éditez le fichier de configuration de Dovecot `/etc/dovecot/conf.d/10-listen.conf` en ajoutant les lignes suivantes :\n```\nlisten {\n  protocol = imap\n  port = 143\n}\n```\nRemplacez `143` par le port que vous souhaitez utiliser pour l'IMAP.\n\n* Redémarrez Dovecot en exécutant la commande `sudo service dovecot restart`\n\n**Étape 4 : Configurer Roundcube**\n\n* Installez Roundcube en exécutant la commande `sudo apt-get install roundcubemail` (pour Ubuntu-based distributions) ou `sudo yum install roundcube` (pour Red Hat-based distributions).\n* Configurez Roundcube en suivant les instructions de l'installation.\n\n**Étape 5 : Tester le serveur**\n\n* Utilisez une application de messagerie comme Thunderbird pour envoyer et recevoir des emails sur votre serveur de courrier.\n* Vérifiez que vous puissiez accéder à votre compte email en utilisant l'adresse email associée au serveur.\n\nCes étapes devraient vous aider à créer un serveur de courrier fonctionnel sous Linux. N'hésitez pas à me demander si vous avez des questions ou besoin de plus d'aide.",
+      "timestamp": "2025-08-05T12:41:34.770Z"
+    },
+    {
+      "id": "c466ac74-3073-4d7c-ab0c-536be4f1bf21",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "Je ne vois pas d'information pertinente pour répondre à une question spécifique. Il semble que le texte est un extrait d'un document en cours de création et qu'il n'y a aucune question posée. Puis-je vous aider avec autre chose ?",
+      "timestamp": "2025-08-05T12:41:47.891Z"
+    },
+    {
+      "id": "f196b6e8-9a6e-4a6f-9001-39d1237c52f9",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "d'accord c'est quoi smtp ?",
+      "timestamp": "2025-08-05T12:42:09.515Z"
+    },
+    {
+      "id": "5be4835d-3787-4dfd-b700-baae83a33763",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "SMTP (Simple Mail Transfer Protocol) est un protocole de transmission d'emails qui permet l'échange sécurisé et fiable des emails entre les serveurs de messagerie. Il s'utilise pour l'envoi de mails depuis un client vers un serveur ou d'un serveur à un autre, avec des ports par défaut tels que 25 ou 587 (avec authentification).",
+      "timestamp": "2025-08-05T12:42:24.785Z"
+    },
+    {
+      "id": "4ae110bf-2ac8-4926-90b6-1caf4b6b12f3",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": ".",
+      "timestamp": "2025-08-05T12:42:29.562Z"
+    },
+    {
+      "id": "459f541e-6335-4200-8825-27d929efee52",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "Je ne vois pas d'information pertinente à cette question. Pouvez-vous s'il vous plaît fournir plus de contexte ou clarifier ce que vous cherchez ?",
+      "timestamp": "2025-08-05T12:42:42.772Z"
+    },
+    {
+      "id": "75abad42-0620-446b-bd23-76239827fc2a",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": ".",
+      "timestamp": "2025-08-05T12:42:46.675Z"
+    },
+    {
+      "id": "b0dd2bbf-b231-4778-8d06-2ad48053b04d",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "Je ne vois pas le contexte pertinent fourni pour répondre à la question. Puis-je vous demander de fournir les informations pertinents ?",
+      "timestamp": "2025-08-05T12:43:01.328Z"
+    },
+    {
+      "id": "4347fbad-e7c9-4a6d-8a5e-aa83d68420f7",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "bonjour",
+      "timestamp": "2025-08-05T12:43:06.931Z"
+    },
+    {
+      "id": "9ba85890-6d92-49c3-9d2d-c92fd7fc3dac",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "Bonjour ! Je suis ravi de vous aider. Vous souhaitez en savoir plus sur les serveurs de courrier ou sur la configuration d'un serveur de courrier sous Linux ?",
+      "timestamp": "2025-08-05T12:43:21.745Z"
+    },
+    {
+      "id": "ec031ff8-4ca1-4a2d-b45e-4f6e374e1721",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "merci",
+      "timestamp": "2025-08-05T12:44:04.029Z"
+    },
+    {
+      "id": "ede2e5b8-4b4e-4394-b4a8-bb880fb99787",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "De rien ! Je suis prêt à vous aider. Quelle est votre question sur le fonctionnement d'un serveur de courrier ou sur la configuration de base Linux ?",
+      "timestamp": "2025-08-05T12:44:15.984Z"
+    },
+    {
+      "id": "3c280412-2710-4013-9b9a-59fcc3680559",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "user",
+      "content": "et dovecot ?",
+      "timestamp": "2025-08-05T12:45:43.342Z"
+    },
+    {
+      "id": "9ab6092e-6759-42f7-bddf-1cd7ff77fb41",
+      "chatId": "96713728-c88e-4ed0-9399-cd6d47a7ef68",
+      "type": "assistant",
+      "content": "Dovecot est un serveur de message électronique (Mail Delivery Agent - MDA) très populaire qui est souvent utilisé en combinaison avec Postfix comme le Mail Transfer Agent (MTA). Il s'agit d'un agent de livraison qui récupère les messages reçus par Postfix et les affecte aux boîtes de réception des utilisateurs.\n\nEn termes de fonctionnement, Dovecot est chargé de :\n\n* Récupérer les messages reçus par Postfix\n* Effectuer des vérifications sur les adresses e-mail et les permissions d'accès\n* Livrer les messages aux utilisateurs via leurs boîtes de réception\n\nDovecot peut également être configuré pour fournir différentes fonctionnalités, telles que la gestion des mots de passe, la lecture des journaux de sécurité et la suppression automatique des courriers sans réponse.\n\nPour installer Dovecot sur un système Linux, vous pouvez utiliser les commandes `sudo apt-get install dovecot-core` pour installer le noyau de base, et puis `sudo apt-get install dovecot-imapd` pour installer l'agent IMAP qui permet aux utilisateurs d'accéder à leurs courriers en ligne.",
+      "timestamp": "2025-08-05T12:46:00.515Z"
+    }
+  ]
 }
