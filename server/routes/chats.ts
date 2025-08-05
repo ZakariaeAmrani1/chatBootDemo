@@ -153,16 +153,16 @@ async function callLocalCloudAPI(
   userMessage: string,
   pdfFilePath?: string,
   appUrl?: string,
+  isInitialPdfSetup: boolean = false,
 ): Promise<string> {
   try {
     if (!appUrl) {
       throw new Error("App URL not configured in user settings");
     }
 
-    const initPdfUrl = `${appUrl.replace(/\/$/, '')}/init-pdf`;
-
-    if (pdfFilePath) {
-      // Send PDF file using FormData
+    if (pdfFilePath && isInitialPdfSetup) {
+      // Initial PDF setup - send to /init-pdf with FormData
+      const initPdfUrl = `${appUrl.replace(/\/$/, '')}/init-pdf`;
       const FormData = require('form-data');
       const formData = new FormData();
       formData.append('message', userMessage);
@@ -186,15 +186,15 @@ async function callLocalCloudAPI(
       const data = await response.json();
       return data.response || "I apologize, but I couldn't generate a response. Please try again.";
     } else {
-      // If no PDF, use regular chat endpoint
-      const chatUrl = `${appUrl.replace(/\/$/, '')}/api/chat`;
+      // Regular chat message - use /chat endpoint with JSON
+      const chatUrl = `${appUrl.replace(/\/$/, '')}/chat`;
       const response = await fetch(chatUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: userMessage,
+          question: userMessage,
         }),
       });
 
