@@ -130,11 +130,28 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   };
 
-  // Subscribe to category service
+  // Subscribe to category service and track category changes
   useEffect(() => {
-    const unsubscribe = categoryService.subscribe(setCategoryState);
+    const unsubscribe = categoryService.subscribe((newState) => {
+      const oldCategoryIds = new Set(categoryState.categories.map(cat => cat.id));
+      const newCategoryIds = new Set(newState.categories.map(cat => cat.id));
+
+      // Auto-expand newly created categories
+      newState.categories.forEach(category => {
+        if (!oldCategoryIds.has(category.id)) {
+          // This is a new category, make sure it's expanded
+          setCollapsedCategories(prev => {
+            const newCollapsed = new Set(prev);
+            newCollapsed.delete(category.id);
+            return newCollapsed;
+          });
+        }
+      });
+
+      setCategoryState(newState);
+    });
     return unsubscribe;
-  }, []);
+  }, [categoryState.categories]);
 
   // Load categories when user changes
   useEffect(() => {
