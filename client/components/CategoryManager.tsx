@@ -33,6 +33,7 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
   categories,
   onCategoriesChange,
   triggerButton,
+  onDialogClose,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
