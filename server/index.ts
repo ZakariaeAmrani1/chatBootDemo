@@ -29,6 +29,7 @@ import {
   getDataStats,
   clearChatHistory,
   clearUploadedFiles,
+  clearCategories,
 } from "./routes/data";
 import { resetUserSettings } from "./routes/data-reset";
 import { handleMessageFeedback } from "./routes/feedback";
