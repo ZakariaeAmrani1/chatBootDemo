@@ -139,9 +139,17 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   // Load categories when user changes
   useEffect(() => {
     if (user?.id) {
+      // Force reload to ensure fresh data
       categoryService.loadCategories(user.id);
     }
   }, [user?.id]);
+
+  // Ensure categories are loaded when chats change
+  useEffect(() => {
+    if (user?.id && categoryState.categories.length === 0 && !categoryState.isLoading) {
+      categoryService.loadCategories(user.id);
+    }
+  }, [chats, user?.id, categoryState.categories.length, categoryState.isLoading]);
 
   // Organize chats by category
   const organizedChats = useMemo(() => {
