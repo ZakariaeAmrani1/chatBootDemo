@@ -300,6 +300,62 @@ class ApiService {
     return this.request<any[]>("/models");
   }
 
+  // Category operations
+  async getCategories(userId?: string): Promise<ApiResponse<Category[]>> {
+    const query = userId ? `?userId=${userId}` : "";
+    return this.request<Category[]>(`/categories${query}`);
+  }
+
+  async createCategory(request: CreateCategoryRequest): Promise<ApiResponse<Category>> {
+    // Get the current user ID from localStorage
+    const currentUser = localStorage.getItem("currentUser");
+    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+
+    const requestWithUserId = { ...request, userId };
+    return this.request<Category>("/categories", {
+      method: "POST",
+      body: JSON.stringify(requestWithUserId),
+    });
+  }
+
+  async updateCategory(
+    categoryId: string,
+    updates: UpdateCategoryRequest
+  ): Promise<ApiResponse<Category>> {
+    // Get the current user ID from localStorage
+    const currentUser = localStorage.getItem("currentUser");
+    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+
+    return this.request<Category>(`/categories/${categoryId}?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(updates),
+    });
+  }
+
+  async deleteCategory(categoryId: string): Promise<ApiResponse<null>> {
+    // Get the current user ID from localStorage
+    const currentUser = localStorage.getItem("currentUser");
+    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+
+    return this.request<null>(`/categories/${categoryId}?userId=${userId}`, {
+      method: "DELETE",
+    });
+  }
+
+  async updateChatCategory(
+    chatId: string,
+    categoryId: string | null
+  ): Promise<ApiResponse<Chat>> {
+    // Get the current user ID from localStorage
+    const currentUser = localStorage.getItem("currentUser");
+    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+
+    return this.request<Chat>(`/chats/${chatId}/category?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify({ categoryId }),
+    });
+  }
+
   // Utility method to get file URL
   getFileUrl(filename: string): string {
     return `${API_BASE}/files/${filename}`;
