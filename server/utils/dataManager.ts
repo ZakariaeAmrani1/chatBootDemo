@@ -259,7 +259,9 @@ export class DataManager {
     }
 
     const category: Category = {
-      id: `cat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      id: request.isDefault ?
+        `default-general-${request.userId}` :
+        `cat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name: request.name,
       color: request.color,
       createdAt: new Date().toISOString(),
