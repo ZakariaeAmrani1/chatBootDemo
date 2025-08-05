@@ -17,8 +17,11 @@ export const getCategories: RequestHandler = async (req, res) => {
       return;
     }
 
-    const categories = await dataManager.getCategories(userId);
-    
+    // Ensure user has a default category
+    await dataManager.ensureDefaultCategory(userId);
+
+    const categories = await dataManager.getCategoriesByUserId(userId);
+
     res.json({
       success: true,
       data: categories
