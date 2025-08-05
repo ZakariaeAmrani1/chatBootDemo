@@ -186,7 +186,7 @@ async function callLocalCloudAPI(
       return data.response || "I apologize, but I couldn't generate a response. Please try again.";
     } else {
       // Regular chat message - use /chat endpoint with JSON
-      const chatUrl = `${appUrl.replace(/\/$/, '')}/chat`;
+      const chatUrl = `${baseUrl.replace(/\/$/, '')}/chat`;
       const response = await fetch(chatUrl, {
         method: "POST",
         headers: {
