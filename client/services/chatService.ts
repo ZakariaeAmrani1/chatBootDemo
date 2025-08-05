@@ -261,7 +261,7 @@ class ChatService {
       if (response.success) {
         // Update the temporary message with real ID if needed
         // Start polling for AI response
-        this.startPollingForMessages(request.chatId);
+        this.startPollingForMessages(finalChatId);
       } else {
         this.setState({
           error: response.error || "Failed to send message",
