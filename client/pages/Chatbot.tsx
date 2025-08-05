@@ -77,24 +77,7 @@ const Chatbot = () => {
     loadModels();
   }, []);
 
-  // Get current model info
-  const getCurrentModel = () => {
-    const model = models.find((m) => m.id === selectedModel);
-    return (
-      model || {
-        name: "No Model",
-        color: "text-muted-foreground",
-        icon: "Brain",
-      }
-    );
-  };
 
-  // Icon mapping
-  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-    Brain,
-    Globe,
-    Sparkles,
-  };
 
   // Authentication and theme context
   const { user, updateUser } = useAuth();
