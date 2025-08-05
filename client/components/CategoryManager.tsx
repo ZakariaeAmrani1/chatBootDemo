@@ -58,10 +58,15 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
       });
 
       if (response.success && response.data) {
+        // Immediately update local state
         const updatedCategories = [...categories, response.data];
         onCategoriesChange(updatedCategories);
         setNewCategoryName("");
         setIsCreating(false);
+
+        // Close the modal to show the updated sidebar
+        setIsOpen?.(false);
+
         toast({
           title: "Success",
           description: "Category created successfully",
