@@ -57,13 +57,13 @@ async function extractPDFText(filePath: string): Promise<string> {
   }
 }
 
-// Function to call Gemini API
+// Function to call Gemini API with PDF file
 async function callGeminiAPI(
   userMessage: string,
   apiKey: string,
   model: string = "gemini-1.5-flash-latest",
   chatHistory: Message[] = [],
-  pdfContent?: string,
+  pdfFilePath?: string,
 ): Promise<string> {
   try {
     // Format chat history for Gemini API
@@ -84,15 +84,32 @@ async function callGeminiAPI(
       }
     }
 
-    // Add the current user message with PDF content if available
-    let messageWithPDF = userMessage;
-    if (pdfContent) {
-      messageWithPDF = `PDF Content: ${pdfContent}\n\nUser Question: ${userMessage}`;
+    // Prepare parts for the current message
+    const parts: any[] = [{ text: userMessage }];
+
+    // Add PDF file if available
+    if (pdfFilePath) {
+      try {
+        // Read PDF file as base64
+        const pdfBuffer = fs.readFileSync(pdfFilePath);
+        const base64Data = pdfBuffer.toString('base64');
+
+        // Add PDF to the message parts
+        parts.push({
+          inline_data: {
+            mime_type: "application/pdf",
+            data: base64Data
+          }
+        });
+      } catch (fileError) {
+        console.error("Error reading PDF file:", fileError);
+        parts.push({ text: "\n[Note: PDF file could not be loaded]" });
+      }
     }
 
     contents.push({
       role: "user",
-      parts: [{ text: messageWithPDF }],
+      parts: parts,
     });
 
     const response = await fetch(
