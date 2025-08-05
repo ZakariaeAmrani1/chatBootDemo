@@ -145,3 +145,29 @@ export const clearUploadedFiles: RequestHandler = (req, res) => {
     res.status(500).json(response);
   }
 };
+
+// Clear all categories
+export const clearCategories: RequestHandler = (req, res) => {
+  try {
+    const categoriesFilePath = path.join(DATA_DIR, "categories.json");
+
+    // Reset categories.json to empty state
+    const emptyCategoriesData = {
+      categories: [],
+    };
+
+    fs.writeFileSync(categoriesFilePath, JSON.stringify(emptyCategoriesData, null, 2));
+
+    const response: ApiResponse<null> = {
+      success: true,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<null> = {
+      success: false,
+      error: "Failed to clear categories",
+    };
+    res.status(500).json(response);
+  }
+};
