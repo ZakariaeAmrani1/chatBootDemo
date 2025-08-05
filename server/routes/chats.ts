@@ -161,7 +161,7 @@ async function callLocalCloudAPI(
 
     if (pdfFilePath && isInitialPdfSetup) {
       // Initial PDF setup - send to /init-pdf with FormData
-      const initPdfUrl = `${appUrl.replace(/\/$/, '')}/init-pdf`;
+      const initPdfUrl = `${baseUrl.replace(/\/$/, '')}/init-pdf`;
       const FormData = require('form-data');
       const formData = new FormData();
       formData.append('message', userMessage);
