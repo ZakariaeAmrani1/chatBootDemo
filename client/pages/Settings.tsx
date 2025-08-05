@@ -1707,6 +1707,8 @@ const Settings: React.FC<SettingsProps> = ({
                 return "• Uploaded Files - All PDF files and attachments will be permanently deleted";
               case "userSettings":
                 return "• User Settings - All preferences will be reset to default values";
+              case "categories":
+                return "• Categories - All chat categories will be permanently deleted";
               default:
                 return `• ${item}`;
             }
