@@ -61,6 +61,42 @@
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "2a429d7e-0c3b-4855-98da-f8607129a214",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T15:07:42.144Z",
+      "updatedAt": "2025-08-05T15:07:53.531Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "a7af9f3e-e0ad-4ed2-83ae-0b9dfd09125e",
+        "name": "votre_document.pdf",
+        "size": 610430,
+        "type": "application/pdf",
+        "url": "/api/files/d7b5893d-ba60-444a-b9df-eb8bb63a1e08.pdf",
+        "uploadedAt": "2025-08-05T15:07:42.144Z"
+      }
+    },
+    {
+      "id": "c1648857-9f78-40a6-91f6-ec463c480abc",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T15:07:57.056Z",
+      "updatedAt": "2025-08-05T15:08:05.424Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "0ae1bf3e-25d3-47cb-83e7-55d236263004",
+        "name": "votre_document.pdf",
+        "size": 610430,
+        "type": "application/pdf",
+        "url": "/api/files/c70c4bf9-68af-48a6-b7e3-136c9f980b6b.pdf",
+        "uploadedAt": "2025-08-05T15:07:57.056Z"
+      }
     }
   ],
   "messages": [
@@ -171,6 +207,54 @@
       "type": "assistant",
       "content": "Hello! How can I help you today?",
       "timestamp": "2025-08-05T14:13:37.464Z"
+    },
+    {
+      "id": "bc75a2f3-05a4-41f6-8f0f-940e7201954e",
+      "chatId": "2a429d7e-0c3b-4855-98da-f8607129a214",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T15:07:42.144Z",
+      "attachments": [
+        {
+          "id": "a7af9f3e-e0ad-4ed2-83ae-0b9dfd09125e",
+          "name": "votre_document.pdf",
+          "size": 610430,
+          "type": "application/pdf",
+          "url": "/api/files/d7b5893d-ba60-444a-b9df-eb8bb63a1e08.pdf",
+          "uploadedAt": "2025-08-05T15:07:42.144Z"
+        }
+      ]
+    },
+    {
+      "id": "de309198-6337-4134-bf37-585471b9b63e",
+      "chatId": "2a429d7e-0c3b-4855-98da-f8607129a214",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-05T15:07:53.531Z"
+    },
+    {
+      "id": "702c5ff7-32a4-403a-b250-b9191b4410b0",
+      "chatId": "c1648857-9f78-40a6-91f6-ec463c480abc",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T15:07:57.056Z",
+      "attachments": [
+        {
+          "id": "0ae1bf3e-25d3-47cb-83e7-55d236263004",
+          "name": "votre_document.pdf",
+          "size": 610430,
+          "type": "application/pdf",
+          "url": "/api/files/c70c4bf9-68af-48a6-b7e3-136c9f980b6b.pdf",
+          "uploadedAt": "2025-08-05T15:07:57.056Z"
+        }
+      ]
+    },
+    {
+      "id": "f1ce9db7-69b0-4034-b410-7659fa967c11",
+      "chatId": "c1648857-9f78-40a6-91f6-ec463c480abc",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-05T15:08:05.424Z"
     }
   ]
 }

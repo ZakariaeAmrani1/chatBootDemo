@@ -55,6 +55,22 @@
       "type": "application/pdf",
       "url": "/api/files/a32d2a29-b055-4d22-8794-0997a6b9b02a.pdf",
       "uploadedAt": "2025-08-05T14:06:25.236Z"
+    },
+    {
+      "id": "a7af9f3e-e0ad-4ed2-83ae-0b9dfd09125e",
+      "name": "votre_document.pdf",
+      "size": 610430,
+      "type": "application/pdf",
+      "url": "/api/files/d7b5893d-ba60-444a-b9df-eb8bb63a1e08.pdf",
+      "uploadedAt": "2025-08-05T15:07:42.144Z"
+    },
+    {
+      "id": "0ae1bf3e-25d3-47cb-83e7-55d236263004",
+      "name": "votre_document.pdf",
+      "size": 610430,
+      "type": "application/pdf",
+      "url": "/api/files/c70c4bf9-68af-48a6-b7e3-136c9f980b6b.pdf",
+      "uploadedAt": "2025-08-05T15:07:57.056Z"
     }
   ]
 }

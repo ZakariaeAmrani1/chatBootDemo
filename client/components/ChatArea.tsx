@@ -46,6 +46,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
+  const [selectedPDF, setSelectedPDF] = useState<File | null>(null);
 
   // Get the appropriate AI logo based on theme and user settings
   const getAILogo = () => {
