@@ -217,6 +217,20 @@ class ChatService {
     });
   }
 
+  // Clean up all empty draft chats
+  cleanupDraftChats(): void {
+    const hasEmptyDrafts = this.state.chats.some(chat => chat.isDraft && chat.messageCount === 0);
+
+    if (hasEmptyDrafts) {
+      this.setState({
+        chats: this.state.chats.filter(chat => !chat.isDraft || chat.messageCount > 0),
+        currentChat: this.state.currentChat?.isDraft && this.state.currentChat?.messageCount === 0
+          ? null
+          : this.state.currentChat,
+      });
+    }
+  }
+
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
 
