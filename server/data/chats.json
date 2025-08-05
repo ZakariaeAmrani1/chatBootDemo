@@ -17,6 +17,16 @@
         "url": "/api/files/bf500cfe-6887-49b7-b1cc-5d827e7faf40.pdf",
         "uploadedAt": "2025-08-05T11:10:52.848Z"
       }
+    },
+    {
+      "id": "007c8279-0841-4930-a60a-d55131bcd7dd",
+      "title": "hello",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T11:19:04.490Z",
+      "updatedAt": "2025-08-05T11:19:20.146Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
@@ -57,6 +67,34 @@
       "type": "assistant",
       "content": "Pour créer un serveur de courriers sous Linux, voici les étapes générales que vous pouvez suivre :\n\n1. **Installation de l'OS** : Installez une distribution Linux compatible avec votre matériel (par exemple Ubuntu, Debian, CentOS).\n\n2. **Configuration du réseau** : Configurez le réseau pour permettre à votre serveur de courrier d'accéder au Internet et aux autres réseaux.\n\n3. **Installation des logiciels nécessaires** :\n\n   - Postfix (MTA) pour la transmission des e-mails.\n   - Dovecot (MDA) comme agent de livraison pour les e-mails.\n   - Un client email tel que Thunderbird ou Evolution, qui sera utilisé par les utilisateurs.\n\n4. **Configuration du serveur de courrier** :\n\n   - Configurez le service Postfix en installant et en configurant le paquet postfix-package ( Ubuntu, Debian) ou rpm (CentOS).\n   - Créez un nouveau domaine dans Postfix pour l'ajouter à la liste des domaines autorisés.\n\n5. **Configuration de Dovecot** :\n\n   - Installez et configurez le paquet doveconf (Ubuntu/Debian), ou rpm (CentOS) pour configurer Dovecot.\n   - Configurez les paramètres de base comme l'utilisateur et le mot de passe pour Dovecot.\n\n6. **Configuration du serveur de courrier avec des outils supplémentaires** :\n\n   - Activez et configurez un client email tel que Thunderbird ou Evolution.\n   - Configrez un lecteur IMAP si vous utilisez la technologie IMAP (pour accéder aux e-mails via une application de messagerie).\n\n7. **Testez votre serveur de courrier** : Vérifiez s'il fonctionne correctement en envoyant et en recevant des e-mails à partir d'adresses e-mail interne ou extérieure.\n\n8. **Sécurisation du serveur de courrier** :\n\n   - Configurez les paramètres de sécurité (par exemple, SSL/TLS) pour protéger le serveur et les e-mails.\n   - Assurez-vous que tout le système est correctement configuré pour éviter les vulnérabilités de sécurité.\n\n9. **Étapes supplémentaires** :\n\n   - Configurez des directives d'erreur pour Postfix en cas d'échec de l'envoi ou du récepteur.\n   - Utilisez des outils comme fail2ban pour contrôler et bloquer les addresses IP soumises à des tentatives de connection excessive ou malveillante.\n\n10. **Testez continuellement** : Testez régulièrement votre serveur de courrier afin d'assurer qu'il fonctionne sans problème, en élargissant ainsi son portefeuille de clients et en garantissant l'efficacité de vos services.",
       "timestamp": "2025-08-05T11:11:25.434Z"
+    },
+    {
+      "id": "c09ab1da-1e82-40df-ba56-c99e9c4ce781",
+      "chatId": "007c8279-0841-4930-a60a-d55131bcd7dd",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-05T11:19:06.803Z"
+    },
+    {
+      "id": "b2b44601-4218-46e3-bbb2-9b881e86c330",
+      "chatId": "007c8279-0841-4930-a60a-d55131bcd7dd",
+      "type": "assistant",
+      "content": "Hello! How can I help you today?",
+      "timestamp": "2025-08-05T11:19:11.055Z"
+    },
+    {
+      "id": "e62e67c9-5e3b-44a8-b4c9-6c19f2835ddd",
+      "chatId": "007c8279-0841-4930-a60a-d55131bcd7dd",
+      "type": "user",
+      "content": "what",
+      "timestamp": "2025-08-05T11:19:14.561Z"
+    },
+    {
+      "id": "ca668c00-c2fd-44da-9cf8-8ae56d48439e",
+      "chatId": "007c8279-0841-4930-a60a-d55131bcd7dd",
+      "type": "assistant",
+      "content": "\"What\" can mean many things! Could you please tell me what you'd like to know or what you're referring to?\n\nAre you asking:\n*   **What I am?** (I am a large language model, an AI.)\n*   **What I can do?** (I can answer questions, write, summarize, brainstorm, translate, and more.)\n*   **What you should ask next?**\n*   **What about something we just discussed?**\n\nPlease give me a little more context!",
+      "timestamp": "2025-08-05T11:19:20.146Z"
     }
   ]
 }
