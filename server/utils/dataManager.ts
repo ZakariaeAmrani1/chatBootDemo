@@ -375,12 +375,10 @@ export class DataManager {
     }
 
     // Create default category with isDefault flag
-    const category = this.createCategory({
+    return this.createCategory({
       name: "General",
       userId,
+      isDefault: true,
     });
-
-    // Update the category to set isDefault flag
-    return this.updateCategory(category.id, { isDefault: true }, userId) || category;
   }
 }
