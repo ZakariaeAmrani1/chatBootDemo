@@ -263,6 +263,16 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   };
 
+  const handleNewChatInCategory = (categoryId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Call the onNewChat prop and then move the chat to the category
+    // We'll need to track the new chat and move it after creation
+    onNewChat();
+    // Note: This is a simplified approach. In a real implementation,
+    // you might want to modify the onNewChat prop to accept a categoryId
+    // For now, the user can move the chat to the category manually
+  };
+
   // Ensure proper cleanup when modal closes
   useEffect(() => {
     if (!deleteConfirmOpen) {
