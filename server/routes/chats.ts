@@ -466,6 +466,76 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
+// AI response generator with PDF content support
+async function generateAIResponseWithPDF(
+  userMessage: string,
+  userId: string = "user-1",
+  chatId?: string,
+  pdfContent?: string,
+): Promise<string> {
+  try {
+    const user = DataManager.getUserById(userId);
+
+    // Get the chat to determine which model to use
+    let modelType = "cloud"; // default
+    if (chatId) {
+      const chat = DataManager.getChatById(chatId);
+      modelType = chat?.model || "cloud";
+    }
+
+    if (modelType === "cloud") {
+      // Use Gemini API for Cloud model
+      const geminiApiKey = user?.settings?.geminiApiKey;
+      const geminiModel =
+        user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+
+      if (!geminiApiKey || !geminiApiKey.trim()) {
+        return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
+      }
+
+      try {
+        // Get chat history for context (excluding the current message)
+        let chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+
+        // Remove the last message if it's a user message matching the current message
+        if (chatHistory.length > 0) {
+          const lastMessage = chatHistory[chatHistory.length - 1];
+          if (
+            lastMessage.type === "user" &&
+            lastMessage.content === userMessage
+          ) {
+            chatHistory = chatHistory.slice(0, -1);
+          }
+        }
+
+        return await callGeminiAPI(
+          userMessage,
+          geminiApiKey,
+          geminiModel,
+          chatHistory,
+          pdfContent,
+        );
+      } catch (error) {
+        console.error("Gemini API error:", error);
+        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "local-cloud") {
+      // Use Local Cloud backend
+      try {
+        return await callLocalCloudAPI(userMessage, pdfContent);
+      } catch (error) {
+        console.error("Local Cloud API error:", error);
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    }
+  } catch (error) {
+    console.error("Error accessing AI services:", error);
+    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+  }
+
+  return "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.";
+}
+
 // AI response generator with Gemini API and Local Cloud integration
 async function generateAIResponse(
   userMessage: string,
