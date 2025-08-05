@@ -34,6 +34,13 @@ import { resetUserSettings } from "./routes/data-reset";
 import { handleMessageFeedback } from "./routes/feedback";
 import { getModels, addModel } from "./routes/models";
 import { loginUser, registerUser, verifyUserToken } from "./routes/auth";
+import {
+  getCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  updateChatCategory,
+} from "./routes/categories";
 
 export function createServer() {
   const app = express();
