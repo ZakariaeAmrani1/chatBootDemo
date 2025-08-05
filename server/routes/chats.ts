@@ -117,6 +117,7 @@ async function callGeminiAPI(
 async function callLocalCloudAPI(
   userMessage: string,
   pdfContext?: string,
+  appUrl?: string,
 ): Promise<string> {
   try {
     // TODO: Uncomment and configure when local backend is ready
@@ -496,7 +497,8 @@ async function generateAIResponse(
       try {
         const chat = chatId ? DataManager.getChatById(chatId) : null;
         const pdfContext = chat?.pdfFile?.name;
-        return await callLocalCloudAPI(userMessage, pdfContext);
+        const appUrl = user.settings.appUrl;
+        return await callLocalCloudAPI(userMessage, pdfContext, appUrl);
       } catch (error) {
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;

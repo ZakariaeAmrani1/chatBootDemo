@@ -55,6 +55,24 @@
         "url": "/api/files/0ef010e7-67fa-4a23-8bdb-13af8fc15f93.pdf",
         "uploadedAt": "2025-08-05T08:47:10.202Z"
       }
+    },
+    {
+      "id": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "title": "what this pdf is talking about",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T08:58:14.817Z",
+      "updatedAt": "2025-08-05T08:58:45.855Z",
+      "messageCount": 6,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "fcdda9e6-d055-4fe4-8262-b82f9e0529af",
+        "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
+        "size": 714277,
+        "type": "application/pdf",
+        "url": "/api/files/7eb9312a-0dea-4ddb-ad88-9a2101afa8e4.pdf",
+        "uploadedAt": "2025-08-05T08:58:14.817Z"
+      }
     }
   ],
   "messages": [
@@ -133,6 +151,58 @@
       "type": "assistant",
       "content": "Hello! I've successfully received your PDF document \"Eryx  Espace Admin (1).pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
       "timestamp": "2025-08-05T08:47:11.703Z"
+    },
+    {
+      "id": "89d193c9-bfa6-4982-9a04-70e9b80f36d9",
+      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T08:58:14.817Z",
+      "attachments": [
+        {
+          "id": "fcdda9e6-d055-4fe4-8262-b82f9e0529af",
+          "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
+          "size": 714277,
+          "type": "application/pdf",
+          "url": "/api/files/7eb9312a-0dea-4ddb-ad88-9a2101afa8e4.pdf",
+          "uploadedAt": "2025-08-05T08:58:14.817Z"
+        }
+      ]
+    },
+    {
+      "id": "dac55cfa-8fbe-48aa-a584-ed592b7d2f47",
+      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"UMAYA_LATHA_A_P_RAVINDREN.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-05T08:58:16.326Z"
+    },
+    {
+      "id": "98ecf766-5855-4468-aa0d-dd6d01f0c389",
+      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "type": "user",
+      "content": "what this pdf is talking about",
+      "timestamp": "2025-08-05T08:58:25.798Z"
+    },
+    {
+      "id": "3539a5cd-22ac-43b3-9165-58403c40b03d",
+      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-05T08:58:33.456Z"
+    },
+    {
+      "id": "693f34ea-463a-47b3-b40b-42a0ca557088",
+      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "type": "user",
+      "content": "what this pdf is talking about",
+      "timestamp": "2025-08-05T08:58:38.982Z"
+    },
+    {
+      "id": "1dfc4e48-3e41-4f82-aa2c-1b8ea87cfb63",
+      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "type": "assistant",
+      "content": "Based on the uploaded PDF, \"UMAYA_LATHA_A_P_RAVINDREN.pdf\" is a **resume (or Curriculum Vitae/CV)** belonging to **Umaya Latha A/P Ravindren**.\n\nIt details her:\n*   **Professional experience:** Listing previous roles, responsibilities, and achievements.\n*   **Educational background:** Outlining her degrees, institutions, and academic qualifications.\n*   **Skills:** Highlighting her technical abilities, soft skills, and languages.\n*   Potentially other sections like projects, awards, or certifications.\n\nIn essence, the PDF is a professional document designed to showcase Umaya Latha A/P Ravindren's qualifications and experience to potential employers or academic institutions.",
+      "timestamp": "2025-08-05T08:58:45.855Z"
     }
   ]
 }
