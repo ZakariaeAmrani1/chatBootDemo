@@ -39,6 +39,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import CategoryManager from "@/components/CategoryManager";
 import { apiService } from "@/services/api";
 import { categoryService, CategoryState } from "@/services/categoryService";
+import { chatService } from "@/services/chatService";
 
 import { cn } from "@/lib/utils";
 import type { Chat, User, Category } from "@shared/types";
