@@ -231,7 +231,7 @@ export class DataManager {
   // Category operations
   getCategories(): Category[] {
     try {
-      const data = this.readJsonFile<{ categories: Category[] }>("categories.json");
+      const data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
       return data.categories;
     } catch (error) {
       // If file doesn't exist, return empty array
@@ -239,20 +239,20 @@ export class DataManager {
     }
   }
 
-  static getCategoriesByUserId(userId: string): Category[] {
+  getCategoriesByUserId(userId: string): Category[] {
     const categories = this.getCategories();
     return categories.filter((category) => category.userId === userId);
   }
 
-  static getCategoryById(id: string): Category | null {
+  getCategoryById(id: string): Category | null {
     const categories = this.getCategories();
     return categories.find((category) => category.id === id) || null;
   }
 
-  static createCategory(request: CreateCategoryRequest & { userId: string }): Category {
+  createCategory(request: CreateCategoryRequest & { userId: string }): Category {
     let data;
     try {
-      data = this.readJsonFile<{ categories: Category[] }>("categories.json");
+      data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
     } catch (error) {
       // If file doesn't exist, create it
       data = { categories: [] };
@@ -268,14 +268,14 @@ export class DataManager {
     };
 
     data.categories.push(category);
-    this.writeJsonFile("categories.json", data);
+    DataManager.writeJsonFile("categories.json", data);
     return category;
   }
 
-  static updateCategory(id: string, updates: Partial<Category>, userId: string): Category | null {
+  updateCategory(id: string, updates: Partial<Category>, userId: string): Category | null {
     let data;
     try {
-      data = this.readJsonFile<{ categories: Category[] }>("categories.json");
+      data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
     } catch (error) {
       return null;
     }
@@ -297,14 +297,14 @@ export class DataManager {
       updatedAt: new Date().toISOString(),
     };
 
-    this.writeJsonFile("categories.json", data);
+    DataManager.writeJsonFile("categories.json", data);
     return data.categories[categoryIndex];
   }
 
-  static deleteCategory(id: string, userId: string): boolean {
+  deleteCategory(id: string, userId: string): boolean {
     let data;
     try {
-      data = this.readJsonFile<{ categories: Category[] }>("categories.json");
+      data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
     } catch (error) {
       return false;
     }
@@ -324,12 +324,12 @@ export class DataManager {
     this.removeCategoryFromChats(id);
 
     data.categories.splice(categoryIndex, 1);
-    this.writeJsonFile("categories.json", data);
+    DataManager.writeJsonFile("categories.json", data);
     return true;
   }
 
-  static updateChatCategory(chatId: string, categoryId: string | null, userId: string): Chat | null {
-    const data = this.readJsonFile<{ chats: Chat[]; messages: Message[] }>("chats.json");
+  updateChatCategory(chatId: string, categoryId: string | null, userId: string): Chat | null {
+    const data = DataManager.readJsonFile<{ chats: Chat[]; messages: Message[] }>("chats.json");
     const chatIndex = data.chats.findIndex(
       (chat) => chat.id === chatId && chat.userId === userId
     );
@@ -342,13 +342,13 @@ export class DataManager {
       updatedAt: new Date().toISOString(),
     };
 
-    this.writeJsonFile("chats.json", data);
+    DataManager.writeJsonFile("chats.json", data);
     return data.chats[chatIndex];
   }
 
-  private static removeCategoryFromChats(categoryId: string): void {
+  private removeCategoryFromChats(categoryId: string): void {
     try {
-      const data = this.readJsonFile<{ chats: Chat[]; messages: Message[] }>("chats.json");
+      const data = DataManager.readJsonFile<{ chats: Chat[]; messages: Message[] }>("chats.json");
 
       data.chats = data.chats.map((chat) => {
         if (chat.categoryId === categoryId) {
@@ -358,14 +358,14 @@ export class DataManager {
         return chat;
       });
 
-      this.writeJsonFile("chats.json", data);
+      DataManager.writeJsonFile("chats.json", data);
     } catch (error) {
       console.error("Error removing category from chats:", error);
     }
   }
 
   // Create default category for a user if it doesn't exist
-  static ensureDefaultCategory(userId: string): Category {
+  ensureDefaultCategory(userId: string): Category {
     const categories = this.getCategoriesByUserId(userId);
     const defaultCategory = categories.find(cat => cat.isDefault);
 
