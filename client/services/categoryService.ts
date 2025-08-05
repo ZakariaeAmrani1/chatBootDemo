@@ -144,6 +144,12 @@ class CategoryService {
     this.setState({ categories });
   }
 
+  async forceReload(userId?: string): Promise<void> {
+    // Clear current categories and reload
+    this.setState({ categories: [], isLoading: true, error: null });
+    await this.loadCategories(userId);
+  }
+
   clearError(): void {
     this.setState({ error: null });
   }
