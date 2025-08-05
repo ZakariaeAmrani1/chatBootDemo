@@ -49,6 +49,7 @@ export interface UserSettings {
   screenReader: boolean;
   geminiApiKey?: string;
   geminiModel?: string;
+  selectedModel?: string;
   appUrl?: string;
   // App customization settings
   appName?: string;
