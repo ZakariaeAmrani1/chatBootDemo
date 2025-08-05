@@ -305,7 +305,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   if (user?.id) {
                     setTimeout(() => {
                       categoryService.forceReload(user.id);
-                    }, 100);
+                    }, 200);
+                  }
+                }}
+                onDialogClose={() => {
+                  // Ensure categories are expanded when dialog closes
+                  if (user?.id) {
+                    categoryService.forceReload(user.id);
                   }
                 }}
                 triggerButton={
