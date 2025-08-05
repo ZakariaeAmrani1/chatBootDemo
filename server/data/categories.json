@@ -1,0 +1,12 @@
+{
+  "categories": [
+    {
+      "id": "default-general",
+      "name": "General",
+      "createdAt": "2025-08-05T11:00:00.000Z",
+      "updatedAt": "2025-08-05T11:00:00.000Z",
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "isDefault": true
+    }
+  ]
+}
