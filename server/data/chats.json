@@ -57,21 +57,21 @@
       }
     },
     {
-      "id": "4a74603e-7063-4c1b-9ce6-50928535ed75",
-      "title": "what this pdf is talking about",
+      "id": "bcb8745c-1726-41ec-a49f-0e9364bda89b",
+      "title": "New Chat",
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T08:58:14.817Z",
-      "updatedAt": "2025-08-05T08:58:45.855Z",
-      "messageCount": 6,
+      "createdAt": "2025-08-05T09:20:44.011Z",
+      "updatedAt": "2025-08-05T09:20:50.527Z",
+      "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "pdfFile": {
-        "id": "fcdda9e6-d055-4fe4-8262-b82f9e0529af",
+        "id": "4f9c31c5-e5e1-4079-ac25-22b9f9b382b5",
         "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
         "size": 714277,
         "type": "application/pdf",
-        "url": "/api/files/7eb9312a-0dea-4ddb-ad88-9a2101afa8e4.pdf",
-        "uploadedAt": "2025-08-05T08:58:14.817Z"
+        "url": "/api/files/1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf",
+        "uploadedAt": "2025-08-05T09:20:44.011Z"
       }
     }
   ],
@@ -153,56 +153,28 @@
       "timestamp": "2025-08-05T08:47:11.703Z"
     },
     {
-      "id": "89d193c9-bfa6-4982-9a04-70e9b80f36d9",
-      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "id": "9a1ee939-eaf9-4c69-b589-25643c730973",
+      "chatId": "bcb8745c-1726-41ec-a49f-0e9364bda89b",
       "type": "user",
       "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-05T08:58:14.817Z",
+      "timestamp": "2025-08-05T09:20:44.011Z",
       "attachments": [
         {
-          "id": "fcdda9e6-d055-4fe4-8262-b82f9e0529af",
+          "id": "4f9c31c5-e5e1-4079-ac25-22b9f9b382b5",
           "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
           "size": 714277,
           "type": "application/pdf",
-          "url": "/api/files/7eb9312a-0dea-4ddb-ad88-9a2101afa8e4.pdf",
-          "uploadedAt": "2025-08-05T08:58:14.817Z"
+          "url": "/api/files/1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf",
+          "uploadedAt": "2025-08-05T09:20:44.011Z"
         }
       ]
     },
     {
-      "id": "dac55cfa-8fbe-48aa-a584-ed592b7d2f47",
-      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
+      "id": "0d423b4b-ca2d-413d-bfc8-c24f3f5d8283",
+      "chatId": "bcb8745c-1726-41ec-a49f-0e9364bda89b",
       "type": "assistant",
-      "content": "Hello! I've successfully received your PDF document \"UMAYA_LATHA_A_P_RAVINDREN.pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
-      "timestamp": "2025-08-05T08:58:16.326Z"
-    },
-    {
-      "id": "98ecf766-5855-4468-aa0d-dd6d01f0c389",
-      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
-      "type": "user",
-      "content": "what this pdf is talking about",
-      "timestamp": "2025-08-05T08:58:25.798Z"
-    },
-    {
-      "id": "3539a5cd-22ac-43b3-9165-58403c40b03d",
-      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
-      "type": "assistant",
-      "content": "I apologize, but I couldn't generate a response. Please try again.",
-      "timestamp": "2025-08-05T08:58:33.456Z"
-    },
-    {
-      "id": "693f34ea-463a-47b3-b40b-42a0ca557088",
-      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
-      "type": "user",
-      "content": "what this pdf is talking about",
-      "timestamp": "2025-08-05T08:58:38.982Z"
-    },
-    {
-      "id": "1dfc4e48-3e41-4f82-aa2c-1b8ea87cfb63",
-      "chatId": "4a74603e-7063-4c1b-9ce6-50928535ed75",
-      "type": "assistant",
-      "content": "Based on the uploaded PDF, \"UMAYA_LATHA_A_P_RAVINDREN.pdf\" is a **resume (or Curriculum Vitae/CV)** belonging to **Umaya Latha A/P Ravindren**.\n\nIt details her:\n*   **Professional experience:** Listing previous roles, responsibilities, and achievements.\n*   **Educational background:** Outlining her degrees, institutions, and academic qualifications.\n*   **Skills:** Highlighting her technical abilities, soft skills, and languages.\n*   Potentially other sections like projects, awards, or certifications.\n\nIn essence, the PDF is a professional document designed to showcase Umaya Latha A/P Ravindren's qualifications and experience to potential employers or academic institutions.",
-      "timestamp": "2025-08-05T08:58:45.855Z"
+      "content": "I understand you'd like an analysis and summary of the PDF document.\n\nHowever, the content provided is a placeholder and does not contain any actual text from a PDF. It states:\n\n\"**[PDF Content] This is a placeholder for the PDF content from 1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf. In a production environment, this would contain the actual extracted text from the PDF.**\"\n\nTherefore, I don't have any content to analyze or summarize.\n\nPlease provide the actual extracted text from the PDF document, and I will be happy to assist you with a summary of its contents.",
+      "timestamp": "2025-08-05T09:20:50.527Z"
     }
   ]
 }
