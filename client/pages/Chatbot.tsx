@@ -477,30 +477,10 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <div
-              className={cn(
-                "flex items-center gap-2 px-3 py-1.5 rounded-xl border bg-muted/30",
-                "shadow-sm",
-              )}
-            >
-              {(() => {
-                const model = getCurrentModel();
-                const IconComponent = iconMap[model.icon] || Brain;
-                return (
-                  <>
-                    <IconComponent className={cn("w-4 h-4", model.color)} />
-                    <span
-                      className={cn(
-                        "text-sm font-medium transition-colors",
-                        model.color,
-                      )}
-                    >
-                      {model.name}
-                    </span>
-                  </>
-                );
-              })()}
-            </div>
+            <ModelDropdown
+              selectedModel={selectedModel}
+              onModelChange={handleModelChange}
+            />
           </div>
 
           <div className="flex items-center gap-2">
