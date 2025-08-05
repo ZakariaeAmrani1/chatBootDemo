@@ -605,7 +605,7 @@ async function generateAIResponseWithPDF(
         }
 
         const appUrl = user?.settings?.appUrl;
-        return await callLocalCloudAPI(userMessage, pdfFilePath, appUrl);
+        return await callLocalCloudAPI(userMessage, pdfFilePath, appUrl, isInitialPdfSetup);
       } catch (error) {
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
