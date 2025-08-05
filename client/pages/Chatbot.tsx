@@ -513,7 +513,7 @@ const Chatbot = () => {
                 title={pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
               >
                 <Eye className="h-4 w-4" />
-                <span className="ml-1 hidden md:inline">
+                <span className="ml-1 hidden md:inline text-xs">
                   {pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
                 </span>
               </Button>
@@ -527,7 +527,7 @@ const Chatbot = () => {
               disabled={!chatState.currentChat}
             >
               <Share2 className="h-4 w-4" />
-              <span className="ml-1 hidden md:inline">Share</span>
+              <span className="ml-1 hidden md:inline text-xs">Share</span>
             </Button>
           </div>
         </header>
