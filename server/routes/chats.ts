@@ -208,7 +208,7 @@ async function callLocalCloudAPI(
     }
   } catch (error) {
     console.error("Local Cloud API error:", error);
-    return `I'm currently unable to connect to the local AI service at ${appUrl || 'configured URL'}. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+    return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
   }
 }
 
