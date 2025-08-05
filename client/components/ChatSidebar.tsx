@@ -453,17 +453,34 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   return (
                     <div key={category.id} className="space-y-1">
                       {/* Category header */}
-                      <div
-                        className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground transition-colors"
-                        onClick={() => toggleCategory(category.id)}
-                      >
-                        {isCollapsed ? (
-                          <ChevronRight className="h-3 w-3 mr-1" />
-                        ) : (
-                          <ChevronDown className="h-3 w-3 mr-1" />
-                        )}
-                        <Folder className="h-3 w-3 mr-2" />
-                        {category.name}
+                      <div className="flex items-center justify-between px-2 py-1 group">
+                        <div
+                          className="flex items-center text-sm font-medium text-muted-foreground cursor-pointer hover:text-foreground transition-colors flex-1"
+                          onClick={() => toggleCategory(category.id)}
+                        >
+                          {isCollapsed ? (
+                            <ChevronRight className="h-3 w-3 mr-1" />
+                          ) : (
+                            <ChevronDown className="h-3 w-3 mr-1" />
+                          )}
+                          <Folder className="h-3 w-3 mr-2" />
+                          {category.name}
+                        </div>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                              onClick={(e) => handleNewChatInCategory(category.id, e)}
+                            >
+                              <Plus className="h-3 w-3" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent side="right">
+                            New chat in {category.name}
+                          </TooltipContent>
+                        </Tooltip>
                       </div>
 
                       {/* Category chats */}
