@@ -229,7 +229,7 @@ export class DataManager {
   }
 
   // Category operations
-  static getCategories(): Category[] {
+  getCategories(): Category[] {
     try {
       const data = this.readJsonFile<{ categories: Category[] }>("categories.json");
       return data.categories;
