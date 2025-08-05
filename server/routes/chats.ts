@@ -370,21 +370,23 @@ export const sendMessage: RequestHandler = (req, res) => {
 
     // Generate AI response
     setTimeout(async () => {
-      let aiResponseMessage = message;
+      let pdfContent: string | undefined;
 
-      // If chat has PDF, mention it in the context
+      // If chat has PDF, extract its content
       if (chat.pdfFile) {
-        aiResponseMessage = `Based on the uploaded PDF "${chat.pdfFile.name}" and your question: "${message}"`;
+        const pdfPath = path.join(process.cwd(), "server/uploads", path.basename(chat.pdfFile.url));
+        pdfContent = await extractPDFText(pdfPath);
       }
 
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponse(
-          aiResponseMessage,
+        content: await generateAIResponseWithPDF(
+          message,
           chat.userId,
           chatId,
+          pdfContent,
         ),
         timestamp: new Date().toISOString(),
       };
