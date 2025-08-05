@@ -113,7 +113,7 @@ export function ModelDropdown({ selectedModel, onModelChange, disabled = false }
               </span>
             </>
           )}
-          <ChevronDown className="w-3 h-3 text-muted-foreground" />
+          {!disabled && <ChevronDown className="w-3 h-3 text-muted-foreground" />}
         </Button>
       </DropdownMenuTrigger>
       
