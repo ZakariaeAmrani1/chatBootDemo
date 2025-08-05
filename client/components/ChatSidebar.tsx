@@ -155,8 +155,15 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
     // Sort chats into categories
     chats.forEach(chat => {
-      if (chat.categoryId && categorized[chat.categoryId]) {
-        categorized[chat.categoryId].push(chat);
+      if (chat.categoryId) {
+        // Check if the category still exists
+        const categoryExists = categoryState.categories.some(cat => cat.id === chat.categoryId);
+        if (categoryExists && categorized[chat.categoryId]) {
+          categorized[chat.categoryId].push(chat);
+        } else {
+          // Category was deleted or doesn't exist, put in uncategorized
+          uncategorized.push(chat);
+        }
       } else {
         uncategorized.push(chat);
       }
