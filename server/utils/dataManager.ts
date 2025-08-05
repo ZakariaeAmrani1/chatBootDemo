@@ -249,7 +249,7 @@ export class DataManager {
     return categories.find((category) => category.id === id) || null;
   }
 
-  createCategory(request: CreateCategoryRequest & { userId: string }): Category {
+  createCategory(request: CreateCategoryRequest & { userId: string; isDefault?: boolean }): Category {
     let data;
     try {
       data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
@@ -265,6 +265,7 @@ export class DataManager {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       userId: request.userId,
+      isDefault: request.isDefault || false,
     };
 
     data.categories.push(category);
