@@ -61,17 +61,6 @@
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "4c09d684-39c9-4555-a295-ab399a642fa8",
-      "title": "New chat",
-      "model": "cloud",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T14:18:33.067Z",
-      "updatedAt": "2025-08-05T14:18:43.776Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
@@ -182,20 +171,6 @@
       "type": "assistant",
       "content": "Hello! How can I help you today?",
       "timestamp": "2025-08-05T14:13:37.464Z"
-    },
-    {
-      "id": "1897123d-4888-49f0-9ea7-f47c50ce8975",
-      "chatId": "4c09d684-39c9-4555-a295-ab399a642fa8",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T14:18:33.202Z"
-    },
-    {
-      "id": "9ed05779-676d-4e52-8588-884d39101b32",
-      "chatId": "4c09d684-39c9-4555-a295-ab399a642fa8",
-      "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T14:18:37.310Z"
     }
   ]
 }
