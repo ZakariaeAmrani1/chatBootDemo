@@ -224,6 +224,16 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     !hasActiveChat ||
     (hasActiveChat && messages.length === 0 && !currentChatHasPdf)
   ) {
+    const [selectedPDF, setSelectedPDF] = React.useState<File | null>(null);
+
+    const handleStartChat = () => {
+      if (selectedModel && selectedPDF && onStartChat) {
+        onStartChat(selectedModel, selectedPDF);
+      }
+    };
+
+    const canStartChat = selectedModel && selectedPDF;
+
     return (
       <ScrollArea className="h-full">
         <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
@@ -245,16 +255,41 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             How can I help you today?
           </h3>
           <p className="text-muted-foreground mb-8">
-            Choose your AI model and upload a PDF to start analyzing
+            Upload a PDF document to start analyzing with your selected AI model
           </p>
 
-          {/* Model and PDF Selection */}
-          <div className="w-full max-w-4xl pb-8">
-            <ModelAndPDFSelector
-              selectedModel={selectedModel}
-              onModelChange={onModelChange}
-              onStartChat={onStartChat || (() => {})}
-            />
+          {/* PDF Upload */}
+          <div className="w-full max-w-4xl space-y-8 pb-8">
+            <PDFUpload onFileSelect={setSelectedPDF} selectedFile={selectedPDF} />
+
+            {/* Start Chat Button */}
+            {selectedPDF && (
+              <div className="animate-in fade-in duration-300 flex justify-center">
+                <Button
+                  onClick={handleStartChat}
+                  disabled={!canStartChat}
+                  size="lg"
+                  className="gap-2 px-8"
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  Start Chatting
+                </Button>
+              </div>
+            )}
+
+            {/* Instructions */}
+            <div className="text-center text-sm text-muted-foreground space-y-1">
+              <p>
+                {!selectedPDF
+                  ? "Upload a PDF document to analyze"
+                  : "Ready to start your conversation!"}
+              </p>
+              {!selectedPDF && (
+                <p className="text-xs">
+                  The AI will use your PDF to provide contextual answers and insights
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </ScrollArea>
