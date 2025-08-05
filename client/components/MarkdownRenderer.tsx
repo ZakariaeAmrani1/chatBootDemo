@@ -108,7 +108,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   });
 
   // Parse markdown to HTML
-  const htmlContent = marked(content);
+  const htmlContent = marked(displayedContent);
 
   return (
     <div
