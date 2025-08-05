@@ -307,14 +307,17 @@ class ChatService {
   }
 
   private async startPollingForMessages(chatId: string): Promise<void> {
-    const pollCount = 0;
-    const maxPolls = 20; // Poll for max 10 seconds (500ms * 20)
+    let pollCount = 0;
+    const maxPolls = 60; // Poll for max 30 seconds (500ms * 60)
+    let isPolling = true;
 
-    const poll = async (count: number) => {
-      if (count >= maxPolls) {
+    const poll = async () => {
+      if (!isPolling || pollCount >= maxPolls) {
         this.setState({ isThinking: false });
         return;
       }
+
+      pollCount++;
 
       try {
         const response = await apiService.getChatMessages(chatId);
@@ -322,33 +325,43 @@ class ChatService {
         if (response.success && response.data) {
           const newMessages = response.data;
           const lastMessage = newMessages[newMessages.length - 1];
+          const currentLastMessage =
+            this.state.messages[this.state.messages.length - 1];
 
-          // Check if we have a new AI message
+          // Check if we have a new AI message that's different from what we currently have
           if (
             lastMessage &&
             lastMessage.type === "assistant" &&
-            lastMessage.timestamp >
-              (this.state.messages[this.state.messages.length - 1]?.timestamp ||
-                "")
+            (!currentLastMessage || lastMessage.id !== currentLastMessage.id)
           ) {
             this.setState({
               messages: newMessages,
               isThinking: false,
             });
-            return; // Stop polling
+            isPolling = false; // Stop polling
+            return;
           }
         }
 
-        // Continue polling
-        setTimeout(() => poll(count + 1), 500);
+        // Continue polling if we haven't found a new response yet
+        if (isPolling && pollCount < maxPolls) {
+          setTimeout(() => poll(), 500);
+        } else {
+          this.setState({ isThinking: false });
+        }
       } catch (error) {
+        console.error("Polling error:", error);
         // Continue polling even on error (network might be temporarily down)
-        setTimeout(() => poll(count + 1), 500);
+        if (isPolling && pollCount < maxPolls) {
+          setTimeout(() => poll(), 1000); // Wait longer on error
+        } else {
+          this.setState({ isThinking: false });
+        }
       }
     };
 
     // Start polling after a short delay
-    setTimeout(() => poll(0), 500);
+    setTimeout(() => poll(), 500);
   }
 
   async selectChat(chat: Chat): Promise<void> {

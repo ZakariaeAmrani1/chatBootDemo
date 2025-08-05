@@ -47,6 +47,11 @@ export function ModelSelectorCards({
             icon: iconMap[model.icon] || Brain, // Fallback to Brain if icon not found
           }));
           setModels(modelsWithIcons);
+
+          // Auto-select the first model if none is selected
+          if (!selectedModel && modelsWithIcons.length > 0) {
+            onModelChange(modelsWithIcons[0].id);
+          }
         }
       } catch (error) {
         console.error("Failed to load models:", error);

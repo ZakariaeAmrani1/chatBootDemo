@@ -57,6 +57,7 @@ interface ChatSidebarProps {
   onUpdateChat?: (chatId: string, updates: Partial<Chat>) => void;
   isLoading?: boolean;
   user?: User | null;
+  selectedModel?: string;
 }
 
 const ChatSidebar: React.FC<ChatSidebarProps> = ({
@@ -72,6 +73,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onUpdateChat,
   isLoading = false,
   user,
+  selectedModel,
 }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -276,8 +278,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
       // Create a draft chat (not saved to backend until first message)
       const createChatRequest = {
         title: "New chat",
-        model: "gemini-pro", // Default model
+        model: selectedModel || "cloud", // Use selected model or default to cloud
         chatbootVersion: "1.0",
+        n: "1.0",
       };
 
       const draftChat = chatService.createDraftChat(

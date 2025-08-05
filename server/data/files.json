@@ -31,14 +31,6 @@
       "type": "application/pdf",
       "url": "/api/files/bf500cfe-6887-49b7-b1cc-5d827e7faf40.pdf",
       "uploadedAt": "2025-08-05T11:10:52.848Z"
-    },
-    {
-      "id": "d8b2d36f-6504-46f2-bc51-d9d04356799c",
-      "name": "Network_presentation (7).pdf",
-      "size": 514921,
-      "type": "application/pdf",
-      "url": "/api/files/dfe4e2bb-8dc3-4abc-a133-ddca705d1c77.pdf",
-      "uploadedAt": "2025-08-05T12:40:44.420Z"
     }
   ]
 }

@@ -388,15 +388,18 @@ const Chatbot = () => {
 
     // Update current chat's model if there's an active chat
     if (chatState.currentChat) {
-      try {
-        await apiService.updateChat(chatState.currentChat.id, {
-          model: modelId,
-        });
-        // Update the local chat state to reflect the change
-        chatService.updateCurrentChat({ model: modelId });
-      } catch (error) {
-        console.error("Failed to update chat model:", error);
+      // Only update on server if it's not a draft chat
+      if (!chatState.currentChat.isDraft) {
+        try {
+          await apiService.updateChat(chatState.currentChat.id, {
+            model: modelId,
+          });
+        } catch (error) {
+          console.error("Failed to update chat model:", error);
+        }
       }
+      // Always update the local chat state to reflect the change
+      chatService.updateCurrentChat({ model: modelId });
     }
   };
 
@@ -445,6 +448,7 @@ const Chatbot = () => {
           onUpdateChat={handleUpdateChat}
           isLoading={chatState.isLoading}
           user={user}
+          selectedModel={selectedModel}
         />
       </div>
 
