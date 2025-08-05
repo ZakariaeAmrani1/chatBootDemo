@@ -300,13 +300,17 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Create a welcome message from AI
+      // Process the PDF and generate AI response
       setTimeout(async () => {
+        const pdfPath = path.join(process.cwd(), "server/uploads", path.basename(pdfFile.url));
+        const pdfContent = await extractPDFText(pdfPath);
+        const analysisPrompt = `Please analyze this PDF document and provide a summary of its contents.`;
+
         const aiMessage: Message = {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: `Hello! I've successfully received your PDF document "${pdfFile.name}". I'm ready to help you analyze and answer questions about this document. What would you like to know?`,
+          content: await generateAIResponseWithPDF(analysisPrompt, userId, chatId, pdfContent),
           timestamp: new Date().toISOString(),
         };
 
