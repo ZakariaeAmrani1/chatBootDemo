@@ -16,6 +16,32 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   typewriterSpeed = 30,
 }) => {
   const [displayedContent, setDisplayedContent] = useState(typewriter ? "" : content);
+
+  // Typewriter effect
+  useEffect(() => {
+    if (!typewriter) {
+      setDisplayedContent(content);
+      return;
+    }
+
+    if (content.length === 0) {
+      setDisplayedContent("");
+      return;
+    }
+
+    let currentIndex = 0;
+    const timer = setInterval(() => {
+      if (currentIndex < content.length) {
+        setDisplayedContent(content.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        clearInterval(timer);
+      }
+    }, typewriterSpeed);
+
+    return () => clearInterval(timer);
+  }, [content, typewriter, typewriterSpeed]);
+
   // Configure marked options for better rendering
   const renderer = new marked.Renderer();
   
