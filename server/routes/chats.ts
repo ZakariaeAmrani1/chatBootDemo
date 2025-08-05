@@ -84,10 +84,15 @@ async function callGeminiAPI(
       }
     }
 
-    // Add the current user message
+    // Add the current user message with PDF content if available
+    let messageWithPDF = userMessage;
+    if (pdfContent) {
+      messageWithPDF = `PDF Content: ${pdfContent}\n\nUser Question: ${userMessage}`;
+    }
+
     contents.push({
       role: "user",
-      parts: [{ text: userMessage }],
+      parts: [{ text: messageWithPDF }],
     });
 
     const response = await fetch(
