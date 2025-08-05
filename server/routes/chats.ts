@@ -11,6 +11,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 
 // Configure multer for PDF uploads
 const storage = multer.diskStorage({
