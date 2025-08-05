@@ -11,6 +11,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 
 // Configure multer for PDF uploads
 const storage = multer.diskStorage({
@@ -45,12 +46,24 @@ const upload = multer({
 
 export const uploadPDF = upload.single("pdfFile");
 
+// Function to extract text from PDF (basic implementation)
+async function extractPDFText(filePath: string): Promise<string> {
+  try {
+    // For now, return a placeholder. In a real implementation, you'd use a library like pdf-parse
+    return `[PDF Content] This is a placeholder for the PDF content from ${path.basename(filePath)}. In a production environment, this would contain the actual extracted text from the PDF.`;
+  } catch (error) {
+    console.error("Error extracting PDF text:", error);
+    return "[PDF Error] Could not extract text from the PDF file.";
+  }
+}
+
 // Function to call Gemini API
 async function callGeminiAPI(
   userMessage: string,
   apiKey: string,
   model: string = "gemini-1.5-flash-latest",
   chatHistory: Message[] = [],
+  pdfContent?: string,
 ): Promise<string> {
   try {
     // Format chat history for Gemini API
@@ -71,10 +84,15 @@ async function callGeminiAPI(
       }
     }
 
-    // Add the current user message
+    // Add the current user message with PDF content if available
+    let messageWithPDF = userMessage;
+    if (pdfContent) {
+      messageWithPDF = `PDF Content: ${pdfContent}\n\nUser Question: ${userMessage}`;
+    }
+
     contents.push({
       role: "user",
-      parts: [{ text: userMessage }],
+      parts: [{ text: messageWithPDF }],
     });
 
     const response = await fetch(
@@ -116,7 +134,7 @@ async function callGeminiAPI(
 // Function to call Local Cloud backend (commented for now)
 async function callLocalCloudAPI(
   userMessage: string,
-  pdfContext?: string,
+  pdfContent?: string,
 ): Promise<string> {
   try {
     // TODO: Uncomment and configure when local backend is ready
@@ -128,7 +146,7 @@ async function callLocalCloudAPI(
       },
       body: JSON.stringify({
         message: userMessage,
-        pdfContext: pdfContext,
+        pdfContent: pdfContent,
       }),
     });
 
@@ -143,7 +161,13 @@ async function callLocalCloudAPI(
     */
 
     // Fallback response for now
-    return `[Local Cloud Response] I've analyzed your message: "${userMessage}". This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.`;
+    let response = `[Local Cloud Response] I've analyzed your message: "${userMessage}".`;
+    if (pdfContent) {
+      response += ` I've also processed the PDF content: "${pdfContent.substring(0, 100)}..."`;
+    }
+    response +=
+      " This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.";
+    return response;
   } catch (error) {
     console.error("Local Cloud API error:", error);
     return "I'm currently unable to connect to the local AI service. Please ensure your local backend is running.";
@@ -277,13 +301,26 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Create a welcome message from AI
+      // Process the PDF and generate AI response
       setTimeout(async () => {
+        const pdfPath = path.join(
+          process.cwd(),
+          "server/uploads",
+          path.basename(pdfFile.url),
+        );
+        const pdfContent = await extractPDFText(pdfPath);
+        const analysisPrompt = `Please analyze this PDF document and provide a summary of its contents.`;
+
         const aiMessage: Message = {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: `Hello! I've successfully received your PDF document "${pdfFile.name}". I'm ready to help you analyze and answer questions about this document. What would you like to know?`,
+          content: await generateAIResponseWithPDF(
+            analysisPrompt,
+            userId,
+            chatId,
+            pdfContent,
+          ),
           timestamp: new Date().toISOString(),
         };
 
@@ -343,21 +380,27 @@ export const sendMessage: RequestHandler = (req, res) => {
 
     // Generate AI response
     setTimeout(async () => {
-      let aiResponseMessage = message;
+      let pdfContent: string | undefined;
 
-      // If chat has PDF, mention it in the context
+      // If chat has PDF, extract its content
       if (chat.pdfFile) {
-        aiResponseMessage = `Based on the uploaded PDF "${chat.pdfFile.name}" and your question: "${message}"`;
+        const pdfPath = path.join(
+          process.cwd(),
+          "server/uploads",
+          path.basename(chat.pdfFile.url),
+        );
+        pdfContent = await extractPDFText(pdfPath);
       }
 
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponse(
-          aiResponseMessage,
+        content: await generateAIResponseWithPDF(
+          message,
           chat.userId,
           chatId,
+          pdfContent,
         ),
         timestamp: new Date().toISOString(),
       };
@@ -438,6 +481,76 @@ export const deleteChat: RequestHandler = (req, res) => {
     res.status(500).json(response);
   }
 };
+
+// AI response generator with PDF content support
+async function generateAIResponseWithPDF(
+  userMessage: string,
+  userId: string = "user-1",
+  chatId?: string,
+  pdfContent?: string,
+): Promise<string> {
+  try {
+    const user = DataManager.getUserById(userId);
+
+    // Get the chat to determine which model to use
+    let modelType = "cloud"; // default
+    if (chatId) {
+      const chat = DataManager.getChatById(chatId);
+      modelType = chat?.model || "cloud";
+    }
+
+    if (modelType === "cloud") {
+      // Use Gemini API for Cloud model
+      const geminiApiKey = user?.settings?.geminiApiKey;
+      const geminiModel =
+        user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+
+      if (!geminiApiKey || !geminiApiKey.trim()) {
+        return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
+      }
+
+      try {
+        // Get chat history for context (excluding the current message)
+        let chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+
+        // Remove the last message if it's a user message matching the current message
+        if (chatHistory.length > 0) {
+          const lastMessage = chatHistory[chatHistory.length - 1];
+          if (
+            lastMessage.type === "user" &&
+            lastMessage.content === userMessage
+          ) {
+            chatHistory = chatHistory.slice(0, -1);
+          }
+        }
+
+        return await callGeminiAPI(
+          userMessage,
+          geminiApiKey,
+          geminiModel,
+          chatHistory,
+          pdfContent,
+        );
+      } catch (error) {
+        console.error("Gemini API error:", error);
+        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "local-cloud") {
+      // Use Local Cloud backend
+      try {
+        return await callLocalCloudAPI(userMessage, pdfContent);
+      } catch (error) {
+        console.error("Local Cloud API error:", error);
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    }
+  } catch (error) {
+    console.error("Error accessing AI services:", error);
+    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+  }
+
+  return "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.";
+}
 
 // AI response generator with Gemini API and Local Cloud integration
 async function generateAIResponse(
