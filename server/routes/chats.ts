@@ -165,7 +165,8 @@ async function callLocalCloudAPI(
     if (pdfContent) {
       response += ` I've also processed the PDF content: "${pdfContent.substring(0, 100)}..."`;
     }
-    response += " This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.";
+    response +=
+      " This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.";
     return response;
   } catch (error) {
     console.error("Local Cloud API error:", error);
@@ -302,7 +303,11 @@ export const createChat: RequestHandler = (req, res) => {
 
       // Process the PDF and generate AI response
       setTimeout(async () => {
-        const pdfPath = path.join(process.cwd(), "server/uploads", path.basename(pdfFile.url));
+        const pdfPath = path.join(
+          process.cwd(),
+          "server/uploads",
+          path.basename(pdfFile.url),
+        );
         const pdfContent = await extractPDFText(pdfPath);
         const analysisPrompt = `Please analyze this PDF document and provide a summary of its contents.`;
 
@@ -310,7 +315,12 @@ export const createChat: RequestHandler = (req, res) => {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: await generateAIResponseWithPDF(analysisPrompt, userId, chatId, pdfContent),
+          content: await generateAIResponseWithPDF(
+            analysisPrompt,
+            userId,
+            chatId,
+            pdfContent,
+          ),
           timestamp: new Date().toISOString(),
         };
 
@@ -374,7 +384,11 @@ export const sendMessage: RequestHandler = (req, res) => {
 
       // If chat has PDF, extract its content
       if (chat.pdfFile) {
-        const pdfPath = path.join(process.cwd(), "server/uploads", path.basename(chat.pdfFile.url));
+        const pdfPath = path.join(
+          process.cwd(),
+          "server/uploads",
+          path.basename(chat.pdfFile.url),
+        );
         pdfContent = await extractPDFText(pdfPath);
       }
 

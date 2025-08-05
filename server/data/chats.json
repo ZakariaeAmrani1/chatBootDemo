@@ -55,6 +55,24 @@
         "url": "/api/files/0ef010e7-67fa-4a23-8bdb-13af8fc15f93.pdf",
         "uploadedAt": "2025-08-05T08:47:10.202Z"
       }
+    },
+    {
+      "id": "bcb8745c-1726-41ec-a49f-0e9364bda89b",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T09:20:44.011Z",
+      "updatedAt": "2025-08-05T09:20:50.527Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "4f9c31c5-e5e1-4079-ac25-22b9f9b382b5",
+        "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
+        "size": 714277,
+        "type": "application/pdf",
+        "url": "/api/files/1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf",
+        "uploadedAt": "2025-08-05T09:20:44.011Z"
+      }
     }
   ],
   "messages": [
@@ -133,6 +151,30 @@
       "type": "assistant",
       "content": "Hello! I've successfully received your PDF document \"Eryx  Espace Admin (1).pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
       "timestamp": "2025-08-05T08:47:11.703Z"
+    },
+    {
+      "id": "9a1ee939-eaf9-4c69-b589-25643c730973",
+      "chatId": "bcb8745c-1726-41ec-a49f-0e9364bda89b",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T09:20:44.011Z",
+      "attachments": [
+        {
+          "id": "4f9c31c5-e5e1-4079-ac25-22b9f9b382b5",
+          "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
+          "size": 714277,
+          "type": "application/pdf",
+          "url": "/api/files/1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf",
+          "uploadedAt": "2025-08-05T09:20:44.011Z"
+        }
+      ]
+    },
+    {
+      "id": "0d423b4b-ca2d-413d-bfc8-c24f3f5d8283",
+      "chatId": "bcb8745c-1726-41ec-a49f-0e9364bda89b",
+      "type": "assistant",
+      "content": "I understand you'd like an analysis and summary of the PDF document.\n\nHowever, the content provided is a placeholder and does not contain any actual text from a PDF. It states:\n\n\"**[PDF Content] This is a placeholder for the PDF content from 1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf. In a production environment, this would contain the actual extracted text from the PDF.**\"\n\nTherefore, I don't have any content to analyze or summarize.\n\nPlease provide the actual extracted text from the PDF document, and I will be happy to assist you with a summary of its contents.",
+      "timestamp": "2025-08-05T09:20:50.527Z"
     }
   ]
 }
