@@ -9,6 +9,7 @@ import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
 import { ModelAndPDFSelector } from "@/components/ModelAndPDFSelector";
 import FadeInText from "@/components/FadeInText";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useTheme } from "@/components/ThemeProvider";
 import { getAppLogo } from "@/lib/app-config";
 import type { Message, User } from "@shared/types";
