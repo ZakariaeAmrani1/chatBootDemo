@@ -11,6 +11,10 @@ import {
   LoginRequest,
   RegisterRequest,
   AuthResponse,
+  Category,
+  CreateCategoryRequest,
+  UpdateCategoryRequest,
+  UpdateChatCategoryRequest,
 } from "@shared/types";
 
 const API_BASE = "/api";
