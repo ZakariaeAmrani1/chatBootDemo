@@ -15,7 +15,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   typewriter = false,
   typewriterSpeed = 30,
 }) => {
-  const [displayedContent, setDisplayedContent] = useState(typewriter ? "" : content);
+  const [displayedContent, setDisplayedContent] = useState(
+    typewriter ? "" : content,
+  );
   const [isVisible, setIsVisible] = useState(false);
 
   // Fade-in animation effect
@@ -62,17 +64,20 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     }) as string;
 
     // If it's still not a string, force conversion
-    if (typeof htmlContent !== 'string') {
+    if (typeof htmlContent !== "string") {
       htmlContent = String(htmlContent);
     }
   } catch (error) {
-    console.error('Markdown parsing error:', error);
+    console.error("Markdown parsing error:", error);
     // Fallback to simple text processing
     htmlContent = displayedContent
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-      .replace(/`(.*?)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono border">$1</code>')
-      .replace(/\n/g, '<br>');
+      .replace(
+        /`(.*?)`/g,
+        '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono border">$1</code>',
+      )
+      .replace(/\n/g, "<br>");
   }
 
   return (
@@ -107,7 +112,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
         "[&_h6]:text-xs [&_h6]:font-semibold [&_h6]:mb-2 [&_h6]:mt-3 first:[&_h6]:mt-0",
         // Paragraph styling
         "[&_p]:mb-2 last:[&_p]:mb-0",
-        className
+        className,
       )}
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />

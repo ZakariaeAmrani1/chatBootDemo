@@ -306,7 +306,9 @@ class ApiService {
     return this.request<Category[]>(`/categories${query}`);
   }
 
-  async createCategory(request: CreateCategoryRequest): Promise<ApiResponse<Category>> {
+  async createCategory(
+    request: CreateCategoryRequest,
+  ): Promise<ApiResponse<Category>> {
     // Get the current user ID from localStorage
     const currentUser = localStorage.getItem("currentUser");
     const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
@@ -320,16 +322,19 @@ class ApiService {
 
   async updateCategory(
     categoryId: string,
-    updates: UpdateCategoryRequest
+    updates: UpdateCategoryRequest,
   ): Promise<ApiResponse<Category>> {
     // Get the current user ID from localStorage
     const currentUser = localStorage.getItem("currentUser");
     const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
 
-    return this.request<Category>(`/categories/${categoryId}?userId=${userId}`, {
-      method: "PUT",
-      body: JSON.stringify(updates),
-    });
+    return this.request<Category>(
+      `/categories/${categoryId}?userId=${userId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updates),
+      },
+    );
   }
 
   async deleteCategory(categoryId: string): Promise<ApiResponse<null>> {
@@ -344,7 +349,7 @@ class ApiService {
 
   async updateChatCategory(
     chatId: string,
-    categoryId: string | null
+    categoryId: string | null,
   ): Promise<ApiResponse<Chat>> {
     // Get the current user ID from localStorage
     const currentUser = localStorage.getItem("currentUser");

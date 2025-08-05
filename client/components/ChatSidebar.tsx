@@ -86,8 +86,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     isLoading: false,
     error: null,
   });
-  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
-  const [selectedChatForCategory, setSelectedChatForCategory] = useState<string | null>(null);
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(
+    new Set(),
+  );
+  const [selectedChatForCategory, setSelectedChatForCategory] = useState<
+    string | null
+  >(null);
 
   const handleDeleteClick = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -133,14 +137,16 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   // Subscribe to category service and track category changes
   useEffect(() => {
     const unsubscribe = categoryService.subscribe((newState) => {
-      setCategoryState(prevState => {
-        const oldCategoryIds = new Set(prevState.categories.map(cat => cat.id));
+      setCategoryState((prevState) => {
+        const oldCategoryIds = new Set(
+          prevState.categories.map((cat) => cat.id),
+        );
 
         // Auto-expand newly created categories
-        newState.categories.forEach(category => {
+        newState.categories.forEach((category) => {
           if (!oldCategoryIds.has(category.id)) {
             // This is a new category, make sure it's expanded
-            setCollapsedCategories(prev => {
+            setCollapsedCategories((prev) => {
               const newCollapsed = new Set(prev);
               newCollapsed.delete(category.id);
               return newCollapsed;
@@ -165,10 +171,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   // Ensure default categories are expanded
   useEffect(() => {
     if (categoryState.categories.length > 0) {
-      setCollapsedCategories(prev => {
+      setCollapsedCategories((prev) => {
         const newCollapsed = new Set(prev);
         // Expand default categories
-        categoryState.categories.forEach(category => {
+        categoryState.categories.forEach((category) => {
           if (category.isDefault) {
             newCollapsed.delete(category.id);
           }
@@ -180,25 +186,32 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
   // Ensure categories are loaded when chats change
   useEffect(() => {
-    if (user?.id && categoryState.categories.length === 0 && !categoryState.isLoading) {
+    if (
+      user?.id &&
+      categoryState.categories.length === 0 &&
+      !categoryState.isLoading
+    ) {
       categoryService.loadCategories(user.id);
     }
-  }, [chats, user?.id, categoryState.categories.length, categoryState.isLoading]);
+  }, [
+    chats,
+    user?.id,
+    categoryState.categories.length,
+    categoryState.isLoading,
+  ]);
 
   // Organize chats by category
   const organizedChats = useMemo(() => {
     const categorized: { [categoryId: string]: Chat[] } = {};
     const uncategorized: Chat[] = [];
 
-
-
     // Initialize all categories with empty arrays
-    categoryState.categories.forEach(category => {
+    categoryState.categories.forEach((category) => {
       categorized[category.id] = [];
     });
 
     // Sort chats into categories
-    chats.forEach(chat => {
+    chats.forEach((chat) => {
       if (chat.categoryId) {
         // First check if we have this category initialized
         if (categorized[chat.categoryId] !== undefined) {
@@ -224,7 +237,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     setCollapsedCategories(newCollapsed);
   };
 
-  const moveChatToCategory = async (chatId: string, categoryId: string | null) => {
+  const moveChatToCategory = async (
+    chatId: string,
+    categoryId: string | null,
+  ) => {
     try {
       const response = await apiService.updateChatCategory(chatId, categoryId);
       if (response.success && response.data && onUpdateChat) {
@@ -233,7 +249,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
         // Ensure the target category is expanded to show the moved chat
         if (categoryId) {
-          setCollapsedCategories(prev => {
+          setCollapsedCategories((prev) => {
             const newCollapsed = new Set(prev);
             newCollapsed.delete(categoryId);
             return newCollapsed;
@@ -358,7 +374,11 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   }
                 }}
                 triggerButton={
-                  <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start text-muted-foreground"
+                  >
                     <Folder className="h-4 w-4 mr-2" />
                     Manage Categories
                   </Button>
@@ -371,8 +391,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         {/* Chat History */}
         <ScrollArea className={cn("flex-1", collapsed ? "px-1" : "px-2")}>
           <div className="space-y-1 py-2">
-
-
             {chats.length === 0 && !collapsed && (
               <div className="px-3 py-6 text-center">
                 <MessageSquare className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
@@ -416,7 +434,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <>
                 {/* Render categorized chats */}
                 {categoryState.categories.map((category) => {
-                  const categoryChats = organizedChats.categorized[category.id] || [];
+                  const categoryChats =
+                    organizedChats.categorized[category.id] || [];
                   const isCollapsed = collapsedCategories.has(category.id);
 
                   // Always show categories, even if empty
@@ -438,102 +457,105 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                       </div>
 
                       {/* Category chats */}
-                      {!isCollapsed && categoryChats.map((chat) => (
-                        <div
-                          key={chat.id}
-                          className={cn(
-                            "group flex items-center px-3 py-2 ml-4 rounded-md cursor-pointer transition-colors",
-                            "hover:bg-muted/50",
-                            currentChatId === chat.id ? "bg-muted" : "",
-                            editingChatId === chat.id && "bg-muted",
-                          )}
-                          onClick={() =>
-                            editingChatId !== chat.id && onChatSelect(chat.id)
-                          }
-                        >
-                          <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
+                      {!isCollapsed &&
+                        categoryChats.map((chat) => (
+                          <div
+                            key={chat.id}
+                            className={cn(
+                              "group flex items-center px-3 py-2 ml-4 rounded-md cursor-pointer transition-colors",
+                              "hover:bg-muted/50",
+                              currentChatId === chat.id ? "bg-muted" : "",
+                              editingChatId === chat.id && "bg-muted",
+                            )}
+                            onClick={() =>
+                              editingChatId !== chat.id && onChatSelect(chat.id)
+                            }
+                          >
+                            <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
 
-                          {editingChatId === chat.id ? (
-                            <Input
-                              value={editTitle}
-                              onChange={(e) => setEditTitle(e.target.value)}
-                              onKeyDown={(e) => handleKeyDown(e, chat.id)}
-                              onBlur={() => handleEditSave(chat.id)}
-                              className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
-                              autoFocus
-                            />
-                          ) : (
-                            <span
-                              className="text-sm text-foreground flex-1 min-w-0 pr-2"
-                              title={chat.title}
-                            >
-                              {chat.title.length > 25
-                                ? `${chat.title.substring(0, 25)}...`
-                                : chat.title}
-                            </span>
-                          )}
+                            {editingChatId === chat.id ? (
+                              <Input
+                                value={editTitle}
+                                onChange={(e) => setEditTitle(e.target.value)}
+                                onKeyDown={(e) => handleKeyDown(e, chat.id)}
+                                onBlur={() => handleEditSave(chat.id)}
+                                className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
+                                autoFocus
+                              />
+                            ) : (
+                              <span
+                                className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                                title={chat.title}
+                              >
+                                {chat.title.length > 25
+                                  ? `${chat.title.substring(0, 25)}...`
+                                  : chat.title}
+                              </span>
+                            )}
 
-                          {editingChatId !== chat.id && (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" side="right">
-                                <DropdownMenuItem
-                                  onClick={(e) => handleEditClick(chat, e)}
-                                >
-                                  <Edit3 className="mr-2 h-4 w-4" />
-                                  Edit
-                                </DropdownMenuItem>
-                                {/* Category assignment submenu */}
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger className="flex items-center w-full px-2 py-1.5 text-sm hover:bg-accent rounded-sm">
-                                    <Folder className="mr-2 h-4 w-4" />
-                                    Move to Category
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent side="right">
-                                    {categoryState.categories.map((cat) => (
+                            {editingChatId !== chat.id && (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" side="right">
+                                  <DropdownMenuItem
+                                    onClick={(e) => handleEditClick(chat, e)}
+                                  >
+                                    <Edit3 className="mr-2 h-4 w-4" />
+                                    Edit
+                                  </DropdownMenuItem>
+                                  {/* Category assignment submenu */}
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger className="flex items-center w-full px-2 py-1.5 text-sm hover:bg-accent rounded-sm">
+                                      <Folder className="mr-2 h-4 w-4" />
+                                      Move to Category
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent side="right">
+                                      {categoryState.categories.map((cat) => (
+                                        <DropdownMenuItem
+                                          key={cat.id}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            moveChatToCategory(chat.id, cat.id);
+                                          }}
+                                        >
+                                          <Folder className="mr-2 h-4 w-4" />
+                                          {cat.name}
+                                        </DropdownMenuItem>
+                                      ))}
                                       <DropdownMenuItem
-                                        key={cat.id}
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          moveChatToCategory(chat.id, cat.id);
+                                          moveChatToCategory(chat.id, null);
                                         }}
                                       >
-                                        <Folder className="mr-2 h-4 w-4" />
-                                        {cat.name}
+                                        <X className="mr-2 h-4 w-4" />
+                                        Remove from Category
                                       </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuItem
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        moveChatToCategory(chat.id, null);
-                                      }}
-                                    >
-                                      <X className="mr-2 h-4 w-4" />
-                                      Remove from Category
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
-                                <DropdownMenuItem
-                                  onClick={(e) => handleDeleteClick(chat.id, e)}
-                                  className="text-destructive focus:text-destructive"
-                                >
-                                  <Trash2 className="mr-2 h-4 w-4" />
-                                  Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          )}
-                        </div>
-                      ))}
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                  <DropdownMenuItem
+                                    onClick={(e) =>
+                                      handleDeleteClick(chat.id, e)
+                                    }
+                                    className="text-destructive focus:text-destructive"
+                                  >
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
+                          </div>
+                        ))}
                     </div>
                   );
                 })}

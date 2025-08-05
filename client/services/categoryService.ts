@@ -55,7 +55,8 @@ class CategoryService {
       }
     } catch (error) {
       this.setState({
-        error: error instanceof Error ? error.message : "Failed to load categories",
+        error:
+          error instanceof Error ? error.message : "Failed to load categories",
         isLoading: false,
       });
     }
@@ -81,13 +82,17 @@ class CategoryService {
       }
     } catch (error) {
       this.setState({
-        error: error instanceof Error ? error.message : "Failed to create category",
+        error:
+          error instanceof Error ? error.message : "Failed to create category",
       });
       return null;
     }
   }
 
-  async updateCategory(categoryId: string, updates: { name?: string; color?: string }): Promise<Category | null> {
+  async updateCategory(
+    categoryId: string,
+    updates: { name?: string; color?: string },
+  ): Promise<Category | null> {
     this.setState({ error: null });
 
     try {
@@ -96,8 +101,8 @@ class CategoryService {
       if (response.success && response.data) {
         const updatedCategory = response.data;
         this.setState({
-          categories: this.state.categories.map(cat =>
-            cat.id === categoryId ? updatedCategory : cat
+          categories: this.state.categories.map((cat) =>
+            cat.id === categoryId ? updatedCategory : cat,
           ),
         });
         return updatedCategory;
@@ -109,7 +114,8 @@ class CategoryService {
       }
     } catch (error) {
       this.setState({
-        error: error instanceof Error ? error.message : "Failed to update category",
+        error:
+          error instanceof Error ? error.message : "Failed to update category",
       });
       return null;
     }
@@ -123,7 +129,9 @@ class CategoryService {
 
       if (response.success) {
         this.setState({
-          categories: this.state.categories.filter(cat => cat.id !== categoryId),
+          categories: this.state.categories.filter(
+            (cat) => cat.id !== categoryId,
+          ),
         });
         return true;
       } else {
@@ -134,7 +142,8 @@ class CategoryService {
       }
     } catch (error) {
       this.setState({
-        error: error instanceof Error ? error.message : "Failed to delete category",
+        error:
+          error instanceof Error ? error.message : "Failed to delete category",
       });
       return false;
     }
@@ -155,11 +164,11 @@ class CategoryService {
   }
 
   getCategoryById(categoryId: string): Category | undefined {
-    return this.state.categories.find(cat => cat.id === categoryId);
+    return this.state.categories.find((cat) => cat.id === categoryId);
   }
 
   getDefaultCategory(): Category | undefined {
-    return this.state.categories.find(cat => cat.isDefault);
+    return this.state.categories.find((cat) => cat.isDefault);
   }
 }
 

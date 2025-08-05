@@ -80,7 +80,8 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to create category",
+        description:
+          error instanceof Error ? error.message : "Failed to create category",
         variant: "destructive",
       });
     } finally {
@@ -105,8 +106,8 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
       });
 
       if (response.success && response.data) {
-        const updatedCategories = categories.map(cat => 
-          cat.id === editingCategory.id ? response.data! : cat
+        const updatedCategories = categories.map((cat) =>
+          cat.id === editingCategory.id ? response.data! : cat,
         );
         onCategoriesChange(updatedCategories);
         setEditingCategory(null);
@@ -121,7 +122,8 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to update category",
+        description:
+          error instanceof Error ? error.message : "Failed to update category",
         variant: "destructive",
       });
     } finally {
@@ -144,7 +146,9 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
       const response = await apiService.deleteCategory(category.id);
 
       if (response.success) {
-        const updatedCategories = categories.filter(cat => cat.id !== category.id);
+        const updatedCategories = categories.filter(
+          (cat) => cat.id !== category.id,
+        );
         onCategoriesChange(updatedCategories);
         toast({
           title: "Success",
@@ -156,7 +160,8 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to delete category",
+        description:
+          error instanceof Error ? error.message : "Failed to delete category",
         variant: "destructive",
       });
     } finally {
@@ -183,9 +188,7 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {triggerButton || defaultTrigger}
-      </DialogTrigger>
+      <DialogTrigger asChild>{triggerButton || defaultTrigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Manage Categories</DialogTitle>
@@ -211,11 +214,15 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
                 }}
                 autoFocus
               />
-              <Button onClick={handleCreateCategory} disabled={isLoading} size="sm">
+              <Button
+                onClick={handleCreateCategory}
+                disabled={isLoading}
+                size="sm"
+              >
                 Save
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => {
                   setIsCreating(false);
                   setNewCategoryName("");
@@ -256,7 +263,11 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
                       className="flex-1"
                       autoFocus
                     />
-                    <Button onClick={handleUpdateCategory} disabled={isLoading} size="sm">
+                    <Button
+                      onClick={handleUpdateCategory}
+                      disabled={isLoading}
+                      size="sm"
+                    >
                       Save
                     </Button>
                     <Button variant="outline" onClick={cancelEditing} size="sm">
@@ -269,7 +280,9 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
                       <Folder className="h-4 w-4 text-muted-foreground" />
                       <span className="font-medium">{category.name}</span>
                       {category.isDefault && (
-                        <span className="text-xs text-muted-foreground">(Default)</span>
+                        <span className="text-xs text-muted-foreground">
+                          (Default)
+                        </span>
                       )}
                     </div>
 
@@ -311,7 +324,9 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
               <div className="text-center py-8 text-muted-foreground">
                 <Folder className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 <p>No categories yet</p>
-                <p className="text-sm">Create your first category to organize chats</p>
+                <p className="text-sm">
+                  Create your first category to organize chats
+                </p>
               </div>
             )}
           </div>

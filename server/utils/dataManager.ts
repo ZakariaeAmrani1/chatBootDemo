@@ -1,6 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { User, Chat, Message, FileAttachment, Category, CreateCategoryRequest } from "@shared/types";
+import {
+  User,
+  Chat,
+  Message,
+  FileAttachment,
+  Category,
+  CreateCategoryRequest,
+} from "@shared/types";
 
 const DATA_DIR = path.join(process.cwd(), "server/data");
 
@@ -231,7 +238,9 @@ export class DataManager {
   // Category operations
   getCategories(): Category[] {
     try {
-      const data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
+      const data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
       return data.categories;
     } catch (error) {
       // If file doesn't exist, return empty array
@@ -249,19 +258,23 @@ export class DataManager {
     return categories.find((category) => category.id === id) || null;
   }
 
-  createCategory(request: CreateCategoryRequest & { userId: string; isDefault?: boolean }): Category {
+  createCategory(
+    request: CreateCategoryRequest & { userId: string; isDefault?: boolean },
+  ): Category {
     let data;
     try {
-      data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
+      data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
     } catch (error) {
       // If file doesn't exist, create it
       data = { categories: [] };
     }
 
     const category: Category = {
-      id: request.isDefault ?
-        `default-general-${request.userId}` :
-        `cat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      id: request.isDefault
+        ? `default-general-${request.userId}`
+        : `cat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name: request.name,
       color: request.color,
       createdAt: new Date().toISOString(),
@@ -275,16 +288,22 @@ export class DataManager {
     return category;
   }
 
-  updateCategory(id: string, updates: Partial<Category>, userId: string): Category | null {
+  updateCategory(
+    id: string,
+    updates: Partial<Category>,
+    userId: string,
+  ): Category | null {
     let data;
     try {
-      data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
+      data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
     } catch (error) {
       return null;
     }
 
     const categoryIndex = data.categories.findIndex(
-      (category) => category.id === id && category.userId === userId
+      (category) => category.id === id && category.userId === userId,
     );
 
     if (categoryIndex === -1) return null;
@@ -307,13 +326,15 @@ export class DataManager {
   deleteCategory(id: string, userId: string): boolean {
     let data;
     try {
-      data = DataManager.readJsonFile<{ categories: Category[] }>("categories.json");
+      data = DataManager.readJsonFile<{ categories: Category[] }>(
+        "categories.json",
+      );
     } catch (error) {
       return false;
     }
 
     const categoryIndex = data.categories.findIndex(
-      (category) => category.id === id && category.userId === userId
+      (category) => category.id === id && category.userId === userId,
     );
 
     if (categoryIndex === -1) return false;
@@ -331,10 +352,17 @@ export class DataManager {
     return true;
   }
 
-  updateChatCategory(chatId: string, categoryId: string | null, userId: string): Chat | null {
-    const data = DataManager.readJsonFile<{ chats: Chat[]; messages: Message[] }>("chats.json");
+  updateChatCategory(
+    chatId: string,
+    categoryId: string | null,
+    userId: string,
+  ): Chat | null {
+    const data = DataManager.readJsonFile<{
+      chats: Chat[];
+      messages: Message[];
+    }>("chats.json");
     const chatIndex = data.chats.findIndex(
-      (chat) => chat.id === chatId && chat.userId === userId
+      (chat) => chat.id === chatId && chat.userId === userId,
     );
 
     if (chatIndex === -1) return null;
@@ -351,7 +379,10 @@ export class DataManager {
 
   private removeCategoryFromChats(categoryId: string): void {
     try {
-      const data = DataManager.readJsonFile<{ chats: Chat[]; messages: Message[] }>("chats.json");
+      const data = DataManager.readJsonFile<{
+        chats: Chat[];
+        messages: Message[];
+      }>("chats.json");
 
       data.chats = data.chats.map((chat) => {
         if (chat.categoryId === categoryId) {
@@ -370,7 +401,7 @@ export class DataManager {
   // Create default category for a user if it doesn't exist
   ensureDefaultCategory(userId: string): Category {
     const categories = this.getCategoriesByUserId(userId);
-    const defaultCategory = categories.find(cat => cat.isDefault);
+    const defaultCategory = categories.find((cat) => cat.isDefault);
 
     if (defaultCategory) {
       return defaultCategory;
