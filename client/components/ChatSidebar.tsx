@@ -590,7 +590,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 {/* Render uncategorized chats */}
                 {organizedChats.uncategorized.length > 0 && (
                   <div className="space-y-1">
-                    <div className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    <div className="flex items-center px-2 py-1 text-sm font-medium text-muted-foreground">
                       <MessageSquare className="h-3 w-3 mr-2" />
                       Uncategorized
                     </div>
