@@ -190,13 +190,14 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     const categorized: { [categoryId: string]: Chat[] } = {};
     const uncategorized: Chat[] = [];
 
-    // Debug logging
-    console.log('Organizing chats:', {
-      chatsCount: chats.length,
-      categoriesCount: categoryState.categories.length,
-      chatSample: chats.slice(0, 2).map(c => ({ id: c.id, title: c.title, categoryId: c.categoryId })),
-      categories: categoryState.categories.map(c => ({ id: c.id, name: c.name }))
-    });
+    // Debug logging - show key info
+    console.log(`ChatSidebar: Organizing ${chats.length} chats into ${categoryState.categories.length} categories`);
+    if (chats.length > 0) {
+      console.log('First chat:', { id: chats[0].id, title: chats[0].title, categoryId: chats[0].categoryId });
+    }
+    if (categoryState.categories.length > 0) {
+      console.log('Categories:', categoryState.categories.map(c => ({ id: c.id, name: c.name })));
+    }
 
     // Initialize all categories with empty arrays
     categoryState.categories.forEach(category => {
