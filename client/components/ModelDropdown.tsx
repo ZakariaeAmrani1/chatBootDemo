@@ -26,6 +26,7 @@ interface ModelOption {
 interface ModelDropdownProps {
   selectedModel: string;
   onModelChange: (modelId: string) => void;
+  disabled?: boolean;
 }
 
 // Icon mapping for string to component conversion
