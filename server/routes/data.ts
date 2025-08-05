@@ -15,6 +15,7 @@ interface DataStats {
   chatHistory: FileSize;
   userSettings: FileSize;
   uploadedFiles: FileSize;
+  categories: FileSize;
   totalSize: number;
   totalSizeFormatted: string;
 }
@@ -45,7 +46,9 @@ export const getDataStats: RequestHandler = (req, res) => {
     const chatHistorySize = getFileSize("chats.json");
     const userSettingsSize = getFileSize("users.json");
     const uploadedFilesSize = getFileSize("files.json");
-    const totalSize = chatHistorySize + userSettingsSize + uploadedFilesSize;
+    const categoriesSize = getFileSize("categories.json");
+    const totalSize =
+      chatHistorySize + userSettingsSize + uploadedFilesSize + categoriesSize;
 
     const stats: DataStats = {
       chatHistory: {
@@ -62,6 +65,11 @@ export const getDataStats: RequestHandler = (req, res) => {
         name: "File Metadata",
         size: uploadedFilesSize,
         sizeFormatted: formatFileSize(uploadedFilesSize),
+      },
+      categories: {
+        name: "Categories",
+        size: categoriesSize,
+        sizeFormatted: formatFileSize(categoriesSize),
       },
       totalSize,
       totalSizeFormatted: formatFileSize(totalSize),
@@ -141,6 +149,35 @@ export const clearUploadedFiles: RequestHandler = (req, res) => {
     const response: ApiResponse<null> = {
       success: false,
       error: "Failed to clear uploaded files",
+    };
+    res.status(500).json(response);
+  }
+};
+
+// Clear all categories
+export const clearCategories: RequestHandler = (req, res) => {
+  try {
+    const categoriesFilePath = path.join(DATA_DIR, "categories.json");
+
+    // Reset categories.json to empty state
+    const emptyCategoriesData = {
+      categories: [],
+    };
+
+    fs.writeFileSync(
+      categoriesFilePath,
+      JSON.stringify(emptyCategoriesData, null, 2),
+    );
+
+    const response: ApiResponse<null> = {
+      success: true,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<null> = {
+      success: false,
+      error: "Failed to clear categories",
     };
     res.status(500).json(response);
   }

@@ -98,6 +98,35 @@ class ChatService {
     }
   }
 
+  // Create a draft chat that only exists locally until first message is sent
+  createDraftChat(
+    request: CreateChatRequest,
+    userId: string,
+    categoryId?: string,
+  ): Chat {
+    const draftChat: Chat = {
+      id: `draft_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      title: request.title || "New chat",
+      model: request.model,
+      chatbootVersion: request.chatbootVersion || "1.0",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      messageCount: 0,
+      userId: userId,
+      categoryId: categoryId,
+      isDraft: true,
+    };
+
+    // Add to chats list
+    this.setState({
+      chats: [draftChat, ...this.state.chats],
+      currentChat: draftChat,
+      messages: [],
+    });
+
+    return draftChat;
+  }
+
   async createChat(
     request: CreateChatRequest,
     userId?: string,
@@ -143,13 +172,105 @@ class ChatService {
     }
   }
 
+  // Convert a draft chat to a saved chat when first message is sent
+  async saveDraftChat(draftChat: Chat): Promise<Chat | null> {
+    try {
+      const request: CreateChatRequest = {
+        title: draftChat.title,
+        model: draftChat.model,
+        chatbootVersion: draftChat.chatbootVersion,
+        userId: draftChat.userId,
+      };
+
+      const response = await apiService.createChat(request);
+
+      if (response.success && response.data) {
+        const savedChat = {
+          ...response.data,
+          categoryId: draftChat.categoryId,
+        };
+
+        // If the draft chat was assigned to a category, update the saved chat
+        if (draftChat.categoryId) {
+          await apiService.updateChatCategory(
+            savedChat.id,
+            draftChat.categoryId,
+          );
+          savedChat.categoryId = draftChat.categoryId;
+        }
+
+        // Replace draft chat with saved chat
+        this.setState({
+          chats: this.state.chats.map((chat) =>
+            chat.id === draftChat.id ? savedChat : chat,
+          ),
+          currentChat: savedChat,
+        });
+
+        return savedChat;
+      }
+    } catch (error) {
+      console.error("Failed to save draft chat:", error);
+    }
+    return null;
+  }
+
+  // Remove draft chats (cleanup when user navigates away without sending message)
+  removeDraftChat(chatId: string): void {
+    this.setState({
+      chats: this.state.chats.filter((chat) => chat.id !== chatId),
+      currentChat:
+        this.state.currentChat?.id === chatId ? null : this.state.currentChat,
+    });
+  }
+
+  // Clean up all empty draft chats
+  cleanupDraftChats(): void {
+    const hasEmptyDrafts = this.state.chats.some(
+      (chat) => chat.isDraft && chat.messageCount === 0,
+    );
+
+    if (hasEmptyDrafts) {
+      this.setState({
+        chats: this.state.chats.filter(
+          (chat) => !chat.isDraft || chat.messageCount > 0,
+        ),
+        currentChat:
+          this.state.currentChat?.isDraft &&
+          this.state.currentChat?.messageCount === 0
+            ? null
+            : this.state.currentChat,
+      });
+    }
+  }
+
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
+
+    // Check if this is a draft chat
+    const currentChat = this.state.chats.find(
+      (chat) => chat.id === request.chatId,
+    );
+    let finalChatId = request.chatId;
+
+    if (currentChat?.isDraft) {
+      // This is the first message to a draft chat, save it first
+      const savedChat = await this.saveDraftChat(currentChat);
+      if (savedChat) {
+        finalChatId = savedChat.id;
+      } else {
+        this.setState({
+          error: "Failed to save chat",
+          isThinking: false,
+        });
+        return;
+      }
+    }
 
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
-      chatId: request.chatId,
+      chatId: finalChatId,
       type: "user",
       content: request.message,
       timestamp: new Date().toISOString(),
@@ -162,12 +283,14 @@ class ChatService {
     });
 
     try {
-      const response = await apiService.sendMessage(request);
+      // Send message to the final chat ID (either original or newly saved)
+      const messageRequest = { ...request, chatId: finalChatId };
+      const response = await apiService.sendMessage(messageRequest);
 
       if (response.success) {
         // Update the temporary message with real ID if needed
         // Start polling for AI response
-        this.startPollingForMessages(request.chatId);
+        this.startPollingForMessages(finalChatId);
       } else {
         this.setState({
           error: response.error || "Failed to send message",
@@ -229,13 +352,29 @@ class ChatService {
   }
 
   async selectChat(chat: Chat): Promise<void> {
+    // Clean up any abandoned draft chats (except the one being selected)
+    const draftChats = this.state.chats.filter(
+      (c) => c.isDraft && c.id !== chat.id && c.messageCount === 0,
+    );
+
+    if (draftChats.length > 0) {
+      this.setState({
+        chats: this.state.chats.filter(
+          (c) => !c.isDraft || c.id === chat.id || c.messageCount > 0,
+        ),
+      });
+    }
+
     this.setState({
       currentChat: chat,
       messages: [],
       error: null,
     });
 
-    await this.loadChatMessages(chat.id);
+    // Only load messages if this is not a draft chat
+    if (!chat.isDraft) {
+      await this.loadChatMessages(chat.id);
+    }
   }
 
   async deleteChat(chatId: string): Promise<void> {

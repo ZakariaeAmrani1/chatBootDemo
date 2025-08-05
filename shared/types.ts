@@ -90,6 +90,7 @@ export interface Chat {
   userId: string;
   categoryId?: string; // Optional category assignment
   pdfFile?: FileAttachment; // PDF file associated with this chat
+  isDraft?: boolean; // True for temporary chats not yet saved to backend
 }
 
 export interface FileAttachment {
@@ -161,6 +162,7 @@ export interface DataStats {
   chatHistory: FileSize;
   userSettings: FileSize;
   uploadedFiles: FileSize;
+  categories: FileSize;
   totalSize: number;
   totalSizeFormatted: string;
 }

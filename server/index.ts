@@ -29,6 +29,7 @@ import {
   getDataStats,
   clearChatHistory,
   clearUploadedFiles,
+  clearCategories,
 } from "./routes/data";
 import { resetUserSettings } from "./routes/data-reset";
 import { handleMessageFeedback } from "./routes/feedback";
@@ -84,6 +85,7 @@ export function createServer() {
   app.get("/api/data/stats", getDataStats);
   app.post("/api/data/clear-chats", clearChatHistory);
   app.post("/api/data/clear-files", clearUploadedFiles);
+  app.post("/api/data/clear-categories", clearCategories);
   app.post("/api/data/reset-settings", resetUserSettings);
 
   // Feedback API routes

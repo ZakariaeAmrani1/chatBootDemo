@@ -198,32 +198,60 @@ const Chatbot = () => {
       }
     };
 
+    const handleBeforeUnload = () => {
+      // Clean up draft chats when user is about to leave
+      chatService.cleanupDraftChats();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Clean up draft chats when tab becomes hidden
+        chatService.cleanupDraftChats();
+      }
+    };
+
     window.addEventListener(
       "userSettingsUpdated",
       handleSettingsUpdate as EventListener,
     );
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener(
         "userSettingsUpdated",
         handleSettingsUpdate as EventListener,
       );
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
   const createNewChat = async (message?: string) => {
     if (!user) return;
 
-    // Create chat with or without initial message
-    await chatService.createChat(
-      {
-        title: "New Chat",
-        model: selectedModel,
-        chatbootVersion: selectedVersion,
-        message: message, // This can be undefined for empty chats
-      },
-      user.id,
-    );
+    if (message && message.trim()) {
+      // Create a saved chat immediately if there's an initial message
+      await chatService.createChat(
+        {
+          title: "New Chat",
+          model: selectedModel,
+          chatbootVersion: selectedVersion,
+          message: message,
+        },
+        user.id,
+      );
+    } else {
+      // Create a draft chat (not saved until first message is sent)
+      chatService.createDraftChat(
+        {
+          title: "New Chat",
+          model: selectedModel,
+          chatbootVersion: selectedVersion,
+        },
+        user.id,
+      );
+    }
   };
 
   const handleStartChat = async (model: string, pdfFile: File) => {

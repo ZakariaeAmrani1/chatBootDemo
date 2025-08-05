@@ -269,12 +269,27 @@ const Settings: React.FC<SettingsProps> = ({
       if (selectedDeletionItems.includes("userSettings")) {
         promises.push(apiService.resetUserSettings());
       }
+      if (selectedDeletionItems.includes("categories")) {
+        promises.push(apiService.clearCategories());
+      }
 
       const results = await Promise.all(promises);
       const allSuccessful = results.every((result) => result.success);
 
       if (allSuccessful) {
         await loadDataStats();
+
+        // If categories were deleted, refresh the category service
+        if (selectedDeletionItems.includes("categories")) {
+          // Import and refresh category service
+          const { categoryService } = await import(
+            "@/services/categoryService"
+          );
+          if (user?.id) {
+            categoryService.loadCategories(user.id);
+          }
+        }
+
         setShowSuccessDialog(true);
         setSelectedDeletionItems([]);
       } else {
@@ -1066,6 +1081,12 @@ const Settings: React.FC<SettingsProps> = ({
                   {dataStats?.userSettings.sizeFormatted || "Loading..."}
                 </span>
               </div>
+              <div className="flex justify-between text-sm">
+                <span>Categories</span>
+                <span>
+                  {dataStats?.categories.sizeFormatted || "Loading..."}
+                </span>
+              </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
                 <span>Total JSON Data</span>
@@ -1136,6 +1157,22 @@ const Settings: React.FC<SettingsProps> = ({
                   >
                     User Settings (
                     {dataStats?.userSettings.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="categories"
+                    checked={selectedDeletionItems.includes("categories")}
+                    onChange={() => handleDeletionToggle("categories")}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label
+                    htmlFor="categories"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Categories (
+                    {dataStats?.categories.sizeFormatted || "Loading..."})
                   </label>
                 </div>
               </div>
@@ -1682,6 +1719,8 @@ const Settings: React.FC<SettingsProps> = ({
                 return "• Uploaded Files - All PDF files and attachments will be permanently deleted";
               case "userSettings":
                 return "• User Settings - All preferences will be reset to default values";
+              case "categories":
+                return "• Categories - All chat categories will be permanently deleted";
               default:
                 return `• ${item}`;
             }

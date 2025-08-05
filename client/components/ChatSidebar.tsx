@@ -39,6 +39,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import CategoryManager from "@/components/CategoryManager";
 import { apiService } from "@/services/api";
 import { categoryService, CategoryState } from "@/services/categoryService";
+import { chatService } from "@/services/chatService";
 
 import { cn } from "@/lib/utils";
 import type { Chat, User, Category } from "@shared/types";
@@ -263,6 +264,41 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   };
 
+  const handleNewChatInCategory = (categoryId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (!user?.id) {
+      console.error("No user available");
+      return;
+    }
+
+    try {
+      // Create a draft chat (not saved to backend until first message)
+      const createChatRequest = {
+        title: "New chat",
+        model: "gemini-pro", // Default model
+        chatbootVersion: "1.0",
+      };
+
+      const draftChat = chatService.createDraftChat(
+        createChatRequest,
+        user.id,
+        categoryId,
+      );
+
+      // Ensure the category is expanded to show the new draft chat
+      setCollapsedCategories((prev) => {
+        const newCollapsed = new Set(prev);
+        newCollapsed.delete(categoryId);
+        return newCollapsed;
+      });
+    } catch (error) {
+      console.error("Error creating draft chat in category:", error);
+      // Fallback to regular new chat
+      onNewChat();
+    }
+  };
+
   // Ensure proper cleanup when modal closes
   useEffect(() => {
     if (!deleteConfirmOpen) {
@@ -443,17 +479,36 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   return (
                     <div key={category.id} className="space-y-1">
                       {/* Category header */}
-                      <div
-                        className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground transition-colors"
-                        onClick={() => toggleCategory(category.id)}
-                      >
-                        {isCollapsed ? (
-                          <ChevronRight className="h-3 w-3 mr-1" />
-                        ) : (
-                          <ChevronDown className="h-3 w-3 mr-1" />
-                        )}
-                        <Folder className="h-3 w-3 mr-2" />
-                        {category.name}
+                      <div className="flex items-center justify-between px-2 py-1 group">
+                        <div
+                          className="flex items-center text-sm font-medium text-muted-foreground cursor-pointer hover:text-foreground transition-colors flex-1"
+                          onClick={() => toggleCategory(category.id)}
+                        >
+                          {isCollapsed ? (
+                            <ChevronRight className="h-3 w-3 mr-1" />
+                          ) : (
+                            <ChevronDown className="h-3 w-3 mr-1" />
+                          )}
+                          <Folder className="h-3 w-3 mr-2" />
+                          {category.name}
+                        </div>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                              onClick={(e) =>
+                                handleNewChatInCategory(category.id, e)
+                              }
+                            >
+                              <Plus className="h-3 w-3" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent side="right">
+                            New chat in {category.name}
+                          </TooltipContent>
+                        </Tooltip>
                       </div>
 
                       {/* Category chats */}
@@ -484,16 +539,26 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                               />
                             ) : (
                               <span
-                                className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                                className={cn(
+                                  "text-sm flex-1 min-w-0 pr-2 flex items-center gap-1",
+                                  chat.isDraft
+                                    ? "text-muted-foreground italic"
+                                    : "text-foreground",
+                                )}
                                 title={chat.title}
                               >
                                 {chat.title.length > 25
                                   ? `${chat.title.substring(0, 25)}...`
                                   : chat.title}
+                                {chat.isDraft && (
+                                  <span className="text-xs text-muted-foreground/70">
+                                    (draft)
+                                  </span>
+                                )}
                               </span>
                             )}
 
-                            {editingChatId !== chat.id && (
+                            {editingChatId !== chat.id && !chat.isDraft && (
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                   <Button
@@ -563,7 +628,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 {/* Render uncategorized chats */}
                 {organizedChats.uncategorized.length > 0 && (
                   <div className="space-y-1">
-                    <div className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    <div className="flex items-center px-2 py-1 text-sm font-medium text-muted-foreground">
                       <MessageSquare className="h-3 w-3 mr-2" />
                       Uncategorized
                     </div>
@@ -594,16 +659,26 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                           />
                         ) : (
                           <span
-                            className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                            className={cn(
+                              "text-sm flex-1 min-w-0 pr-2 flex items-center gap-1",
+                              chat.isDraft
+                                ? "text-muted-foreground italic"
+                                : "text-foreground",
+                            )}
                             title={chat.title}
                           >
                             {chat.title.length > 25
                               ? `${chat.title.substring(0, 25)}...`
                               : chat.title}
+                            {chat.isDraft && (
+                              <span className="text-xs text-muted-foreground/70">
+                                (draft)
+                              </span>
+                            )}
                           </span>
                         )}
 
-                        {editingChatId !== chat.id && (
+                        {editingChatId !== chat.id && !chat.isDraft && (
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button
