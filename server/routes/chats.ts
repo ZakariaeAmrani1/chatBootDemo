@@ -46,12 +46,24 @@ const upload = multer({
 
 export const uploadPDF = upload.single("pdfFile");
 
+// Function to extract text from PDF (basic implementation)
+async function extractPDFText(filePath: string): Promise<string> {
+  try {
+    // For now, return a placeholder. In a real implementation, you'd use a library like pdf-parse
+    return `[PDF Content] This is a placeholder for the PDF content from ${path.basename(filePath)}. In a production environment, this would contain the actual extracted text from the PDF.`;
+  } catch (error) {
+    console.error("Error extracting PDF text:", error);
+    return "[PDF Error] Could not extract text from the PDF file.";
+  }
+}
+
 // Function to call Gemini API
 async function callGeminiAPI(
   userMessage: string,
   apiKey: string,
   model: string = "gemini-1.5-flash-latest",
   chatHistory: Message[] = [],
+  pdfContent?: string,
 ): Promise<string> {
   try {
     // Format chat history for Gemini API
