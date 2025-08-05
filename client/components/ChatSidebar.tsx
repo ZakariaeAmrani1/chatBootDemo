@@ -98,11 +98,14 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   const [selectedChatForCategory, setSelectedChatForCategory] = useState<
     string | null
   >(null);
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   const handleDeleteClick = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setChatToDelete(chatId);
     setDeleteConfirmOpen(true);
+    // Close any open dropdowns
+    setOpenDropdownId(null);
   };
 
   const handleDeleteConfirm = () => {
@@ -117,6 +120,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     e.stopPropagation();
     setEditingChatId(chat.id);
     setEditTitle(chat.title);
+    // Close any open dropdowns
+    setOpenDropdownId(null);
   };
 
   const handleEditSave = async (chatId: string) => {
@@ -248,6 +253,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     categoryId: string | null,
   ) => {
     try {
+      // Close any open dropdowns immediately
+      setOpenDropdownId(null);
+
       const response = await apiService.updateChatCategory(chatId, categoryId);
       if (response.success && response.data && onUpdateChat) {
         // Update the chat with the new category immediately
@@ -565,7 +573,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                             )}
 
                             {editingChatId !== chat.id && !chat.isDraft && (
-                              <DropdownMenu>
+                              <DropdownMenu
+                                open={openDropdownId === chat.id}
+                                onOpenChange={(open) => {
+                                  setOpenDropdownId(open ? chat.id : null);
+                                }}
+                              >
                                 <DropdownMenuTrigger asChild>
                                   <Button
                                     variant="ghost"
@@ -685,7 +698,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                         )}
 
                         {editingChatId !== chat.id && !chat.isDraft && (
-                          <DropdownMenu>
+                          <DropdownMenu
+                            open={openDropdownId === chat.id}
+                            onOpenChange={(open) => {
+                              setOpenDropdownId(open ? chat.id : null);
+                            }}
+                          >
                             <DropdownMenuTrigger asChild>
                               <Button
                                 variant="ghost"
