@@ -108,8 +108,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     gfm: true, // GitHub Flavored Markdown
   });
 
-  // Parse markdown to HTML
-  const htmlContent = marked(displayedContent);
+  // Parse markdown to HTML - ensure we get a string
+  const htmlContent = marked.parse(displayedContent) as string;
 
   return (
     <div
