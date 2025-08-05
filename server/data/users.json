@@ -67,7 +67,7 @@
         "reducedMotion": false,
         "screenReader": false,
         "geminiModel": "gemini-2.5-flash",
-        "selectedModel": "cloud",
+        "selectedModel": "local-cloud",
         "geminiApiKey": "AIzaSyDxnf409EQ6bxYQiwJlxh2pEi8osHrpV-A"
       },
       "passwordHash": "35f473628286829fe7544185257c674e6e549e7586cd553bea78db51ccff85d8",
