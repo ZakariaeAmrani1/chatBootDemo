@@ -73,6 +73,17 @@
       "messageCount": 0,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "cat_1754394314678_p6z4xtc"
+    },
+    {
+      "id": "a5d0b8e7-d234-4c89-a38f-2546cb21b368",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T11:54:49.469Z",
+      "updatedAt": "2025-08-05T11:54:54.966Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "cat_1754394547377_pusl3ku"
     }
   ],
   "messages": [
