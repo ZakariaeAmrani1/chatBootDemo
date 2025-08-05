@@ -98,5 +98,12 @@ export function createServer() {
   app.post("/api/auth/register", registerUser);
   app.get("/api/auth/verify", verifyUserToken);
 
+  // Category API routes
+  app.get("/api/categories", getCategories);
+  app.post("/api/categories", createCategory);
+  app.put("/api/categories/:categoryId", updateCategory);
+  app.delete("/api/categories/:categoryId", deleteCategory);
+  app.put("/api/chats/:chatId/category", updateChatCategory);
+
   return app;
 }
