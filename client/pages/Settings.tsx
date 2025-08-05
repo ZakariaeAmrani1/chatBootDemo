@@ -269,6 +269,9 @@ const Settings: React.FC<SettingsProps> = ({
       if (selectedDeletionItems.includes("userSettings")) {
         promises.push(apiService.resetUserSettings());
       }
+      if (selectedDeletionItems.includes("categories")) {
+        promises.push(apiService.clearCategories());
+      }
 
       const results = await Promise.all(promises);
       const allSuccessful = results.every((result) => result.success);
