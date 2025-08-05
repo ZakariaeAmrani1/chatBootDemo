@@ -1,6 +1,7 @@
 # Documentation Fonctionnelle - ChatNova
 
 ## Table des Matières
+
 1. [Vue d'ensemble du Système](#vue-densemble-du-système)
 2. [Exigences Fonctionnelles](#exigences-fonctionnelles)
 3. [Exigences Non Fonctionnelles](#exigences-non-fonctionnelles)
@@ -16,6 +17,7 @@
 **ChatNova** est une application web intelligente de chat conversationnel avec analyse de documents PDF. L'application permet aux utilisateurs d'interagir avec différents modèles d'intelligence artificielle pour analyser, questionner et obtenir des insights à partir de documents PDF uploadés.
 
 ### Objectifs Principaux
+
 - Faciliter l'analyse interactive de documents PDF
 - Offrir une expérience conversationnelle intuitive avec l'IA
 - Permettre la gestion organisée des conversations et documents
@@ -28,6 +30,7 @@
 ### 1. Authentification et Gestion des Utilisateurs
 
 #### RF-01: Inscription Utilisateur
+
 - **Description**: L'utilisateur peut créer un compte avec email et mot de passe
 - **Critères d'acceptation**:
   - Validation de l'email (format valide, unicité)
@@ -36,6 +39,7 @@
   - Création automatique du profil utilisateur
 
 #### RF-02: Connexion Utilisateur
+
 - **Description**: Authentification sécurisée des utilisateurs
 - **Critères d'acceptation**:
   - Connexion via email/mot de passe
@@ -44,6 +48,7 @@
   - Récupération de mot de passe oublié
 
 #### RF-03: Gestion du Profil
+
 - **Description**: Personnalisation du profil utilisateur
 - **Critères d'acceptation**:
   - Modification des informations personnelles
@@ -54,6 +59,7 @@
 ### 2. Sélection et Gestion des Modèles IA
 
 #### RF-04: Sélection de Modèle IA
+
 - **Description**: Choix du modèle d'IA avant de commencer une conversation
 - **Critères d'acceptation**:
   - Affichage des modèles disponibles avec descriptions
@@ -62,6 +68,7 @@
   - Sauvegarde des préférences utilisateur
 
 #### RF-05: Information sur les Modèles
+
 - **Description**: Présentation détaillée des capacités de chaque modèle
 - **Critères d'acceptation**:
   - Description des fonctionnalités de chaque modèle
@@ -72,6 +79,7 @@
 ### 3. Gestion des Documents PDF
 
 #### RF-06: Upload de Documents PDF
+
 - **Description**: Importation de fichiers PDF pour analyse
 - **Critères d'acceptation**:
   - Interface drag & drop intuitive
@@ -81,6 +89,7 @@
   - Barre de progression d'upload
 
 #### RF-07: Prévisualisation PDF
+
 - **Description**: Visualisation du document pendant la conversation
 - **Critères d'acceptation**:
   - Prévisualisation en temps réel
@@ -90,6 +99,7 @@
   - Téléchargement du document
 
 #### RF-08: Analyse de Contenu PDF
+
 - **Description**: Extraction et traitement du contenu du PDF
 - **Critères d'acceptation**:
   - Extraction du texte des PDF
@@ -100,6 +110,7 @@
 ### 4. Interface de Chat Conversationnel
 
 #### RF-09: Interface de Messagerie
+
 - **Description**: Chat en temps réel avec l'IA
 - **Critères d'acceptation**:
   - Envoi de messages texte
@@ -109,6 +120,7 @@
   - Messages avec pièces jointes
 
 #### RF-10: Fonctionnalités de Chat Avancées
+
 - **Description**: Outils d'interaction avec les messages
 - **Critères d'acceptation**:
   - Copie des messages
@@ -118,6 +130,7 @@
   - Historique persistant
 
 #### RF-11: Enregistrement Vocal (Désactivé)
+
 - **Description**: Fonction d'enregistrement vocal
 - **Critères d'acceptation**:
   - Bouton microphone visible mais désactivé
@@ -127,6 +140,7 @@
 ### 5. Organisation et Gestion des Conversations
 
 #### RF-12: Historique des Conversations
+
 - **Description**: Sauvegarde et organisation des chats
 - **Critères d'acceptation**:
   - Liste chronologique des conversations
@@ -136,6 +150,7 @@
   - Archivage
 
 #### RF-13: Catégorisation des Chats
+
 - **Description**: Organisation des conversations par catégories
 - **Critères d'acceptation**:
   - Création de catégories personnalisées
@@ -145,6 +160,7 @@
   - Affichage hiérarchique dans la sidebar
 
 #### RF-14: Nouvelle Conversation
+
 - **Description**: Initiation de nouvelles sessions de chat
 - **Critères d'acceptation**:
   - Bouton "New Chat" accessible
@@ -155,6 +171,7 @@
 ### 6. Bibliothèque et Gestion des Fichiers
 
 #### RF-15: Bibliothèque de Documents
+
 - **Description**: Centralisation des documents uploadés
 - **Critères d'acceptation**:
   - Vue d'ensemble des fichiers
@@ -166,6 +183,7 @@
 ### 7. Paramètres et Personnalisation
 
 #### RF-16: Paramètres d'Interface
+
 - **Description**: Personnalisation de l'expérience utilisateur
 - **Critères d'acceptation**:
   - Choix du thème (Clair/Sombre/Système)
@@ -174,6 +192,7 @@
   - Sauvegarde des préférences
 
 #### RF-17: Gestion des Données
+
 - **Description**: Contrôle des données utilisateur
 - **Critères d'acceptation**:
   - Visualisation de l'usage du stockage
@@ -184,6 +203,7 @@
 ### 8. Partage et Collaboration
 
 #### RF-18: Partage de Conversations
+
 - **Description**: Partage externe des conversations
 - **Critères d'acceptation**:
   - Génération de liens de partage
@@ -198,18 +218,21 @@
 ### 1. Performance (RNF-01 à RNF-05)
 
 #### RNF-01: Temps de Réponse
+
 - **Chargement initial**: < 3 secondes
 - **Navigation entre pages**: < 1 seconde
 - **Upload de PDF**: < 5 secondes pour fichiers < 10MB
 - **Génération de réponse IA**: < 30 secondes
 
 #### RNF-02: Capacité de Charge
+
 - **Utilisateurs simultanés**: Support pour 100+ utilisateurs
 - **Taille des fichiers**: PDF jusqu'à 50MB
 - **Conversations simultanées**: Illimitées par utilisateur
 - **Stockage par utilisateur**: 1GB par défaut
 
 #### RNF-03: Disponibilité
+
 - **Uptime**: 99.5% minimum
 - **Maintenance**: Fenêtres programmées avec notification
 - **Récupération d'erreur**: < 5 minutes
@@ -218,18 +241,21 @@
 ### 2. Sécurité (RNF-06 à RNF-10)
 
 #### RNF-06: Authentification
+
 - **Chiffrement**: HTTPS/TLS obligatoire
 - **Sessions**: Expiration automatique après inactivité
 - **Mots de passe**: Hashage sécurisé (bcrypt)
 - **Tokens**: JWT avec expiration
 
 #### RNF-07: Protection des Données
+
 - **Chiffrement**: Données sensibles chiffrées en base
 - **Accès**: Contrôle d'accès basé sur les rôles
 - **Audit**: Logs d'accès et d'actions
 - **RGPD**: Conformité aux réglementations
 
 #### RNF-08: Validation des Entrées
+
 - **Sanitisation**: Toutes les entrées utilisateur
 - **Validation**: Côté client et serveur
 - **Protection**: Contre XSS, CSRF, injection SQL
@@ -238,18 +264,21 @@
 ### 3. Utilisabilité (RNF-11 à RNF-15)
 
 #### RNF-11: Interface Utilisateur
+
 - **Design**: Moderne, épuré, intuitif
 - **Responsive**: Support mobile, tablette, desktop
 - **Accessibilité**: Conformité WCAG 2.1 niveau AA
 - **Cohérence**: Design system uniforme
 
 #### RNF-12: Ergonomie
+
 - **Navigation**: Intuitive et logique
 - **Feedback**: Retours visuels pour toutes les actions
 - **Erreurs**: Messages d'erreur clairs et utiles
 - **Aide**: Documentation contextuelle
 
 #### RNF-13: Internationalisation
+
 - **Langues**: Support multilingue (French prioritaire)
 - **Formats**: Dates, nombres selon la locale
 - **RTL**: Support des langues droite-à-gauche
@@ -258,12 +287,14 @@
 ### 4. Compatibilité (RNF-16 à RNF-18)
 
 #### RNF-16: Navigateurs
+
 - **Support**: Chrome, Firefox, Safari, Edge (dernières versions)
 - **Fallbacks**: Fonctionnalités dégradées pour anciens navigateurs
 - **Mobile**: Safari iOS, Chrome Android
 - **Tests**: Compatibilité croisée régulière
 
 #### RNF-17: Standards Web
+
 - **HTML5**: Sémantique et accessibilité
 - **CSS3**: Animations et responsive design
 - **JavaScript**: ES6+ avec transpilation
@@ -272,12 +303,14 @@
 ### 5. Maintenabilité (RNF-19 à RNF-22)
 
 #### RNF-19: Architecture
+
 - **Modularité**: Composants réutilisables
 - **Séparation**: Frontend/Backend découplés
 - **Standards**: Conventions de code strictes
 - **Documentation**: Code documenté et commenté
 
 #### RNF-20: Monitoring
+
 - **Logs**: Système de logging complet
 - **Métriques**: Performance et usage
 - **Alertes**: Notifications automatiques d'erreurs
@@ -290,6 +323,7 @@
 ### Stack Technologique
 
 #### Frontend
+
 - **Framework**: React 18 avec TypeScript
 - **Routing**: React Router 6 (SPA)
 - **Styling**: TailwindCSS 3 + Radix UI
@@ -298,6 +332,7 @@
 - **Icons**: Lucide React
 
 #### Backend
+
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Language**: TypeScript
@@ -305,11 +340,13 @@
 - **PDF Processing**: pdf-parse, pdfjs-dist
 
 #### Base de Données
+
 - **Storage**: Fichiers JSON (pour développement)
 - **Files**: Système de fichiers local
 - **Session**: En mémoire
 
 #### DevOps et Déploiement
+
 - **Development**: Vite dev server
 - **Testing**: Vitest
 - **Linting**: ESLint + Prettier
@@ -347,6 +384,7 @@ shared/                # Types partagés
 ### 1. Première Connexion
 
 1. **Inscription/Connexion**
+
    - Accéder à la page de connexion
    - Créer un compte ou se connecter
    - Personnaliser le profil
@@ -359,11 +397,13 @@ shared/                # Types partagés
 ### 2. Démarrage d'une Conversation
 
 1. **Sélection du Modèle IA**
+
    - Cliquer sur le dropdown de modèle dans l'en-tête
    - Choisir le modèle approprié selon les besoins
    - Noter que le modèle sera verrouillé une fois la conversation commencée
 
 2. **Upload de Document PDF**
+
    - Cliquer sur "New Chat" dans la sidebar
    - Glisser-déposer un fichier PDF ou cliquer pour sélectionner
    - Attendre la confirmation d'upload
@@ -377,6 +417,7 @@ shared/                # Types partagés
 ### 3. Organisation des Conversations
 
 1. **Catégorisation**
+
    - Cliquer sur "Manage Categories" dans la sidebar
    - Créer des catégories thématiques
    - Glisser-déposer les chats dans les catégories
@@ -389,6 +430,7 @@ shared/                # Types partagés
 ### 4. Fonctionnalités Avancées
 
 1. **Partage de Conversation**
+
    - Cliquer sur "Share" dans l'en-tête
    - Générer un lien de partage public
    - Configurer les permissions d'accès
@@ -405,6 +447,7 @@ shared/                # Types partagés
 ### Types de Données Stockées
 
 #### Données Utilisateur
+
 ```typescript
 interface User {
   id: string;
@@ -418,6 +461,7 @@ interface User {
 ```
 
 #### Conversations
+
 ```typescript
 interface Chat {
   id: string;
@@ -433,11 +477,12 @@ interface Chat {
 ```
 
 #### Messages
+
 ```typescript
 interface Message {
   id: string;
   chatId: string;
-  type: 'user' | 'assistant';
+  type: "user" | "assistant";
   content: string;
   timestamp: string;
   attachments?: FileAttachment[];
@@ -447,6 +492,7 @@ interface Message {
 ```
 
 #### Fichiers
+
 ```typescript
 interface FileAttachment {
   id: string;
@@ -459,6 +505,7 @@ interface FileAttachment {
 ```
 
 ### Politique de Rétention
+
 - **Messages**: Conservation illimitée sauf suppression explicite
 - **Fichiers**: Conservation liée aux conversations
 - **Sessions**: Expiration après 30 jours d'inactivité
@@ -471,24 +518,28 @@ interface FileAttachment {
 ### Mesures de Sécurité Implémentées
 
 #### Authentification
+
 - **Tokens JWT**: Pour la gestion des sessions
 - **Hachage des mots de passe**: Utilisation de bcrypt
 - **Validation d'email**: Vérification obligatoire
 - **Expiration de session**: Déconnexion automatique
 
 #### Protection des Données
+
 - **Validation d'entrée**: Sanitisation de toutes les données
 - **Upload sécurisé**: Validation des types de fichiers
 - **Isolation des données**: Accès restreint par utilisateur
 - **Chiffrement HTTPS**: Obligatoire en production
 
 #### Monitoring et Audit
+
 - **Logs d'accès**: Traçabilité des actions
 - **Détection d'anomalies**: Monitoring automatique
 - **Sauvegarde**: Backup régulier des données
 - **Plan de récupération**: Procédures en cas d'incident
 
 ### Conformité RGPD
+
 - **Consentement**: Opt-in explicite pour le traitement
 - **Droit à l'oubli**: Suppression complète des données
 - **Portabilité**: Export des données utilisateur
@@ -501,6 +552,7 @@ interface FileAttachment {
 ChatNova représente une solution complète et moderne pour l'analyse interactive de documents PDF via l'intelligence artificielle. L'application combine une interface utilisateur intuitive avec des fonctionnalités avancées de traitement de documents et de conversation intelligente.
 
 ### Points Forts
+
 - Interface moderne et responsive
 - Sécurité robuste et conformité RGPD
 - Fonctionnalités d'organisation avancées
@@ -508,6 +560,7 @@ ChatNova représente une solution complète et moderne pour l'analyse interactiv
 - Expérience utilisateur optimisée
 
 ### Évolutions Futures
+
 - Activation de l'enregistrement vocal
 - Support de nouveaux formats de documents
 - Fonctionnalités collaboratives étendues
