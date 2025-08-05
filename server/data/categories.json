@@ -30,6 +30,14 @@
       "updatedAt": "2025-08-05T11:49:07.377Z",
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "isDefault": false
+    },
+    {
+      "id": "default-general-user-1",
+      "name": "General",
+      "createdAt": "2025-08-05T12:25:43.822Z",
+      "updatedAt": "2025-08-05T12:25:43.822Z",
+      "userId": "user-1",
+      "isDefault": true
     }
   ]
 }
