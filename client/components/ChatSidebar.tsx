@@ -144,7 +144,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   }, [user?.id]);
 
   // Organize chats by category
-  const organizedChats = React.useMemo(() => {
+  const organizedChats = useMemo(() => {
     const categorized: { [categoryId: string]: Chat[] } = {};
     const uncategorized: Chat[] = [];
 
