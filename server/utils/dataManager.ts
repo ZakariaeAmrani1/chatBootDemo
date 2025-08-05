@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { User, Chat, Message, FileAttachment } from "@shared/types";
+import { User, Chat, Message, FileAttachment, Category, CreateCategoryRequest } from "@shared/types";
 
 const DATA_DIR = path.join(process.cwd(), "server/data");
 
