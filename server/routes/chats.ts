@@ -148,46 +148,68 @@ async function callGeminiAPI(
   }
 }
 
-// Function to call Local Cloud backend (commented for now)
+// Function to call Local Cloud backend with PDF file
 async function callLocalCloudAPI(
   userMessage: string,
-  pdfContent?: string,
+  pdfFilePath?: string,
+  appUrl?: string,
 ): Promise<string> {
   try {
-    // TODO: Uncomment and configure when local backend is ready
-    /*
-    const response = await fetch("http://localhost:3001/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: userMessage,
-        pdfContent: pdfContent,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `Local Cloud API error: ${response.status} ${response.statusText}`,
-      );
+    if (!appUrl) {
+      throw new Error("App URL not configured in user settings");
     }
 
-    const data = await response.json();
-    return data.response || "I apologize, but I couldn't generate a response. Please try again.";
-    */
+    const initPdfUrl = `${appUrl.replace(/\/$/, '')}/init-pdf`;
 
-    // Fallback response for now
-    let response = `[Local Cloud Response] I've analyzed your message: "${userMessage}".`;
-    if (pdfContent) {
-      response += ` I've also processed the PDF content: "${pdfContent.substring(0, 100)}..."`;
+    if (pdfFilePath) {
+      // Send PDF file using FormData
+      const FormData = require('form-data');
+      const formData = new FormData();
+      formData.append('message', userMessage);
+
+      // Read the PDF file and attach it
+      const pdfStream = fs.createReadStream(pdfFilePath);
+      formData.append('pdfFile', pdfStream, path.basename(pdfFilePath));
+
+      const response = await fetch(initPdfUrl, {
+        method: "POST",
+        body: formData,
+        headers: formData.getHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Local Cloud API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      return data.response || "I apologize, but I couldn't generate a response. Please try again.";
+    } else {
+      // If no PDF, use regular chat endpoint
+      const chatUrl = `${appUrl.replace(/\/$/, '')}/api/chat`;
+      const response = await fetch(chatUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: userMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Local Cloud API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      return data.response || "I apologize, but I couldn't generate a response. Please try again.";
     }
-    response +=
-      " This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.";
-    return response;
   } catch (error) {
     console.error("Local Cloud API error:", error);
-    return "I'm currently unable to connect to the local AI service. Please ensure your local backend is running.";
+    return `I'm currently unable to connect to the local AI service at ${appUrl || 'configured URL'}. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
   }
 }
 
