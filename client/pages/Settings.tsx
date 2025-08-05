@@ -1066,6 +1066,12 @@ const Settings: React.FC<SettingsProps> = ({
                   {dataStats?.userSettings.sizeFormatted || "Loading..."}
                 </span>
               </div>
+              <div className="flex justify-between text-sm">
+                <span>Categories</span>
+                <span>
+                  {dataStats?.categories.sizeFormatted || "Loading..."}
+                </span>
+              </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
                 <span>Total JSON Data</span>
