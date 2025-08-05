@@ -455,6 +455,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                         )}
                         <Folder className="h-3 w-3 mr-2" />
                         {category.name}
+                        <span className="ml-auto text-xs bg-red-500 text-white px-1 rounded">{categoryChats.length}</span>
                       </div>
 
                       {/* Category chats */}
