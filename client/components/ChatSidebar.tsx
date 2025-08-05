@@ -263,14 +263,49 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   };
 
-  const handleNewChatInCategory = (categoryId: string, e: React.MouseEvent) => {
+  const handleNewChatInCategory = async (categoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    // Call the onNewChat prop and then move the chat to the category
-    // We'll need to track the new chat and move it after creation
-    onNewChat();
-    // Note: This is a simplified approach. In a real implementation,
-    // you might want to modify the onNewChat prop to accept a categoryId
-    // For now, the user can move the chat to the category manually
+
+    try {
+      // Get current user
+      const currentUser = localStorage.getItem("currentUser");
+      const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+
+      // Create a new chat with default settings
+      const createChatRequest = {
+        title: "New chat",
+        model: "gemini-pro", // Default model
+        chatbootVersion: "1.0",
+        userId: userId
+      };
+
+      const response = await apiService.createChat(createChatRequest);
+
+      if (response.success && response.data) {
+        const newChat = response.data;
+
+        // Immediately assign the chat to the category
+        await moveChatToCategory(newChat.id, categoryId);
+
+        // Select the new chat
+        onChatSelect(newChat.id);
+
+        // Ensure the category is expanded to show the new chat
+        setCollapsedCategories((prev) => {
+          const newCollapsed = new Set(prev);
+          newCollapsed.delete(categoryId);
+          return newCollapsed;
+        });
+      } else {
+        console.error("Failed to create chat:", response.error);
+        // Fallback to regular new chat
+        onNewChat();
+      }
+    } catch (error) {
+      console.error("Error creating chat in category:", error);
+      // Fallback to regular new chat
+      onNewChat();
+    }
   };
 
   // Ensure proper cleanup when modal closes
