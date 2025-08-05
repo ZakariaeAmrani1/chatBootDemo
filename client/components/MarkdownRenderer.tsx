@@ -58,10 +58,11 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     return `<em class="italic text-foreground/90">${text}</em>`;
   };
   
-  renderer.code = (code: string) => {
-    return `<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground border">${code}</code>`;
+  renderer.code = (code: string, infostring?: string) => {
+    const language = infostring ? infostring.split(' ')[0] : '';
+    return `<pre class="bg-muted/50 border rounded-lg p-4 my-3 overflow-x-auto"><code class="text-sm font-mono text-foreground" data-language="${language}">${code}</code></pre>`;
   };
-  
+
   renderer.codespan = (code: string) => {
     return `<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground border">${code}</code>`;
   };
