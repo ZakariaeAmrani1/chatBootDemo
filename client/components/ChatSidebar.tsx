@@ -267,29 +267,24 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   const handleNewChatInCategory = async (categoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
 
-    try {
-      // Get current user
-      const currentUser = localStorage.getItem("currentUser");
-      const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+    if (!user?.id) {
+      console.error("No user available");
+      return;
+    }
 
-      // Create a new chat with default settings
+    try {
+      // Create a new chat with default settings using chatService
       const createChatRequest = {
         title: "New chat",
         model: "gemini-pro", // Default model
         chatbootVersion: "1.0",
-        userId: userId
       };
 
-      const response = await apiService.createChat(createChatRequest);
+      const newChat = await chatService.createChat(createChatRequest, user.id);
 
-      if (response.success && response.data) {
-        const newChat = response.data;
-
+      if (newChat) {
         // Immediately assign the chat to the category
         await moveChatToCategory(newChat.id, categoryId);
-
-        // Select the new chat
-        onChatSelect(newChat.id);
 
         // Ensure the category is expanded to show the new chat
         setCollapsedCategories((prev) => {
@@ -298,7 +293,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           return newCollapsed;
         });
       } else {
-        console.error("Failed to create chat:", response.error);
+        console.error("Failed to create chat");
         // Fallback to regular new chat
         onNewChat();
       }
