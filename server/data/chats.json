@@ -6,7 +6,7 @@
       "model": "local-cloud",
       "chatbootVersion": "ChatNova V3",
       "createdAt": "2025-08-05T11:10:52.848Z",
-      "updatedAt": "2025-08-05T11:11:25.434Z",
+      "updatedAt": "2025-08-05T11:49:12.876Z",
       "messageCount": 4,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "pdfFile": {
@@ -16,7 +16,8 @@
         "type": "application/pdf",
         "url": "/api/files/bf500cfe-6887-49b7-b1cc-5d827e7faf40.pdf",
         "uploadedAt": "2025-08-05T11:10:52.848Z"
-      }
+      },
+      "categoryId": "cat_1754394547377_pusl3ku"
     },
     {
       "id": "007c8279-0841-4930-a60a-d55131bcd7dd",
