@@ -67,7 +67,8 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
         setIsCreating(false);
 
         // Close the modal to show the updated sidebar
-        setIsOpen?.(false);
+        setIsOpen(false);
+        onDialogClose?.();
 
         toast({
           title: "Success",
