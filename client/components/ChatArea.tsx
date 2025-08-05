@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share } from "lucide-react";
+import { Copy, ThumbsUp, ThumbsDown, RotateCcw, Share, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
