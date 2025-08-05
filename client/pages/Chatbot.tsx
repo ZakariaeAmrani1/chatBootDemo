@@ -6,9 +6,6 @@ import {
   Share2,
   Menu,
   X,
-  Brain,
-  Globe,
-  Sparkles,
   Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
