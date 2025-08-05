@@ -78,6 +78,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   return (
     <div
       className={cn(
+        "transition-all duration-300 ease-out transform",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
         "prose prose-sm max-w-none text-foreground leading-relaxed",
         // Strong/Bold styling
         "[&_strong]:font-semibold [&_strong]:text-foreground",
