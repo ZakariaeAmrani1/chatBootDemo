@@ -37,6 +37,24 @@
         "url": "/api/files/3ee5ea04-f73c-412b-b0c5-fb189410988c.pdf",
         "uploadedAt": "2025-08-04T15:53:02.040Z"
       }
+    },
+    {
+      "id": "d7a865c5-45b7-4302-92dd-6af7029e4347",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T08:47:10.202Z",
+      "updatedAt": "2025-08-05T08:47:11.703Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "42defab1-7752-4192-a7a7-94bd5d6d0ec5",
+        "name": "Eryx  Espace Admin (1).pdf",
+        "size": 11345,
+        "type": "application/pdf",
+        "url": "/api/files/0ef010e7-67fa-4a23-8bdb-13af8fc15f93.pdf",
+        "uploadedAt": "2025-08-05T08:47:10.202Z"
+      }
     }
   ],
   "messages": [
@@ -91,6 +109,30 @@
       "type": "assistant",
       "content": "Based on the uploaded PDF \"Eryx Espace Admin (1).pdf\", this document is a representation of an **admin interface or dashboard** for a system or platform called **Eryx**.\n\nIt appears to be designed for managing various aspects of a business or online service, providing a centralized control panel for administrators.\n\nSpecifically, it shows common administrative features such as:\n*   A **Dashboard (Tableau de bord)** with key metrics like monthly sales, new orders, and active users.\n*   Management sections for **Users (Utilisateurs)**, **Clients**, **Products (Produits)**, **Orders (Commandes)**, and **Invoices (Factures)**.\n*   Options for generating **Reports",
       "timestamp": "2025-08-04T15:53:17.200Z"
+    },
+    {
+      "id": "1622f277-bb49-4d2b-9d69-f4cc261111b0",
+      "chatId": "d7a865c5-45b7-4302-92dd-6af7029e4347",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T08:47:10.202Z",
+      "attachments": [
+        {
+          "id": "42defab1-7752-4192-a7a7-94bd5d6d0ec5",
+          "name": "Eryx  Espace Admin (1).pdf",
+          "size": 11345,
+          "type": "application/pdf",
+          "url": "/api/files/0ef010e7-67fa-4a23-8bdb-13af8fc15f93.pdf",
+          "uploadedAt": "2025-08-05T08:47:10.202Z"
+        }
+      ]
+    },
+    {
+      "id": "52890e4d-e1c2-48f6-afb5-d2cc6732c857",
+      "chatId": "d7a865c5-45b7-4302-92dd-6af7029e4347",
+      "type": "assistant",
+      "content": "Hello! I've successfully received your PDF document \"Eryx  Espace Admin (1).pdf\". I'm ready to help you analyze and answer questions about this document. What would you like to know?",
+      "timestamp": "2025-08-05T08:47:11.703Z"
     }
   ]
 }
