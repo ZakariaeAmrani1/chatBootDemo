@@ -563,12 +563,25 @@ async function generateAIResponseWithPDF(
           }
         }
 
+        // Get PDF file path instead of content
+        let pdfFilePath: string | undefined;
+        if (chatId) {
+          const chat = DataManager.getChatById(chatId);
+          if (chat?.pdfFile) {
+            pdfFilePath = path.join(
+              process.cwd(),
+              "server/uploads",
+              path.basename(chat.pdfFile.url),
+            );
+          }
+        }
+
         return await callGeminiAPI(
           userMessage,
           geminiApiKey,
           geminiModel,
           chatHistory,
-          pdfContent,
+          pdfFilePath,
         );
       } catch (error) {
         console.error("Gemini API error:", error);
