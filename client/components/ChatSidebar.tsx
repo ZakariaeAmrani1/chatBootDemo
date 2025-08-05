@@ -307,8 +307,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 </p>
               </div>
             )}
-            {chats.map((chat) =>
-              collapsed ? (
+
+            {collapsed ? (
+              // Collapsed view - show all chats as icons
+              chats.map((chat) => (
                 <Tooltip key={chat.id}>
                   <TooltipTrigger asChild>
                     <div
@@ -331,72 +333,234 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   </TooltipTrigger>
                   <TooltipContent side="right">{chat.title}</TooltipContent>
                 </Tooltip>
-              ) : (
-                <div
-                  key={chat.id}
-                  className={cn(
-                    "group flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors",
-                    "hover:bg-muted/50",
-                    currentChatId === chat.id ? "bg-muted" : "",
-                    editingChatId === chat.id && "bg-muted",
-                  )}
-                  onClick={() =>
-                    editingChatId !== chat.id && onChatSelect(chat.id)
-                  }
-                >
-                  <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
+              ))
+            ) : (
+              // Expanded view - show organized by categories
+              <>
+                {/* Render categorized chats */}
+                {categoryState.categories.map((category) => {
+                  const categoryChats = organizedChats.categorized[category.id] || [];
+                  const isCollapsed = collapsedCategories.has(category.id);
 
-                  {editingChatId === chat.id ? (
-                    <Input
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(e, chat.id)}
-                      onBlur={() => handleEditSave(chat.id)}
-                      className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
-                      autoFocus
-                    />
-                  ) : (
-                    <span
-                      className="text-sm text-foreground flex-1 min-w-0 pr-2"
-                      title={chat.title}
-                    >
-                      {chat.title.length > 25
-                        ? `${chat.title.substring(0, 25)}...`
-                        : chat.title}
-                    </span>
-                  )}
+                  if (categoryChats.length === 0 && !category.isDefault) return null;
 
-                  {editingChatId !== chat.id && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                          onClick={(e) => e.stopPropagation()}
+                  return (
+                    <div key={category.id} className="space-y-1">
+                      {/* Category header */}
+                      <div
+                        className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground transition-colors"
+                        onClick={() => toggleCategory(category.id)}
+                      >
+                        {isCollapsed ? (
+                          <ChevronRight className="h-3 w-3 mr-1" />
+                        ) : (
+                          <ChevronDown className="h-3 w-3 mr-1" />
+                        )}
+                        <Folder className="h-3 w-3 mr-2" />
+                        {category.name}
+                        <span className="ml-auto">({categoryChats.length})</span>
+                      </div>
+
+                      {/* Category chats */}
+                      {!isCollapsed && categoryChats.map((chat) => (
+                        <div
+                          key={chat.id}
+                          className={cn(
+                            "group flex items-center px-3 py-2 ml-4 rounded-md cursor-pointer transition-colors",
+                            "hover:bg-muted/50",
+                            currentChatId === chat.id ? "bg-muted" : "",
+                            editingChatId === chat.id && "bg-muted",
+                          )}
+                          onClick={() =>
+                            editingChatId !== chat.id && onChatSelect(chat.id)
+                          }
                         >
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" side="right">
-                        <DropdownMenuItem
-                          onClick={(e) => handleEditClick(chat, e)}
-                        >
-                          <Edit3 className="mr-2 h-4 w-4" />
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={(e) => handleDeleteClick(chat.id, e)}
-                          className="text-destructive focus:text-destructive"
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
-                </div>
-              ),
+                          <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
+
+                          {editingChatId === chat.id ? (
+                            <Input
+                              value={editTitle}
+                              onChange={(e) => setEditTitle(e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e, chat.id)}
+                              onBlur={() => handleEditSave(chat.id)}
+                              className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
+                              autoFocus
+                            />
+                          ) : (
+                            <span
+                              className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                              title={chat.title}
+                            >
+                              {chat.title.length > 25
+                                ? `${chat.title.substring(0, 25)}...`
+                                : chat.title}
+                            </span>
+                          )}
+
+                          {editingChatId !== chat.id && (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end" side="right">
+                                <DropdownMenuItem
+                                  onClick={(e) => handleEditClick(chat, e)}
+                                >
+                                  <Edit3 className="mr-2 h-4 w-4" />
+                                  Edit
+                                </DropdownMenuItem>
+                                {/* Category assignment submenu */}
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger className="flex items-center w-full px-2 py-1.5 text-sm hover:bg-accent rounded-sm">
+                                    <Folder className="mr-2 h-4 w-4" />
+                                    Move to Category
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent side="right">
+                                    {categoryState.categories.map((cat) => (
+                                      <DropdownMenuItem
+                                        key={cat.id}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          moveChatToCategory(chat.id, cat.id);
+                                        }}
+                                      >
+                                        <Folder className="mr-2 h-4 w-4" />
+                                        {cat.name}
+                                      </DropdownMenuItem>
+                                    ))}
+                                    <DropdownMenuItem
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        moveChatToCategory(chat.id, null);
+                                      }}
+                                    >
+                                      <X className="mr-2 h-4 w-4" />
+                                      Remove from Category
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                                <DropdownMenuItem
+                                  onClick={(e) => handleDeleteClick(chat.id, e)}
+                                  className="text-destructive focus:text-destructive"
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+
+                {/* Render uncategorized chats */}
+                {organizedChats.uncategorized.length > 0 && (
+                  <div className="space-y-1">
+                    <div className="flex items-center px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      <MessageSquare className="h-3 w-3 mr-2" />
+                      Uncategorized
+                      <span className="ml-auto">({organizedChats.uncategorized.length})</span>
+                    </div>
+
+                    {organizedChats.uncategorized.map((chat) => (
+                      <div
+                        key={chat.id}
+                        className={cn(
+                          "group flex items-center px-3 py-2 ml-4 rounded-md cursor-pointer transition-colors",
+                          "hover:bg-muted/50",
+                          currentChatId === chat.id ? "bg-muted" : "",
+                          editingChatId === chat.id && "bg-muted",
+                        )}
+                        onClick={() =>
+                          editingChatId !== chat.id && onChatSelect(chat.id)
+                        }
+                      >
+                        <MessageSquare className="h-4 w-4 mr-3 flex-shrink-0 text-muted-foreground" />
+
+                        {editingChatId === chat.id ? (
+                          <Input
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(e, chat.id)}
+                            onBlur={() => handleEditSave(chat.id)}
+                            className="text-sm h-6 px-1 border-none shadow-none focus:ring-1 focus:ring-primary flex-1 min-w-0"
+                            autoFocus
+                          />
+                        ) : (
+                          <span
+                            className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                            title={chat.title}
+                          >
+                            {chat.title.length > 25
+                              ? `${chat.title.substring(0, 25)}...`
+                              : chat.title}
+                          </span>
+                        )}
+
+                        {editingChatId !== chat.id && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" side="right">
+                              <DropdownMenuItem
+                                onClick={(e) => handleEditClick(chat, e)}
+                              >
+                                <Edit3 className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                              {/* Category assignment submenu */}
+                              <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center w-full px-2 py-1.5 text-sm hover:bg-accent rounded-sm">
+                                  <Folder className="mr-2 h-4 w-4" />
+                                  Move to Category
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent side="right">
+                                  {categoryState.categories.map((cat) => (
+                                    <DropdownMenuItem
+                                      key={cat.id}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        moveChatToCategory(chat.id, cat.id);
+                                      }}
+                                    >
+                                      <Folder className="mr-2 h-4 w-4" />
+                                      {cat.name}
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                              <DropdownMenuItem
+                                onClick={(e) => handleDeleteClick(chat.id, e)}
+                                className="text-destructive focus:text-destructive"
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </ScrollArea>
