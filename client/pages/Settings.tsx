@@ -1144,6 +1144,22 @@ const Settings: React.FC<SettingsProps> = ({
                     {dataStats?.userSettings.sizeFormatted || "Loading..."})
                   </label>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="categories"
+                    checked={selectedDeletionItems.includes("categories")}
+                    onChange={() => handleDeletionToggle("categories")}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <label
+                    htmlFor="categories"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Categories (
+                    {dataStats?.categories.sizeFormatted || "Loading..."})
+                  </label>
+                </div>
               </div>
 
               <Button
