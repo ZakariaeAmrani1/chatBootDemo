@@ -108,8 +108,16 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     gfm: true, // GitHub Flavored Markdown
   });
 
-  // Parse markdown to HTML - ensure we get a string
-  const htmlContent = marked.parse(displayedContent) as string;
+  // Parse markdown to HTML with error handling
+  let htmlContent: string;
+  try {
+    const result = marked.parse(displayedContent);
+    htmlContent = typeof result === 'string' ? result : String(result);
+  } catch (error) {
+    console.error('Markdown parsing error:', error);
+    // Fallback to plain text with line breaks
+    htmlContent = displayedContent.replace(/\n/g, '<br>');
+  }
 
   return (
     <div
