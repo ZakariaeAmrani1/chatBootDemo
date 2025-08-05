@@ -1,0 +1,99 @@
+import React from "react";
+import { marked } from "marked";
+import { cn } from "@/lib/utils";
+
+interface MarkdownRendererProps {
+  content: string;
+  className?: string;
+}
+
+const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
+  content,
+  className,
+}) => {
+  // Configure marked options for better rendering
+  const renderer = new marked.Renderer();
+  
+  // Custom rendering for better styling
+  renderer.paragraph = (text: string) => {
+    return `<p class="mb-2 last:mb-0">${text}</p>`;
+  };
+  
+  renderer.strong = (text: string) => {
+    return `<strong class="font-semibold text-foreground">${text}</strong>`;
+  };
+  
+  renderer.em = (text: string) => {
+    return `<em class="italic text-foreground/90">${text}</em>`;
+  };
+  
+  renderer.code = (code: string) => {
+    return `<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground border">${code}</code>`;
+  };
+  
+  renderer.codespan = (code: string) => {
+    return `<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground border">${code}</code>`;
+  };
+  
+  renderer.blockquote = (quote: string) => {
+    return `<blockquote class="border-l-4 border-muted-foreground/30 pl-4 py-2 my-3 text-muted-foreground italic">${quote}</blockquote>`;
+  };
+  
+  renderer.list = (body: string, ordered: boolean) => {
+    const tag = ordered ? 'ol' : 'ul';
+    const classes = ordered 
+      ? 'list-decimal list-inside space-y-1 mb-3' 
+      : 'list-disc list-inside space-y-1 mb-3';
+    return `<${tag} class="${classes}">${body}</${tag}>`;
+  };
+  
+  renderer.listitem = (text: string) => {
+    return `<li class="text-foreground">${text}</li>`;
+  };
+  
+  renderer.heading = (text: string, level: number) => {
+    const sizes = {
+      1: 'text-2xl font-bold',
+      2: 'text-xl font-semibold', 
+      3: 'text-lg font-semibold',
+      4: 'text-base font-semibold',
+      5: 'text-sm font-semibold',
+      6: 'text-xs font-semibold'
+    };
+    const sizeClass = sizes[level as keyof typeof sizes] || sizes[6];
+    return `<h${level} class="${sizeClass} text-foreground mb-2 mt-3 first:mt-0">${text}</h${level}>`;
+  };
+  
+  renderer.link = (href: string | null, title: string | null, text: string) => {
+    const titleAttr = title ? ` title="${title}"` : '';
+    return `<a href="${href}" class="text-primary underline hover:text-primary/80 transition-colors"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
+  };
+
+  // Set marked options
+  marked.setOptions({
+    renderer,
+    breaks: true, // Convert line breaks to <br>
+    gfm: true, // GitHub Flavored Markdown
+  });
+
+  // Parse markdown to HTML
+  const htmlContent = marked(content);
+
+  return (
+    <div
+      className={cn(
+        "prose prose-sm max-w-none text-foreground",
+        "[&_strong]:font-semibold [&_em]:italic",
+        "[&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono [&_code]:border",
+        "[&_blockquote]:border-l-4 [&_blockquote]:border-muted-foreground/30 [&_blockquote]:pl-4 [&_blockquote]:py-2 [&_blockquote]:my-3 [&_blockquote]:text-muted-foreground [&_blockquote]:italic",
+        "[&_ul]:list-disc [&_ul]:list-inside [&_ul]:space-y-1 [&_ul]:mb-3",
+        "[&_ol]:list-decimal [&_ol]:list-inside [&_ol]:space-y-1 [&_ol]:mb-3",
+        "[&_a]:text-primary [&_a]:underline hover:[&_a]:text-primary/80 [&_a]:transition-colors",
+        className
+      )}
+      dangerouslySetInnerHTML={{ __html: htmlContent }}
+    />
+  );
+};
+
+export default MarkdownRenderer;
