@@ -26,6 +26,7 @@ interface CategoryManagerProps {
   categories: Category[];
   onCategoriesChange: (categories: Category[]) => void;
   triggerButton?: React.ReactNode;
+  onDialogClose?: () => void;
 }
 
 const CategoryManager: React.FC<CategoryManagerProps> = ({
