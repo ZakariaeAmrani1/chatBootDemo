@@ -214,16 +214,28 @@ const Chatbot = () => {
   const createNewChat = async (message?: string) => {
     if (!user) return;
 
-    // Create chat with or without initial message
-    await chatService.createChat(
-      {
-        title: "New Chat",
-        model: selectedModel,
-        chatbootVersion: selectedVersion,
-        message: message, // This can be undefined for empty chats
-      },
-      user.id,
-    );
+    if (message && message.trim()) {
+      // Create a saved chat immediately if there's an initial message
+      await chatService.createChat(
+        {
+          title: "New Chat",
+          model: selectedModel,
+          chatbootVersion: selectedVersion,
+          message: message,
+        },
+        user.id,
+      );
+    } else {
+      // Create a draft chat (not saved until first message is sent)
+      chatService.createDraftChat(
+        {
+          title: "New Chat",
+          model: selectedModel,
+          chatbootVersion: selectedVersion,
+        },
+        user.id,
+      );
+    }
   };
 
   const handleStartChat = async (model: string, pdfFile: File) => {
