@@ -393,12 +393,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         {/* Chat History */}
         <ScrollArea className={cn("flex-1", collapsed ? "px-1" : "px-2")}>
           <div className="space-y-1 py-2">
-            {/* Debug info */}
-            {!collapsed && (
-              <div className="px-2 py-1 text-xs text-yellow-600 bg-yellow-100 rounded mb-2">
-                DEBUG: {chats.length} chats, {categoryState.categories.length} categories
-              </div>
-            )}
+
 
             {chats.length === 0 && !collapsed && (
               <div className="px-3 py-6 text-center">
