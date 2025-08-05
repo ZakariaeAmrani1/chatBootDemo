@@ -88,9 +88,11 @@ export function ModelDropdown({ selectedModel, onModelChange, disabled = false }
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
+          disabled={disabled}
           className={cn(
             "flex items-center gap-2 px-3 py-1.5 rounded-xl border bg-muted/30",
-            "shadow-sm hover:bg-muted/50 transition-colors"
+            "shadow-sm hover:bg-muted/50 transition-colors",
+            disabled && "opacity-50 cursor-not-allowed hover:bg-muted/30"
           )}
         >
           {currentModel ? (
