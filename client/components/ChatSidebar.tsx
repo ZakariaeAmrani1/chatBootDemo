@@ -80,6 +80,15 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [chatToDelete, setChatToDelete] = useState<string | null>(null);
 
+  // Category state
+  const [categoryState, setCategoryState] = useState<CategoryState>({
+    categories: [],
+    isLoading: false,
+    error: null,
+  });
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
+  const [selectedChatForCategory, setSelectedChatForCategory] = useState<string | null>(null);
+
   const handleDeleteClick = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setChatToDelete(chatId);
