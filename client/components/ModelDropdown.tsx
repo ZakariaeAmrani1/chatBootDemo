@@ -37,7 +37,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Globe,
 };
 
-export function ModelDropdown({ selectedModel, onModelChange }: ModelDropdownProps) {
+export function ModelDropdown({ selectedModel, onModelChange, disabled = false }: ModelDropdownProps) {
   const [models, setModels] = useState<ModelOption[]>([]);
   const [loading, setLoading] = useState(true);
 
