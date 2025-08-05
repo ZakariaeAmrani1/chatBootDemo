@@ -185,8 +185,11 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   const moveChatToCategory = async (chatId: string, categoryId: string | null) => {
     try {
       const response = await apiService.updateChatCategory(chatId, categoryId);
-      if (response.success && onUpdateChat) {
+      if (response.success && response.data && onUpdateChat) {
+        // Update the chat with the new category immediately
         onUpdateChat(chatId, { categoryId: categoryId || undefined });
+      } else {
+        console.error("Failed to move chat to category:", response.error);
       }
     } catch (error) {
       console.error("Failed to move chat to category:", error);
