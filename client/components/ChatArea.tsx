@@ -318,8 +318,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     {message.type === "assistant" ? (
                       <MarkdownRenderer
                         content={message.content}
-                        typewriter={true}
-                        typewriterSpeed={25}
+                        typewriter={false}
                       />
                     ) : (
                       <p className="whitespace-pre-wrap leading-relaxed">
