@@ -58,7 +58,8 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
       });
 
       if (response.success && response.data) {
-        onCategoriesChange([...categories, response.data]);
+        const updatedCategories = [...categories, response.data];
+        onCategoriesChange(updatedCategories);
         setNewCategoryName("");
         setIsCreating(false);
         toast({
