@@ -225,11 +225,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   };
 
   const moveChatToCategory = async (chatId: string, categoryId: string | null) => {
-    console.log(`Moving chat ${chatId} to category ${categoryId}`);
     try {
       const response = await apiService.updateChatCategory(chatId, categoryId);
       if (response.success && response.data && onUpdateChat) {
-        console.log("Successfully moved chat, updating local state");
         // Update the chat with the new category immediately
         onUpdateChat(chatId, { categoryId: categoryId || undefined });
 
@@ -238,15 +236,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           setCollapsedCategories(prev => {
             const newCollapsed = new Set(prev);
             newCollapsed.delete(categoryId);
-            console.log(`Expanded category ${categoryId}`);
             return newCollapsed;
           });
         }
-
-        // Force re-render by ensuring state is fresh
-        setTimeout(() => {
-          console.log("Triggering component re-render");
-        }, 10);
       } else {
         console.error("Failed to move chat to category:", response.error);
       }
