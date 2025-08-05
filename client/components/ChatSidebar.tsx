@@ -32,6 +32,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -581,12 +584,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                                     Edit
                                   </DropdownMenuItem>
                                   {/* Category assignment submenu */}
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger className="flex items-center w-full px-2 py-1.5 text-sm hover:bg-accent rounded-sm">
+                                  <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger>
                                       <Folder className="mr-2 h-4 w-4" />
                                       Move to Category
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent side="right">
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuSubContent>
                                       {categoryState.categories.map((cat) => (
                                         <DropdownMenuItem
                                           key={cat.id}
@@ -608,8 +611,8 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                                         <X className="mr-2 h-4 w-4" />
                                         Remove from Category
                                       </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
+                                    </DropdownMenuSubContent>
+                                  </DropdownMenuSub>
                                   <DropdownMenuItem
                                     onClick={(e) =>
                                       handleDeleteClick(chat.id, e)
@@ -701,12 +704,12 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                                 Edit
                               </DropdownMenuItem>
                               {/* Category assignment submenu */}
-                              <DropdownMenu>
-                                <DropdownMenuTrigger className="flex items-center w-full px-2 py-1.5 text-sm hover:bg-accent rounded-sm">
+                              <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>
                                   <Folder className="mr-2 h-4 w-4" />
                                   Move to Category
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent side="right">
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuSubContent>
                                   {categoryState.categories.map((cat) => (
                                     <DropdownMenuItem
                                       key={cat.id}
@@ -719,8 +722,17 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                                       {cat.name}
                                     </DropdownMenuItem>
                                   ))}
-                                </DropdownMenuContent>
-                              </DropdownMenu>
+                                  <DropdownMenuItem
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      moveChatToCategory(chat.id, null);
+                                    }}
+                                  >
+                                    <X className="mr-2 h-4 w-4" />
+                                    Remove from Category
+                                  </DropdownMenuItem>
+                                </DropdownMenuSubContent>
+                              </DropdownMenuSub>
                               <DropdownMenuItem
                                 onClick={(e) => handleDeleteClick(chat.id, e)}
                                 className="text-destructive focus:text-destructive"
