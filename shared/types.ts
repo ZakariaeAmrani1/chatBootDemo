@@ -162,6 +162,7 @@ export interface DataStats {
   chatHistory: FileSize;
   userSettings: FileSize;
   uploadedFiles: FileSize;
+  categories: FileSize;
   totalSize: number;
   totalSizeFormatted: string;
 }
