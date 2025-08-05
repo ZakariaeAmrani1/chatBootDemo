@@ -39,6 +39,28 @@
       "messageCount": 0,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "cat_1754393987003_umay2q6"
+    },
+    {
+      "id": "4eb0f111-2ea1-4361-aae8-aeea7a911ce1",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T11:44:56.360Z",
+      "updatedAt": "2025-08-05T11:45:02.158Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "default-general"
+    },
+    {
+      "id": "45a00674-3cf9-43a8-8b72-648ee9da47aa",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T11:45:31.336Z",
+      "updatedAt": "2025-08-05T11:45:43.673Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "cat_1754394314678_p6z4xtc"
     }
   ],
   "messages": [

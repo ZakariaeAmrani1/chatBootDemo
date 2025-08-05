@@ -14,6 +14,14 @@
       "createdAt": "2025-08-05T11:39:47.003Z",
       "updatedAt": "2025-08-05T11:39:47.003Z",
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "cat_1754394314678_p6z4xtc",
+      "name": "test",
+      "createdAt": "2025-08-05T11:45:14.678Z",
+      "updatedAt": "2025-08-05T11:45:14.678Z",
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "isDefault": false
     }
   ]
 }
