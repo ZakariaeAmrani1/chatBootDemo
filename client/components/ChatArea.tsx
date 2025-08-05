@@ -316,7 +316,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 {message.content && (
                   <div className="text-foreground">
                     {message.type === "assistant" ? (
-                      <FadeInText text={message.content} delay={50} />
+                      <MarkdownRenderer content={message.content} />
                     ) : (
                       <p className="whitespace-pre-wrap leading-relaxed">
                         {message.content}
