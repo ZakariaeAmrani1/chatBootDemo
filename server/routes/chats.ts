@@ -590,10 +590,24 @@ async function generateAIResponseWithPDF(
     } else if (modelType === "local-cloud") {
       // Use Local Cloud backend
       try {
-        return await callLocalCloudAPI(userMessage, pdfContent);
+        // Get PDF file path and app URL
+        let pdfFilePath: string | undefined;
+        if (chatId) {
+          const chat = DataManager.getChatById(chatId);
+          if (chat?.pdfFile) {
+            pdfFilePath = path.join(
+              process.cwd(),
+              "server/uploads",
+              path.basename(chat.pdfFile.url),
+            );
+          }
+        }
+
+        const appUrl = user?.settings?.appUrl;
+        return await callLocalCloudAPI(userMessage, pdfFilePath, appUrl);
       } catch (error) {
         console.error("Local Cloud API error:", error);
-        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     }
   } catch (error) {
