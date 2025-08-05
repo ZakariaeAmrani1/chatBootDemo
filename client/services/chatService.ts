@@ -323,13 +323,29 @@ class ChatService {
   }
 
   async selectChat(chat: Chat): Promise<void> {
+    // Clean up any abandoned draft chats (except the one being selected)
+    const draftChats = this.state.chats.filter(c =>
+      c.isDraft && c.id !== chat.id && c.messageCount === 0
+    );
+
+    if (draftChats.length > 0) {
+      this.setState({
+        chats: this.state.chats.filter(c =>
+          !c.isDraft || c.id === chat.id || c.messageCount > 0
+        )
+      });
+    }
+
     this.setState({
       currentChat: chat,
       messages: [],
       error: null,
     });
 
-    await this.loadChatMessages(chat.id);
+    // Only load messages if this is not a draft chat
+    if (!chat.isDraft) {
+      await this.loadChatMessages(chat.id);
+    }
   }
 
   async deleteChat(chatId: string): Promise<void> {
