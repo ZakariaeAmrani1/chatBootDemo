@@ -146,7 +146,7 @@ async function callLocalCloudAPI(
       },
       body: JSON.stringify({
         message: userMessage,
-        pdfContext: pdfContext,
+        pdfContent: pdfContent,
       }),
     });
 
