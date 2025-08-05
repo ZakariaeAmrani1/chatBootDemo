@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { marked } from "marked";
 import { cn } from "@/lib/utils";
 
 interface MarkdownRendererProps {
   content: string;
   className?: string;
+  typewriter?: boolean;
+  typewriterSpeed?: number;
 }
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   content,
   className,
+  typewriter = false,
+  typewriterSpeed = 30,
 }) => {
+  const [displayedContent, setDisplayedContent] = useState(typewriter ? "" : content);
   // Configure marked options for better rendering
   const renderer = new marked.Renderer();
   
