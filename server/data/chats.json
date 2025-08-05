@@ -24,9 +24,21 @@
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
       "createdAt": "2025-08-05T11:19:04.490Z",
-      "updatedAt": "2025-08-05T11:23:44.573Z",
+      "updatedAt": "2025-08-05T11:42:08.877Z",
       "messageCount": 6,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "cat_1754393987003_umay2q6"
+    },
+    {
+      "id": "612df3f3-f3cd-40d6-802c-00396ff01f27",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T11:40:33.213Z",
+      "updatedAt": "2025-08-05T11:40:36.676Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "cat_1754393987003_umay2q6"
     }
   ],
   "messages": [

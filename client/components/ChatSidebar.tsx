@@ -358,7 +358,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                         )}
                         <Folder className="h-3 w-3 mr-2" />
                         {category.name}
-                        <span className="ml-auto">({categoryChats.length})</span>
                       </div>
 
                       {/* Category chats */}

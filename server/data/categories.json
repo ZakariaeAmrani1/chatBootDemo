@@ -7,6 +7,13 @@
       "updatedAt": "2025-08-05T11:00:00.000Z",
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "isDefault": true
+    },
+    {
+      "id": "cat_1754393987003_umay2q6",
+      "name": "Serveur de courier en Linux",
+      "createdAt": "2025-08-05T11:39:47.003Z",
+      "updatedAt": "2025-08-05T11:39:47.003Z",
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ]
 }
