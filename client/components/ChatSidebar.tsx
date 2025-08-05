@@ -303,7 +303,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                   categoryService.updateCategoriesLocally(categories);
                   // Force reload categories from server to ensure sync
                   if (user?.id) {
-                    categoryService.loadCategories(user.id);
+                    setTimeout(() => {
+                      categoryService.forceReload(user.id);
+                    }, 100);
                   }
                 }}
                 triggerButton={
