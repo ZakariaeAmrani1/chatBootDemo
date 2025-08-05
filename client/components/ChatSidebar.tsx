@@ -664,7 +664,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                           </span>
                         )}
 
-                        {editingChatId !== chat.id && (
+                        {editingChatId !== chat.id && !chat.isDraft && (
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button
