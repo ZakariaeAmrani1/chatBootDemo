@@ -278,6 +278,16 @@ const Settings: React.FC<SettingsProps> = ({
 
       if (allSuccessful) {
         await loadDataStats();
+
+        // If categories were deleted, refresh the category service
+        if (selectedDeletionItems.includes("categories")) {
+          // Import and refresh category service
+          const { categoryService } = await import("@/services/categoryService");
+          if (user?.id) {
+            categoryService.loadCategories(user.id);
+          }
+        }
+
         setShowSuccessDialog(true);
         setSelectedDeletionItems([]);
       } else {
