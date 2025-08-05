@@ -309,7 +309,7 @@ export const createChat: RequestHandler = (req, res) => {
           path.basename(pdfFile.url),
         );
         const pdfContent = await extractPDFText(pdfPath);
-        const analysisPrompt = `Please analyze this PDF document and provide a summary of its contents.`;
+        const analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
 
         const aiMessage: Message = {
           id: uuidv4(),
@@ -610,7 +610,7 @@ async function generateAIResponse(
         const chat = chatId ? DataManager.getChatById(chatId) : null;
         const pdfContext = chat?.pdfFile?.name;
         const appUrl = user.settings.appUrl;
-        return await callLocalCloudAPI(userMessage, pdfContext, appUrl);
+        return await callLocalCloudAPI(userMessage, pdfContext);
       } catch (error) {
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;

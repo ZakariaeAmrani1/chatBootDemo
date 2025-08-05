@@ -73,6 +73,42 @@
         "url": "/api/files/1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf",
         "uploadedAt": "2025-08-05T09:20:44.011Z"
       }
+    },
+    {
+      "id": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "title": "yes",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T09:25:08.168Z",
+      "updatedAt": "2025-08-05T09:25:35.013Z",
+      "messageCount": 6,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "556a669d-66fe-4e86-864c-10a50e4e465c",
+        "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
+        "size": 714277,
+        "type": "application/pdf",
+        "url": "/api/files/06dc0c63-0b64-4714-aa95-eff218bf488f.pdf",
+        "uploadedAt": "2025-08-05T09:25:08.168Z"
+      }
+    },
+    {
+      "id": "4d69a4ab-4354-41a6-abd1-98630f27c666",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T09:27:25.735Z",
+      "updatedAt": "2025-08-05T09:27:32.918Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "3cf63d49-8d35-41cf-9dca-1550d29c7267",
+        "name": "zakariae-amrani-cv.pdf",
+        "size": 471,
+        "type": "application/pdf",
+        "url": "/api/files/ffae4ea7-cf23-4878-bf16-23ca26a3ed4a.pdf",
+        "uploadedAt": "2025-08-05T09:27:25.735Z"
+      }
     }
   ],
   "messages": [
@@ -175,6 +211,82 @@
       "type": "assistant",
       "content": "I understand you'd like an analysis and summary of the PDF document.\n\nHowever, the content provided is a placeholder and does not contain any actual text from a PDF. It states:\n\n\"**[PDF Content] This is a placeholder for the PDF content from 1fddcaa7-de4d-478d-9eed-9c1c3d0feae6.pdf. In a production environment, this would contain the actual extracted text from the PDF.**\"\n\nTherefore, I don't have any content to analyze or summarize.\n\nPlease provide the actual extracted text from the PDF document, and I will be happy to assist you with a summary of its contents.",
       "timestamp": "2025-08-05T09:20:50.527Z"
+    },
+    {
+      "id": "e7466692-2bd8-4fa8-bb16-18089a40d142",
+      "chatId": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T09:25:08.168Z",
+      "attachments": [
+        {
+          "id": "556a669d-66fe-4e86-864c-10a50e4e465c",
+          "name": "UMAYA_LATHA_A_P_RAVINDREN.pdf",
+          "size": 714277,
+          "type": "application/pdf",
+          "url": "/api/files/06dc0c63-0b64-4714-aa95-eff218bf488f.pdf",
+          "uploadedAt": "2025-08-05T09:25:08.168Z"
+        }
+      ]
+    },
+    {
+      "id": "3c89c4b9-9eb0-4aec-bd1e-fab029c7b6ab",
+      "chatId": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "type": "assistant",
+      "content": "I understand you'd like me to analyze and summarize the PDF document.\n\nHowever, the \"PDF Content\" provided is a placeholder text: \"This is a placeholder for the PDF content from 06dc0c63-0b64-4714-aa95-eff218bf488f.pdf. In a production environment, this would contain the actual extracted text from the PDF.\"\n\nBecause of this, I don't have the actual content of the PDF to analyze. Please provide the actual text from the PDF, and I'll be happy to summarize its contents for you!",
+      "timestamp": "2025-08-05T09:25:13.862Z"
+    },
+    {
+      "id": "ec248df6-b30c-496a-a0f9-5e0aaa295f31",
+      "chatId": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "type": "user",
+      "content": "yes",
+      "timestamp": "2025-08-05T09:25:20.510Z"
+    },
+    {
+      "id": "3f1e46d5-ba2a-469f-b6ed-fae6aa96c526",
+      "chatId": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "type": "assistant",
+      "content": "It seems the PDF content is still a placeholder: \"This is a placeholder for the PDF content from 06dc0c63-0b64-4714-aa95-eff218bf488f.pdf. In a production environment, this would contain the actual extracted text from the PDF.\"\n\nI still don't have the actual text from your document. Please provide the *real* content of the PDF so I can analyze it for you!\n\nOnce you provide the content, what would you like me to do with it? For example, would you like a summary, key points, or answers to specific questions?",
+      "timestamp": "2025-08-05T09:25:23.907Z"
+    },
+    {
+      "id": "633ae901-4c7b-4d31-b1f6-44b40254c0b6",
+      "chatId": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "type": "user",
+      "content": "summary ot",
+      "timestamp": "2025-08-05T09:25:32.047Z"
+    },
+    {
+      "id": "dfd639eb-5deb-4bc5-9c55-a563a1c2a413",
+      "chatId": "cdf9492b-58af-4524-acb8-4f3d6e1e32db",
+      "type": "assistant",
+      "content": "It appears the PDF content you've provided is still a placeholder:\n\n**\"PDF Content: [PDF Content] This is a placeholder for the PDF content from 06dc0c63-0b64-4714-aa95-eff218bf488f.pdf. In a production environment, this would contain the actual extracted text from the PDF.\"**\n\nSince this is not the actual text from your document, I'm unable to read or summarize its contents.\n\nTo get a summary, please provide the **actual text** from the PDF. Once you do, I'll be happy to summarize it for you!",
+      "timestamp": "2025-08-05T09:25:35.013Z"
+    },
+    {
+      "id": "20ba5307-af02-4f60-8659-7344b715b2a9",
+      "chatId": "4d69a4ab-4354-41a6-abd1-98630f27c666",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T09:27:25.735Z",
+      "attachments": [
+        {
+          "id": "3cf63d49-8d35-41cf-9dca-1550d29c7267",
+          "name": "zakariae-amrani-cv.pdf",
+          "size": 471,
+          "type": "application/pdf",
+          "url": "/api/files/ffae4ea7-cf23-4878-bf16-23ca26a3ed4a.pdf",
+          "uploadedAt": "2025-08-05T09:27:25.735Z"
+        }
+      ]
+    },
+    {
+      "id": "dcd11444-c5c9-4582-ae3a-61bf8cd9a80f",
+      "chatId": "4d69a4ab-4354-41a6-abd1-98630f27c666",
+      "type": "assistant",
+      "content": "Oui, je suis tout à fait prêt à agir en tant qu'assistant expert pour répondre à vos questions en me basant sur le PDF fourni.\n\nCependant, le \"Contenu PDF\" que vous avez partagé est un *placeholder* (un espace réservé) et ne contient pas le texte réel du document. Il indique : `This is a placeholder for the PDF content... In a production environment, this would contain the actual extracted text from the PDF.`\n\nPour que je puisse vous aider efficacement, veuillez me fournir le contenu textuel *réel* du PDF. Une fois que j'aurai ce texte, je pourrai répondre à toutes vos questions avec précision et expertise.",
+      "timestamp": "2025-08-05T09:27:32.918Z"
     }
   ]
 }
