@@ -244,6 +244,12 @@ class ApiService {
     });
   }
 
+  async clearCategories(): Promise<ApiResponse<null>> {
+    return this.request<null>("/data/clear-categories", {
+      method: "POST",
+    });
+  }
+
   async resetUserSettings(): Promise<ApiResponse<null>> {
     return this.request<null>("/data/reset-settings", {
       method: "POST",
