@@ -46,7 +46,8 @@ export const getDataStats: RequestHandler = (req, res) => {
     const chatHistorySize = getFileSize("chats.json");
     const userSettingsSize = getFileSize("users.json");
     const uploadedFilesSize = getFileSize("files.json");
-    const totalSize = chatHistorySize + userSettingsSize + uploadedFilesSize;
+    const categoriesSize = getFileSize("categories.json");
+    const totalSize = chatHistorySize + userSettingsSize + uploadedFilesSize + categoriesSize;
 
     const stats: DataStats = {
       chatHistory: {
@@ -63,6 +64,11 @@ export const getDataStats: RequestHandler = (req, res) => {
         name: "File Metadata",
         size: uploadedFilesSize,
         sizeFormatted: formatFileSize(uploadedFilesSize),
+      },
+      categories: {
+        name: "Categories",
+        size: categoriesSize,
+        sizeFormatted: formatFileSize(categoriesSize),
       },
       totalSize,
       totalSizeFormatted: formatFileSize(totalSize),
