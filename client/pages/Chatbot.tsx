@@ -24,6 +24,7 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import ShareModal from "@/components/ShareModal";
 import { PDFPreview } from "@/components/PDFPreview";
+import { ModelDropdown } from "@/components/ModelDropdown";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
