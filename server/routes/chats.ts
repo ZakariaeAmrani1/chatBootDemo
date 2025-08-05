@@ -134,7 +134,7 @@ async function callGeminiAPI(
 // Function to call Local Cloud backend (commented for now)
 async function callLocalCloudAPI(
   userMessage: string,
-  pdfContext?: string,
+  pdfContent?: string,
 ): Promise<string> {
   try {
     // TODO: Uncomment and configure when local backend is ready
