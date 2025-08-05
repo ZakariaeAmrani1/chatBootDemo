@@ -198,16 +198,32 @@ const Chatbot = () => {
       }
     };
 
+    const handleBeforeUnload = () => {
+      // Clean up draft chats when user is about to leave
+      chatService.cleanupDraftChats();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Clean up draft chats when tab becomes hidden
+        chatService.cleanupDraftChats();
+      }
+    };
+
     window.addEventListener(
       "userSettingsUpdated",
       handleSettingsUpdate as EventListener,
     );
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener(
         "userSettingsUpdated",
         handleSettingsUpdate as EventListener,
       );
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
