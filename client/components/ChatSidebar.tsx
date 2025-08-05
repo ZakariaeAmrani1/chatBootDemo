@@ -533,12 +533,18 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                               />
                             ) : (
                               <span
-                                className="text-sm text-foreground flex-1 min-w-0 pr-2"
+                                className={cn(
+                                  "text-sm flex-1 min-w-0 pr-2 flex items-center gap-1",
+                                  chat.isDraft ? "text-muted-foreground italic" : "text-foreground"
+                                )}
                                 title={chat.title}
                               >
                                 {chat.title.length > 25
                                   ? `${chat.title.substring(0, 25)}...`
                                   : chat.title}
+                                {chat.isDraft && (
+                                  <span className="text-xs text-muted-foreground/70">(draft)</span>
+                                )}
                               </span>
                             )}
 
