@@ -84,6 +84,17 @@
       "messageCount": 0,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "cat_1754394547377_pusl3ku"
+    },
+    {
+      "id": "d189e6c2-12b4-47f0-a4c1-ba2ca1c21fb3",
+      "title": "New chat",
+      "model": "gemini-pro",
+      "chatbootVersion": "1.0",
+      "createdAt": "2025-08-05T12:07:35.144Z",
+      "updatedAt": "2025-08-05T12:07:35.216Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "cat_1754394547377_pusl3ku"
     }
   ],
   "messages": [
