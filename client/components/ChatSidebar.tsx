@@ -253,29 +253,44 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             </div>
           </div>
 
-          {collapsed ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  onClick={() => onNewChat()}
-                  className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10"
-                  variant="outline"
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right">New chat</TooltipContent>
-            </Tooltip>
-          ) : (
-            <Button
-              onClick={() => onNewChat()}
-              className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border"
-              variant="outline"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              New chat
-            </Button>
-          )}
+          <div className="space-y-2">
+            {collapsed ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => onNewChat()}
+                    className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border h-10"
+                    variant="outline"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">New chat</TooltipContent>
+              </Tooltip>
+            ) : (
+              <Button
+                onClick={() => onNewChat()}
+                className="w-full bg-accent hover:bg-accent/80 text-accent-foreground border border-border"
+                variant="outline"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                New chat
+              </Button>
+            )}
+
+            {!collapsed && (
+              <CategoryManager
+                categories={categoryState.categories}
+                onCategoriesChange={(categories) => categoryService.updateCategoriesLocally(categories)}
+                triggerButton={
+                  <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground">
+                    <Folder className="h-4 w-4 mr-2" />
+                    Manage Categories
+                  </Button>
+                }
+              />
+            )}
+          </div>
         </div>
 
         {/* Chat History */}
