@@ -16,7 +16,7 @@
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
       "createdAt": "2025-08-05T14:05:42.880Z",
-      "updatedAt": "2025-08-05T14:05:46.031Z",
+      "updatedAt": "2025-08-05T14:13:24.176Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
@@ -52,12 +52,12 @@
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     },
     {
-      "id": "07b61d21-ba85-4399-aa2b-647d2f13f874",
-      "title": "hello what's HTML",
+      "id": "b64049b7-9271-41e8-9c3d-81eca6f7daf1",
+      "title": "hello",
       "model": "cloud",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T14:07:24.848Z",
-      "updatedAt": "2025-08-05T14:07:41.264Z",
+      "createdAt": "2025-08-05T14:13:35.335Z",
+      "updatedAt": "2025-08-05T14:13:39.223Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
@@ -159,18 +159,18 @@
       "timestamp": "2025-08-05T14:06:35.632Z"
     },
     {
-      "id": "203c0b68-9e30-422c-81d7-8007a44fa548",
-      "chatId": "07b61d21-ba85-4399-aa2b-647d2f13f874",
+      "id": "2aa26a48-19cf-4e16-8a20-0e2bd56c281b",
+      "chatId": "b64049b7-9271-41e8-9c3d-81eca6f7daf1",
       "type": "user",
-      "content": "hello what's HTML",
-      "timestamp": "2025-08-05T14:07:24.856Z"
+      "content": "hello",
+      "timestamp": "2025-08-05T14:13:35.403Z"
     },
     {
-      "id": "81b831ca-3b7d-4f9c-b57a-79bbcbca8870",
-      "chatId": "07b61d21-ba85-4399-aa2b-647d2f13f874",
+      "id": "ba70edf7-67b3-4050-93c7-b21bbd0e11ff",
+      "chatId": "b64049b7-9271-41e8-9c3d-81eca6f7daf1",
       "type": "assistant",
-      "content": "HTML stands for **H**yper**T**ext **M**arkup **L**anguage.\n\nIt is the **standard language for creating web pages**. Think of it as the **skeleton or blueprint** of any webpage you see online.\n\nHere's a breakdown of what that means:\n\n1.  **HyperText:** This refers to the ability to link to other documents or resources. It's what makes the web a \"web\" of interconnected information, allowing you to click on links and navigate from one page to another.\n\n2.  **Markup:** This means that HTML uses \"tags\" to annotate text and define its structure. These tags tell the web browser how to display the content. For example:\n    *   `<p>` stands for paragraph.\n    *   `<h1>` stands for a main heading.\n    *   `<img>` is for an image.\n    *   `<a>` is for a link.",
-      "timestamp": "2025-08-05T14:07:32.683Z"
+      "content": "Hello! How can I help you today?",
+      "timestamp": "2025-08-05T14:13:37.464Z"
     }
   ]
 }
