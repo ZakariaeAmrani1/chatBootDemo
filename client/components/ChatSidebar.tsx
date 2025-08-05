@@ -264,7 +264,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   };
 
-  const handleNewChatInCategory = async (categoryId: string, e: React.MouseEvent) => {
+  const handleNewChatInCategory = (categoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (!user?.id) {
@@ -273,32 +273,23 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
 
     try {
-      // Create a new chat with default settings using chatService
+      // Create a draft chat (not saved to backend until first message)
       const createChatRequest = {
         title: "New chat",
         model: "gemini-pro", // Default model
         chatbootVersion: "1.0",
       };
 
-      const newChat = await chatService.createChat(createChatRequest, user.id);
+      const draftChat = chatService.createDraftChat(createChatRequest, user.id, categoryId);
 
-      if (newChat) {
-        // Immediately assign the chat to the category
-        await moveChatToCategory(newChat.id, categoryId);
-
-        // Ensure the category is expanded to show the new chat
-        setCollapsedCategories((prev) => {
-          const newCollapsed = new Set(prev);
-          newCollapsed.delete(categoryId);
-          return newCollapsed;
-        });
-      } else {
-        console.error("Failed to create chat");
-        // Fallback to regular new chat
-        onNewChat();
-      }
+      // Ensure the category is expanded to show the new draft chat
+      setCollapsedCategories((prev) => {
+        const newCollapsed = new Set(prev);
+        newCollapsed.delete(categoryId);
+        return newCollapsed;
+      });
     } catch (error) {
-      console.error("Error creating chat in category:", error);
+      console.error("Error creating draft chat in category:", error);
       // Fallback to regular new chat
       onNewChat();
     }
