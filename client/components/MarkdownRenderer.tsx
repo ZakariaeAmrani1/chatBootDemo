@@ -42,81 +42,27 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     return () => clearInterval(timer);
   }, [content, typewriter, typewriterSpeed]);
 
-  // Configure marked options for better rendering
-  const renderer = new marked.Renderer();
-  
-  // Custom rendering for better styling
-  renderer.paragraph = (text: string) => {
-    return `<p class="mb-2 last:mb-0">${text}</p>`;
-  };
-  
-  renderer.strong = (text: string) => {
-    return `<strong class="font-semibold text-foreground">${text}</strong>`;
-  };
-  
-  renderer.em = (text: string) => {
-    return `<em class="italic text-foreground/90">${text}</em>`;
-  };
-  
-  renderer.code = (code: string, infostring?: string) => {
-    const language = infostring ? infostring.split(' ')[0] : '';
-    return `<pre class="bg-muted/50 border rounded-lg p-4 my-3 overflow-x-auto"><code class="text-sm font-mono text-foreground" data-language="${language}">${code}</code></pre>`;
-  };
-
-  renderer.codespan = (code: string) => {
-    return `<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground border">${code}</code>`;
-  };
-  
-  renderer.blockquote = (quote: string) => {
-    return `<blockquote class="border-l-4 border-muted-foreground/30 pl-4 py-2 my-3 text-muted-foreground italic">${quote}</blockquote>`;
-  };
-  
-  renderer.list = (body: string, ordered: boolean) => {
-    const tag = ordered ? 'ol' : 'ul';
-    const classes = ordered 
-      ? 'list-decimal list-inside space-y-1 mb-3' 
-      : 'list-disc list-inside space-y-1 mb-3';
-    return `<${tag} class="${classes}">${body}</${tag}>`;
-  };
-  
-  renderer.listitem = (text: string) => {
-    return `<li class="text-foreground">${text}</li>`;
-  };
-  
-  renderer.heading = (text: string, level: number) => {
-    const sizes = {
-      1: 'text-2xl font-bold',
-      2: 'text-xl font-semibold', 
-      3: 'text-lg font-semibold',
-      4: 'text-base font-semibold',
-      5: 'text-sm font-semibold',
-      6: 'text-xs font-semibold'
-    };
-    const sizeClass = sizes[level as keyof typeof sizes] || sizes[6];
-    return `<h${level} class="${sizeClass} text-foreground mb-2 mt-3 first:mt-0">${text}</h${level}>`;
-  };
-  
-  renderer.link = (href: string | null, title: string | null, text: string) => {
-    const titleAttr = title ? ` title="${title}"` : '';
-    return `<a href="${href}" class="text-primary underline hover:text-primary/80 transition-colors"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
-  };
-
-  // Set marked options
-  marked.setOptions({
-    renderer,
-    breaks: true, // Convert line breaks to <br>
-    gfm: true, // GitHub Flavored Markdown
-  });
-
-  // Parse markdown to HTML with error handling
+  // Parse markdown to HTML with error handling and simpler approach
   let htmlContent: string;
   try {
-    const result = marked.parse(displayedContent);
-    htmlContent = typeof result === 'string' ? result : String(result);
+    // Use the basic marked function which should return a string synchronously
+    htmlContent = marked(displayedContent, {
+      breaks: true, // Convert line breaks to <br>
+      gfm: true, // GitHub Flavored Markdown
+    }) as string;
+
+    // If it's still not a string, force conversion
+    if (typeof htmlContent !== 'string') {
+      htmlContent = String(htmlContent);
+    }
   } catch (error) {
     console.error('Markdown parsing error:', error);
-    // Fallback to plain text with line breaks
-    htmlContent = displayedContent.replace(/\n/g, '<br>');
+    // Fallback to simple text processing
+    htmlContent = displayedContent
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+      .replace(/`(.*?)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono border">$1</code>')
+      .replace(/\n/g, '<br>');
   }
 
   return (
