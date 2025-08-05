@@ -161,7 +161,12 @@ async function callLocalCloudAPI(
     */
 
     // Fallback response for now
-    return `[Local Cloud Response] I've analyzed your message: "${userMessage}". This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.`;
+    let response = `[Local Cloud Response] I've analyzed your message: "${userMessage}".`;
+    if (pdfContent) {
+      response += ` I've also processed the PDF content: "${pdfContent.substring(0, 100)}..."`;
+    }
+    response += " This is a simulated response from the local cloud model. The actual implementation will connect to your local backend.";
+    return response;
   } catch (error) {
     console.error("Local Cloud API error:", error);
     return "I'm currently unable to connect to the local AI service. Please ensure your local backend is running.";
