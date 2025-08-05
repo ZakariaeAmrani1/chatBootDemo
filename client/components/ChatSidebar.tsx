@@ -213,6 +213,15 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
       if (response.success && response.data && onUpdateChat) {
         // Update the chat with the new category immediately
         onUpdateChat(chatId, { categoryId: categoryId || undefined });
+
+        // Ensure the target category is expanded to show the moved chat
+        if (categoryId) {
+          setCollapsedCategories(prev => {
+            const newCollapsed = new Set(prev);
+            newCollapsed.delete(categoryId);
+            return newCollapsed;
+          });
+        }
       } else {
         console.error("Failed to move chat to category:", response.error);
       }
