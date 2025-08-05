@@ -225,7 +225,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     !hasActiveChat ||
     (hasActiveChat && messages.length === 0 && !currentChatHasPdf)
   ) {
-    const [selectedPDF, setSelectedPDF] = React.useState<File | null>(null);
 
     const handleStartChat = () => {
       if (selectedModel && selectedPDF && onStartChat) {
