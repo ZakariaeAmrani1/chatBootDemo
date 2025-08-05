@@ -36,10 +36,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import CategoryManager from "@/components/CategoryManager";
 import { apiService } from "@/services/api";
+import { categoryService, CategoryState } from "@/services/categoryService";
 
 import { cn } from "@/lib/utils";
-import type { Chat, User } from "@shared/types";
+import type { Chat, User, Category } from "@shared/types";
 
 interface ChatSidebarProps {
   chats: Chat[];
