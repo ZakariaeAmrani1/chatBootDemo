@@ -282,7 +282,9 @@ const Settings: React.FC<SettingsProps> = ({
         // If categories were deleted, refresh the category service
         if (selectedDeletionItems.includes("categories")) {
           // Import and refresh category service
-          const { categoryService } = await import("@/services/categoryService");
+          const { categoryService } = await import(
+            "@/services/categoryService"
+          );
           if (user?.id) {
             categoryService.loadCategories(user.id);
           }

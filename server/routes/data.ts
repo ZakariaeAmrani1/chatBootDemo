@@ -47,7 +47,8 @@ export const getDataStats: RequestHandler = (req, res) => {
     const userSettingsSize = getFileSize("users.json");
     const uploadedFilesSize = getFileSize("files.json");
     const categoriesSize = getFileSize("categories.json");
-    const totalSize = chatHistorySize + userSettingsSize + uploadedFilesSize + categoriesSize;
+    const totalSize =
+      chatHistorySize + userSettingsSize + uploadedFilesSize + categoriesSize;
 
     const stats: DataStats = {
       chatHistory: {
@@ -163,7 +164,10 @@ export const clearCategories: RequestHandler = (req, res) => {
       categories: [],
     };
 
-    fs.writeFileSync(categoriesFilePath, JSON.stringify(emptyCategoriesData, null, 2));
+    fs.writeFileSync(
+      categoriesFilePath,
+      JSON.stringify(emptyCategoriesData, null, 2),
+    );
 
     const response: ApiResponse<null> = {
       success: true,

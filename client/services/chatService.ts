@@ -102,7 +102,7 @@ class ChatService {
   createDraftChat(
     request: CreateChatRequest,
     userId: string,
-    categoryId?: string
+    categoryId?: string,
   ): Chat {
     const draftChat: Chat = {
       id: `draft_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -185,18 +185,24 @@ class ChatService {
       const response = await apiService.createChat(request);
 
       if (response.success && response.data) {
-        const savedChat = { ...response.data, categoryId: draftChat.categoryId };
+        const savedChat = {
+          ...response.data,
+          categoryId: draftChat.categoryId,
+        };
 
         // If the draft chat was assigned to a category, update the saved chat
         if (draftChat.categoryId) {
-          await apiService.updateChatCategory(savedChat.id, draftChat.categoryId);
+          await apiService.updateChatCategory(
+            savedChat.id,
+            draftChat.categoryId,
+          );
           savedChat.categoryId = draftChat.categoryId;
         }
 
         // Replace draft chat with saved chat
         this.setState({
-          chats: this.state.chats.map(chat =>
-            chat.id === draftChat.id ? savedChat : chat
+          chats: this.state.chats.map((chat) =>
+            chat.id === draftChat.id ? savedChat : chat,
           ),
           currentChat: savedChat,
         });
@@ -212,21 +218,28 @@ class ChatService {
   // Remove draft chats (cleanup when user navigates away without sending message)
   removeDraftChat(chatId: string): void {
     this.setState({
-      chats: this.state.chats.filter(chat => chat.id !== chatId),
-      currentChat: this.state.currentChat?.id === chatId ? null : this.state.currentChat,
+      chats: this.state.chats.filter((chat) => chat.id !== chatId),
+      currentChat:
+        this.state.currentChat?.id === chatId ? null : this.state.currentChat,
     });
   }
 
   // Clean up all empty draft chats
   cleanupDraftChats(): void {
-    const hasEmptyDrafts = this.state.chats.some(chat => chat.isDraft && chat.messageCount === 0);
+    const hasEmptyDrafts = this.state.chats.some(
+      (chat) => chat.isDraft && chat.messageCount === 0,
+    );
 
     if (hasEmptyDrafts) {
       this.setState({
-        chats: this.state.chats.filter(chat => !chat.isDraft || chat.messageCount > 0),
-        currentChat: this.state.currentChat?.isDraft && this.state.currentChat?.messageCount === 0
-          ? null
-          : this.state.currentChat,
+        chats: this.state.chats.filter(
+          (chat) => !chat.isDraft || chat.messageCount > 0,
+        ),
+        currentChat:
+          this.state.currentChat?.isDraft &&
+          this.state.currentChat?.messageCount === 0
+            ? null
+            : this.state.currentChat,
       });
     }
   }
@@ -235,7 +248,9 @@ class ChatService {
     this.setState({ error: null });
 
     // Check if this is a draft chat
-    const currentChat = this.state.chats.find(chat => chat.id === request.chatId);
+    const currentChat = this.state.chats.find(
+      (chat) => chat.id === request.chatId,
+    );
     let finalChatId = request.chatId;
 
     if (currentChat?.isDraft) {
@@ -338,15 +353,15 @@ class ChatService {
 
   async selectChat(chat: Chat): Promise<void> {
     // Clean up any abandoned draft chats (except the one being selected)
-    const draftChats = this.state.chats.filter(c =>
-      c.isDraft && c.id !== chat.id && c.messageCount === 0
+    const draftChats = this.state.chats.filter(
+      (c) => c.isDraft && c.id !== chat.id && c.messageCount === 0,
     );
 
     if (draftChats.length > 0) {
       this.setState({
-        chats: this.state.chats.filter(c =>
-          !c.isDraft || c.id === chat.id || c.messageCount > 0
-        )
+        chats: this.state.chats.filter(
+          (c) => !c.isDraft || c.id === chat.id || c.messageCount > 0,
+        ),
       });
     }
 

@@ -280,7 +280,11 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
         chatbootVersion: "1.0",
       };
 
-      const draftChat = chatService.createDraftChat(createChatRequest, user.id, categoryId);
+      const draftChat = chatService.createDraftChat(
+        createChatRequest,
+        user.id,
+        categoryId,
+      );
 
       // Ensure the category is expanded to show the new draft chat
       setCollapsedCategories((prev) => {
@@ -494,7 +498,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                               variant="ghost"
                               size="sm"
                               className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                              onClick={(e) => handleNewChatInCategory(category.id, e)}
+                              onClick={(e) =>
+                                handleNewChatInCategory(category.id, e)
+                              }
                             >
                               <Plus className="h-3 w-3" />
                             </Button>
@@ -535,7 +541,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                               <span
                                 className={cn(
                                   "text-sm flex-1 min-w-0 pr-2 flex items-center gap-1",
-                                  chat.isDraft ? "text-muted-foreground italic" : "text-foreground"
+                                  chat.isDraft
+                                    ? "text-muted-foreground italic"
+                                    : "text-foreground",
                                 )}
                                 title={chat.title}
                               >
@@ -543,7 +551,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                                   ? `${chat.title.substring(0, 25)}...`
                                   : chat.title}
                                 {chat.isDraft && (
-                                  <span className="text-xs text-muted-foreground/70">(draft)</span>
+                                  <span className="text-xs text-muted-foreground/70">
+                                    (draft)
+                                  </span>
                                 )}
                               </span>
                             )}
@@ -651,7 +661,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                           <span
                             className={cn(
                               "text-sm flex-1 min-w-0 pr-2 flex items-center gap-1",
-                              chat.isDraft ? "text-muted-foreground italic" : "text-foreground"
+                              chat.isDraft
+                                ? "text-muted-foreground italic"
+                                : "text-foreground",
                             )}
                             title={chat.title}
                           >
@@ -659,7 +671,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                               ? `${chat.title.substring(0, 25)}...`
                               : chat.title}
                             {chat.isDraft && (
-                              <span className="text-xs text-muted-foreground/70">(draft)</span>
+                              <span className="text-xs text-muted-foreground/70">
+                                (draft)
+                              </span>
                             )}
                           </span>
                         )}
