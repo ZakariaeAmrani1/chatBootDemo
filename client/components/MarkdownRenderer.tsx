@@ -18,6 +18,15 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   const [displayedContent, setDisplayedContent] = useState(typewriter ? "" : content);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Fade-in animation effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 50); // Small delay like the original FadeInText
+
+    return () => clearTimeout(timer);
+  }, [content]);
+
   // Typewriter effect
   useEffect(() => {
     if (!typewriter) {
