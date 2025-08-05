@@ -161,6 +161,22 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     }
   }, [user?.id]);
 
+  // Ensure default categories are expanded
+  useEffect(() => {
+    if (categoryState.categories.length > 0) {
+      setCollapsedCategories(prev => {
+        const newCollapsed = new Set(prev);
+        // Expand default categories
+        categoryState.categories.forEach(category => {
+          if (category.isDefault) {
+            newCollapsed.delete(category.id);
+          }
+        });
+        return newCollapsed;
+      });
+    }
+  }, [categoryState.categories]);
+
   // Ensure categories are loaded when chats change
   useEffect(() => {
     if (user?.id && categoryState.categories.length === 0 && !categoryState.isLoading) {
