@@ -88,6 +88,27 @@ const Chatbot = () => {
     return unsubscribe;
   }, []);
 
+  // Periodic refresh when thinking to catch delayed responses
+  useEffect(() => {
+    let refreshInterval: number;
+
+    if (
+      chatState.isThinking &&
+      chatState.currentChat &&
+      !chatState.currentChat.isDraft
+    ) {
+      refreshInterval = window.setInterval(async () => {
+        await chatService.refreshCurrentChatMessages();
+      }, 2000); // Refresh every 2 seconds while thinking
+    }
+
+    return () => {
+      if (refreshInterval) {
+        window.clearInterval(refreshInterval);
+      }
+    };
+  }, [chatState.isThinking, chatState.currentChat?.id]);
+
   // Load chats when user is authenticated
   useEffect(() => {
     if (user && user.id) {
@@ -330,6 +351,9 @@ const Chatbot = () => {
           });
         }
       } else {
+        // Refresh current chat messages before sending to catch any delayed responses
+        await chatService.refreshCurrentChatMessages();
+
         // Send message to existing chat
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
