@@ -376,10 +376,10 @@ export const createChat: RequestHandler = (req, res) => {
     const chatId = uuidv4();
     const now = new Date().toISOString();
 
-    // Handle PDF file if uploaded
-    let pdfFile: FileAttachment | undefined;
+    // Handle uploaded file (PDF or CSV)
+    let attachedFile: FileAttachment | undefined;
     if (req.file) {
-      pdfFile = {
+      attachedFile = {
         id: uuidv4(),
         name: req.file.originalname,
         size: req.file.size,
@@ -389,7 +389,7 @@ export const createChat: RequestHandler = (req, res) => {
       };
 
       // Store file info in the data manager
-      DataManager.addFile(pdfFile);
+      DataManager.addFile(attachedFile);
     }
 
     // Create the chat
@@ -402,7 +402,8 @@ export const createChat: RequestHandler = (req, res) => {
       updatedAt: now,
       messageCount: 0,
       userId: userId,
-      pdfFile: pdfFile, // Include the PDF file
+      pdfFile: model === 'local-cloud' ? attachedFile : undefined, // Include PDF for local-cloud model
+      csvFile: model === 'csv-local' ? attachedFile : undefined, // Include CSV for csv-local model
     };
 
     const createdChat = DataManager.createChat(chat);
@@ -415,7 +416,7 @@ export const createChat: RequestHandler = (req, res) => {
         type: "user",
         content: message,
         timestamp: now,
-        attachments: pdfFile ? [pdfFile] : undefined, // Include PDF as attachment
+        attachments: attachedFile ? [attachedFile] : undefined, // Include file as attachment
       };
 
       DataManager.addMessage(userMessage);
@@ -432,39 +433,51 @@ export const createChat: RequestHandler = (req, res) => {
 
         DataManager.addMessage(aiMessage);
       }, 2000); // 2 second delay to simulate thinking
-    } else if (pdfFile) {
-      // If no initial message but PDF is uploaded, create a user message showing the PDF upload
+    } else if (attachedFile) {
+      // If no initial message but file is uploaded, create a user message showing the file upload
+      const fileIcon = attachedFile.type === 'text/csv' ? '📊' : '📄';
+      const fileType = attachedFile.type === 'text/csv' ? 'dataset' : 'document';
       const userMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "user",
-        content: `📄 Uploaded document for analysis`,
+        content: `${fileIcon} Uploaded ${fileType} for analysis`,
         timestamp: now,
-        attachments: [pdfFile],
+        attachments: [attachedFile],
       };
 
       DataManager.addMessage(userMessage);
 
-      // Process the PDF and generate AI response
+      // Process the file and generate AI response
       setTimeout(async () => {
-        const pdfPath = path.join(
+        const filePath = path.join(
           process.cwd(),
           "server/uploads",
-          path.basename(pdfFile.url),
+          path.basename(attachedFile.url),
         );
-        const pdfContent = await extractPDFText(pdfPath);
-        const analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
+
+        let fileContent: string;
+        let analysisPrompt: string;
+
+        if (attachedFile.type === 'text/csv') {
+          fileContent = await extractCSVData(filePath);
+          analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
+        } else {
+          fileContent = await extractPDFText(filePath);
+          analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
+        }
 
         const aiMessage: Message = {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: await generateAIResponseWithPDF(
+          content: await generateAIResponseWithFile(
             analysisPrompt,
             userId,
             chatId,
-            pdfContent,
-            true, // This is the initial PDF setup
+            fileContent,
+            attachedFile,
+            true, // This is the initial file setup
           ),
           timestamp: new Date().toISOString(),
         };
