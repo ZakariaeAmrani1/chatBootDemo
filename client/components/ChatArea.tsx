@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
-import { ModelAndFileSelector } from "@/components/ModelAndFileSelector";
+import { PDFUpload } from "@/components/PDFUpload";
+import { CSVUpload } from "@/components/CSVUpload";
 import FadeInText from "@/components/FadeInText";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useTheme } from "@/components/ThemeProvider";
@@ -55,7 +56,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
-  // File selection is now handled by ModelAndFileSelector component
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Get the appropriate AI logo based on theme and user settings
   const getAILogo = () => {
@@ -255,19 +256,93 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             How can I help you today?
           </h3>
           <p className="text-muted-foreground mb-8">
-            Select your AI model and upload files to start your analysis
+            {selectedModel === 'cloud'
+              ? 'Upload any file to start your analysis'
+              : selectedModel === 'local-cloud'
+              ? 'Upload a PDF document to analyze with AI'
+              : selectedModel === 'csv-local'
+              ? 'Upload a CSV dataset to analyze with AI'
+              : 'Upload a file to start your analysis'}
           </p>
 
-          {/* Model and File Selection */}
-          <ModelAndFileSelector
-            selectedModel={selectedModel}
-            onModelChange={onModelChange}
-            onStartChat={(model, file) => {
-              if (onStartChat) {
-                onStartChat(model, file);
-              }
-            }}
-          />
+          {/* Direct File Upload based on Selected Model */}
+          <div className="w-full max-w-4xl space-y-8">
+            {/* File Upload Component */}
+            {selectedModel === 'csv-local' ? (
+              <CSVUpload
+                onFileSelect={setSelectedFile}
+                selectedFile={selectedFile}
+              />
+            ) : selectedModel === 'local-cloud' ? (
+              <PDFUpload
+                onFileSelect={setSelectedFile}
+                selectedFile={selectedFile}
+              />
+            ) : (
+              /* Cloud model - accept any file type */
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium">Upload File</label>
+                  <span className="text-xs text-muted-foreground">
+                    Any file type supported
+                  </span>
+                </div>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    setSelectedFile(file || null);
+                  }}
+                  className="w-full p-3 border border-border rounded-lg bg-background text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                  accept="*/*"
+                />
+                {selectedFile && (
+                  <div className="p-3 bg-muted/30 rounded-lg">
+                    <p className="text-sm font-medium">{selectedFile.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Start Chat Button */}
+            {selectedFile && (
+              <div className="animate-in fade-in duration-300 flex justify-center">
+                <Button
+                  onClick={() => {
+                    if (selectedModel && selectedFile && onStartChat) {
+                      onStartChat(selectedModel, selectedFile);
+                    }
+                  }}
+                  size="lg"
+                  className="gap-2 px-8"
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  Start Chatting
+                </Button>
+              </div>
+            )}
+
+            {/* Instructions */}
+            <div className="text-center text-sm text-muted-foreground space-y-1">
+              <p>
+                {!selectedFile
+                  ? `Upload a ${selectedModel === 'csv-local' ? 'CSV' : selectedModel === 'local-cloud' ? 'PDF' : 'file'} to analyze`
+                  : "Ready to start your conversation!"}
+              </p>
+              {!selectedFile && (
+                <p className="text-xs">
+                  {selectedModel === 'csv-local'
+                    ? 'The AI will analyze your CSV data to provide insights and answer questions'
+                    : selectedModel === 'local-cloud'
+                    ? 'The AI will use your PDF to provide contextual answers and insights'
+                    : 'The AI will analyze your file content to provide insights and answer questions'}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </ScrollArea>
     );
