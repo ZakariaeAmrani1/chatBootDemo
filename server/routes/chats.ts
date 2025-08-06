@@ -626,7 +626,7 @@ export const sendMessage: RequestHandler = (req, res) => {
       };
 
       DataManager.addMessage(aiMessage);
-    }, 1500); // 1.5 second delay to simulate thinking
+    }, 2000); // 2 second delay to allow for AI processing
 
     const response: ApiResponse<Message> = {
       success: true,
