@@ -245,7 +245,7 @@ const Chatbot = () => {
     }
   };
 
-  const handleStartChat = async (model: string, pdfFile: File) => {
+  const handleStartChat = async (model: string, file: File) => {
     if (!user) return;
 
     try {
@@ -259,16 +259,22 @@ const Chatbot = () => {
         console.error("Failed to save model preference:", error);
       }
 
-      // Create chat with the selected model and PDF
-      await chatService.createChat(
-        {
-          title: "New Chat",
-          model: model,
-          chatbootVersion: selectedVersion,
-          pdfFile: pdfFile,
-        },
-        user.id,
-      );
+      // Determine file type and create appropriate request
+      const createChatRequest: any = {
+        title: "New Chat",
+        model: model,
+        chatbootVersion: selectedVersion,
+      };
+
+      // Add the file to the appropriate field based on its type
+      if (file.type === "application/pdf") {
+        createChatRequest.pdfFile = file;
+      } else if (file.type === "text/csv") {
+        createChatRequest.csvFile = file;
+      }
+
+      // Create chat with the selected model and file
+      await chatService.createChat(createChatRequest, user.id);
     } catch (error) {
       console.error("Failed to start chat:", error);
     }
