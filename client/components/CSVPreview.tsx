@@ -53,41 +53,41 @@ export function CSVPreview({
   };
 
   const parseCSV = (text: string): CSVData => {
-    const lines = text.trim().split('\n');
+    const lines = text.trim().split("\n");
     if (lines.length === 0) {
-      throw new Error('CSV file is empty');
+      throw new Error("CSV file is empty");
     }
 
     // Parse CSV considering potential commas in quoted values
     const parseCSVLine = (line: string): string[] => {
       const result = [];
-      let current = '';
+      let current = "";
       let inQuotes = false;
-      
+
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
-        
+
         if (char === '"') {
           inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
+        } else if (char === "," && !inQuotes) {
           result.push(current.trim());
-          current = '';
+          current = "";
         } else {
           current += char;
         }
       }
-      
+
       result.push(current.trim());
-      return result.map(cell => cell.replace(/^"(.*)"$/, '$1')); // Remove surrounding quotes
+      return result.map((cell) => cell.replace(/^"(.*)"$/, "$1")); // Remove surrounding quotes
     };
 
     const headers = parseCSVLine(lines[0]);
-    const rows = lines.slice(1).map(line => parseCSVLine(line));
+    const rows = lines.slice(1).map((line) => parseCSVLine(line));
 
     return {
       headers,
       rows,
-      totalRows: rows.length
+      totalRows: rows.length,
     };
   };
 
@@ -95,18 +95,18 @@ export function CSVPreview({
     try {
       setIsLoading(true);
       setError(null);
-      
+
       const response = await fetch(csvFile.url);
       if (!response.ok) {
-        throw new Error('Failed to fetch CSV file');
+        throw new Error("Failed to fetch CSV file");
       }
-      
+
       const text = await response.text();
       const data = parseCSV(text);
       setCsvData(data);
     } catch (err) {
-      console.error('Error loading CSV:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load CSV');
+      console.error("Error loading CSV:", err);
+      setError(err instanceof Error ? err.message : "Failed to load CSV");
     } finally {
       setIsLoading(false);
     }
@@ -269,7 +269,10 @@ export function CSVPreview({
                   </thead>
                   <tbody>
                     {csvData.rows.slice(0, showRows).map((row, rowIndex) => (
-                      <tr key={rowIndex} className="border-t border-border hover:bg-muted/30">
+                      <tr
+                        key={rowIndex}
+                        className="border-t border-border hover:bg-muted/30"
+                      >
                         {row.map((cell, cellIndex) => (
                           <td
                             key={cellIndex}
@@ -284,13 +287,17 @@ export function CSVPreview({
                   </tbody>
                 </table>
               </div>
-              
+
               {csvData.totalRows > showRows && (
                 <div className="mt-4 text-center">
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setShowRows(prev => Math.min(prev + 10, csvData.totalRows))}
+                    onClick={() =>
+                      setShowRows((prev) =>
+                        Math.min(prev + 10, csvData.totalRows),
+                      )
+                    }
                   >
                     Show more rows ({showRows} of {csvData.totalRows})
                   </Button>
@@ -301,8 +308,12 @@ export function CSVPreview({
             {/* Stats Footer */}
             <div className="border-t border-border p-4 bg-background/80 backdrop-blur-sm">
               <div className="text-xs text-muted-foreground">
-                <p>Columns: {csvData.headers.length} • Rows: {csvData.totalRows}</p>
-                <p className="mt-1">Showing {Math.min(showRows, csvData.totalRows)} rows</p>
+                <p>
+                  Columns: {csvData.headers.length} • Rows: {csvData.totalRows}
+                </p>
+                <p className="mt-1">
+                  Showing {Math.min(showRows, csvData.totalRows)} rows
+                </p>
               </div>
             </div>
           </div>

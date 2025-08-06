@@ -262,13 +262,20 @@ const Chatbot = () => {
         await chatService.createChat(createChatRequest, user.id);
       } else if (model === "cloud") {
         // For cloud model, create chat first, then upload file as attachment
-        const newChat = await chatService.createChat(createChatRequest, user.id);
+        const newChat = await chatService.createChat(
+          createChatRequest,
+          user.id,
+        );
 
         if (newChat) {
           // Upload file and send as message attachment
           try {
             const uploadedFiles = await apiService.uploadFiles([file]);
-            if (uploadedFiles.success && uploadedFiles.data && uploadedFiles.data.length > 0) {
+            if (
+              uploadedFiles.success &&
+              uploadedFiles.data &&
+              uploadedFiles.data.length > 0
+            ) {
               // Send message with file attachment
               await chatService.sendMessage({
                 chatId: newChat.id,
@@ -277,7 +284,10 @@ const Chatbot = () => {
               });
             }
           } catch (uploadError) {
-            console.error("Failed to upload file for cloud model:", uploadError);
+            console.error(
+              "Failed to upload file for cloud model:",
+              uploadError,
+            );
             // Send message without attachment as fallback
             await chatService.sendMessage({
               chatId: newChat.id,
@@ -476,9 +486,17 @@ const Chatbot = () => {
             // Calculate margin based on which preview is open
             let margin = 0;
 
-            if (chatState.currentChat?.pdfFile && pdfPreviewOpen && window.innerWidth >= 640) {
+            if (
+              chatState.currentChat?.pdfFile &&
+              pdfPreviewOpen &&
+              window.innerWidth >= 640
+            ) {
               margin = pdfPreviewWidth;
-            } else if (chatState.currentChat?.csvFile && csvPreviewOpen && window.innerWidth >= 640) {
+            } else if (
+              chatState.currentChat?.csvFile &&
+              csvPreviewOpen &&
+              window.innerWidth >= 640
+            ) {
               margin = csvPreviewWidth;
             }
 
@@ -501,7 +519,11 @@ const Chatbot = () => {
             <ModelDropdown
               selectedModel={selectedModel}
               onModelChange={handleModelChange}
-              disabled={chatState.currentChat && !chatState.currentChat.isDraft && chatState.messages.length > 0}
+              disabled={
+                chatState.currentChat &&
+                !chatState.currentChat.isDraft &&
+                chatState.messages.length > 0
+              }
             />
           </div>
 
@@ -607,7 +629,8 @@ const Chatbot = () => {
       />
 
       {/* Mobile file overlay */}
-      {((chatState.currentChat?.pdfFile && pdfPreviewOpen) || (chatState.currentChat?.csvFile && csvPreviewOpen)) && (
+      {((chatState.currentChat?.pdfFile && pdfPreviewOpen) ||
+        (chatState.currentChat?.csvFile && csvPreviewOpen)) && (
         <div
           className="sm:hidden fixed inset-0 bg-black/50 z-10"
           onClick={() => {

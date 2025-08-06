@@ -80,26 +80,20 @@ export function ModelAndFileSelector({
   const canStartChat = selectedModel && selectedFile;
 
   // Get the current model details
-  const currentModel = models.find(m => m.id === selectedModel);
-  const requiresPDF = selectedModel === 'local-cloud';
-  const requiresCSV = selectedModel === 'csv-local';
+  const currentModel = models.find((m) => m.id === selectedModel);
+  const requiresPDF = selectedModel === "local-cloud";
+  const requiresCSV = selectedModel === "csv-local";
   const requiresFile = requiresPDF || requiresCSV;
 
   // Determine file upload component and instructions
   const getFileUploadComponent = () => {
     if (requiresPDF) {
       return (
-        <PDFUpload 
-          onFileSelect={setSelectedFile} 
-          selectedFile={selectedFile} 
-        />
+        <PDFUpload onFileSelect={setSelectedFile} selectedFile={selectedFile} />
       );
     } else if (requiresCSV) {
       return (
-        <CSVUpload 
-          onFileSelect={setSelectedFile} 
-          selectedFile={selectedFile} 
-        />
+        <CSVUpload onFileSelect={setSelectedFile} selectedFile={selectedFile} />
       );
     }
     return null;
@@ -109,7 +103,7 @@ export function ModelAndFileSelector({
     if (!selectedModel) {
       return "Select an AI model to get started";
     } else if (requiresFile && !selectedFile) {
-      return requiresPDF 
+      return requiresPDF
         ? "Upload a PDF document to analyze"
         : "Upload a CSV dataset to analyze";
     } else if (requiresFile && selectedFile) {
@@ -122,7 +116,7 @@ export function ModelAndFileSelector({
 
   const getDetailedInstructions = () => {
     if (!selectedModel || !requiresFile || selectedFile) return null;
-    
+
     return requiresPDF
       ? "The AI will use your PDF to provide contextual answers and insights"
       : "The AI will analyze your CSV data to provide insights and answer questions";
@@ -162,9 +156,7 @@ export function ModelAndFileSelector({
       <div className="text-center text-sm text-muted-foreground space-y-1">
         <p>{getInstructions()}</p>
         {getDetailedInstructions() && (
-          <p className="text-xs">
-            {getDetailedInstructions()}
-          </p>
+          <p className="text-xs">{getDetailedInstructions()}</p>
         )}
       </div>
     </div>

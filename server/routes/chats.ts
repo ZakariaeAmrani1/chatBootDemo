@@ -84,10 +84,10 @@ async function extractPDFText(filePath: string): Promise<string> {
 // Function to extract data from CSV (basic implementation)
 async function extractCSVData(filePath: string): Promise<string> {
   try {
-    const csvContent = fs.readFileSync(filePath, 'utf-8');
+    const csvContent = fs.readFileSync(filePath, "utf-8");
     // For now, return the first few lines as a preview. In production, you'd parse the CSV properly
-    const lines = csvContent.split('\n').slice(0, 10);
-    return `[CSV Data] Preview of ${path.basename(filePath)}:\n${lines.join('\n')}\n\n[Note: This is a preview. Full CSV processing would be implemented in production.]`;
+    const lines = csvContent.split("\n").slice(0, 10);
+    return `[CSV Data] Preview of ${path.basename(filePath)}:\n${lines.join("\n")}\n\n[Note: This is a preview. Full CSV processing would be implemented in production.]`;
   } catch (error) {
     console.error("Error extracting CSV data:", error);
     return "[CSV Error] Could not extract data from the CSV file.";
@@ -415,8 +415,8 @@ export const createChat: RequestHandler = (req, res) => {
       updatedAt: now,
       messageCount: 0,
       userId: userId,
-      pdfFile: model === 'local-cloud' ? attachedFile : undefined, // Include PDF for local-cloud model
-      csvFile: model === 'csv-local' ? attachedFile : undefined, // Include CSV for csv-local model
+      pdfFile: model === "local-cloud" ? attachedFile : undefined, // Include PDF for local-cloud model
+      csvFile: model === "csv-local" ? attachedFile : undefined, // Include CSV for csv-local model
     };
 
     const createdChat = DataManager.createChat(chat);
@@ -448,8 +448,9 @@ export const createChat: RequestHandler = (req, res) => {
       }, 2000); // 2 second delay to simulate thinking
     } else if (attachedFile) {
       // If no initial message but file is uploaded, create a user message showing the file upload
-      const fileIcon = attachedFile.type === 'text/csv' ? '📊' : '📄';
-      const fileType = attachedFile.type === 'text/csv' ? 'dataset' : 'document';
+      const fileIcon = attachedFile.type === "text/csv" ? "📊" : "📄";
+      const fileType =
+        attachedFile.type === "text/csv" ? "dataset" : "document";
       const userMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
@@ -472,7 +473,7 @@ export const createChat: RequestHandler = (req, res) => {
         let fileContent: string;
         let analysisPrompt: string;
 
-        if (attachedFile.type === 'text/csv') {
+        if (attachedFile.type === "text/csv") {
           fileContent = await extractCSVData(filePath);
           analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
         } else {
@@ -756,7 +757,7 @@ async function generateAIResponseWithFile(
       // Use CSV Local Cloud backend
       try {
         let csvFilePath: string | undefined;
-        if (chatId && file && file.type === 'text/csv') {
+        if (chatId && file && file.type === "text/csv") {
           csvFilePath = path.join(
             process.cwd(),
             "server/uploads",

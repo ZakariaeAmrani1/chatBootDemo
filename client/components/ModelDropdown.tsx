@@ -101,7 +101,9 @@ export function ModelDropdown({
         }
 
         // API disabled temporarily to prevent fetch errors
-        console.log("🔧 API calls disabled - using fallback models for stability");
+        console.log(
+          "🔧 API calls disabled - using fallback models for stability",
+        );
       } catch (error) {
         console.error("❌ Critical error loading models:", error);
         // Emergency fallback
