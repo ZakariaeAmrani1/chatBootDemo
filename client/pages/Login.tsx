@@ -71,7 +71,7 @@ const Login: React.FC = () => {
             <img
               src={getAppLogo(resolvedTheme)}
               alt={`${getAppName()} Logo`}
-              className="w-36 h-36 object-contain"
+              className="w-48 h-48 object-contain"
             />
           </div>
           <h1 className="text-3xl font-bold text-foreground">Welcome back</h1>
