@@ -360,9 +360,10 @@ class ChatService {
 
           // More robust checking: compare message count and content
           const hasNewMessages = newMessages.length > currentMessages.length;
-          const hasNewAssistantMessage = newMessages.some(msg =>
-            msg.type === "assistant" &&
-            !currentMessages.find(current => current.id === msg.id)
+          const hasNewAssistantMessage = newMessages.some(
+            (msg) =>
+              msg.type === "assistant" &&
+              !currentMessages.find((current) => current.id === msg.id),
           );
 
           // Update messages if we have new content
@@ -517,14 +518,16 @@ class ChatService {
   async refreshCurrentChatMessages(): Promise<void> {
     if (this.state.currentChat && !this.state.currentChat.isDraft) {
       try {
-        const response = await apiService.getChatMessages(this.state.currentChat.id);
+        const response = await apiService.getChatMessages(
+          this.state.currentChat.id,
+        );
         if (response.success && response.data) {
           // Only update if we have new messages
           const newMessages = response.data;
           if (newMessages.length !== this.state.messages.length) {
             this.setState({
               messages: newMessages,
-              isThinking: false
+              isThinking: false,
             });
           }
         }

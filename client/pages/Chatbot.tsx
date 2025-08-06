@@ -92,7 +92,11 @@ const Chatbot = () => {
   useEffect(() => {
     let refreshInterval: number;
 
-    if (chatState.isThinking && chatState.currentChat && !chatState.currentChat.isDraft) {
+    if (
+      chatState.isThinking &&
+      chatState.currentChat &&
+      !chatState.currentChat.isDraft
+    ) {
       refreshInterval = window.setInterval(async () => {
         await chatService.refreshCurrentChatMessages();
       }, 2000); // Refresh every 2 seconds while thinking
