@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import FileAttachmentDisplay from "@/components/FileAttachment";
-import { PDFUpload } from "@/components/PDFUpload";
+import { ModelAndFileSelector } from "@/components/ModelAndFileSelector";
 import FadeInText from "@/components/FadeInText";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useTheme } from "@/components/ThemeProvider";
@@ -55,7 +55,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
-  const [selectedPDF, setSelectedPDF] = useState<File | null>(null);
+  // File selection is now handled by ModelAndFileSelector component
 
   // Get the appropriate AI logo based on theme and user settings
   const getAILogo = () => {
@@ -229,19 +229,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Show initial page when: no active chat OR active chat with no messages and no PDF
+  // Show initial page when: no active chat OR active chat with no messages and no files
   if (
     !hasActiveChat ||
-    (hasActiveChat && messages.length === 0 && !currentChatHasPdf)
+    (hasActiveChat && messages.length === 0 && !currentChatHasPdf && !currentChatHasCsv)
   ) {
-    const handleStartChat = () => {
-      if (selectedModel && selectedPDF && onStartChat) {
-        onStartChat(selectedModel, selectedPDF);
-      }
-    };
-
-    const canStartChat = selectedModel && selectedPDF;
-
     return (
       <ScrollArea className="h-full">
         <div className="flex flex-col items-center justify-center min-h-full p-8 text-center">
@@ -263,46 +255,19 @@ const ChatArea: React.FC<ChatAreaProps> = ({
             How can I help you today?
           </h3>
           <p className="text-muted-foreground mb-8">
-            Upload a PDF document to start analyzing with your selected AI model
+            Select your AI model and upload files to start your analysis
           </p>
 
-          {/* PDF Upload */}
-          <div className="w-full max-w-4xl space-y-8 pb-8">
-            <PDFUpload
-              onFileSelect={setSelectedPDF}
-              selectedFile={selectedPDF}
-            />
-
-            {/* Start Chat Button */}
-            {selectedPDF && (
-              <div className="animate-in fade-in duration-300 flex justify-center">
-                <Button
-                  onClick={handleStartChat}
-                  disabled={!canStartChat}
-                  size="lg"
-                  className="gap-2 px-8"
-                >
-                  <MessageSquare className="w-5 h-5" />
-                  Start Chatting
-                </Button>
-              </div>
-            )}
-
-            {/* Instructions */}
-            <div className="text-center text-sm text-muted-foreground space-y-1">
-              <p>
-                {!selectedPDF
-                  ? "Upload a PDF document to analyze"
-                  : "Ready to start your conversation!"}
-              </p>
-              {!selectedPDF && (
-                <p className="text-xs">
-                  The AI will use your PDF to provide contextual answers and
-                  insights
-                </p>
-              )}
-            </div>
-          </div>
+          {/* Model and File Selection */}
+          <ModelAndFileSelector
+            selectedModel={selectedModel}
+            onModelChange={onModelChange}
+            onStartChat={(model, file) => {
+              if (onStartChat) {
+                onStartChat(model, file);
+              }
+            }}
+          />
         </div>
       </ScrollArea>
     );
