@@ -274,6 +274,16 @@ class ChatService {
       }
     }
 
+    // Stop any existing polling for this chat
+    this.stopPollingForChat(finalChatId);
+
+    // Refresh messages before sending to ensure we have the latest state
+    try {
+      await this.loadChatMessages(finalChatId);
+    } catch (error) {
+      console.warn("Failed to refresh messages before sending:", error);
+    }
+
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
@@ -313,14 +323,29 @@ class ChatService {
     }
   }
 
+  private pollingTimeouts: Map<string, NodeJS.Timeout> = new Map();
+
   private async startPollingForMessages(chatId: string): Promise<void> {
+    // Clear any existing polling for this chat
+    this.stopPollingForChat(chatId);
+
     let pollCount = 0;
-    const maxPolls = 60; // Poll for max 30 seconds (500ms * 60)
+    const maxPolls = 120; // Poll for max 60 seconds (500ms * 120)
     let isPolling = true;
+    const startTime = Date.now();
+    let lastMessageCount = this.state.messages.length;
 
     const poll = async () => {
       if (!isPolling || pollCount >= maxPolls) {
         this.setState({ isThinking: false });
+        this.pollingTimeouts.delete(chatId);
+        return;
+      }
+
+      // Check if this chat is still current
+      if (this.state.currentChat?.id !== chatId) {
+        isPolling = false;
+        this.pollingTimeouts.delete(chatId);
         return;
       }
 
@@ -331,47 +356,67 @@ class ChatService {
 
         if (response.success && response.data) {
           const newMessages = response.data;
-          const lastMessage = newMessages[newMessages.length - 1];
-          const currentLastMessage =
-            this.state.messages[this.state.messages.length - 1];
+          const currentMessages = this.state.messages;
 
-          // Check if we have a new AI message that's different from what we currently have
-          if (
-            lastMessage &&
-            lastMessage.type === "assistant" &&
-            (!currentLastMessage || lastMessage.id !== currentLastMessage.id)
-          ) {
+          // More robust checking: compare message count and content
+          const hasNewMessages = newMessages.length > currentMessages.length;
+          const hasNewAssistantMessage = newMessages.some(msg =>
+            msg.type === "assistant" &&
+            !currentMessages.find(current => current.id === msg.id)
+          );
+
+          // Update messages if we have new content
+          if (hasNewMessages || hasNewAssistantMessage) {
             this.setState({
               messages: newMessages,
               isThinking: false,
             });
-            isPolling = false; // Stop polling
+            isPolling = false;
+            this.pollingTimeouts.delete(chatId);
             return;
           }
         }
 
         // Continue polling if we haven't found a new response yet
         if (isPolling && pollCount < maxPolls) {
-          setTimeout(() => poll(), 500);
+          const timeout = setTimeout(() => poll(), 500);
+          this.pollingTimeouts.set(chatId, timeout);
         } else {
           this.setState({ isThinking: false });
+          this.pollingTimeouts.delete(chatId);
         }
       } catch (error) {
         console.error("Polling error:", error);
         // Continue polling even on error (network might be temporarily down)
         if (isPolling && pollCount < maxPolls) {
-          setTimeout(() => poll(), 1000); // Wait longer on error
+          const timeout = setTimeout(() => poll(), 1000); // Wait longer on error
+          this.pollingTimeouts.set(chatId, timeout);
         } else {
           this.setState({ isThinking: false });
+          this.pollingTimeouts.delete(chatId);
         }
       }
     };
 
     // Start polling after a short delay
-    setTimeout(() => poll(), 500);
+    const initialTimeout = setTimeout(() => poll(), 500);
+    this.pollingTimeouts.set(chatId, initialTimeout);
+  }
+
+  private stopPollingForChat(chatId: string): void {
+    const timeout = this.pollingTimeouts.get(chatId);
+    if (timeout) {
+      clearTimeout(timeout);
+      this.pollingTimeouts.delete(chatId);
+    }
   }
 
   async selectChat(chat: Chat): Promise<void> {
+    // Stop polling for any previous chat
+    if (this.state.currentChat?.id) {
+      this.stopPollingForChat(this.state.currentChat.id);
+    }
+
     // Clean up any abandoned draft chats (except the one being selected)
     const draftChats = this.state.chats.filter(
       (c) => c.isDraft && c.id !== chat.id && c.messageCount === 0,
@@ -389,6 +434,7 @@ class ChatService {
       currentChat: chat,
       messages: [],
       error: null,
+      isThinking: false,
     });
 
     // Only load messages if this is not a draft chat
@@ -434,6 +480,11 @@ class ChatService {
   }
 
   clearCurrentChat(): void {
+    // Stop polling for current chat
+    if (this.state.currentChat?.id) {
+      this.stopPollingForChat(this.state.currentChat.id);
+    }
+
     this.setState({
       currentChat: null,
       messages: [],
