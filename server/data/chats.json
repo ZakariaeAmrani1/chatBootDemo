@@ -81,6 +81,16 @@
         "url": "/api/files/ea61fdd1-8fcb-4346-8f6e-9d95f3dc65ee.pdf",
         "uploadedAt": "2025-08-06T14:52:19.293Z"
       }
+    },
+    {
+      "id": "c273f472-e596-4200-b3c4-ea97f56edddc",
+      "title": "I've uploaded a file (Cahier_de_charges.pdf) for a...",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T15:03:09.908Z",
+      "updatedAt": "2025-08-06T15:03:29.799Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
@@ -319,6 +329,44 @@
       "type": "assistant",
       "content": "Désolé, mais je ne peux pas répondre à cette question car elle n'est pas pertinente pour les informations fournies dans le document. Puis-je vous aider avec une autre question ou fournir des informations sur un sujet spécifique en fonction du contexte ?",
       "timestamp": "2025-08-06T14:56:52.020Z"
+    },
+    {
+      "id": "6eddc419-b025-4cab-83db-ea27c220f487",
+      "chatId": "c273f472-e596-4200-b3c4-ea97f56edddc",
+      "type": "user",
+      "content": "I've uploaded a file (Cahier_de_charges.pdf) for analysis. Please analyze its content.",
+      "timestamp": "2025-08-06T15:03:10.662Z",
+      "attachments": [
+        {
+          "id": "82bd4bb6-5590-485a-8ddd-29688b525f6a",
+          "name": "Cahier_de_charges.pdf",
+          "size": 622676,
+          "type": "application/pdf",
+          "url": "/api/files/fc3db3f5-f1d0-4be1-b667-bf9cccbe88dc.pdf",
+          "uploadedAt": "2025-08-06T15:03:10.511Z"
+        }
+      ]
+    },
+    {
+      "id": "1e045a3d-e161-46cb-9fe7-41b2bc1a79af",
+      "chatId": "c273f472-e596-4200-b3c4-ea97f56edddc",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-06T15:03:18.692Z"
+    },
+    {
+      "id": "6d9c83c6-baad-4b17-9c5c-d33e1e78bf9c",
+      "chatId": "c273f472-e596-4200-b3c4-ea97f56edddc",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-06T15:03:27.085Z"
+    },
+    {
+      "id": "099ea291-d49d-4b29-aa42-f9d0955d0ba2",
+      "chatId": "c273f472-e596-4200-b3c4-ea97f56edddc",
+      "type": "assistant",
+      "content": "Hello! How can I help you today?\n\nYou mentioned earlier that you uploaded a file named \"Cahier_de_charges.pdf\" for analysis. I'm ready to assist with that. Please let me know what you'd like me to do with the file. For example, would you like me to:\n\n*   Summarize its content?\n*   Identify key sections or requirements?\n*   Extract specific information?\n*   Analyze its structure?\n*   Answer specific questions about it?\n\nLooking forward to hearing how I can assist!",
+      "timestamp": "2025-08-06T15:03:29.799Z"
     }
   ]
 }
