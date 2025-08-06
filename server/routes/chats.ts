@@ -55,7 +55,20 @@ const upload = multer({
 
 export const uploadPDF = upload.single("pdfFile");
 export const uploadCSV = upload.single("csvFile");
-export const uploadFile = upload.single("file"); // Generic file upload
+// Dynamic file upload middleware that handles both PDF and CSV
+export const uploadFile = (req: any, res: any, next: any) => {
+  // Create a middleware that can handle either pdfFile or csvFile
+  const uploadSingle = upload.any();
+  uploadSingle(req, res, (err) => {
+    if (err) return next(err);
+
+    // Move the file to req.file for consistent handling
+    if (req.files && req.files.length > 0) {
+      req.file = req.files[0];
+    }
+    next();
+  });
+};
 
 // Function to extract text from PDF (basic implementation)
 async function extractPDFText(filePath: string): Promise<string> {
