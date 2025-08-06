@@ -331,7 +331,7 @@ class ChatService {
     this.isPollingForChat.set(chatId, true);
 
     let pollCount = 0;
-    const maxPolls = 120; // Poll for max 60 seconds (500ms * 120)
+    const maxPolls = 240; // Poll for max 120 seconds (500ms * 240)
     let isPolling = true;
     const startTime = Date.now();
     let lastMessageCount = this.state.messages.length;
