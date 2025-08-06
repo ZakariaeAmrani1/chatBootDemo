@@ -225,15 +225,8 @@ const Chatbot = () => {
         user.id,
       );
     } else {
-      // Create a draft chat (not saved until first message is sent)
-      chatService.createDraftChat(
-        {
-          title: "New Chat",
-          model: selectedModel,
-          chatbootVersion: selectedVersion,
-        },
-        user.id,
-      );
+      // Clear current chat to allow model selection for new chat
+      chatService.clearCurrentChat();
     }
   };
 
