@@ -149,6 +149,9 @@ async function callGeminiAPI(
       parts: parts,
     });
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -156,17 +159,20 @@ async function callGeminiAPI(
         headers: {
           "Content-Type": "application/json",
         },
+        signal: controller.signal,
         body: JSON.stringify({
           contents: contents,
           generationConfig: {
             temperature: 0.7,
             topK: 1,
             topP: 1,
-            maxOutputTokens: 1000,
+            maxOutputTokens: 2048, // Increased token limit
           },
         }),
       },
     );
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(
