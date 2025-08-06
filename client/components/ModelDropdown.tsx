@@ -61,9 +61,20 @@ export function ModelDropdown({
           if (!selectedModel && modelsWithIcons.length > 0) {
             onModelChange(modelsWithIcons[0].id);
           }
+        } else {
+          console.error("API response was not successful:", response.error);
+          // Use fallback models if API fails
+          setModels(getFallbackModels());
         }
       } catch (error) {
         console.error("Failed to load models:", error);
+        // Use fallback models if fetch fails completely
+        setModels(getFallbackModels());
+
+        // Auto-select cloud model if none is selected
+        if (!selectedModel) {
+          onModelChange("cloud");
+        }
       } finally {
         setLoading(false);
       }
