@@ -10,9 +10,9 @@ export interface AppConfig {
 const DEFAULT_APP_CONFIG: AppConfig = {
   name: "WEPILOT",
   lightLogo:
-    "https://cdn.builder.io/api/v1/image/assets%2F44a5eb94f41543f4ab63e8551bda8b34%2F6ead540a48134e50a31b2e5ae416d5b5?format=webp&width=800",
+    "https://cdn.builder.io/api/v1/image/assets%2F44a5eb94f41543f4ab63e8551bda8b34%2Fcc2cf0cae41143faa6dc89f2a7891ef4?format=webp&width=800",
   darkLogo:
-    "https://cdn.builder.io/api/v1/image/assets%2F44a5eb94f41543f4ab63e8551bda8b34%2F6ead540a48134e50a31b2e5ae416d5b5?format=webp&width=800",
+    "https://cdn.builder.io/api/v1/image/assets%2F44a5eb94f41543f4ab63e8551bda8b34%2Fcc2cf0cae41143faa6dc89f2a7891ef4?format=webp&width=800",
 };
 
 /**
