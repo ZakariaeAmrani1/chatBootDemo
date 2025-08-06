@@ -67,9 +67,14 @@ export function ModelAndFileSelector({
         const response = await apiService.getModels();
         if (response.success && response.data) {
           setModels(response.data);
+        } else {
+          console.error("API response was not successful:", response.error);
+          setModels(getFallbackModels());
         }
       } catch (error) {
         console.error("Failed to load models:", error);
+        // Use fallback models if API fails
+        setModels(getFallbackModels());
       }
     };
     loadModels();
