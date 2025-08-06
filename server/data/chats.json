@@ -61,6 +61,25 @@
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "title": "qu'est ce qu'il est dans le module 5",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-05T15:38:57.589Z",
+      "updatedAt": "2025-08-05T15:40:22.171Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "3482211a-a1da-4fa5-b495-fc9c5451d098",
+        "name": "votre_document.pdf",
+        "size": 610430,
+        "type": "application/pdf",
+        "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
+        "uploadedAt": "2025-08-05T15:38:57.589Z"
+      },
+      "categoryId": "cat_1754403507617_9loobej"
     }
   ],
   "messages": [
@@ -171,6 +190,44 @@
       "type": "assistant",
       "content": "Hello! How can I help you today?",
       "timestamp": "2025-08-05T14:13:37.464Z"
+    },
+    {
+      "id": "b8477969-ce6f-485d-ab8f-054f10565b8e",
+      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-05T15:38:57.589Z",
+      "attachments": [
+        {
+          "id": "3482211a-a1da-4fa5-b495-fc9c5451d098",
+          "name": "votre_document.pdf",
+          "size": 610430,
+          "type": "application/pdf",
+          "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
+          "uploadedAt": "2025-08-05T15:38:57.589Z"
+        }
+      ]
+    },
+    {
+      "id": "0f0bc97d-5d0d-4a25-8563-c4a5e550089a",
+      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "type": "assistant",
+      "content": "Bonjour ! En tant qu'assistant expert, je suis prêt à répondre à vos questions en me basant exclusivement sur le PDF que vous avez fourni.\n\nN'hésitez pas à me poser vos questions sur les modules de gestion des recettes, des budgets, des engagements, des paiements, des états de synthèse ou du calendrier décrits dans le document.",
+      "timestamp": "2025-08-05T15:39:05.548Z"
+    },
+    {
+      "id": "0548c03b-c571-4afa-ad19-59e08d046313",
+      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "type": "user",
+      "content": "qu'est ce qu'il est dans le module 5",
+      "timestamp": "2025-08-05T15:39:23.068Z"
+    },
+    {
+      "id": "80520621-33cf-461d-b5f1-3960421c251a",
+      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "type": "assistant",
+      "content": "Le document que vous avez fourni contient **trois modules 5** différents, chacun appartenant à une partie distincte du système :\n\n1.  **Dans la Partie II : Budgets, le Module 5 est le \"Budget de Prestation de Service\".**\n    *   **Description Générale :** Ce module gère les finances liées aux prestations de service offertes par l'université (consultations, services techniques, etc.).\n    *   **Fonctionnalités principales :** Facturation, suivi des paiements, gestion des dépenses associ",
+      "timestamp": "2025-08-05T15:39:30.922Z"
     }
   ]
 }

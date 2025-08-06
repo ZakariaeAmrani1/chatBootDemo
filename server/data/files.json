@@ -55,6 +55,14 @@
       "type": "application/pdf",
       "url": "/api/files/a32d2a29-b055-4d22-8794-0997a6b9b02a.pdf",
       "uploadedAt": "2025-08-05T14:06:25.236Z"
+    },
+    {
+      "id": "3482211a-a1da-4fa5-b495-fc9c5451d098",
+      "name": "votre_document.pdf",
+      "size": 610430,
+      "type": "application/pdf",
+      "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
+      "uploadedAt": "2025-08-05T15:38:57.589Z"
     }
   ]
 }
