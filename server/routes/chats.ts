@@ -39,11 +39,11 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: multer.FileFilterCallback,
 ) => {
-  // Only allow PDF files for chat uploads
-  if (file.mimetype === "application/pdf") {
+  // Allow PDF and CSV files for chat uploads
+  if (file.mimetype === "application/pdf" || file.mimetype === "text/csv") {
     cb(null, true);
   } else {
-    cb(new Error("Only PDF files are allowed"));
+    cb(new Error("Only PDF and CSV files are allowed"));
   }
 };
 
@@ -54,6 +54,21 @@ const upload = multer({
 });
 
 export const uploadPDF = upload.single("pdfFile");
+export const uploadCSV = upload.single("csvFile");
+// Dynamic file upload middleware that handles both PDF and CSV
+export const uploadFile = (req: any, res: any, next: any) => {
+  // Create a middleware that can handle either pdfFile or csvFile
+  const uploadSingle = upload.any();
+  uploadSingle(req, res, (err) => {
+    if (err) return next(err);
+
+    // Move the file to req.file for consistent handling
+    if (req.files && req.files.length > 0) {
+      req.file = req.files[0];
+    }
+    next();
+  });
+};
 
 // Function to extract text from PDF (basic implementation)
 async function extractPDFText(filePath: string): Promise<string> {
@@ -63,6 +78,19 @@ async function extractPDFText(filePath: string): Promise<string> {
   } catch (error) {
     console.error("Error extracting PDF text:", error);
     return "[PDF Error] Could not extract text from the PDF file.";
+  }
+}
+
+// Function to extract data from CSV (basic implementation)
+async function extractCSVData(filePath: string): Promise<string> {
+  try {
+    const csvContent = fs.readFileSync(filePath, "utf-8");
+    // For now, return the first few lines as a preview. In production, you'd parse the CSV properly
+    const lines = csvContent.split("\n").slice(0, 10);
+    return `[CSV Data] Preview of ${path.basename(filePath)}:\n${lines.join("\n")}\n\n[Note: This is a preview. Full CSV processing would be implemented in production.]`;
+  } catch (error) {
+    console.error("Error extracting CSV data:", error);
+    return "[CSV Error] Could not extract data from the CSV file.";
   }
 }
 
@@ -236,6 +264,73 @@ async function callLocalCloudAPI(
   }
 }
 
+// Function to call Local Cloud backend with CSV file
+async function callCSVLocalCloudAPI(
+  userMessage: string,
+  csvFilePath?: string,
+  appUrl?: string,
+  isInitialCsvSetup: boolean = false,
+): Promise<string> {
+  const baseUrl =
+    appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
+  try {
+    if (csvFilePath && isInitialCsvSetup) {
+      // Initial CSV setup - send to /init-csv with FormData
+      const initCsvUrl = `${baseUrl.replace(/\/$/, "")}/init-csv`;
+      const formData = new FormData();
+
+      // Read the CSV file and attach it
+      const csvStream = fs.createReadStream(csvFilePath);
+      formData.append("csv_file", csvStream, path.basename(csvFilePath));
+
+      const response = await fetch1(initCsvUrl, {
+        method: "POST",
+        body: formData,
+        headers: formData.getHeaders(), // includes correct Content-Type with boundary
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `CSV Local Cloud API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = (await response.json()) as LocalApiResponse;
+      return (
+        data.message ||
+        "I apologize, but I couldn't generate a response. Please try again."
+      );
+    } else {
+      // Regular chat message - use /ask-csv endpoint with JSON
+      const chatUrl = `${baseUrl.replace(/\/$/, "")}/ask-csv`;
+      const response = await fetch(chatUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: userMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `CSV Local Cloud API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      return (
+        data.response ||
+        "I apologize, but I couldn't generate a response. Please try again."
+      );
+    }
+  } catch (error) {
+    console.error("CSV Local Cloud API error:", error);
+    return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. ${error instanceof Error ? error.message : "Unknown error"}`;
+  }
+}
+
 // Get all chats for a user
 export const getChats: RequestHandler = (req, res) => {
   try {
@@ -294,10 +389,10 @@ export const createChat: RequestHandler = (req, res) => {
     const chatId = uuidv4();
     const now = new Date().toISOString();
 
-    // Handle PDF file if uploaded
-    let pdfFile: FileAttachment | undefined;
+    // Handle uploaded file (PDF or CSV)
+    let attachedFile: FileAttachment | undefined;
     if (req.file) {
-      pdfFile = {
+      attachedFile = {
         id: uuidv4(),
         name: req.file.originalname,
         size: req.file.size,
@@ -307,7 +402,7 @@ export const createChat: RequestHandler = (req, res) => {
       };
 
       // Store file info in the data manager
-      DataManager.addFile(pdfFile);
+      DataManager.addFile(attachedFile);
     }
 
     // Create the chat
@@ -320,7 +415,8 @@ export const createChat: RequestHandler = (req, res) => {
       updatedAt: now,
       messageCount: 0,
       userId: userId,
-      pdfFile: pdfFile, // Include the PDF file
+      pdfFile: model === "local-cloud" ? attachedFile : undefined, // Include PDF for local-cloud model
+      csvFile: model === "csv-local" ? attachedFile : undefined, // Include CSV for csv-local model
     };
 
     const createdChat = DataManager.createChat(chat);
@@ -333,7 +429,7 @@ export const createChat: RequestHandler = (req, res) => {
         type: "user",
         content: message,
         timestamp: now,
-        attachments: pdfFile ? [pdfFile] : undefined, // Include PDF as attachment
+        attachments: attachedFile ? [attachedFile] : undefined, // Include file as attachment
       };
 
       DataManager.addMessage(userMessage);
@@ -350,39 +446,52 @@ export const createChat: RequestHandler = (req, res) => {
 
         DataManager.addMessage(aiMessage);
       }, 2000); // 2 second delay to simulate thinking
-    } else if (pdfFile) {
-      // If no initial message but PDF is uploaded, create a user message showing the PDF upload
+    } else if (attachedFile) {
+      // If no initial message but file is uploaded, create a user message showing the file upload
+      const fileIcon = attachedFile.type === "text/csv" ? "📊" : "📄";
+      const fileType =
+        attachedFile.type === "text/csv" ? "dataset" : "document";
       const userMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "user",
-        content: `📄 Uploaded document for analysis`,
+        content: `${fileIcon} Uploaded ${fileType} for analysis`,
         timestamp: now,
-        attachments: [pdfFile],
+        attachments: [attachedFile],
       };
 
       DataManager.addMessage(userMessage);
 
-      // Process the PDF and generate AI response
+      // Process the file and generate AI response
       setTimeout(async () => {
-        const pdfPath = path.join(
+        const filePath = path.join(
           process.cwd(),
           "server/uploads",
-          path.basename(pdfFile.url),
+          path.basename(attachedFile.url),
         );
-        const pdfContent = await extractPDFText(pdfPath);
-        const analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
+
+        let fileContent: string;
+        let analysisPrompt: string;
+
+        if (attachedFile.type === "text/csv") {
+          fileContent = await extractCSVData(filePath);
+          analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
+        } else {
+          fileContent = await extractPDFText(filePath);
+          analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
+        }
 
         const aiMessage: Message = {
           id: uuidv4(),
           chatId: chatId,
           type: "assistant",
-          content: await generateAIResponseWithPDF(
+          content: await generateAIResponseWithFile(
             analysisPrompt,
             userId,
             chatId,
-            pdfContent,
-            true, // This is the initial PDF setup
+            fileContent,
+            attachedFile,
+            true, // This is the initial file setup
           ),
           timestamp: new Date().toISOString(),
         };
@@ -443,27 +552,38 @@ export const sendMessage: RequestHandler = (req, res) => {
 
     // Generate AI response
     setTimeout(async () => {
-      let pdfContent: string | undefined;
+      let fileContent: string | undefined;
+      let attachedFile: FileAttachment | undefined;
 
-      // If chat has PDF, extract its content
+      // If chat has PDF or CSV file, extract its content
       if (chat.pdfFile) {
+        attachedFile = chat.pdfFile;
         const pdfPath = path.join(
           process.cwd(),
           "server/uploads",
           path.basename(chat.pdfFile.url),
         );
-        pdfContent = await extractPDFText(pdfPath);
+        fileContent = await extractPDFText(pdfPath);
+      } else if (chat.csvFile) {
+        attachedFile = chat.csvFile;
+        const csvPath = path.join(
+          process.cwd(),
+          "server/uploads",
+          path.basename(chat.csvFile.url),
+        );
+        fileContent = await extractCSVData(csvPath);
       }
 
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponseWithPDF(
+        content: await generateAIResponseWithFile(
           message,
           chat.userId,
           chatId,
-          pdfContent,
+          fileContent,
+          attachedFile,
         ),
         timestamp: new Date().toISOString(),
       };
@@ -545,7 +665,127 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
-// AI response generator with PDF content support
+// AI response generator with file content support (PDF or CSV)
+async function generateAIResponseWithFile(
+  userMessage: string,
+  userId: string = "user-1",
+  chatId?: string,
+  fileContent?: string,
+  file?: FileAttachment,
+  isInitialFileSetup: boolean = false,
+): Promise<string> {
+  try {
+    const user = DataManager.getUserById(userId);
+
+    // Get the chat to determine which model to use
+    let modelType = "cloud"; // default
+    if (chatId) {
+      const chat = DataManager.getChatById(chatId);
+      modelType = chat?.model || "cloud";
+    }
+
+    if (modelType === "cloud") {
+      // Use Gemini API for Cloud model
+      const geminiApiKey = user?.settings?.geminiApiKey;
+      const geminiModel =
+        user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+
+      if (!geminiApiKey || !geminiApiKey.trim()) {
+        return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
+      }
+
+      try {
+        // Get chat history for context (excluding the current message)
+        let chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+
+        // Remove the last message if it's a user message matching the current message
+        if (chatHistory.length > 0) {
+          const lastMessage = chatHistory[chatHistory.length - 1];
+          if (
+            lastMessage.type === "user" &&
+            lastMessage.content === userMessage
+          ) {
+            chatHistory = chatHistory.slice(0, -1);
+          }
+        }
+
+        // Get file path for Gemini API
+        let filePath: string | undefined;
+        if (chatId && file) {
+          filePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(file.url),
+          );
+        }
+
+        return await callGeminiAPI(
+          userMessage,
+          geminiApiKey,
+          geminiModel,
+          chatHistory,
+          filePath,
+        );
+      } catch (error) {
+        console.error("Gemini API error:", error);
+        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "local-cloud") {
+      // Use Local Cloud backend for PDF
+      try {
+        let filePath: string | undefined;
+        if (chatId && file) {
+          filePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(file.url),
+          );
+        }
+
+        const appUrl = user?.settings?.appUrl;
+        return await callLocalCloudAPI(
+          userMessage,
+          filePath,
+          appUrl,
+          isInitialFileSetup,
+        );
+      } catch (error) {
+        console.error("Local Cloud API error:", error);
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "csv-local") {
+      // Use CSV Local Cloud backend
+      try {
+        let csvFilePath: string | undefined;
+        if (chatId && file && file.type === "text/csv") {
+          csvFilePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(file.url),
+          );
+        }
+
+        const appUrl = user?.settings?.appUrl;
+        return await callCSVLocalCloudAPI(
+          userMessage,
+          csvFilePath,
+          appUrl,
+          isInitialFileSetup,
+        );
+      } catch (error) {
+        console.error("CSV Local Cloud API error:", error);
+        return `❌ **CSV Local Service Error**: Failed to connect to local CSV AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    }
+  } catch (error) {
+    console.error("Error accessing AI services:", error);
+    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+  }
+
+  return "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.";
+}
+
+// AI response generator with PDF content support (legacy function for backward compatibility)
 async function generateAIResponseWithPDF(
   userMessage: string,
   userId: string = "user-1",

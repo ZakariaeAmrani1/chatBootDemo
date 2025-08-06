@@ -75,7 +75,7 @@ class ApiService {
     const currentUser = localStorage.getItem("currentUser");
     const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
 
-    if (request.pdfFile) {
+    if (request.pdfFile || request.csvFile) {
       // Use FormData for file upload
       const formData = new FormData();
       formData.append("title", request.title || "New Chat");
@@ -85,7 +85,13 @@ class ApiService {
       if (request.message) {
         formData.append("message", request.message);
       }
-      formData.append("pdfFile", request.pdfFile);
+
+      // Append the appropriate file type
+      if (request.pdfFile) {
+        formData.append("pdfFile", request.pdfFile);
+      } else if (request.csvFile) {
+        formData.append("csvFile", request.csvFile);
+      }
 
       return this.request<Chat>("/chats", {
         method: "POST",

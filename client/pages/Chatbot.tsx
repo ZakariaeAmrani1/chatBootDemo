@@ -7,6 +7,7 @@ import {
   Menu,
   X,
   Eye,
+  FileSpreadsheet,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +22,7 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import ShareModal from "@/components/ShareModal";
 import { PDFPreview } from "@/components/PDFPreview";
+import { CSVPreview } from "@/components/CSVPreview";
 import { ModelDropdown } from "@/components/ModelDropdown";
 
 import SettingsPage from "@/pages/Settings";
@@ -47,9 +49,15 @@ const Chatbot = () => {
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
   const [models, setModels] = useState<any[]>([]);
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
+  const [csvPreviewOpen, setCsvPreviewOpen] = useState(true);
   const [pdfPreviewWidth, setPdfPreviewWidth] = useState(() => {
     // Load saved width from localStorage, default to 384px
     const saved = localStorage.getItem("pdfPreviewWidth");
+    return saved ? parseInt(saved, 10) : 384;
+  });
+  const [csvPreviewWidth, setCsvPreviewWidth] = useState(() => {
+    // Load saved width from localStorage, default to 384px
+    const saved = localStorage.getItem("csvPreviewWidth");
     return saved ? parseInt(saved, 10) : 384;
   });
 
@@ -59,19 +67,15 @@ const Chatbot = () => {
     localStorage.setItem("pdfPreviewWidth", width.toString());
   };
 
-  // Load models for display
+  const handleCsvWidthChange = (width: number) => {
+    setCsvPreviewWidth(width);
+    localStorage.setItem("csvPreviewWidth", width.toString());
+  };
+
+  // Load models for display (API disabled for stability)
   useEffect(() => {
-    const loadModels = async () => {
-      try {
-        const response = await apiService.getModels();
-        if (response.success && response.data) {
-          setModels(response.data);
-        }
-      } catch (error) {
-        console.error("Failed to load models:", error);
-      }
-    };
-    loadModels();
+    console.log("🔧 Model loading disabled - using component fallbacks");
+    setModels([]); // ModelDropdown has its own fallback models
   }, []);
 
   // Authentication and theme context
@@ -221,19 +225,12 @@ const Chatbot = () => {
         user.id,
       );
     } else {
-      // Create a draft chat (not saved until first message is sent)
-      chatService.createDraftChat(
-        {
-          title: "New Chat",
-          model: selectedModel,
-          chatbootVersion: selectedVersion,
-        },
-        user.id,
-      );
+      // Clear current chat to allow model selection for new chat
+      chatService.clearCurrentChat();
     }
   };
 
-  const handleStartChat = async (model: string, pdfFile: File) => {
+  const handleStartChat = async (model: string, file: File) => {
     if (!user) return;
 
     try {
@@ -247,16 +244,58 @@ const Chatbot = () => {
         console.error("Failed to save model preference:", error);
       }
 
-      // Create chat with the selected model and PDF
-      await chatService.createChat(
-        {
-          title: "New Chat",
-          model: model,
-          chatbootVersion: selectedVersion,
-          pdfFile: pdfFile,
-        },
-        user.id,
-      );
+      // Determine file type and create appropriate request
+      const createChatRequest: any = {
+        title: "New Chat",
+        model: model,
+        chatbootVersion: selectedVersion,
+      };
+
+      // Handle different models and file types
+      if (model === "local-cloud" && file.type === "application/pdf") {
+        createChatRequest.pdfFile = file;
+        // Create chat with PDF file
+        await chatService.createChat(createChatRequest, user.id);
+      } else if (model === "csv-local" && file.type === "text/csv") {
+        createChatRequest.csvFile = file;
+        // Create chat with CSV file
+        await chatService.createChat(createChatRequest, user.id);
+      } else if (model === "cloud") {
+        // For cloud model, create chat first, then upload file as attachment
+        const newChat = await chatService.createChat(
+          createChatRequest,
+          user.id,
+        );
+
+        if (newChat) {
+          // Upload file and send as message attachment
+          try {
+            const uploadedFiles = await apiService.uploadFiles([file]);
+            if (
+              uploadedFiles.success &&
+              uploadedFiles.data &&
+              uploadedFiles.data.length > 0
+            ) {
+              // Send message with file attachment
+              await chatService.sendMessage({
+                chatId: newChat.id,
+                message: `I've uploaded a file (${file.name}) for analysis. Please analyze its content.`,
+                attachments: uploadedFiles.data,
+              });
+            }
+          } catch (uploadError) {
+            console.error(
+              "Failed to upload file for cloud model:",
+              uploadError,
+            );
+            // Send message without attachment as fallback
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `I tried to upload a file (${file.name}) for analysis, but the upload failed. Please help me understand how to proceed.`,
+            });
+          }
+        }
+      }
     } catch (error) {
       console.error("Failed to start chat:", error);
     }
@@ -307,9 +346,17 @@ const Chatbot = () => {
     const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
       await chatService.selectChat(chat);
-      // Auto-open PDF preview if chat has PDF
+      // Auto-open file preview if chat has files, close other previews
       if (chat.pdfFile) {
         setPdfPreviewOpen(true);
+        setCsvPreviewOpen(false);
+      } else if (chat.csvFile) {
+        setCsvPreviewOpen(true);
+        setPdfPreviewOpen(false);
+      } else {
+        // No files, close all previews
+        setPdfPreviewOpen(false);
+        setCsvPreviewOpen(false);
       }
     }
   };
@@ -435,12 +482,26 @@ const Chatbot = () => {
       <div
         className="flex-1 flex flex-col min-w-0 h-screen"
         style={{
-          marginRight:
-            chatState.currentChat?.pdfFile && pdfPreviewOpen
-              ? window.innerWidth < 640
-                ? "0px"
-                : `${pdfPreviewWidth}px`
-              : "0px",
+          marginRight: (() => {
+            // Calculate margin based on which preview is open
+            let margin = 0;
+
+            if (
+              chatState.currentChat?.pdfFile &&
+              pdfPreviewOpen &&
+              window.innerWidth >= 640
+            ) {
+              margin = pdfPreviewWidth;
+            } else if (
+              chatState.currentChat?.csvFile &&
+              csvPreviewOpen &&
+              window.innerWidth >= 640
+            ) {
+              margin = csvPreviewWidth;
+            }
+
+            return `${margin}px`;
+          })(),
           transition: "margin-right 0.3s ease-in-out",
         }}
       >
@@ -458,7 +519,11 @@ const Chatbot = () => {
             <ModelDropdown
               selectedModel={selectedModel}
               onModelChange={handleModelChange}
-              disabled={!!chatState.currentChat}
+              disabled={
+                chatState.currentChat &&
+                !chatState.currentChat.isDraft &&
+                chatState.messages.length > 0
+              }
             />
           </div>
 
@@ -468,13 +533,37 @@ const Chatbot = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setPdfPreviewOpen(!pdfPreviewOpen)}
+                onClick={() => {
+                  const newPdfState = !pdfPreviewOpen;
+                  setPdfPreviewOpen(newPdfState);
+                  if (newPdfState) setCsvPreviewOpen(false); // Close CSV when opening PDF
+                }}
                 className="hidden sm:flex"
                 title={pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
               >
                 <Eye className="h-4 w-4" />
                 <span className="ml-1 hidden md:inline text-xs">
                   {pdfPreviewOpen ? "Hide PDF" : "Show PDF"}
+                </span>
+              </Button>
+            )}
+
+            {/* CSV Preview Toggle */}
+            {chatState.currentChat?.csvFile && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  const newCsvState = !csvPreviewOpen;
+                  setCsvPreviewOpen(newCsvState);
+                  if (newCsvState) setPdfPreviewOpen(false); // Close PDF when opening CSV
+                }}
+                className="hidden sm:flex"
+                title={csvPreviewOpen ? "Hide CSV" : "Show CSV"}
+              >
+                <FileSpreadsheet className="h-4 w-4" />
+                <span className="ml-1 hidden md:inline text-xs">
+                  {csvPreviewOpen ? "Hide CSV" : "Show CSV"}
                 </span>
               </Button>
             )}
@@ -506,6 +595,7 @@ const Chatbot = () => {
             user={user}
             hasActiveChat={!!chatState.currentChat}
             currentChatHasPdf={!!chatState.currentChat?.pdfFile}
+            currentChatHasCsv={!!chatState.currentChat?.csvFile}
           />
         </div>
 
@@ -538,11 +628,15 @@ const Chatbot = () => {
         appUrl={user?.settings?.appUrl || "http://localhost:8080"}
       />
 
-      {/* Mobile PDF overlay */}
-      {chatState.currentChat?.pdfFile && pdfPreviewOpen && (
+      {/* Mobile file overlay */}
+      {((chatState.currentChat?.pdfFile && pdfPreviewOpen) ||
+        (chatState.currentChat?.csvFile && csvPreviewOpen)) && (
         <div
           className="sm:hidden fixed inset-0 bg-black/50 z-10"
-          onClick={() => setPdfPreviewOpen(false)}
+          onClick={() => {
+            setPdfPreviewOpen(false);
+            setCsvPreviewOpen(false);
+          }}
         />
       )}
 
@@ -554,6 +648,17 @@ const Chatbot = () => {
           onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
           width={pdfPreviewWidth}
           onWidthChange={handlePdfWidthChange}
+        />
+      )}
+
+      {/* CSV Preview */}
+      {chatState.currentChat?.csvFile && (
+        <CSVPreview
+          csvFile={chatState.currentChat.csvFile}
+          isOpen={csvPreviewOpen}
+          onToggle={() => setCsvPreviewOpen(!csvPreviewOpen)}
+          width={csvPreviewWidth}
+          onWidthChange={handleCsvWidthChange}
         />
       )}
     </div>

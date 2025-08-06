@@ -147,11 +147,18 @@ class ChatService {
           currentChat: newChat,
           messages: [],
           isLoading: false,
-          isThinking: request.message || request.pdfFile ? true : false, // Thinking if there was a message or PDF file
+          isThinking:
+            request.message || request.pdfFile || request.csvFile
+              ? true
+              : false, // Thinking if there was a message or file
         });
 
-        // Start polling for new messages (AI response) if there was a message or PDF file
-        if ((request.message && request.message.trim()) || request.pdfFile) {
+        // Start polling for new messages (AI response) if there was a message or file
+        if (
+          (request.message && request.message.trim()) ||
+          request.pdfFile ||
+          request.csvFile
+        ) {
           this.startPollingForMessages(newChat.id);
         }
 
@@ -424,6 +431,16 @@ class ChatService {
 
   clearError(): void {
     this.setState({ error: null });
+  }
+
+  clearCurrentChat(): void {
+    this.setState({
+      currentChat: null,
+      messages: [],
+      isThinking: false,
+      isLoading: false,
+      error: null,
+    });
   }
 
   updateMessage(messageId: string, updates: Partial<Message>): void {

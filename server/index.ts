@@ -9,7 +9,7 @@ import {
   sendMessage,
   updateChat,
   deleteChat,
-  uploadPDF,
+  uploadFile,
 } from "./routes/chats";
 import {
   getCurrentUser,
@@ -51,10 +51,22 @@ export function createServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Debug middleware to log all API requests
+  app.use("/api", (req, res, next) => {
+    console.log(`🔍 API Request: ${req.method} ${req.path}`);
+    next();
+  });
+
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
     res.json({ message: ping });
+  });
+
+  // Test endpoint for debugging
+  app.get("/api/test", (_req, res) => {
+    console.log("🧪 Test endpoint called");
+    res.json({ success: true, message: "Server is working" });
   });
 
   app.get("/api/demo", handleDemo);
@@ -62,7 +74,7 @@ export function createServer() {
   // Chat API routes
   app.get("/api/chats", getChats);
   app.get("/api/chats/:chatId/messages", getChatMessages);
-  app.post("/api/chats", uploadPDF, createChat);
+  app.post("/api/chats", uploadFile, createChat);
   app.post("/api/chats/message", sendMessage);
   app.put("/api/chats/:chatId", updateChat);
   app.delete("/api/chats/:chatId", deleteChat);
