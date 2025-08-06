@@ -175,16 +175,41 @@ async function callGeminiAPI(
     clearTimeout(timeoutId);
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Gemini API error ${response.status}:`, errorText);
       throw new Error(
         `Gemini API error: ${response.status} ${response.statusText}`,
       );
     }
 
     const data = await response.json();
-    return (
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "I apologize, but I couldn't generate a response. Please try again."
-    );
+    console.log("Gemini API full response:", JSON.stringify(data, null, 2));
+
+    // Check if we have a valid response structure
+    if (data.candidates && data.candidates.length > 0) {
+      const candidate = data.candidates[0];
+      if (candidate.content && candidate.content.parts && candidate.content.parts.length > 0) {
+        const responseText = candidate.content.parts[0].text;
+        if (responseText && responseText.trim()) {
+          return responseText;
+        }
+      }
+
+      // Check for safety filtering or other issues
+      if (candidate.finishReason) {
+        console.log("Gemini finish reason:", candidate.finishReason);
+        if (candidate.finishReason === "SAFETY") {
+          return "I apologize, but I cannot provide a response to this request due to safety guidelines. Please try rephrasing your question.";
+        }
+        if (candidate.finishReason === "RECITATION") {
+          return "I apologize, but I cannot provide a response due to content policy restrictions. Please try rephrasing your question.";
+        }
+      }
+    }
+
+    // Log the issue for debugging
+    console.error("Gemini API returned unexpected response structure:", data);
+    return "I apologize, but I couldn't generate a response. Please try again.";
   } catch (error) {
     console.error("Gemini API error:", error);
     return "I'm currently unable to connect to the AI service. Please check your API key or try again later.";
