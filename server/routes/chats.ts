@@ -188,7 +188,11 @@ async function callGeminiAPI(
     // Check if we have a valid response structure
     if (data.candidates && data.candidates.length > 0) {
       const candidate = data.candidates[0];
-      if (candidate.content && candidate.content.parts && candidate.content.parts.length > 0) {
+      if (
+        candidate.content &&
+        candidate.content.parts &&
+        candidate.content.parts.length > 0
+      ) {
         const responseText = candidate.content.parts[0].text;
         if (responseText && responseText.trim()) {
           return responseText;

@@ -335,7 +335,7 @@ class ChatService {
     let isPolling = true;
     const startTime = Date.now();
     let lastMessageCount = this.state.messages.length;
-    let lastKnownMessageIds = new Set(this.state.messages.map(m => m.id));
+    let lastKnownMessageIds = new Set(this.state.messages.map((m) => m.id));
 
     const poll = async () => {
       if (!isPolling || pollCount >= maxPolls) {
@@ -365,8 +365,7 @@ class ChatService {
           // Check for new assistant messages using ID comparison
           const newAssistantMessages = newMessages.filter(
             (msg) =>
-              msg.type === "assistant" &&
-              !lastKnownMessageIds.has(msg.id)
+              msg.type === "assistant" && !lastKnownMessageIds.has(msg.id),
           );
 
           // Update messages if we have new assistant messages
@@ -386,7 +385,7 @@ class ChatService {
 
           // If we have more messages but no new assistant messages, update the known IDs
           if (newMessages.length > currentMessages.length) {
-            lastKnownMessageIds = new Set(newMessages.map(m => m.id));
+            lastKnownMessageIds = new Set(newMessages.map((m) => m.id));
           }
         }
 
@@ -543,17 +542,20 @@ class ChatService {
         );
         if (response.success && response.data) {
           const newMessages = response.data;
-          const currentMessageIds = new Set(this.state.messages.map(m => m.id));
+          const currentMessageIds = new Set(
+            this.state.messages.map((m) => m.id),
+          );
 
           // Check for new assistant messages specifically
           const hasNewAssistantMessage = newMessages.some(
-            (msg) =>
-              msg.type === "assistant" &&
-              !currentMessageIds.has(msg.id)
+            (msg) => msg.type === "assistant" && !currentMessageIds.has(msg.id),
           );
 
           // Only update if we have genuinely new messages
-          if (newMessages.length > this.state.messages.length || hasNewAssistantMessage) {
+          if (
+            newMessages.length > this.state.messages.length ||
+            hasNewAssistantMessage
+          ) {
             this.setState({
               messages: newMessages,
               isThinking: false,
