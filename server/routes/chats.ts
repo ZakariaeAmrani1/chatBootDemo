@@ -482,7 +482,7 @@ export const createChat: RequestHandler = (req, res) => {
         };
 
         DataManager.addMessage(aiMessage);
-      }, 2000); // 2 second delay to simulate thinking
+      }, 3000); // 3 second delay to allow for processing
     } else if (attachedFile) {
       // If no initial message but file is uploaded, create a user message showing the file upload
       const fileIcon = attachedFile.type === "text/csv" ? "📊" : "📄";
