@@ -67,11 +67,11 @@ const Login: React.FC = () => {
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mb-4">
+          <div className="mx-auto mb-4">
             <img
               src={getAppLogo(resolvedTheme)}
               alt={`${getAppName()} Logo`}
-              className="w-16 h-16 rounded-2xl"
+              className="w-16 h-16"
             />
           </div>
           <h1 className="text-3xl font-bold text-foreground">Welcome back</h1>
