@@ -325,11 +325,17 @@ const Chatbot = () => {
     const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
       await chatService.selectChat(chat);
-      // Auto-open file preview if chat has files
+      // Auto-open file preview if chat has files, close other previews
       if (chat.pdfFile) {
         setPdfPreviewOpen(true);
+        setCsvPreviewOpen(false);
       } else if (chat.csvFile) {
         setCsvPreviewOpen(true);
+        setPdfPreviewOpen(false);
+      } else {
+        // No files, close all previews
+        setPdfPreviewOpen(false);
+        setCsvPreviewOpen(false);
       }
     }
   };
