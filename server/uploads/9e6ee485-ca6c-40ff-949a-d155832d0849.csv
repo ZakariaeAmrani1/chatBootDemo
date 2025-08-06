@@ -1,0 +1,12 @@
+Ordre de développement, Fonctionnalité à développer, Équivalence en tâches, Descriptif métier
+1, Authentification et gestion des rôles, Création de comptes ; login sécurisé ; gestion role-based access, Permet à chaque acteur (admin, identificateur, etc.) d’accéder à ses fonctionnalités spécifiques selon leur profil
+2, Module d’identification animale, Formulaire NNI ; saisie date de naissance ; race ; généalogie (parents, grands‑parents), L’identificateur enregistre ou met à jour une fiche complète de l’animal
+3, Visualisation des données (dashboard), Graphiques, KPIs, listing par exploitation ou utilisateur, Responsable local ou admin visualise l’état du cheptel : nombre, race, performances
+4, Saisie de l’insémination, Sélection de la vache ; date ; inséminateur ; données de semence, L’inséminateur saisit ses interventions et rattache les données pour suivi
+5, Détection de chaleur (œstrus) par IA, Algorithme vidéo ou capteurs ; génération d’alertes, Le système alerte automatiquement l’inséminateur en cas de comportement de chaleur
+6, Suivi de la lactation, Enregistrement de la date de vêlage ; quantité de lait ; matières grasses, Le contrôleur laitier saisit les performances laitières pour chaque vache
+7, Importation et correction des données, Upload CSV/API ; détection d’erreurs ; module de correction, L’admin ou responsable local importe en masse et corrige les incohérences
+8, Module de détection de comportement (santé), Détection boiterie ; inactivité, via caméra IA ; alertes, Permet d’alerter l’éleveur/tech sur des signes précoces de maladie ou stress
+9, Module gestion des utilisateurs/exploitations, Ajout/suppression util. ; affectation à exploit., L’admin gère les droits des agents selon leur zone et rôle
+10, Génération de rapports, Export PDF/Excel ; invention, performances, alertes, L’utilisateur génère des rapports à transmettre à la coop. ou admin.
+11, Historique animal complet, Timeline automatisée : identification, insémination, vêlage, traitements, Visualisation du cycle de vie complet de l’animal pour traçabilité et vente

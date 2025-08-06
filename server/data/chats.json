@@ -11,73 +11,75 @@
       "userId": "user-1"
     },
     {
-      "id": "3731e595-eaaf-4b82-9d7d-cc51c0aba437",
-      "title": "hello",
-      "model": "cloud",
+      "id": "20702683-79a6-45a3-8a61-fabc3ebd6d29",
+      "title": "New Chat",
+      "model": "csv-local",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T14:05:42.880Z",
-      "updatedAt": "2025-08-05T14:13:24.176Z",
+      "createdAt": "2025-08-06T11:47:11.197Z",
+      "updatedAt": "2025-08-06T11:47:12.745Z",
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+      "csvFile": {
+        "id": "f5a4f1d3-68c4-4d8e-b1ee-218e10c3383f",
+        "name": "data.csv",
+        "size": 2218,
+        "type": "text/csv",
+        "url": "/api/files/03dee570-bb27-4950-86cb-653473f97e84.csv",
+        "uploadedAt": "2025-08-06T11:47:11.197Z"
+      }
     },
     {
-      "id": "edb38a3a-29a7-4483-b2b5-9401b6955dbe",
-      "title": "New chat",
-      "model": "cloud",
-      "chatbootVersion": "1.0",
-      "createdAt": "2025-08-05T14:05:57.512Z",
-      "updatedAt": "2025-08-05T14:05:59.642Z",
-      "messageCount": 2,
+      "id": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "title": "donne moi la première ligne de ce fichier",
+      "model": "csv-local",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T11:48:08.534Z",
+      "updatedAt": "2025-08-06T11:51:39.256Z",
+      "messageCount": 10,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+      "csvFile": {
+        "id": "cc751fa2-f997-49e7-a642-ab271eef36a0",
+        "name": "inseminations_2025-07-29.csv",
+        "size": 298,
+        "type": "text/csv",
+        "url": "/api/files/85de2655-cf4c-4275-a63c-4fde108abf1c.csv",
+        "uploadedAt": "2025-08-06T11:48:08.534Z"
+      }
     },
     {
-      "id": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
+      "id": "239c35ff-b5a4-432a-90e4-49082e960497",
       "title": "bonjour",
       "model": "local-cloud",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T14:06:25.236Z",
-      "updatedAt": "2025-08-05T14:06:45.304Z",
-      "messageCount": 4,
+      "createdAt": "2025-08-06T11:51:56.312Z",
+      "updatedAt": "2025-08-06T11:56:19.498Z",
+      "messageCount": 12,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "pdfFile": {
-        "id": "c3e1573d-972b-4fae-82d3-27a5ad1d425f",
-        "name": "Network_presentation (7).pdf",
-        "size": 514921,
+        "id": "8100cbb2-a502-4ff6-8a3d-dc8260025cb7",
+        "name": "Cahier_de_charges.pdf",
+        "size": 622676,
         "type": "application/pdf",
-        "url": "/api/files/a32d2a29-b055-4d22-8794-0997a6b9b02a.pdf",
-        "uploadedAt": "2025-08-05T14:06:25.236Z"
-      },
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+        "url": "/api/files/de54a101-336a-41ac-888f-3110cb5e77f7.pdf",
+        "uploadedAt": "2025-08-06T11:51:56.312Z"
+      }
     },
     {
-      "id": "b64049b7-9271-41e8-9c3d-81eca6f7daf1",
-      "title": "hello",
-      "model": "cloud",
+      "id": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "title": "bonjour",
+      "model": "local-cloud",
       "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T14:13:35.335Z",
-      "updatedAt": "2025-08-05T14:13:39.223Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
-    },
-    {
-      "id": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
-      "title": "qu'est ce qu'il est dans le module 5",
-      "model": "cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-05T15:38:57.589Z",
-      "updatedAt": "2025-08-05T15:40:22.171Z",
-      "messageCount": 4,
+      "createdAt": "2025-08-06T11:54:24.874Z",
+      "updatedAt": "2025-08-06T11:58:10.634Z",
+      "messageCount": 12,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "pdfFile": {
-        "id": "3482211a-a1da-4fa5-b495-fc9c5451d098",
-        "name": "votre_document.pdf",
-        "size": 610430,
+        "id": "4e742802-d8e4-4e9e-a541-1f6e8cdce8f6",
+        "name": "CV-EN.pdf",
+        "size": 85121,
         "type": "application/pdf",
-        "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
-        "uploadedAt": "2025-08-05T15:38:57.589Z"
+        "url": "/api/files/48e888ba-9426-4001-9c8c-26d073a92396.pdf",
+        "uploadedAt": "2025-08-06T11:54:24.874Z"
       }
     }
   ],
@@ -111,122 +113,296 @@
       "timestamp": "2025-08-05T14:05:01.847Z"
     },
     {
-      "id": "6528de87-6b6e-4cfc-8cd4-4400379ce760",
-      "chatId": "3731e595-eaaf-4b82-9d7d-cc51c0aba437",
+      "id": "938c17ff-be15-431d-9011-1b93a9d51b66",
+      "chatId": "20702683-79a6-45a3-8a61-fabc3ebd6d29",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T14:05:42.887Z"
-    },
-    {
-      "id": "cd4a8798-5bc9-4564-a43b-12e0af45cd76",
-      "chatId": "3731e595-eaaf-4b82-9d7d-cc51c0aba437",
-      "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T14:05:44.995Z"
-    },
-    {
-      "id": "fec4060e-a66d-4b41-b318-12cd1ba251c1",
-      "chatId": "edb38a3a-29a7-4483-b2b5-9401b6955dbe",
-      "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T14:05:57.526Z"
-    },
-    {
-      "id": "df8ad8b2-3f16-4116-b19c-3e353f8f8aa2",
-      "chatId": "edb38a3a-29a7-4483-b2b5-9401b6955dbe",
-      "type": "assistant",
-      "content": "Hello! How can I help you today? Or just saying hi?",
-      "timestamp": "2025-08-05T14:05:59.642Z"
-    },
-    {
-      "id": "be67f483-1492-48c4-8e5a-7a4b39af3b7b",
-      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
-      "type": "user",
-      "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-05T14:06:25.236Z",
+      "content": "📊 Uploaded dataset for analysis",
+      "timestamp": "2025-08-06T11:47:11.197Z",
       "attachments": [
         {
-          "id": "c3e1573d-972b-4fae-82d3-27a5ad1d425f",
-          "name": "Network_presentation (7).pdf",
-          "size": 514921,
-          "type": "application/pdf",
-          "url": "/api/files/a32d2a29-b055-4d22-8794-0997a6b9b02a.pdf",
-          "uploadedAt": "2025-08-05T14:06:25.236Z"
+          "id": "f5a4f1d3-68c4-4d8e-b1ee-218e10c3383f",
+          "name": "data.csv",
+          "size": 2218,
+          "type": "text/csv",
+          "url": "/api/files/03dee570-bb27-4950-86cb-653473f97e84.csv",
+          "uploadedAt": "2025-08-06T11:47:11.197Z"
         }
       ]
     },
     {
-      "id": "453d18d2-96d7-441d-ba30-66ef8231f3d1",
-      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
+      "id": "6334676b-8dea-4c08-9037-91d91e026f6d",
+      "chatId": "20702683-79a6-45a3-8a61-fabc3ebd6d29",
       "type": "assistant",
-      "content": "PDF traité et base vectorielle créée",
-      "timestamp": "2025-08-05T14:06:28.183Z"
+      "content": "I'm currently unable to connect to the local AI service at http://127.0.0.1:5000. Please ensure your local backend is running. CSV Local Cloud API error: 500 INTERNAL SERVER ERROR",
+      "timestamp": "2025-08-06T11:47:12.745Z"
     },
     {
-      "id": "deb97423-0f32-4ec6-8c49-d4b2cbe3a613",
-      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
+      "id": "34e3297c-d04d-497c-baa4-97147c055b3d",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "user",
+      "content": "📊 Uploaded dataset for analysis",
+      "timestamp": "2025-08-06T11:48:08.534Z",
+      "attachments": [
+        {
+          "id": "cc751fa2-f997-49e7-a642-ab271eef36a0",
+          "name": "inseminations_2025-07-29.csv",
+          "size": 298,
+          "type": "text/csv",
+          "url": "/api/files/85de2655-cf4c-4275-a63c-4fde108abf1c.csv",
+          "uploadedAt": "2025-08-06T11:48:08.534Z"
+        }
+      ]
+    },
+    {
+      "id": "ff20a90c-13cf-4e65-a9dc-0254ce72b54b",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "assistant",
+      "content": "Agent CSV initialisé avec succès",
+      "timestamp": "2025-08-06T11:48:10.070Z"
+    },
+    {
+      "id": "623b66ef-2d71-4882-bf94-43bf86b8d1c2",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "user",
+      "content": "donne moi la première ligne de ce fichier",
+      "timestamp": "2025-08-06T11:48:26.364Z"
+    },
+    {
+      "id": "fc802516-3e6d-4885-8161-ed2b1eef685d",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "assistant",
+      "content": "La première ligne du fichier est :\nID                      68888522130dfd05f7cb2056\nNNI                             MA12345789003267\nDate Dissémination                    2025-07-29\nID Semence                          SEM-2025-002\nInséminateur ID         6880c2c1857864b6ecb9b164\nResponsable Local ID    688743c8d201f241f3646d2b\nCréé par                            ALAMI Rachid\nDate Création           2025-07-29T08:24:02.826Z\nDate Modification       2025-07-29T08:24:02.826Z",
+      "timestamp": "2025-08-06T11:49:08.768Z"
+    },
+    {
+      "id": "a04e815f-0f2f-44e3-b022-699f6c8f6adc",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "user",
+      "content": ".",
+      "timestamp": "2025-08-06T11:49:21.248Z"
+    },
+    {
+      "id": "8e2573c3-ff99-4a76-830c-5dc0e58d7bc8",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "assistant",
+      "content": "❌ Erreur: An output parsing error occurred. In order to pass this error back to the agent and have it try again, pass `handle_parsing_errors=True` to the AgentExecutor. This is the error: Could not parse LLM output: ` It seems like your initial message was cut off. Please provide a clear and specific question about the dataframe `df` that you would like to be answered.`\nFor troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/OUTPUT_PARSING_FAILURE ",
+      "timestamp": "2025-08-06T11:49:51.286Z"
+    },
+    {
+      "id": "4edafd5f-6bef-431e-a8c9-b9e880d885bf",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "user",
+      "content": "donne moi l id de la première ligne",
+      "timestamp": "2025-08-06T11:50:59.911Z"
+    },
+    {
+      "id": "c99e5215-6cc7-4d7d-ae49-937072747c91",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "assistant",
+      "content": "The ID of the first row is 68888522130dfd05f7cb2056",
+      "timestamp": "2025-08-06T11:51:11.340Z"
+    },
+    {
+      "id": "06c69ea0-d122-4bc3-9500-511dad45e8be",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "user",
+      "content": "donne moi la taille du fichier",
+      "timestamp": "2025-08-06T11:51:26.485Z"
+    },
+    {
+      "id": "89151fca-2162-4f18-bacb-140f4c5921e9",
+      "chatId": "dbefca44-525d-4017-b4f6-91287b2eff10",
+      "type": "assistant",
+      "content": "There are 1 row and 9 columns in the dataframe.",
+      "timestamp": "2025-08-06T11:51:39.256Z"
+    },
+    {
+      "id": "26ad5b17-2033-4d07-a662-cfcfd9c9a366",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-06T11:51:56.312Z",
+      "attachments": [
+        {
+          "id": "8100cbb2-a502-4ff6-8a3d-dc8260025cb7",
+          "name": "Cahier_de_charges.pdf",
+          "size": 622676,
+          "type": "application/pdf",
+          "url": "/api/files/de54a101-336a-41ac-888f-3110cb5e77f7.pdf",
+          "uploadedAt": "2025-08-06T11:51:56.312Z"
+        }
+      ]
+    },
+    {
+      "id": "2e1dcfbb-8cfe-403f-9519-f6a7ad7402f0",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "assistant",
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-06T11:52:27.103Z"
+    },
+    {
+      "id": "903924de-5254-4703-ab71-ea9c12b1a39e",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
       "type": "user",
       "content": "bonjour",
-      "timestamp": "2025-08-05T14:06:32.407Z"
+      "timestamp": "2025-08-06T11:52:39.638Z"
     },
     {
-      "id": "d25b5691-5a4e-4c65-af89-149876c4d2a8",
-      "chatId": "33d8f45d-3fc9-49ef-bd2d-bf2a10a8b35f",
+      "id": "865412b2-5dd0-44ff-83e7-58a54eb69327",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
       "type": "assistant",
-      "content": "Bonjour ! Je suis ravi de vous aider. Vous souhaitez en savoir plus sur les serveurs de courrier, n'est-ce pas ? Quelle est votre question spécifique ? Veuillez me poser vos questions pour que je puisse vous fournir des informations utiles et précises.",
-      "timestamp": "2025-08-05T14:06:35.632Z"
+      "content": "Bonjour ! Je suis ravi de vous aider. Pourriez-vous me donner plus de détails sur ce que vous recherchez ou sur quel aspect du système de gestion d'abonnement pour les employés OCP vous souhaitez obtenir des informations ?",
+      "timestamp": "2025-08-06T11:52:44.957Z"
     },
     {
-      "id": "2aa26a48-19cf-4e16-8a20-0e2bd56c281b",
-      "chatId": "b64049b7-9271-41e8-9c3d-81eca6f7daf1",
+      "id": "46b7ea1f-3004-44f8-8b17-2d0a4a4d4001",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
       "type": "user",
-      "content": "hello",
-      "timestamp": "2025-08-05T14:13:35.403Z"
+      "content": "qu'il est le sujet de ce cachier de charge ?",
+      "timestamp": "2025-08-06T11:53:04.116Z"
     },
     {
-      "id": "ba70edf7-67b3-4050-93c7-b21bbd0e11ff",
-      "chatId": "b64049b7-9271-41e8-9c3d-81eca6f7daf1",
+      "id": "0e38b061-335e-4ad9-a3df-384049756526",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
       "type": "assistant",
-      "content": "Hello! How can I help you today?",
-      "timestamp": "2025-08-05T14:13:37.464Z"
+      "content": "Je ne sais pas car les informations fournies depuis le document ne contiennent aucune information sur le sujet d'un cachier de charge. Le document présente plusieurs collections et modèles de données, notamment des utilisateurs, des services, des transactions de consommation de crédits et des catégories de services, mais il ne mentionne pas de \"cachier de charge\" ni de son sujet.",
+      "timestamp": "2025-08-06T11:53:09.591Z"
     },
     {
-      "id": "b8477969-ce6f-485d-ab8f-054f10565b8e",
-      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "id": "77cf8e8e-55d5-4a91-920f-5711fad5258e",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "user",
+      "content": "est ce qu'il y'a des languages comme react angular ....",
+      "timestamp": "2025-08-06T11:53:38.983Z"
+    },
+    {
+      "id": "813834b4-0517-4ed3-98fa-77b1fabcaebc",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "assistant",
+      "content": "Non, il n'y a pas d'informations sur les langages de programmation spécifiques utilisés dans le document fourni. Seul est mentionné Angular en tant que frontend, et Spring Boot pour le backend.",
+      "timestamp": "2025-08-06T11:53:44.044Z"
+    },
+    {
+      "id": "55062ea8-a533-4c3a-9732-beb0e90478cb",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
       "type": "user",
       "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-05T15:38:57.589Z",
+      "timestamp": "2025-08-06T11:54:24.874Z",
       "attachments": [
         {
-          "id": "3482211a-a1da-4fa5-b495-fc9c5451d098",
-          "name": "votre_document.pdf",
-          "size": 610430,
+          "id": "4e742802-d8e4-4e9e-a541-1f6e8cdce8f6",
+          "name": "CV-EN.pdf",
+          "size": 85121,
           "type": "application/pdf",
-          "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
-          "uploadedAt": "2025-08-05T15:38:57.589Z"
+          "url": "/api/files/48e888ba-9426-4001-9c8c-26d073a92396.pdf",
+          "uploadedAt": "2025-08-06T11:54:24.874Z"
         }
       ]
     },
     {
-      "id": "0f0bc97d-5d0d-4a25-8563-c4a5e550089a",
-      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "id": "0cad6eb2-2d3e-4b44-9df4-fc48172c6b63",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
       "type": "assistant",
-      "content": "Bonjour ! En tant qu'assistant expert, je suis prêt à répondre à vos questions en me basant exclusivement sur le PDF que vous avez fourni.\n\nN'hésitez pas à me poser vos questions sur les modules de gestion des recettes, des budgets, des engagements, des paiements, des états de synthèse ou du calendrier décrits dans le document.",
-      "timestamp": "2025-08-05T15:39:05.548Z"
+      "content": "I apologize, but I couldn't generate a response. Please try again.",
+      "timestamp": "2025-08-06T11:54:38.326Z"
     },
     {
-      "id": "0548c03b-c571-4afa-ad19-59e08d046313",
-      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "id": "39c4bc28-ab32-4d10-b209-483b389a73ed",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
       "type": "user",
-      "content": "qu'est ce qu'il est dans le module 5",
-      "timestamp": "2025-08-05T15:39:23.068Z"
+      "content": "bonjour",
+      "timestamp": "2025-08-06T11:54:45.612Z"
     },
     {
-      "id": "80520621-33cf-461d-b5f1-3960421c251a",
-      "chatId": "a9aac6a7-5152-4591-96a5-7da6a273c5a5",
+      "id": "490df1e0-e142-48a2-b7bc-172b4d9b62da",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
       "type": "assistant",
-      "content": "Le document que vous avez fourni contient **trois modules 5** différents, chacun appartenant à une partie distincte du système :\n\n1.  **Dans la Partie II : Budgets, le Module 5 est le \"Budget de Prestation de Service\".**\n    *   **Description Générale :** Ce module gère les finances liées aux prestations de service offertes par l'université (consultations, services techniques, etc.).\n    *   **Fonctionnalités principales :** Facturation, suivi des paiements, gestion des dépenses associ",
-      "timestamp": "2025-08-05T15:39:30.922Z"
+      "content": "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
+      "timestamp": "2025-08-06T11:54:50.131Z"
+    },
+    {
+      "id": "70268e4d-e04f-486d-9411-56449869e7f6",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "user",
+      "content": "c'est quoi ce document ?",
+      "timestamp": "2025-08-06T11:55:00.668Z"
+    },
+    {
+      "id": "a0731146-dc1d-42cb-90b8-8da33cfe44d9",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "assistant",
+      "content": "Je ne sais pas exactement ce que contient ce document, mais en fonction du contenu et des informations fournies, il semble être un CV (Curriculum Vitae) de Zakariae Amrani, étudiant final en Ingénierie informatique.",
+      "timestamp": "2025-08-06T11:55:05.744Z"
+    },
+    {
+      "id": "fe27ce56-2d41-4d36-aa06-7e0147ceb949",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "user",
+      "content": "d'accord il y'a d'autre chose aussi ?",
+      "timestamp": "2025-08-06T11:55:40.236Z"
+    },
+    {
+      "id": "016e5f7f-f001-4ca9-a9a3-3957f16d7489",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "assistant",
+      "content": "Non, je n'ai trouvé aucune information supplémentaire dans le document qui pourrait être pertinente pour répondre à une question. Vous avez fourni les détails du modèle de données et des collections de base de données, ainsi que quelques informations sur l'application (Angular, Spring Boot, JWT, etc.). Mais pour répondre à votre question \"d'accord il y a d'autre chose aussi ?\", je n'ai pas suffisamment d'informations pour le savoir.",
+      "timestamp": "2025-08-06T11:55:45.954Z"
+    },
+    {
+      "id": "cd9a5937-1fa1-41c4-944b-bcd13b75cd07",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "user",
+      "content": "quelles sont les modèle de données qu'on a dans ce document",
+      "timestamp": "2025-08-06T11:56:11.188Z"
+    },
+    {
+      "id": "3c55aac7-e938-4a70-87e1-12d39205fa9d",
+      "chatId": "239c35ff-b5a4-432a-90e4-49082e960497",
+      "type": "assistant",
+      "content": "Bonjour ! Je suis Mohamed MAHROUCH, votre assistant expert.\n\nDans ce document, il existe deux modèles de données principaux :\n\n1. **Services** (Collection 4 : services)\n * Champ :\n + `_id` : Identifiant unique généré par MongoDB (ObjectId)\n + `name` : Nom du service\n + `description` : Description détaillée du service\n + `costInCredits` : Coût en crédits pour utiliser ce service\n + `categoryId` : Référence à l'identifiant `_id` du document dans la collection `service_categories`\n + `requiresBooking` : Indicateur de vérification si le service nécessite une réservation (Boolean)\n2. **Historique d'utilisation** (Collection 5 : usage_history)\n * Champ :\n + `_id` : Identifiant unique généré par MongoDB (ObjectId)\n + `userId` : Référence à l'utilisateur (`users`) qui a consommé le service (ObjectId)\n + `serviceId` : Référence au service (`services`) qui a été consommé (ObjectId)\n\nCes modèles de données sont utilisés pour stocker les informations sur les services proposés aux employés, ainsi que les transactions d'utilisation des crédits.",
+      "timestamp": "2025-08-06T11:56:19.498Z"
+    },
+    {
+      "id": "40a8b0ff-a8e8-435f-8b2e-0be23019c45d",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "user",
+      "content": "d'accord quelque autres informations ?",
+      "timestamp": "2025-08-06T11:57:03.724Z"
+    },
+    {
+      "id": "0408e926-3f1a-486e-aca9-7fcf6587db3c",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "assistant",
+      "content": "Je ne vois pas d'autres informations pertinentes dans le contexte fourni. Il semble que les informations fournies sont limitées à celles liées à Zakariae Amrani, son expérience professionnelle et ses compétences techniques.\n\nSi vous souhaitez obtenir des informations supplémentaires sur Zakariae Amrani ou éventuellement d'autres sujets, je serais heureux de t'aider. Sinon, si vous spécifiez quel genre d'informations vous recherchez, je peux essayer de vous aider avec les informations disponibles.",
+      "timestamp": "2025-08-06T11:57:09.871Z"
+    },
+    {
+      "id": "362ef8eb-ce7b-40ad-b0cb-01e80e96366b",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "user",
+      "content": "je veux les expérience professionnelle",
+      "timestamp": "2025-08-06T11:57:31.399Z"
+    },
+    {
+      "id": "0045a417-6e57-4eb9-b6ed-8920383fb09a",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "assistant",
+      "content": "Voici vos expériences professionnelles :\n\n1. Full-Stack Developer (juin 2024 - août 2024) au Provincial Directorate of Equipment Missour :\n * Rôle : Full-Stack Developer\n * Tâches principales :\n + Analyse des besoins et rédaction de spécifications techniques\n + Développement du front-end avec React.js et Chakra UI\n + mise en place d'une architecture back-end avec Express.js et MongoDB\n + construction de RESTful APIs pour la gestion des données\n + mise en place d'authentification JWT\n\n2. (Pas d'expérience professionnelle mentionnée)",
+      "timestamp": "2025-08-06T11:57:37.746Z"
+    },
+    {
+      "id": "2c25487f-7adf-45e4-b2b4-b2776a36bc4d",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "user",
+      "content": "je suis sure qu'il a d'autres experiences",
+      "timestamp": "2025-08-06T11:58:05.300Z"
+    },
+    {
+      "id": "d25064bd-0ff1-43ff-9105-896e65521d1a",
+      "chatId": "6be4339c-d0e2-45ba-9f7f-fd1ca5431f27",
+      "type": "assistant",
+      "content": "D'après les informations fournies, il semble que Zakariae Amrani ait été en stage à Orange Digital Center Agadir, Morocco en juillet 2025 et septembre 2025. Il n'y a pas mention d'autre expérience professionnelle ou d'autres stages avant cette date.",
+      "timestamp": "2025-08-06T11:58:10.634Z"
     }
   ]
 }

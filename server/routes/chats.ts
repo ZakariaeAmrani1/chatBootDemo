@@ -191,6 +191,7 @@ async function callLocalCloudAPI(
   pdfFilePath?: string,
   appUrl?: string,
   isInitialPdfSetup: boolean = false,
+  chatId?: string,
 ): Promise<string> {
   const baseUrl =
     appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
@@ -207,6 +208,7 @@ async function callLocalCloudAPI(
       // Read the PDF file and attach it
       const pdfStream = fs.createReadStream(pdfFilePath);
       formData.append("pdf_file", pdfStream, path.basename(pdfFilePath));
+      formData.append("chat_id", chatId);
       // formData.append("pdf_file", pdfFile);
 
       // const response = await fetch(initPdfUrl, {
@@ -243,6 +245,7 @@ async function callLocalCloudAPI(
         },
         body: JSON.stringify({
           question: userMessage,
+          chat_id: chatId,
         }),
       });
 
@@ -270,6 +273,7 @@ async function callCSVLocalCloudAPI(
   csvFilePath?: string,
   appUrl?: string,
   isInitialCsvSetup: boolean = false,
+  chatId?: string,
 ): Promise<string> {
   const baseUrl =
     appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
@@ -282,6 +286,7 @@ async function callCSVLocalCloudAPI(
       // Read the CSV file and attach it
       const csvStream = fs.createReadStream(csvFilePath);
       formData.append("csv_file", csvStream, path.basename(csvFilePath));
+      formData.append("chat_id", chatId);
 
       const response = await fetch1(initCsvUrl, {
         method: "POST",
@@ -310,6 +315,7 @@ async function callCSVLocalCloudAPI(
         },
         body: JSON.stringify({
           question: userMessage,
+          chat_id: chatId,
         }),
       });
 
@@ -748,6 +754,7 @@ async function generateAIResponseWithFile(
           filePath,
           appUrl,
           isInitialFileSetup,
+          chatId,
         );
       } catch (error) {
         console.error("Local Cloud API error:", error);
@@ -771,6 +778,7 @@ async function generateAIResponseWithFile(
           csvFilePath,
           appUrl,
           isInitialFileSetup,
+          chatId,
         );
       } catch (error) {
         console.error("CSV Local Cloud API error:", error);
@@ -874,6 +882,7 @@ async function generateAIResponseWithPDF(
           pdfFilePath,
           appUrl,
           isInitialPdfSetup,
+          chatId,
         );
       } catch (error) {
         console.error("Local Cloud API error:", error);
@@ -946,7 +955,30 @@ async function generateAIResponse(
         const chat = chatId ? DataManager.getChatById(chatId) : null;
         const pdfContext = chat?.pdfFile?.name;
         const appUrl = user.settings.appUrl;
-        return await callLocalCloudAPI(userMessage, pdfContext);
+        return await callLocalCloudAPI(
+          userMessage,
+          pdfContext,
+          appUrl,
+          false,
+          chatId,
+        );
+      } catch (error) {
+        console.error("Local Cloud API error:", error);
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "csv-local") {
+      // Use Local Cloud backend
+      try {
+        const chat = chatId ? DataManager.getChatById(chatId) : null;
+        const pdfContext = chat?.pdfFile?.name;
+        const appUrl = user.settings.appUrl;
+        return await callCSVLocalCloudAPI(
+          userMessage,
+          pdfContext,
+          appUrl,
+          false,
+          chatId,
+        );
       } catch (error) {
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
