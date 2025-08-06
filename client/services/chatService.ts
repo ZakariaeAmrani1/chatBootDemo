@@ -150,8 +150,8 @@ class ChatService {
           isThinking: request.message || request.pdfFile || request.csvFile ? true : false, // Thinking if there was a message or file
         });
 
-        // Start polling for new messages (AI response) if there was a message or PDF file
-        if ((request.message && request.message.trim()) || request.pdfFile) {
+        // Start polling for new messages (AI response) if there was a message or file
+        if ((request.message && request.message.trim()) || request.pdfFile || request.csvFile) {
           this.startPollingForMessages(newChat.id);
         }
 
