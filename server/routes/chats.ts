@@ -39,11 +39,11 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: multer.FileFilterCallback,
 ) => {
-  // Only allow PDF files for chat uploads
-  if (file.mimetype === "application/pdf") {
+  // Allow PDF and CSV files for chat uploads
+  if (file.mimetype === "application/pdf" || file.mimetype === "text/csv") {
     cb(null, true);
   } else {
-    cb(new Error("Only PDF files are allowed"));
+    cb(new Error("Only PDF and CSV files are allowed"));
   }
 };
 
@@ -54,6 +54,8 @@ const upload = multer({
 });
 
 export const uploadPDF = upload.single("pdfFile");
+export const uploadCSV = upload.single("csvFile");
+export const uploadFile = upload.single("file"); // Generic file upload
 
 // Function to extract text from PDF (basic implementation)
 async function extractPDFText(filePath: string): Promise<string> {
@@ -63,6 +65,19 @@ async function extractPDFText(filePath: string): Promise<string> {
   } catch (error) {
     console.error("Error extracting PDF text:", error);
     return "[PDF Error] Could not extract text from the PDF file.";
+  }
+}
+
+// Function to extract data from CSV (basic implementation)
+async function extractCSVData(filePath: string): Promise<string> {
+  try {
+    const csvContent = fs.readFileSync(filePath, 'utf-8');
+    // For now, return the first few lines as a preview. In production, you'd parse the CSV properly
+    const lines = csvContent.split('\n').slice(0, 10);
+    return `[CSV Data] Preview of ${path.basename(filePath)}:\n${lines.join('\n')}\n\n[Note: This is a preview. Full CSV processing would be implemented in production.]`;
+  } catch (error) {
+    console.error("Error extracting CSV data:", error);
+    return "[CSV Error] Could not extract data from the CSV file.";
   }
 }
 
