@@ -79,6 +79,14 @@
       "type": "text/csv",
       "url": "/api/files/1e9128ca-0f1c-45ad-b632-c1acf562d0db.csv",
       "uploadedAt": "2025-08-06T09:25:00.174Z"
+    },
+    {
+      "id": "c6c8e010-2013-41b7-baf1-c5996a7295bf",
+      "name": "Cahier_de_charges.pdf",
+      "size": 622676,
+      "type": "application/pdf",
+      "url": "/api/files/0dc2a9bb-d4f6-4cd4-b2fc-188db3403497.pdf",
+      "uploadedAt": "2025-08-06T09:53:38.088Z"
     }
   ]
 }

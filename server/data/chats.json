@@ -79,6 +79,24 @@
         "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
         "uploadedAt": "2025-08-05T15:38:57.589Z"
       }
+    },
+    {
+      "id": "df32c0bf-39fe-43d7-9b22-4731fd722fac",
+      "title": "New Chat",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:53:38.088Z",
+      "updatedAt": "2025-08-06T09:53:39.600Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "c6c8e010-2013-41b7-baf1-c5996a7295bf",
+        "name": "Cahier_de_charges.pdf",
+        "size": 622676,
+        "type": "application/pdf",
+        "url": "/api/files/0dc2a9bb-d4f6-4cd4-b2fc-188db3403497.pdf",
+        "uploadedAt": "2025-08-06T09:53:38.088Z"
+      }
     }
   ],
   "messages": [
@@ -227,6 +245,30 @@
       "type": "assistant",
       "content": "Le document que vous avez fourni contient **trois modules 5** différents, chacun appartenant à une partie distincte du système :\n\n1.  **Dans la Partie II : Budgets, le Module 5 est le \"Budget de Prestation de Service\".**\n    *   **Description Générale :** Ce module gère les finances liées aux prestations de service offertes par l'université (consultations, services techniques, etc.).\n    *   **Fonctionnalités principales :** Facturation, suivi des paiements, gestion des dépenses associ",
       "timestamp": "2025-08-05T15:39:30.922Z"
+    },
+    {
+      "id": "c5ad1738-50a9-4410-b91d-d475805c1f78",
+      "chatId": "df32c0bf-39fe-43d7-9b22-4731fd722fac",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-06T09:53:38.088Z",
+      "attachments": [
+        {
+          "id": "c6c8e010-2013-41b7-baf1-c5996a7295bf",
+          "name": "Cahier_de_charges.pdf",
+          "size": 622676,
+          "type": "application/pdf",
+          "url": "/api/files/0dc2a9bb-d4f6-4cd4-b2fc-188db3403497.pdf",
+          "uploadedAt": "2025-08-06T09:53:38.088Z"
+        }
+      ]
+    },
+    {
+      "id": "442182c2-9cff-4f9e-9521-0ad2f5c28e88",
+      "chatId": "df32c0bf-39fe-43d7-9b22-4731fd722fac",
+      "type": "assistant",
+      "content": "I'm currently unable to connect to the local AI service at http://127.0.0.1:5000. Please ensure your local backend is running. request to http://127.0.0.1:5000/init-pdf failed, reason: connect ECONNREFUSED 127.0.0.1:5000",
+      "timestamp": "2025-08-06T09:53:39.600Z"
     }
   ]
 }
