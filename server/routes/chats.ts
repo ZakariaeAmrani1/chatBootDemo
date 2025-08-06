@@ -640,7 +640,127 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
-// AI response generator with PDF content support
+// AI response generator with file content support (PDF or CSV)
+async function generateAIResponseWithFile(
+  userMessage: string,
+  userId: string = "user-1",
+  chatId?: string,
+  fileContent?: string,
+  file?: FileAttachment,
+  isInitialFileSetup: boolean = false,
+): Promise<string> {
+  try {
+    const user = DataManager.getUserById(userId);
+
+    // Get the chat to determine which model to use
+    let modelType = "cloud"; // default
+    if (chatId) {
+      const chat = DataManager.getChatById(chatId);
+      modelType = chat?.model || "cloud";
+    }
+
+    if (modelType === "cloud") {
+      // Use Gemini API for Cloud model
+      const geminiApiKey = user?.settings?.geminiApiKey;
+      const geminiModel =
+        user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+
+      if (!geminiApiKey || !geminiApiKey.trim()) {
+        return "❌ **API Key Required**: To use the Cloud model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).";
+      }
+
+      try {
+        // Get chat history for context (excluding the current message)
+        let chatHistory = chatId ? DataManager.getMessagesByChatId(chatId) : [];
+
+        // Remove the last message if it's a user message matching the current message
+        if (chatHistory.length > 0) {
+          const lastMessage = chatHistory[chatHistory.length - 1];
+          if (
+            lastMessage.type === "user" &&
+            lastMessage.content === userMessage
+          ) {
+            chatHistory = chatHistory.slice(0, -1);
+          }
+        }
+
+        // Get file path for Gemini API
+        let filePath: string | undefined;
+        if (chatId && file) {
+          filePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(file.url),
+          );
+        }
+
+        return await callGeminiAPI(
+          userMessage,
+          geminiApiKey,
+          geminiModel,
+          chatHistory,
+          filePath,
+        );
+      } catch (error) {
+        console.error("Gemini API error:", error);
+        return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "local-cloud") {
+      // Use Local Cloud backend for PDF
+      try {
+        let filePath: string | undefined;
+        if (chatId && file) {
+          filePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(file.url),
+          );
+        }
+
+        const appUrl = user?.settings?.appUrl;
+        return await callLocalCloudAPI(
+          userMessage,
+          filePath,
+          appUrl,
+          isInitialFileSetup,
+        );
+      } catch (error) {
+        console.error("Local Cloud API error:", error);
+        return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    } else if (modelType === "csv-local") {
+      // Use CSV Local Cloud backend
+      try {
+        let csvFilePath: string | undefined;
+        if (chatId && file && file.type === 'text/csv') {
+          csvFilePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(file.url),
+          );
+        }
+
+        const appUrl = user?.settings?.appUrl;
+        return await callCSVLocalCloudAPI(
+          userMessage,
+          csvFilePath,
+          appUrl,
+          isInitialFileSetup,
+        );
+      } catch (error) {
+        console.error("CSV Local Cloud API error:", error);
+        return `❌ **CSV Local Service Error**: Failed to connect to local CSV AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      }
+    }
+  } catch (error) {
+    console.error("Error accessing AI services:", error);
+    return `❌ **System Error**: An unexpected error occurred while processing your request. Please try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+  }
+
+  return "❌ **Configuration Error**: Unable to determine the appropriate AI service. Please check your settings.";
+}
+
+// AI response generator with PDF content support (legacy function for backward compatibility)
 async function generateAIResponseWithPDF(
   userMessage: string,
   userId: string = "user-1",
