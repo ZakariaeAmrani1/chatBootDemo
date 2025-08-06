@@ -88,32 +88,53 @@ export function ModelDropdown({
   useEffect(() => {
     const loadModels = async () => {
       try {
-        const response = await apiService.getModels();
-        if (response.success && response.data) {
-          // Convert icon strings to components
-          const modelsWithIcons = response.data.map((model: any) => ({
-            ...model,
-            icon: model.icon || "Brain", // Keep as string for now
-          }));
-          setModels(modelsWithIcons);
+        // Temporarily use fallback models to test UI functionality
+        console.log("🔄 Loading models...");
 
-          // Auto-select the first model if none is selected
-          if (!selectedModel && modelsWithIcons.length > 0) {
-            onModelChange(modelsWithIcons[0].id);
+        // Try API first, but with a quick timeout
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('API timeout')), 2000)
+        );
+
+        const apiPromise = apiService.getModels();
+
+        try {
+          const response = await Promise.race([apiPromise, timeoutPromise]);
+          if (response.success && response.data) {
+            console.log("✅ API models loaded successfully");
+            // Convert icon strings to components
+            const modelsWithIcons = response.data.map((model: any) => ({
+              ...model,
+              icon: model.icon || "Brain", // Keep as string for now
+            }));
+            setModels(modelsWithIcons);
+
+            // Auto-select the first model if none is selected
+            if (!selectedModel && modelsWithIcons.length > 0) {
+              onModelChange(modelsWithIcons[0].id);
+            }
+          } else {
+            throw new Error(response.error || "API response not successful");
           }
-        } else {
-          console.error("API response was not successful:", response.error);
+        } catch (apiError) {
+          console.warn("⚠️ API failed, using fallback models:", apiError);
           // Use fallback models if API fails
-          setModels(getFallbackModels());
+          const fallbackModels = getFallbackModels();
+          setModels(fallbackModels);
+
+          // Auto-select cloud model if none is selected
+          if (!selectedModel && fallbackModels.length > 0) {
+            onModelChange(fallbackModels[0].id);
+          }
         }
       } catch (error) {
-        console.error("Failed to load models:", error);
-        // Use fallback models if fetch fails completely
-        setModels(getFallbackModels());
+        console.error("❌ Critical error loading models:", error);
+        // Emergency fallback
+        const fallbackModels = getFallbackModels();
+        setModels(fallbackModels);
 
-        // Auto-select cloud model if none is selected
-        if (!selectedModel) {
-          onModelChange("cloud");
+        if (!selectedModel && fallbackModels.length > 0) {
+          onModelChange(fallbackModels[0].id);
         }
       } finally {
         setLoading(false);
