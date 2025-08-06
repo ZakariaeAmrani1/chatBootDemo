@@ -100,28 +100,8 @@ export function ModelDropdown({
           onModelChange(fallbackModels[0].id);
         }
 
-        // Try to load from API in the background with very short timeout
-        try {
-          const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('API timeout')), 500)
-          );
-
-          const apiPromise = apiService.getModels();
-          const response = await Promise.race([apiPromise, timeoutPromise]);
-
-          if (response.success && response.data) {
-            console.log("✅ API models loaded, updating from server");
-            // Convert icon strings to components
-            const modelsWithIcons = response.data.map((model: any) => ({
-              ...model,
-              icon: model.icon || "Brain",
-            }));
-            setModels(modelsWithIcons);
-          }
-        } catch (apiError) {
-          console.log("⚠️ API unavailable, using fallback models");
-          // Fallback models already set above, so just continue
-        }
+        // API disabled temporarily to prevent fetch errors
+        console.log("🔧 API calls disabled - using fallback models for stability");
       } catch (error) {
         console.error("❌ Critical error loading models:", error);
         // Emergency fallback
