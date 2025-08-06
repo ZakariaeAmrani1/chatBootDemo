@@ -79,9 +79,15 @@ const Chatbot = () => {
         const response = await apiService.getModels();
         if (response.success && response.data) {
           setModels(response.data);
+        } else {
+          console.error("API response was not successful:", response.error);
+          // Set empty array as fallback - ModelDropdown has its own fallback
+          setModels([]);
         }
       } catch (error) {
         console.error("Failed to load models:", error);
+        // Set empty array as fallback - ModelDropdown has its own fallback
+        setModels([]);
       }
     };
     loadModels();
