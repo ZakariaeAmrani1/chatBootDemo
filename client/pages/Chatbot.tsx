@@ -72,25 +72,10 @@ const Chatbot = () => {
     localStorage.setItem("csvPreviewWidth", width.toString());
   };
 
-  // Load models for display
+  // Load models for display (API disabled for stability)
   useEffect(() => {
-    const loadModels = async () => {
-      try {
-        const response = await apiService.getModels();
-        if (response.success && response.data) {
-          setModels(response.data);
-        } else {
-          console.error("API response was not successful:", response.error);
-          // Set empty array as fallback - ModelDropdown has its own fallback
-          setModels([]);
-        }
-      } catch (error) {
-        console.error("Failed to load models:", error);
-        // Set empty array as fallback - ModelDropdown has its own fallback
-        setModels([]);
-      }
-    };
-    loadModels();
+    console.log("🔧 Model loading disabled - using component fallbacks");
+    setModels([]); // ModelDropdown has its own fallback models
   }, []);
 
   // Authentication and theme context
