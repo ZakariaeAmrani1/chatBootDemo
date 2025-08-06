@@ -97,6 +97,96 @@
         "url": "/api/files/0dc2a9bb-d4f6-4cd4-b2fc-188db3403497.pdf",
         "uploadedAt": "2025-08-06T09:53:38.088Z"
       }
+    },
+    {
+      "id": "325f0d84-f0f3-45cd-a834-aaf3027e3cb1",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:18.896Z",
+      "updatedAt": "2025-08-06T09:55:18.896Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "e407504e-0b28-4438-82f3-3307db372fa1",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:23.609Z",
+      "updatedAt": "2025-08-06T09:55:23.609Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "86183ab5-6432-49cf-9b39-b0d5c87c1e44",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:23.734Z",
+      "updatedAt": "2025-08-06T09:55:23.734Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "4a7faf7a-a64c-4a05-aefa-c2c2b493abff",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:24.101Z",
+      "updatedAt": "2025-08-06T09:55:24.101Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "34e66d2c-747a-49e5-b7b8-8f27c7741b11",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:24.255Z",
+      "updatedAt": "2025-08-06T09:55:24.255Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "1691d169-5552-44e2-84c5-bb6ad6cbbcaf",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:24.392Z",
+      "updatedAt": "2025-08-06T09:55:24.392Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "4350eb3e-7693-4ba4-a99a-8a4e3f8bd342",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:24.588Z",
+      "updatedAt": "2025-08-06T09:55:24.588Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "f4e90f2d-bdea-4591-84c7-18301cd83c5b",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:25.261Z",
+      "updatedAt": "2025-08-06T09:55:25.261Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "87315419-a9f0-426e-bd03-c4c43ff77227",
+      "title": "New Chat",
+      "model": "cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-06T09:55:25.262Z",
+      "updatedAt": "2025-08-06T09:55:25.262Z",
+      "messageCount": 0,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
