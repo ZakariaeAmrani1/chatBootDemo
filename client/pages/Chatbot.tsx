@@ -499,6 +499,22 @@ const Chatbot = () => {
               </Button>
             )}
 
+            {/* CSV Preview Toggle */}
+            {chatState.currentChat?.csvFile && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setCsvPreviewOpen(!csvPreviewOpen)}
+                className="hidden sm:flex"
+                title={csvPreviewOpen ? "Hide CSV" : "Show CSV"}
+              >
+                <Eye className="h-4 w-4" />
+                <span className="ml-1 hidden md:inline text-xs">
+                  {csvPreviewOpen ? "Hide CSV" : "Show CSV"}
+                </span>
+              </Button>
+            )}
+
             <Button
               variant="ghost"
               size="sm"
