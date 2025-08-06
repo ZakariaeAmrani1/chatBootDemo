@@ -63,6 +63,14 @@
       "type": "application/pdf",
       "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
       "uploadedAt": "2025-08-05T15:38:57.589Z"
+    },
+    {
+      "id": "bcbcd9db-117c-40a2-bc39-9af3706d3406",
+      "name": "data.csv",
+      "size": 2218,
+      "type": "text/csv",
+      "url": "/api/files/f059af3c-ab13-4222-a276-8aea3169949d.csv",
+      "uploadedAt": "2025-08-06T09:01:03.504Z"
     }
   ]
 }
