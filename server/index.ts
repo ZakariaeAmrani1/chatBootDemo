@@ -9,7 +9,7 @@ import {
   sendMessage,
   updateChat,
   deleteChat,
-  uploadPDF,
+  uploadFile,
 } from "./routes/chats";
 import {
   getCurrentUser,
