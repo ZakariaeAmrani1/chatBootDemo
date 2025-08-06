@@ -109,7 +109,8 @@ export interface CreateChatRequest {
   chatbootVersion?: string;
   message?: string;
   attachments?: File[];
-  pdfFile?: File; // Required PDF file for the chat
+  pdfFile?: File; // PDF file for the chat (for local-cloud model)
+  csvFile?: File; // CSV file for the chat (for csv-local model)
   userId?: string; // User ID for the chat
 }
 
