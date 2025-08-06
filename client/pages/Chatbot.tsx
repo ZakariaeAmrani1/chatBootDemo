@@ -258,11 +258,16 @@ const Chatbot = () => {
         chatbootVersion: selectedVersion,
       };
 
-      // Add the file to the appropriate field based on its type
-      if (file.type === "application/pdf") {
+      // Add the file to the appropriate field based on model and file type
+      if (model === "local-cloud" && file.type === "application/pdf") {
         createChatRequest.pdfFile = file;
-      } else if (file.type === "text/csv") {
+      } else if (model === "csv-local" && file.type === "text/csv") {
         createChatRequest.csvFile = file;
+      } else if (model === "cloud") {
+        // For cloud model, treat any file as a general attachment
+        // The cloud API can handle any file type
+        createChatRequest.message = `I've uploaded a file (${file.name}) for analysis.`;
+        // We'll use the regular file upload mechanism for cloud
       }
 
       // Create chat with the selected model and file
