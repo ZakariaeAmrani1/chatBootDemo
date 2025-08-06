@@ -34,6 +34,7 @@ interface ChatAreaProps {
   user?: User | null;
   hasActiveChat?: boolean;
   currentChatHasPdf?: boolean;
+  currentChatHasCsv?: boolean;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
