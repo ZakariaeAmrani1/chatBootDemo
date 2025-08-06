@@ -323,7 +323,7 @@ class ChatService {
     }
   }
 
-  private pollingTimeouts: Map<string, NodeJS.Timeout> = new Map();
+  private pollingTimeouts: Map<string, number> = new Map();
 
   private async startPollingForMessages(chatId: string): Promise<void> {
     // Clear any existing polling for this chat
