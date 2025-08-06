@@ -90,6 +90,7 @@ export interface Chat {
   userId: string;
   categoryId?: string; // Optional category assignment
   pdfFile?: FileAttachment; // PDF file associated with this chat
+  csvFile?: FileAttachment; // CSV file associated with this chat
   isDraft?: boolean; // True for temporary chats not yet saved to backend
 }
 
