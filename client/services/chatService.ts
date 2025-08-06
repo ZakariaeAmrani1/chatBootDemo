@@ -277,13 +277,6 @@ class ChatService {
     // Stop any existing polling for this chat
     this.stopPollingForChat(finalChatId);
 
-    // Refresh messages before sending to ensure we have the latest state
-    try {
-      await this.loadChatMessages(finalChatId);
-    } catch (error) {
-      console.warn("Failed to refresh messages before sending:", error);
-    }
-
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
