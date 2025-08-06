@@ -534,7 +534,7 @@ export const createChat: RequestHandler = (req, res) => {
         };
 
         DataManager.addMessage(aiMessage);
-      }, 1500);
+      }, 2000); // 2 second delay for file processing
     }
 
     const response: ApiResponse<Chat> = {
