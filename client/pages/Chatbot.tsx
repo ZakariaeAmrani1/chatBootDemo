@@ -508,7 +508,7 @@ const Chatbot = () => {
             <ModelDropdown
               selectedModel={selectedModel}
               onModelChange={handleModelChange}
-              disabled={!!chatState.currentChat}
+              disabled={chatState.currentChat && !chatState.currentChat.isDraft && chatState.messages.length > 0}
             />
           </div>
 
