@@ -233,7 +233,7 @@ async function callLocalCloudAPI(
       const data = (await response.json()) as LocalApiResponse;
       return (
         data.message ||
-        "I apologize, but I couldn't generate a response. Please try again."
+        "I receved your document, you can now ask me any question about it !"
       );
     } else {
       // Regular chat message - use /chat endpoint with JSON
@@ -303,7 +303,7 @@ async function callCSVLocalCloudAPI(
       const data = (await response.json()) as LocalApiResponse;
       return (
         data.message ||
-        "I apologize, but I couldn't generate a response. Please try again."
+        "I receved your document, you can now ask me any question about it !"
       );
     } else {
       // Regular chat message - use /ask-csv endpoint with JSON
