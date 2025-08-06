@@ -330,6 +330,9 @@ const Chatbot = () => {
           });
         }
       } else {
+        // Refresh current chat messages before sending to catch any delayed responses
+        await chatService.refreshCurrentChatMessages();
+
         // Send message to existing chat
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
