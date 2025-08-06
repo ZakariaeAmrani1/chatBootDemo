@@ -147,7 +147,7 @@ class ChatService {
           currentChat: newChat,
           messages: [],
           isLoading: false,
-          isThinking: request.message || request.pdfFile ? true : false, // Thinking if there was a message or PDF file
+          isThinking: request.message || request.pdfFile || request.csvFile ? true : false, // Thinking if there was a message or file
         });
 
         // Start polling for new messages (AI response) if there was a message or PDF file
