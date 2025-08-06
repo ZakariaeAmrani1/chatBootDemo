@@ -60,24 +60,10 @@ export function ModelAndFileSelector({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [models, setModels] = useState<any[]>([]);
 
-  // Load models to get model details
+  // Load models to get model details (API disabled for stability)
   useEffect(() => {
-    const loadModels = async () => {
-      try {
-        const response = await apiService.getModels();
-        if (response.success && response.data) {
-          setModels(response.data);
-        } else {
-          console.error("API response was not successful:", response.error);
-          setModels(getFallbackModels());
-        }
-      } catch (error) {
-        console.error("Failed to load models:", error);
-        // Use fallback models if API fails
-        setModels(getFallbackModels());
-      }
-    };
-    loadModels();
+    console.log("🔧 Using fallback models for stability");
+    setModels(getFallbackModels());
   }, []);
 
   // Reset file selection when model changes
