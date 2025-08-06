@@ -50,6 +50,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   user,
   hasActiveChat = false,
   currentChatHasPdf = false,
+  currentChatHasCsv = false,
 }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
