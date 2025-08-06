@@ -520,7 +520,11 @@ const Chatbot = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setCsvPreviewOpen(!csvPreviewOpen)}
+                onClick={() => {
+                  const newCsvState = !csvPreviewOpen;
+                  setCsvPreviewOpen(newCsvState);
+                  if (newCsvState) setPdfPreviewOpen(false); // Close PDF when opening CSV
+                }}
                 className="hidden sm:flex"
                 title={csvPreviewOpen ? "Hide CSV" : "Show CSV"}
               >
