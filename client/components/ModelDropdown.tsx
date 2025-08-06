@@ -49,7 +49,7 @@ const getFallbackModels = (): ModelOption[] => [
     borderColor: "border-blue-200 dark:border-blue-800",
     icon: "Globe",
     badge: "Recommended",
-    price: "Premium",
+    price: "",
   },
   {
     id: "local-cloud",
@@ -61,20 +61,20 @@ const getFallbackModels = (): ModelOption[] => [
     borderColor: "border-emerald-200 dark:border-emerald-800",
     icon: "Brain",
     badge: "PDF",
-    price: "Standard",
+    price: "",
   },
-  {
-    id: "csv-local",
-    name: "CSV Local Model",
-    description: "Local processing for CSV data",
-    features: ["CSV Processing", "Data analysis"],
-    color: "text-purple-600 dark:text-purple-400",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    borderColor: "border-purple-200 dark:border-purple-800",
-    icon: "Brain",
-    badge: "CSV",
-    price: "Standard",
-  },
+  // {
+  //   id: "csv-local",
+  //   name: "CSV Local Model",
+  //   description: "Local processing for CSV data",
+  //   features: ["CSV Processing", "Data analysis"],
+  //   color: "text-purple-600 dark:text-purple-400",
+  //   bgColor: "bg-purple-50 dark:bg-purple-950/30",
+  //   borderColor: "border-purple-200 dark:border-purple-800",
+  //   icon: "Brain",
+  //   badge: "CSV",
+  //   price: "",
+  // },
 ];
 
 export function ModelDropdown({
