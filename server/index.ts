@@ -63,6 +63,12 @@ export function createServer() {
     res.json({ message: ping });
   });
 
+  // Test endpoint for debugging
+  app.get("/api/test", (_req, res) => {
+    console.log("🧪 Test endpoint called");
+    res.json({ success: true, message: "Server is working" });
+  });
+
   app.get("/api/demo", handleDemo);
 
   // Chat API routes
