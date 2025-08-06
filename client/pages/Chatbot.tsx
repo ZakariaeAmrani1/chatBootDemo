@@ -258,20 +258,41 @@ const Chatbot = () => {
         chatbootVersion: selectedVersion,
       };
 
-      // Add the file to the appropriate field based on model and file type
+      // Handle different models and file types
       if (model === "local-cloud" && file.type === "application/pdf") {
         createChatRequest.pdfFile = file;
+        // Create chat with PDF file
+        await chatService.createChat(createChatRequest, user.id);
       } else if (model === "csv-local" && file.type === "text/csv") {
         createChatRequest.csvFile = file;
+        // Create chat with CSV file
+        await chatService.createChat(createChatRequest, user.id);
       } else if (model === "cloud") {
-        // For cloud model, treat any file as a general attachment
-        // The cloud API can handle any file type
-        createChatRequest.message = `I've uploaded a file (${file.name}) for analysis.`;
-        // We'll use the regular file upload mechanism for cloud
-      }
+        // For cloud model, create chat first, then upload file as attachment
+        const newChat = await chatService.createChat(createChatRequest, user.id);
 
-      // Create chat with the selected model and file
-      await chatService.createChat(createChatRequest, user.id);
+        if (newChat) {
+          // Upload file and send as message attachment
+          try {
+            const uploadedFiles = await apiService.uploadFiles([file]);
+            if (uploadedFiles.success && uploadedFiles.data && uploadedFiles.data.length > 0) {
+              // Send message with file attachment
+              await chatService.sendMessage({
+                chatId: newChat.id,
+                message: `I've uploaded a file (${file.name}) for analysis. Please analyze its content.`,
+                attachments: uploadedFiles.data,
+              });
+            }
+          } catch (uploadError) {
+            console.error("Failed to upload file for cloud model:", uploadError);
+            // Send message without attachment as fallback
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `I tried to upload a file (${file.name}) for analysis, but the upload failed. Please help me understand how to proceed.`,
+            });
+          }
+        }
+      }
     } catch (error) {
       console.error("Failed to start chat:", error);
     }
