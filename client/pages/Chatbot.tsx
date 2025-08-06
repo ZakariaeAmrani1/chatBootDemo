@@ -529,7 +529,7 @@ const Chatbot = () => {
                 className="hidden sm:flex"
                 title={csvPreviewOpen ? "Hide CSV" : "Show CSV"}
               >
-                <Eye className="h-4 w-4" />
+                <FileSpreadsheet className="h-4 w-4" />
                 <span className="ml-1 hidden md:inline text-xs">
                   {csvPreviewOpen ? "Hide CSV" : "Show CSV"}
                 </span>
