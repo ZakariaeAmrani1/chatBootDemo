@@ -79,42 +79,6 @@
         "url": "/api/files/973eef0b-a57b-44d8-a606-859dc09adb89.pdf",
         "uploadedAt": "2025-08-05T15:38:57.589Z"
       }
-    },
-    {
-      "id": "1af22bd3-1a2c-4521-84e1-e517c8c3da52",
-      "title": "New Chat",
-      "model": "csv-local",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-06T09:01:03.504Z",
-      "updatedAt": "2025-08-06T09:01:05.019Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "csvFile": {
-        "id": "bcbcd9db-117c-40a2-bc39-9af3706d3406",
-        "name": "data.csv",
-        "size": 2218,
-        "type": "text/csv",
-        "url": "/api/files/f059af3c-ab13-4222-a276-8aea3169949d.csv",
-        "uploadedAt": "2025-08-06T09:01:03.504Z"
-      }
-    },
-    {
-      "id": "bcd4914a-7ae4-49a3-a734-d87454321889",
-      "title": "New Chat",
-      "model": "csv-local",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-06T09:25:00.174Z",
-      "updatedAt": "2025-08-06T09:25:01.696Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "csvFile": {
-        "id": "aee8182d-639a-40dc-b6bd-dfa5dc6e6672",
-        "name": "housing.csv",
-        "size": 1423529,
-        "type": "text/csv",
-        "url": "/api/files/1e9128ca-0f1c-45ad-b632-c1acf562d0db.csv",
-        "uploadedAt": "2025-08-06T09:25:00.174Z"
-      }
     }
   ],
   "messages": [
@@ -263,54 +227,6 @@
       "type": "assistant",
       "content": "Le document que vous avez fourni contient **trois modules 5** différents, chacun appartenant à une partie distincte du système :\n\n1.  **Dans la Partie II : Budgets, le Module 5 est le \"Budget de Prestation de Service\".**\n    *   **Description Générale :** Ce module gère les finances liées aux prestations de service offertes par l'université (consultations, services techniques, etc.).\n    *   **Fonctionnalités principales :** Facturation, suivi des paiements, gestion des dépenses associ",
       "timestamp": "2025-08-05T15:39:30.922Z"
-    },
-    {
-      "id": "4c6ddba6-ec10-40f6-8234-ea00f8cdb4b1",
-      "chatId": "1af22bd3-1a2c-4521-84e1-e517c8c3da52",
-      "type": "user",
-      "content": "📊 Uploaded dataset for analysis",
-      "timestamp": "2025-08-06T09:01:03.504Z",
-      "attachments": [
-        {
-          "id": "bcbcd9db-117c-40a2-bc39-9af3706d3406",
-          "name": "data.csv",
-          "size": 2218,
-          "type": "text/csv",
-          "url": "/api/files/f059af3c-ab13-4222-a276-8aea3169949d.csv",
-          "uploadedAt": "2025-08-06T09:01:03.504Z"
-        }
-      ]
-    },
-    {
-      "id": "d9200b38-b2e3-42f1-8828-a2070a1175a0",
-      "chatId": "1af22bd3-1a2c-4521-84e1-e517c8c3da52",
-      "type": "assistant",
-      "content": "I'm currently unable to connect to the local AI service at http://127.0.0.1:5000. Please ensure your local backend is running. request to http://127.0.0.1:5000/init-csv failed, reason: connect ECONNREFUSED 127.0.0.1:5000",
-      "timestamp": "2025-08-06T09:01:05.019Z"
-    },
-    {
-      "id": "e3601a90-3a42-46bb-ab61-d992c88138c0",
-      "chatId": "bcd4914a-7ae4-49a3-a734-d87454321889",
-      "type": "user",
-      "content": "📊 Uploaded dataset for analysis",
-      "timestamp": "2025-08-06T09:25:00.174Z",
-      "attachments": [
-        {
-          "id": "aee8182d-639a-40dc-b6bd-dfa5dc6e6672",
-          "name": "housing.csv",
-          "size": 1423529,
-          "type": "text/csv",
-          "url": "/api/files/1e9128ca-0f1c-45ad-b632-c1acf562d0db.csv",
-          "uploadedAt": "2025-08-06T09:25:00.174Z"
-        }
-      ]
-    },
-    {
-      "id": "b339eb45-0b88-45ce-938b-5a2cfd5f5b49",
-      "chatId": "bcd4914a-7ae4-49a3-a734-d87454321889",
-      "type": "assistant",
-      "content": "I'm currently unable to connect to the local AI service at http://127.0.0.1:5000. Please ensure your local backend is running. request to http://127.0.0.1:5000/init-csv failed, reason: connect ECONNREFUSED 127.0.0.1:5000",
-      "timestamp": "2025-08-06T09:25:01.696Z"
     }
   ]
 }
