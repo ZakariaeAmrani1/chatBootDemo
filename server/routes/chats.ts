@@ -538,27 +538,38 @@ export const sendMessage: RequestHandler = (req, res) => {
 
     // Generate AI response
     setTimeout(async () => {
-      let pdfContent: string | undefined;
+      let fileContent: string | undefined;
+      let attachedFile: FileAttachment | undefined;
 
-      // If chat has PDF, extract its content
+      // If chat has PDF or CSV file, extract its content
       if (chat.pdfFile) {
+        attachedFile = chat.pdfFile;
         const pdfPath = path.join(
           process.cwd(),
           "server/uploads",
           path.basename(chat.pdfFile.url),
         );
-        pdfContent = await extractPDFText(pdfPath);
+        fileContent = await extractPDFText(pdfPath);
+      } else if (chat.csvFile) {
+        attachedFile = chat.csvFile;
+        const csvPath = path.join(
+          process.cwd(),
+          "server/uploads",
+          path.basename(chat.csvFile.url),
+        );
+        fileContent = await extractCSVData(csvPath);
       }
 
       const aiMessage: Message = {
         id: uuidv4(),
         chatId: chatId,
         type: "assistant",
-        content: await generateAIResponseWithPDF(
+        content: await generateAIResponseWithFile(
           message,
           chat.userId,
           chatId,
-          pdfContent,
+          fileContent,
+          attachedFile,
         ),
         timestamp: new Date().toISOString(),
       };
