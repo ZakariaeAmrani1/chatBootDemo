@@ -58,9 +58,9 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const { resolvedTheme } = useTheme();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  // Get the appropriate AI logo based on theme and user settings
+  // Get the appropriate AI avatar image
   const getAILogo = () => {
-    return getAppLogo(resolvedTheme, user);
+    return "https://cdn.builder.io/api/v1/image/assets%2F44a5eb94f41543f4ab63e8551bda8b34%2F30d698035d524e09b05a68e5b29f2b1d?format=webp&width=800";
   };
 
   // Copy message content to clipboard
