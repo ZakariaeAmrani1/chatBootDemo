@@ -21,6 +21,7 @@ import ChatArea from "@/components/ChatArea";
 import ChatInput from "@/components/ChatInput";
 import ShareModal from "@/components/ShareModal";
 import { PDFPreview } from "@/components/PDFPreview";
+import { CSVPreview } from "@/components/CSVPreview";
 import { ModelDropdown } from "@/components/ModelDropdown";
 
 import SettingsPage from "@/pages/Settings";
@@ -47,9 +48,15 @@ const Chatbot = () => {
   const [selectedVersion, setSelectedVersion] = useState("ChatNova V3");
   const [models, setModels] = useState<any[]>([]);
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(true);
+  const [csvPreviewOpen, setCsvPreviewOpen] = useState(true);
   const [pdfPreviewWidth, setPdfPreviewWidth] = useState(() => {
     // Load saved width from localStorage, default to 384px
     const saved = localStorage.getItem("pdfPreviewWidth");
+    return saved ? parseInt(saved, 10) : 384;
+  });
+  const [csvPreviewWidth, setCsvPreviewWidth] = useState(() => {
+    // Load saved width from localStorage, default to 384px
+    const saved = localStorage.getItem("csvPreviewWidth");
     return saved ? parseInt(saved, 10) : 384;
   });
 
@@ -57,6 +64,11 @@ const Chatbot = () => {
   const handlePdfWidthChange = (width: number) => {
     setPdfPreviewWidth(width);
     localStorage.setItem("pdfPreviewWidth", width.toString());
+  };
+
+  const handleCsvWidthChange = (width: number) => {
+    setCsvPreviewWidth(width);
+    localStorage.setItem("csvPreviewWidth", width.toString());
   };
 
   // Load models for display
@@ -307,9 +319,11 @@ const Chatbot = () => {
     const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
       await chatService.selectChat(chat);
-      // Auto-open PDF preview if chat has PDF
+      // Auto-open file preview if chat has files
       if (chat.pdfFile) {
         setPdfPreviewOpen(true);
+      } else if (chat.csvFile) {
+        setCsvPreviewOpen(true);
       }
     }
   };
@@ -506,6 +520,7 @@ const Chatbot = () => {
             user={user}
             hasActiveChat={!!chatState.currentChat}
             currentChatHasPdf={!!chatState.currentChat?.pdfFile}
+            currentChatHasCsv={!!chatState.currentChat?.csvFile}
           />
         </div>
 
@@ -538,11 +553,14 @@ const Chatbot = () => {
         appUrl={user?.settings?.appUrl || "http://localhost:8080"}
       />
 
-      {/* Mobile PDF overlay */}
-      {chatState.currentChat?.pdfFile && pdfPreviewOpen && (
+      {/* Mobile file overlay */}
+      {((chatState.currentChat?.pdfFile && pdfPreviewOpen) || (chatState.currentChat?.csvFile && csvPreviewOpen)) && (
         <div
           className="sm:hidden fixed inset-0 bg-black/50 z-10"
-          onClick={() => setPdfPreviewOpen(false)}
+          onClick={() => {
+            setPdfPreviewOpen(false);
+            setCsvPreviewOpen(false);
+          }}
         />
       )}
 
@@ -554,6 +572,17 @@ const Chatbot = () => {
           onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
           width={pdfPreviewWidth}
           onWidthChange={handlePdfWidthChange}
+        />
+      )}
+
+      {/* CSV Preview */}
+      {chatState.currentChat?.csvFile && (
+        <CSVPreview
+          csvFile={chatState.currentChat.csvFile}
+          isOpen={csvPreviewOpen}
+          onToggle={() => setCsvPreviewOpen(!csvPreviewOpen)}
+          width={csvPreviewWidth}
+          onWidthChange={handleCsvWidthChange}
         />
       )}
     </div>
