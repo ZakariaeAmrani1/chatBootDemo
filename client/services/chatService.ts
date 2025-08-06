@@ -512,6 +512,27 @@ class ChatService {
       });
     }
   }
+
+  // Manual refresh method for when user sends a new message
+  async refreshCurrentChatMessages(): Promise<void> {
+    if (this.state.currentChat && !this.state.currentChat.isDraft) {
+      try {
+        const response = await apiService.getChatMessages(this.state.currentChat.id);
+        if (response.success && response.data) {
+          // Only update if we have new messages
+          const newMessages = response.data;
+          if (newMessages.length !== this.state.messages.length) {
+            this.setState({
+              messages: newMessages,
+              isThinking: false
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to refresh messages:", error);
+      }
+    }
+  }
 }
 
 export const chatService = new ChatService();
