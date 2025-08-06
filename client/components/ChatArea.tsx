@@ -279,7 +279,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 selectedFile={selectedFile}
               />
             ) : (
-              /* Cloud model - accept any file type */
+              /* Cloud model - accept any file type with enhanced UI */
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium">Upload File</label>
@@ -287,23 +287,92 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                     Any file type supported
                   </span>
                 </div>
+
+                {selectedFile ? (
+                  <div className="border border-border rounded-lg p-4 bg-muted/30">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-950/30 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm">{selectedFile.name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-green-100 dark:bg-green-950/30 rounded-full flex items-center justify-center">
+                          <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                          </svg>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                          onClick={() => setSelectedFile(null)}
+                        >
+                          <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                          </svg>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className="border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer transition-all duration-200 hover:border-muted-foreground/40 hover:bg-muted/20"
+                    onClick={() => document.getElementById('cloudFileInput')?.click()}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.add('border-primary', 'bg-primary/5');
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.remove('border-primary', 'bg-primary/5');
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.remove('border-primary', 'bg-primary/5');
+                      const file = e.dataTransfer.files[0];
+                      if (file) {
+                        setSelectedFile(file);
+                      }
+                    }}
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">Upload Any File</p>
+                        <p className="text-xs text-muted-foreground">
+                          Drag and drop or click to browse
+                        </p>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        All file types supported • Max 10MB
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <input
+                  id="cloudFileInput"
                   type="file"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     setSelectedFile(file || null);
                   }}
-                  className="w-full p-3 border border-border rounded-lg bg-background text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                  className="hidden"
                   accept="*/*"
                 />
-                {selectedFile && (
-                  <div className="p-3 bg-muted/30 rounded-lg">
-                    <p className="text-sm font-medium">{selectedFile.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </div>
-                )}
               </div>
             )}
 
