@@ -336,11 +336,11 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             )}
           >
             {!collapsed && (
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center w-full py-2 px-4">
                 <img
                   src={getAppLogo(resolvedTheme, user)}
                   alt={`${getAppName(user)} Logo`}
-                  className="h-10 w-auto max-w-full object-contain"
+                  className="h-16 w-auto max-w-full object-contain"
                 />
               </div>
             )}
