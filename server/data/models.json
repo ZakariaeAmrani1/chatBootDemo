@@ -17,18 +17,33 @@
     },
     {
       "id": "local-cloud",
-      "name": "Local Cloud",
-      "shortName": "Local",
-      "description": "Local processing with cloud capabilities for enhanced privacy and control",
-      "features": ["Privacy focused", "Local processing", "Secure"],
+      "name": "PDF Local Model",
+      "shortName": "PDF Local",
+      "description": "Local processing for PDF documents with AI analysis capabilities",
+      "features": ["PDF Processing", "Local privacy", "Document analysis"],
       "color": "text-emerald-600 dark:text-emerald-400",
       "bgColor": "bg-emerald-50 dark:bg-emerald-950/30",
       "borderColor": "border-emerald-200 dark:border-emerald-800",
       "icon": "Brain",
-      "badge": "Secure",
+      "badge": "PDF",
       "price": "Standard",
       "enabled": true,
       "order": 2
+    },
+    {
+      "id": "csv-local",
+      "name": "CSV Local Model",
+      "shortName": "CSV Local",
+      "description": "Local processing for CSV data with AI analysis and insights capabilities",
+      "features": ["CSV Processing", "Data analysis", "Local privacy"],
+      "color": "text-purple-600 dark:text-purple-400",
+      "bgColor": "bg-purple-50 dark:bg-purple-950/30",
+      "borderColor": "border-purple-200 dark:border-purple-800",
+      "icon": "Brain",
+      "badge": "CSV",
+      "price": "Standard",
+      "enabled": true,
+      "order": 3
     }
   ]
 }
