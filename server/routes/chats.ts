@@ -251,6 +251,73 @@ async function callLocalCloudAPI(
   }
 }
 
+// Function to call Local Cloud backend with CSV file
+async function callCSVLocalCloudAPI(
+  userMessage: string,
+  csvFilePath?: string,
+  appUrl?: string,
+  isInitialCsvSetup: boolean = false,
+): Promise<string> {
+  const baseUrl =
+    appUrl && appUrl.trim() ? appUrl.trim() : "http://127.0.0.1:5000";
+  try {
+    if (csvFilePath && isInitialCsvSetup) {
+      // Initial CSV setup - send to /init-csv with FormData
+      const initCsvUrl = `${baseUrl.replace(/\/$/, "")}/init-csv`;
+      const formData = new FormData();
+
+      // Read the CSV file and attach it
+      const csvStream = fs.createReadStream(csvFilePath);
+      formData.append("csv_file", csvStream, path.basename(csvFilePath));
+
+      const response = await fetch1(initCsvUrl, {
+        method: "POST",
+        body: formData,
+        headers: formData.getHeaders(), // includes correct Content-Type with boundary
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `CSV Local Cloud API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = (await response.json()) as LocalApiResponse;
+      return (
+        data.message ||
+        "I apologize, but I couldn't generate a response. Please try again."
+      );
+    } else {
+      // Regular chat message - use /ask-csv endpoint with JSON
+      const chatUrl = `${baseUrl.replace(/\/$/, "")}/ask-csv`;
+      const response = await fetch(chatUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: userMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `CSV Local Cloud API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      return (
+        data.response ||
+        "I apologize, but I couldn't generate a response. Please try again."
+      );
+    }
+  } catch (error) {
+    console.error("CSV Local Cloud API error:", error);
+    return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. ${error instanceof Error ? error.message : "Unknown error"}`;
+  }
+}
+
 // Get all chats for a user
 export const getChats: RequestHandler = (req, res) => {
   try {
