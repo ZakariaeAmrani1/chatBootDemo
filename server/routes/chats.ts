@@ -149,6 +149,9 @@ async function callGeminiAPI(
       parts: parts,
     });
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -156,29 +159,61 @@ async function callGeminiAPI(
         headers: {
           "Content-Type": "application/json",
         },
+        signal: controller.signal,
         body: JSON.stringify({
           contents: contents,
           generationConfig: {
             temperature: 0.7,
             topK: 1,
             topP: 1,
-            maxOutputTokens: 1000,
+            maxOutputTokens: 2048, // Increased token limit
           },
         }),
       },
     );
 
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Gemini API error ${response.status}:`, errorText);
       throw new Error(
         `Gemini API error: ${response.status} ${response.statusText}`,
       );
     }
 
     const data = await response.json();
-    return (
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "I apologize, but I couldn't generate a response. Please try again."
-    );
+    console.log("Gemini API full response:", JSON.stringify(data, null, 2));
+
+    // Check if we have a valid response structure
+    if (data.candidates && data.candidates.length > 0) {
+      const candidate = data.candidates[0];
+      if (
+        candidate.content &&
+        candidate.content.parts &&
+        candidate.content.parts.length > 0
+      ) {
+        const responseText = candidate.content.parts[0].text;
+        if (responseText && responseText.trim()) {
+          return responseText;
+        }
+      }
+
+      // Check for safety filtering or other issues
+      if (candidate.finishReason) {
+        console.log("Gemini finish reason:", candidate.finishReason);
+        if (candidate.finishReason === "SAFETY") {
+          return "I apologize, but I cannot provide a response to this request due to safety guidelines. Please try rephrasing your question.";
+        }
+        if (candidate.finishReason === "RECITATION") {
+          return "I apologize, but I cannot provide a response due to content policy restrictions. Please try rephrasing your question.";
+        }
+      }
+    }
+
+    // Log the issue for debugging
+    console.error("Gemini API returned unexpected response structure:", data);
+    return "I apologize, but I couldn't generate a response. Please try again.";
   } catch (error) {
     console.error("Gemini API error:", error);
     return "I'm currently unable to connect to the AI service. Please check your API key or try again later.";
@@ -451,7 +486,7 @@ export const createChat: RequestHandler = (req, res) => {
         };
 
         DataManager.addMessage(aiMessage);
-      }, 2000); // 2 second delay to simulate thinking
+      }, 3000); // 3 second delay to allow for processing
     } else if (attachedFile) {
       // If no initial message but file is uploaded, create a user message showing the file upload
       const fileIcon = attachedFile.type === "text/csv" ? "📊" : "📄";
@@ -503,7 +538,7 @@ export const createChat: RequestHandler = (req, res) => {
         };
 
         DataManager.addMessage(aiMessage);
-      }, 1500);
+      }, 2000); // 2 second delay for file processing
     }
 
     const response: ApiResponse<Chat> = {
@@ -595,7 +630,7 @@ export const sendMessage: RequestHandler = (req, res) => {
       };
 
       DataManager.addMessage(aiMessage);
-    }, 1500); // 1.5 second delay to simulate thinking
+    }, 2000); // 2 second delay to allow for AI processing
 
     const response: ApiResponse<Message> = {
       success: true,
