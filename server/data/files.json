@@ -71,6 +71,14 @@
       "type": "text/csv",
       "url": "/api/files/f059af3c-ab13-4222-a276-8aea3169949d.csv",
       "uploadedAt": "2025-08-06T09:01:03.504Z"
+    },
+    {
+      "id": "aee8182d-639a-40dc-b6bd-dfa5dc6e6672",
+      "name": "housing.csv",
+      "size": 1423529,
+      "type": "text/csv",
+      "url": "/api/files/1e9128ca-0f1c-45ad-b632-c1acf562d0db.csv",
+      "uploadedAt": "2025-08-06T09:25:00.174Z"
     }
   ]
 }
