@@ -426,6 +426,16 @@ class ChatService {
     this.setState({ error: null });
   }
 
+  clearCurrentChat(): void {
+    this.setState({
+      currentChat: null,
+      messages: [],
+      isThinking: false,
+      isLoading: false,
+      error: null
+    });
+  }
+
   updateMessage(messageId: string, updates: Partial<Message>): void {
     const updatedMessages = this.state.messages.map((msg) =>
       msg.id === messageId ? { ...msg, ...updates } : msg,
