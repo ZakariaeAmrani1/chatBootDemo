@@ -455,12 +455,18 @@ const Chatbot = () => {
       <div
         className="flex-1 flex flex-col min-w-0 h-screen"
         style={{
-          marginRight:
-            chatState.currentChat?.pdfFile && pdfPreviewOpen
-              ? window.innerWidth < 640
-                ? "0px"
-                : `${pdfPreviewWidth}px`
-              : "0px",
+          marginRight: (() => {
+            // Calculate margin based on which preview is open
+            let margin = 0;
+
+            if (chatState.currentChat?.pdfFile && pdfPreviewOpen && window.innerWidth >= 640) {
+              margin = pdfPreviewWidth;
+            } else if (chatState.currentChat?.csvFile && csvPreviewOpen && window.innerWidth >= 640) {
+              margin = csvPreviewWidth;
+            }
+
+            return `${margin}px`;
+          })(),
           transition: "margin-right 0.3s ease-in-out",
         }}
       >
