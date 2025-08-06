@@ -379,7 +379,7 @@ class ChatService {
 
         // Continue polling if we haven't found a new response yet
         if (isPolling && pollCount < maxPolls) {
-          const timeout = setTimeout(() => poll(), 500);
+          const timeout = window.setTimeout(() => poll(), 500);
           this.pollingTimeouts.set(chatId, timeout);
         } else {
           this.setState({ isThinking: false });
@@ -389,7 +389,7 @@ class ChatService {
         console.error("Polling error:", error);
         // Continue polling even on error (network might be temporarily down)
         if (isPolling && pollCount < maxPolls) {
-          const timeout = setTimeout(() => poll(), 1000); // Wait longer on error
+          const timeout = window.setTimeout(() => poll(), 1000); // Wait longer on error
           this.pollingTimeouts.set(chatId, timeout);
         } else {
           this.setState({ isThinking: false });
@@ -399,14 +399,14 @@ class ChatService {
     };
 
     // Start polling after a short delay
-    const initialTimeout = setTimeout(() => poll(), 500);
+    const initialTimeout = window.setTimeout(() => poll(), 500);
     this.pollingTimeouts.set(chatId, initialTimeout);
   }
 
   private stopPollingForChat(chatId: string): void {
     const timeout = this.pollingTimeouts.get(chatId);
     if (timeout) {
-      clearTimeout(timeout);
+      window.clearTimeout(timeout);
       this.pollingTimeouts.delete(chatId);
     }
   }
