@@ -443,11 +443,10 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
               { type: "application/pdf" },
             );
 
-            // Process with Gemini
-            const { GeminiService } = await import("../services/geminiService");
+            // Process with Gemini using new client service
+            const { ClientGeminiService } = await import("../services/clientGeminiService");
             const geminiModel =
               user?.settings?.geminiModel || "gemini-1.5-flash-latest";
-            const geminiService = new GeminiService(geminiApiKey, geminiModel);
 
             // Get chat history for context
             const chatHistory = chatState.messages;
