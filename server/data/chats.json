@@ -42,6 +42,24 @@
       "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "cd5ec78c-28a2-4cfc-bc27-b663cc57fa13",
+      "title": "PDF: Cahier_de_charges.pdf",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-07T14:14:51.256Z",
+      "updatedAt": "2025-08-07T14:15:02.909Z",
+      "messageCount": 3,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "d6a35264-510a-42fb-a635-fbe08454e13b",
+        "name": "Cahier_de_charges.pdf",
+        "size": 622676,
+        "type": "application/pdf",
+        "url": "/api/files/4cb73e66-c4a9-4a40-8c19-10eb89073883.pdf",
+        "uploadedAt": "2025-08-07T14:14:51.256Z"
+      }
     }
   ],
   "messages": [
@@ -114,6 +132,37 @@
       "type": "assistant",
       "content": "Hello! How can I help you today?",
       "timestamp": "2025-08-07T13:48:39.560Z"
+    },
+    {
+      "id": "037a2d77-afc6-444f-956e-4aca1827f4e5",
+      "chatId": "cd5ec78c-28a2-4cfc-bc27-b663cc57fa13",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-07T14:14:51.256Z",
+      "attachments": [
+        {
+          "id": "d6a35264-510a-42fb-a635-fbe08454e13b",
+          "name": "Cahier_de_charges.pdf",
+          "size": 622676,
+          "type": "application/pdf",
+          "url": "/api/files/4cb73e66-c4a9-4a40-8c19-10eb89073883.pdf",
+          "uploadedAt": "2025-08-07T14:14:51.256Z"
+        }
+      ]
+    },
+    {
+      "id": "77b5a81e-8043-4b92-91a1-e388ffc63bf3",
+      "chatId": "cd5ec78c-28a2-4cfc-bc27-b663cc57fa13",
+      "type": "assistant",
+      "content": "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.",
+      "timestamp": "2025-08-07T14:14:53.258Z"
+    },
+    {
+      "id": "24edd5b4-df8a-440e-a571-b44b2fdc7413",
+      "chatId": "cd5ec78c-28a2-4cfc-bc27-b663cc57fa13",
+      "type": "assistant",
+      "content": "This document, titled \"Cahier de charges minimales : Système de gestion d'abonnement pour les employés OCP\" (Minimal Specifications Document: Subscription Management System for OCP Employees), outlines the requirements for a digital platform designed to manage internal services for OCP employees.\n\n**Here's a summary of its content and key information:**\n\n**1. Document Purpose:**\nThe document serves as a minimal set of specifications for developing a digital subscription management system for OCP employees. The primary goal is to allow employees to access various internal services using pre-allocated credits.\n\n**2. Project Context:**\nOCP aims to implement a system where employees can use digital subscriptions and allocated credits to access internal services like beverages, printing, meeting room reservations, and access to games.\n\n**3. Key Objectives:**\n*   Provide an intuitive user interface.\n*   Manage different types of subscriptions (e.g., Standard, Premium).\n*   Track and control consumed credits.\n*   Facilitate the reservation of internal services.\n*   Enable administrators to manage services and access rights.\n\n**4. Main Functionalities:**\n\n*   **Employee (User) Side:**\n    *   Authentication and registration.\n    *   Viewing active subscriptions and remaining credits.\n    *   Browsing available services (drinks, printing, meeting rooms, games).\n    *   Consuming services with automatic credit deduction.\n    *   Accessing usage history.\n    *   Making reservations with a planning interface.\n*   **Administrator Side:**\n    *   Managing users and their subscriptions.\n    *   Defining credit allocations per subscription type.\n    *   Managing available services.\n    *   Global planning for reservations.\n    *   Accessing usage statistics per service and per user.\n\n**5. Technical Architecture:**\n*   **Frontend:** Angular\n*   **Backend:** Spring Boot (REST API)\n*   **Database:** MongoDB\n*   **Authentication:** JWT (JSON Web Tokens) + Spring Security\n\n**6. Data Model (MongoDB Collections):**\nThe document details the structure of the database, defining several collections:\n*   **`users`**: Stores user information (ID, name, email, hashed password, role - Employee/Admin, subscription ID, current credits,",
+      "timestamp": "2025-08-07T14:15:02.909Z"
     }
   ]
 }
