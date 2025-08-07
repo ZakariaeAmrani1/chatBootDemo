@@ -353,17 +353,28 @@ const Chatbot = () => {
         // Check if user has Gemini API key
         const geminiApiKey = user?.settings?.geminiApiKey;
         if (!geminiApiKey || !geminiApiKey.trim()) {
-          // Show error in the current chat
-          const errorMessage = {
+          // Add user message first
+          const userMessage = {
             id: Date.now().toString(),
+            chatId: chatState.currentChat.id,
+            type: "user" as const,
+            content: content,
+            timestamp: new Date().toISOString(),
+          };
+
+          // Add error response
+          const errorMessage = {
+            id: (Date.now() + 1).toString(),
             chatId: chatState.currentChat.id,
             type: "assistant" as const,
             content: "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
             timestamp: new Date().toISOString(),
           };
 
-          // Add error message to current chat
-          chatService.updateMessage(errorMessage.id, errorMessage);
+          // Update chat state directly
+          chatService.setState({
+            messages: [...chatState.messages, userMessage, errorMessage]
+          });
           return;
         }
 
@@ -391,27 +402,53 @@ const Chatbot = () => {
             return;
           } catch (error) {
             console.error('Failed to convert to local chat:', error);
+            // Add user message first
+            const userMessage = {
+              id: Date.now().toString(),
+              chatId: chatState.currentChat.id,
+              type: "user" as const,
+              content: content,
+              timestamp: new Date().toISOString(),
+            };
+
             // Fall back to showing error message
             const errorMessage = {
-              id: Date.now().toString(),
+              id: (Date.now() + 1).toString(),
               chatId: chatState.currentChat.id,
               type: "assistant" as const,
               content: "❌ **Error**: Failed to process PDF with local chat. Please try uploading the PDF again with a new chat.",
               timestamp: new Date().toISOString(),
             };
-            chatService.updateMessage(errorMessage.id, errorMessage);
+
+            // Update chat state directly
+            chatService.setState({
+              messages: [...chatState.messages, userMessage, errorMessage]
+            });
             return;
           }
         } else {
+          // Add user message first
+          const userMessage = {
+            id: Date.now().toString(),
+            chatId: chatState.currentChat.id,
+            type: "user" as const,
+            content: content,
+            timestamp: new Date().toISOString(),
+          };
+
           // No PDF file in the chat - show error
           const errorMessage = {
-            id: Date.now().toString(),
+            id: (Date.now() + 1).toString(),
             chatId: chatState.currentChat.id,
             type: "assistant" as const,
             content: "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
             timestamp: new Date().toISOString(),
           };
-          chatService.updateMessage(errorMessage.id, errorMessage);
+
+          // Update chat state directly
+          chatService.setState({
+            messages: [...chatState.messages, userMessage, errorMessage]
+          });
           return;
         }
       }
