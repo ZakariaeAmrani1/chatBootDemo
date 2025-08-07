@@ -10,6 +10,8 @@ import {
   updateChat,
   deleteChat,
   uploadFile,
+  addAssistantMessage,
+  addUserMessage,
 } from "./routes/chats";
 import {
   getCurrentUser,
@@ -76,6 +78,8 @@ export function createServer() {
   app.get("/api/chats/:chatId/messages", getChatMessages);
   app.post("/api/chats", uploadFile, createChat);
   app.post("/api/chats/message", sendMessage);
+  app.post("/api/chats/add-assistant-message", addAssistantMessage);
+  app.post("/api/chats/add-user-message", addUserMessage);
   app.put("/api/chats/:chatId", updateChat);
   app.delete("/api/chats/:chatId", deleteChat);
 
