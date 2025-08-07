@@ -20,8 +20,8 @@ const Login: React.FC = () => {
   const { login } = useAuth();
   const { resolvedTheme } = useTheme();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "zaki@gmail.com",
+    password: "Alexo1235",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
