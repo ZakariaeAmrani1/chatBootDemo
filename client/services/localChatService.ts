@@ -256,6 +256,18 @@ export class LocalChatService {
         timestamp: new Date().toISOString(),
       };
 
+      // Save AI response to backend
+      try {
+        const { apiService } = await import('./api');
+        await apiService.sendMessage({
+          chatId: this.state.currentChat.id,
+          message: aiResponse,
+        });
+      } catch (saveError) {
+        console.error('Failed to save AI response to backend:', saveError);
+        // Continue anyway
+      }
+
       this.setState({
         messages: [...this.state.messages, aiMessage],
         isThinking: false,
