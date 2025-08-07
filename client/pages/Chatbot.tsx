@@ -27,6 +27,7 @@ import { ModelDropdown } from "@/components/ModelDropdown";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
+import { localChatService } from "@/services/localChatService";
 import { apiService } from "@/services/api";
 import { Chat, Message, FileAttachment, User } from "@shared/types";
 import { useTheme } from "@/components/ThemeProvider";
@@ -247,24 +248,31 @@ const Chatbot = () => {
         console.error("Failed to save model preference:", error);
       }
 
-      // Determine file type and create appropriate request
-      const createChatRequest: any = {
-        title: "New Chat",
-        model: model,
-        chatbootVersion: selectedVersion,
-      };
-
       // Handle different models and file types
       if (model === "local-cloud" && file.type === "application/pdf") {
-        createChatRequest.pdfFile = file;
-        // Create chat with PDF file
-        await chatService.createChat(createChatRequest, user.id);
+        // Use local Gemini processing for PDF files
+        await localChatService.createLocalPDFChat(
+          file,
+          user,
+          `PDF: ${file.name}`
+        );
       } else if (model === "csv-local" && file.type === "text/csv") {
-        createChatRequest.csvFile = file;
-        // Create chat with CSV file
+        // Keep existing backend processing for CSV files
+        const createChatRequest: any = {
+          title: "New Chat",
+          model: model,
+          chatbootVersion: selectedVersion,
+          csvFile: file,
+        };
         await chatService.createChat(createChatRequest, user.id);
       } else if (model === "cloud") {
         // For cloud model, create chat first, then upload file as attachment
+        const createChatRequest: any = {
+          title: "New Chat",
+          model: model,
+          chatbootVersion: selectedVersion,
+        };
+
         const newChat = await chatService.createChat(
           createChatRequest,
           user.id,
@@ -311,6 +319,15 @@ const Chatbot = () => {
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
+      // Check if we're in a local PDF chat
+      const localState = localChatService.getState();
+      if (localState.currentChat && localState.currentChat.model === "local-cloud") {
+        // Use local chat service for PDF chats
+        if (!user) return;
+        await localChatService.sendMessageToLocalChat(content, user);
+        return;
+      }
+
       if (!chatState.currentChat) {
         if (!user) return;
 
