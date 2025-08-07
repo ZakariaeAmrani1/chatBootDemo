@@ -78,6 +78,24 @@
         "url": "/api/files/a67b0129-9cb8-4380-a08b-16bd8d495870.pdf",
         "uploadedAt": "2025-08-07T14:24:08.402Z"
       }
+    },
+    {
+      "id": "9d4baead-80ba-4d66-b3e7-2569f8006cb4",
+      "title": "PDF: Cahier_de_charges.pdf",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-07T14:28:27.887Z",
+      "updatedAt": "2025-08-07T14:28:27.887Z",
+      "messageCount": 1,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "f51930e1-3b8d-459b-843d-f6cfce7e2d0c",
+        "name": "Cahier_de_charges.pdf",
+        "size": 622676,
+        "type": "application/pdf",
+        "url": "/api/files/6827eccf-8801-44f6-aff5-33e421f98e7f.pdf",
+        "uploadedAt": "2025-08-07T14:28:27.887Z"
+      }
     }
   ],
   "messages": [
@@ -205,6 +223,23 @@
       "type": "assistant",
       "content": "This document, titled \"Cahier de charges minimales : Système de gestion d'abonnement pour les employés OCP\" (Minimal Requirements Specification: Subscription Management System for OCP Employees), is a detailed specification for developing a digital platform.\n\n**What the document is about:**\nThe document outlines the requirements for a new digital system at OCP (Office Chérifien des Phosphates, a Moroccan state-owned phosphate company) to manage employee subscriptions. The core idea is to allow employees to access various internal services (like beverages, printing, meeting room reservations, and games) using a system of allocated credits.\n\n**Key information it contains:**\n\n1.  **Project Context and Objectives:**\n    *   **Context:** OCP wants a digital subscription system to provide employees access to internal services via allocated credits.\n    *   **Objectives:** Offer an intuitive",
       "timestamp": "2025-08-07T14:24:21.823Z"
+    },
+    {
+      "id": "3c04164a-d031-4d28-87ca-61a6ffa82c13",
+      "chatId": "9d4baead-80ba-4d66-b3e7-2569f8006cb4",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-07T14:28:27.887Z",
+      "attachments": [
+        {
+          "id": "f51930e1-3b8d-459b-843d-f6cfce7e2d0c",
+          "name": "Cahier_de_charges.pdf",
+          "size": 622676,
+          "type": "application/pdf",
+          "url": "/api/files/6827eccf-8801-44f6-aff5-33e421f98e7f.pdf",
+          "uploadedAt": "2025-08-07T14:28:27.887Z"
+        }
+      ]
     }
   ]
 }
