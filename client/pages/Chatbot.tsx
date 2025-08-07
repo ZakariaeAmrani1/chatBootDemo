@@ -551,7 +551,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
           // Now send the message with attachments to the new chat
           await chatService.sendMessage({
             chatId: newChat.id,
-            message: content,
+            content: content,
             attachments: attachments,
           });
         }
