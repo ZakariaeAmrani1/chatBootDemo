@@ -39,16 +39,15 @@ export const geminiProxy: RequestHandler = async (req, res) => {
 
     clearTimeout(timeoutId);
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Gemini API error ${response.status}:`, errorText);
+      console.error(`Gemini API error ${response.status}:`, data);
       return res.status(response.status).json({
         success: false,
         error: `Gemini API error: ${response.status} ${response.statusText}`,
       });
     }
-
-    const data = await response.json();
 
     const apiResponse: ApiResponse<any> = {
       success: true,
