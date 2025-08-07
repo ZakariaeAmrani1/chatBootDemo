@@ -503,7 +503,7 @@ const Chatbot = () => {
   };
 
   const handleShareClick = () => {
-    if (chatState.currentChat) {
+    if (chatState.currentChat || localChatState.currentChat) {
       setShareModalOpen(true);
     }
   };
