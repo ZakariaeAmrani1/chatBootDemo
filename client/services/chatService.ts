@@ -516,6 +516,10 @@ class ChatService {
     this.setState({ messages: updatedMessages });
   }
 
+  addMessageToCurrentChat(message: Message): void {
+    this.setState({ messages: [...this.state.messages, message] });
+  }
+
   updateCurrentChat(updates: Partial<Chat>): void {
     if (this.state.currentChat) {
       const updatedChat = { ...this.state.currentChat, ...updates };
