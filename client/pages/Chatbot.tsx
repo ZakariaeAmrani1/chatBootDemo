@@ -381,6 +381,9 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
         // Check if user has Gemini API key
         const geminiApiKey = user?.settings?.geminiApiKey;
         if (!geminiApiKey || !geminiApiKey.trim()) {
+          // Add user message to UI immediately
+          chatService.addUserMessageToUI(chatState.currentChat.id, content);
+
           // Save user message to backend first
           await fetch("/api/chats/add-user-message", {
             method: "POST",
@@ -408,12 +411,17 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
           // Refresh messages to show the new messages
           await chatService.loadChatMessages(chatState.currentChat.id);
+          // Stop thinking state
+          chatService.stopThinking();
           return;
         }
 
         // If the chat has a PDF file, process with Gemini
         if (chatState.currentChat.pdfFile) {
           try {
+            // Add user message to UI immediately
+            chatService.addUserMessageToUI(chatState.currentChat.id, content);
+
             // Save user message first
             await fetch("/api/chats/add-user-message", {
               method: "POST",
@@ -464,6 +472,8 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             // Refresh messages to show the new messages
             await chatService.loadChatMessages(chatState.currentChat.id);
+            // Stop thinking state
+            chatService.stopThinking();
             return;
           } catch (error) {
             console.error("Failed to process with Gemini:", error);
@@ -483,9 +493,14 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             // Refresh messages to show the error
             await chatService.loadChatMessages(chatState.currentChat.id);
+            // Stop thinking state
+            chatService.stopThinking();
             return;
           }
         } else {
+          // Add user message to UI immediately
+          chatService.addUserMessageToUI(chatState.currentChat.id, content);
+
           // Save user message first
           await fetch("/api/chats/add-user-message", {
             method: "POST",
@@ -513,6 +528,8 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
           // Refresh messages to show the error
           await chatService.loadChatMessages(chatState.currentChat.id);
+          // Stop thinking state
+          chatService.stopThinking();
           return;
         }
       }
