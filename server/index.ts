@@ -10,6 +10,8 @@ import {
   updateChat,
   deleteChat,
   uploadFile,
+  addAssistantMessage,
+  addUserMessage,
 } from "./routes/chats";
 import {
   getCurrentUser,
@@ -42,6 +44,7 @@ import {
   deleteCategory,
   updateChatCategory,
 } from "./routes/categories";
+import { geminiProxy } from "./routes/gemini-proxy";
 
 export function createServer() {
   const app = express();
@@ -76,6 +79,8 @@ export function createServer() {
   app.get("/api/chats/:chatId/messages", getChatMessages);
   app.post("/api/chats", uploadFile, createChat);
   app.post("/api/chats/message", sendMessage);
+  app.post("/api/chats/add-assistant-message", addAssistantMessage);
+  app.post("/api/chats/add-user-message", addUserMessage);
   app.put("/api/chats/:chatId", updateChat);
   app.delete("/api/chats/:chatId", deleteChat);
 
@@ -106,6 +111,9 @@ export function createServer() {
   // Models API routes
   app.get("/api/models", getModels);
   app.post("/api/models", addModel);
+
+  // Gemini API proxy route
+  app.post("/api/gemini-proxy", geminiProxy);
 
   // Authentication API routes
   app.post("/api/auth/login", loginUser);

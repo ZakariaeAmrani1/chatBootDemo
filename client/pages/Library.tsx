@@ -92,6 +92,7 @@ const Library: React.FC = () => {
       icon: <FileText className="w-5 h-5" />,
       tags: ["pdf", "document"],
       downloadUrl: pdf.url,
+      badge: "PDF",
     })),
     // AI Models
     ...models.map((model) => ({
@@ -101,16 +102,16 @@ const Library: React.FC = () => {
       type: "model" as const,
       category: "AI Models",
       date: new Date().toISOString(), // Models don't have dates, use current
-      size: model.enabled ? "Available" : "Unavailable",
+      size: model.isAvailable ? "Available" : "Unavailable",
       icon:
         model.id === "cloud" ? (
           <Globe className="w-5 h-5" />
         ) : (
           <Brain className="w-5 h-5" />
         ),
-      tags: model.features || ["ai", "model"],
-      badge: model.badge,
-      enabled: model.enabled,
+      tags: ["ai", "model", model.category],
+      badge: model.isAvailable ? "Available" : "Offline",
+      enabled: model.isAvailable,
     })),
   ];
 

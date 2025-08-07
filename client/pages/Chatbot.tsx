@@ -247,24 +247,84 @@ const Chatbot = () => {
         console.error("Failed to save model preference:", error);
       }
 
-      // Determine file type and create appropriate request
-      const createChatRequest: any = {
-        title: "New Chat",
-        model: model,
-        chatbootVersion: selectedVersion,
-      };
-
       // Handle different models and file types
       if (model === "local-cloud" && file.type === "application/pdf") {
-        createChatRequest.pdfFile = file;
-        // Create chat with PDF file
-        await chatService.createChat(createChatRequest, user.id);
+        // Create chat with backend but handle PDF processing locally
+        const createChatRequest: any = {
+          title: `PDF: ${file.name}`,
+          model: model,
+          chatbootVersion: selectedVersion,
+          pdfFile: file,
+        };
+
+        const newChat = await chatService.createChat(
+          createChatRequest,
+          user.id,
+        );
+
+        if (newChat && user?.settings?.geminiApiKey) {
+          // Process PDF with local Gemini after chat is created
+          try {
+            const { GeminiService } = await import("../services/geminiService");
+            const geminiModel =
+              user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+            const geminiService = new GeminiService(
+              user.settings.geminiApiKey,
+              geminiModel,
+            );
+
+            const initialPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.
+
+Utilise exclusivement les informations présentes dans ce document.
+
+N'ajoute aucune information externe, même si tu en as connaissance.
+
+Si une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."
+Sois clair, précis et factuel dans tes réponses.
+
+J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
+
+            const aiResponse = await geminiService.processPDFWithPrompt(
+              file,
+              initialPrompt,
+              [],
+            );
+
+            // Save the AI response using our new endpoint
+            await fetch("/api/chats/add-assistant-message", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chatId: newChat.id,
+                content: aiResponse,
+              }),
+            });
+
+            // Refresh chat messages to show the AI response
+            await chatService.loadChatMessages(newChat.id);
+          } catch (error) {
+            console.error("Failed to process PDF with Gemini:", error);
+          }
+        }
       } else if (model === "csv-local" && file.type === "text/csv") {
-        createChatRequest.csvFile = file;
-        // Create chat with CSV file
+        // Keep existing backend processing for CSV files
+        const createChatRequest: any = {
+          title: "New Chat",
+          model: model,
+          chatbootVersion: selectedVersion,
+          csvFile: file,
+        };
         await chatService.createChat(createChatRequest, user.id);
       } else if (model === "cloud") {
         // For cloud model, create chat first, then upload file as attachment
+        const createChatRequest: any = {
+          title: "New Chat",
+          model: model,
+          chatbootVersion: selectedVersion,
+        };
+
         const newChat = await chatService.createChat(
           createChatRequest,
           user.id,
@@ -311,6 +371,152 @@ const Chatbot = () => {
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
+      // Handle existing backend chat with local-cloud model - use local processing
+      if (
+        chatState.currentChat &&
+        chatState.currentChat.model === "local-cloud"
+      ) {
+        if (!user) return;
+
+        // Check if user has Gemini API key
+        const geminiApiKey = user?.settings?.geminiApiKey;
+        if (!geminiApiKey || !geminiApiKey.trim()) {
+          // Save user message to backend first
+          await fetch("/api/chats/add-user-message", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content: content,
+            }),
+          });
+
+          // Save error response
+          await fetch("/api/chats/add-assistant-message", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content:
+                "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+            }),
+          });
+
+          // Refresh messages to show the new messages
+          await chatService.loadChatMessages(chatState.currentChat.id);
+          return;
+        }
+
+        // If the chat has a PDF file, process with Gemini
+        if (chatState.currentChat.pdfFile) {
+          try {
+            // Save user message first
+            await fetch("/api/chats/add-user-message", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chatId: chatState.currentChat.id,
+                content: content,
+              }),
+            });
+
+            // Get the PDF file from the attachment URL
+            const pdfResponse = await fetch(chatState.currentChat.pdfFile.url);
+            const pdfBlob = await pdfResponse.blob();
+            const pdfFile = new File(
+              [pdfBlob],
+              chatState.currentChat.pdfFile.name,
+              { type: "application/pdf" },
+            );
+
+            // Process with Gemini
+            const { GeminiService } = await import("../services/geminiService");
+            const geminiModel =
+              user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+            const geminiService = new GeminiService(geminiApiKey, geminiModel);
+
+            // Get chat history for context
+            const chatHistory = chatState.messages;
+
+            const aiResponse = await geminiService.processPDFWithPrompt(
+              pdfFile,
+              content,
+              chatHistory,
+            );
+
+            // Save AI response
+            await fetch("/api/chats/add-assistant-message", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chatId: chatState.currentChat.id,
+                content: aiResponse,
+              }),
+            });
+
+            // Refresh messages to show the new messages
+            await chatService.loadChatMessages(chatState.currentChat.id);
+            return;
+          } catch (error) {
+            console.error("Failed to process with Gemini:", error);
+
+            // Save error response
+            await fetch("/api/chats/add-assistant-message", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chatId: chatState.currentChat.id,
+                content:
+                  "❌ **Error**: Failed to process PDF with Gemini. Please try again.",
+              }),
+            });
+
+            // Refresh messages to show the error
+            await chatService.loadChatMessages(chatState.currentChat.id);
+            return;
+          }
+        } else {
+          // Save user message first
+          await fetch("/api/chats/add-user-message", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content: content,
+            }),
+          });
+
+          // Save error response
+          await fetch("/api/chats/add-assistant-message", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content:
+                "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
+            }),
+          });
+
+          // Refresh messages to show the error
+          await chatService.loadChatMessages(chatState.currentChat.id);
+          return;
+        }
+      }
+
       if (!chatState.currentChat) {
         if (!user) return;
 
@@ -646,7 +852,7 @@ const Chatbot = () => {
       {/* PDF Preview */}
       {chatState.currentChat?.pdfFile && (
         <PDFPreview
-          pdfFile={chatState.currentChat.pdfFile}
+          pdfFile={chatState.currentChat?.pdfFile}
           isOpen={pdfPreviewOpen}
           onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
           width={pdfPreviewWidth}
@@ -657,7 +863,7 @@ const Chatbot = () => {
       {/* CSV Preview */}
       {chatState.currentChat?.csvFile && (
         <CSVPreview
-          csvFile={chatState.currentChat.csvFile}
+          csvFile={chatState.currentChat?.csvFile}
           isOpen={csvPreviewOpen}
           onToggle={() => setCsvPreviewOpen(!csvPreviewOpen)}
           width={csvPreviewWidth}

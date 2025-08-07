@@ -220,7 +220,9 @@ async function callGeminiAPI(
   }
 }
 
-// Function to call Local Cloud backend with PDF file
+// COMMENTED OUT: Function to call Local Cloud backend with PDF file
+// This functionality has been moved to client-side Gemini processing
+/*
 async function callLocalCloudAPI(
   userMessage: string,
   pdfFilePath?: string,
@@ -301,6 +303,7 @@ async function callLocalCloudAPI(
     return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. ${error instanceof Error ? error.message : "Unknown error"}`;
   }
 }
+*/
 
 // Function to call Local Cloud backend with CSV file
 async function callCSVLocalCloudAPI(
@@ -475,18 +478,20 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Generate AI response
-      setTimeout(async () => {
-        const aiMessage: Message = {
-          id: uuidv4(),
-          chatId: chatId,
-          type: "assistant",
-          content: await generateAIResponse(message, userId, chatId),
-          timestamp: new Date().toISOString(),
-        };
+      // Generate AI response (skip for local-cloud model as it's handled client-side)
+      if (model !== "local-cloud") {
+        setTimeout(async () => {
+          const aiMessage: Message = {
+            id: uuidv4(),
+            chatId: chatId,
+            type: "assistant",
+            content: await generateAIResponse(message, userId, chatId),
+            timestamp: new Date().toISOString(),
+          };
 
-        DataManager.addMessage(aiMessage);
-      }, 3000); // 3 second delay to allow for processing
+          DataManager.addMessage(aiMessage);
+        }, 3000); // 3 second delay to allow for processing
+      }
     } else if (attachedFile) {
       // If no initial message but file is uploaded, create a user message showing the file upload
       const fileIcon = attachedFile.type === "text/csv" ? "📊" : "📄";
@@ -503,42 +508,44 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Process the file and generate AI response
-      setTimeout(async () => {
-        const filePath = path.join(
-          process.cwd(),
-          "server/uploads",
-          path.basename(attachedFile.url),
-        );
+      // Process the file and generate AI response (skip for local-cloud model as it's handled client-side)
+      if (model !== "local-cloud") {
+        setTimeout(async () => {
+          const filePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(attachedFile.url),
+          );
 
-        let fileContent: string;
-        let analysisPrompt: string;
+          let fileContent: string;
+          let analysisPrompt: string;
 
-        if (attachedFile.type === "text/csv") {
-          fileContent = await extractCSVData(filePath);
-          analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
-        } else {
-          fileContent = await extractPDFText(filePath);
-          analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
-        }
+          if (attachedFile.type === "text/csv") {
+            fileContent = await extractCSVData(filePath);
+            analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
+          } else {
+            fileContent = await extractPDFText(filePath);
+            analysisPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.\n\nUtilise exclusivement les informations présentes dans ce document.\n\nN'ajoute aucune information externe, même si tu en as connaissance.\n\nSi une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."\nSois clair, précis et factuel dans tes réponses.\n\nAnalyse ce document PDF et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
+          }
 
-        const aiMessage: Message = {
-          id: uuidv4(),
-          chatId: chatId,
-          type: "assistant",
-          content: await generateAIResponseWithFile(
-            analysisPrompt,
-            userId,
-            chatId,
-            fileContent,
-            attachedFile,
-            true, // This is the initial file setup
-          ),
-          timestamp: new Date().toISOString(),
-        };
+          const aiMessage: Message = {
+            id: uuidv4(),
+            chatId: chatId,
+            type: "assistant",
+            content: await generateAIResponseWithFile(
+              analysisPrompt,
+              userId,
+              chatId,
+              fileContent,
+              attachedFile,
+              true, // This is the initial file setup
+            ),
+            timestamp: new Date().toISOString(),
+          };
 
-        DataManager.addMessage(aiMessage);
-      }, 2000); // 2 second delay for file processing
+          DataManager.addMessage(aiMessage);
+        }, 2000); // 2 second delay for file processing
+      }
     }
 
     const response: ApiResponse<Chat> = {
@@ -706,6 +713,91 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
+// Add assistant message directly (for local PDF processing)
+export const addAssistantMessage: RequestHandler = (req, res) => {
+  try {
+    const { chatId, content } = req.body;
+    const now = new Date().toISOString();
+
+    // Check if chat exists
+    const chat = DataManager.getChatById(chatId);
+    if (!chat) {
+      const response: ApiResponse<Message> = {
+        success: false,
+        error: "Chat not found",
+      };
+      return res.status(404).json(response);
+    }
+
+    // Create assistant message
+    const assistantMessage: Message = {
+      id: uuidv4(),
+      chatId: chatId,
+      type: "assistant",
+      content: content,
+      timestamp: now,
+    };
+
+    const addedMessage = DataManager.addMessage(assistantMessage);
+
+    const response: ApiResponse<Message> = {
+      success: true,
+      data: addedMessage,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<Message> = {
+      success: false,
+      error: "Failed to add assistant message",
+    };
+    res.status(500).json(response);
+  }
+};
+
+// Add user message directly (for local PDF processing)
+export const addUserMessage: RequestHandler = (req, res) => {
+  try {
+    const { chatId, content, attachments } = req.body;
+    const now = new Date().toISOString();
+
+    // Check if chat exists
+    const chat = DataManager.getChatById(chatId);
+    if (!chat) {
+      const response: ApiResponse<Message> = {
+        success: false,
+        error: "Chat not found",
+      };
+      return res.status(404).json(response);
+    }
+
+    // Create user message
+    const userMessage: Message = {
+      id: uuidv4(),
+      chatId: chatId,
+      type: "user",
+      content: content,
+      timestamp: now,
+      attachments: attachments,
+    };
+
+    const addedMessage = DataManager.addMessage(userMessage);
+
+    const response: ApiResponse<Message> = {
+      success: true,
+      data: addedMessage,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<Message> = {
+      success: false,
+      error: "Failed to add user message",
+    };
+    res.status(500).json(response);
+  }
+};
+
 // AI response generator with file content support (PDF or CSV)
 async function generateAIResponseWithFile(
   userMessage: string,
@@ -772,6 +864,9 @@ async function generateAIResponseWithFile(
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
+      // COMMENTED OUT: Local Cloud backend processing now handled client-side
+      return "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.";
+      /*
       // Use Local Cloud backend for PDF
       try {
         let filePath: string | undefined;
@@ -795,6 +890,7 @@ async function generateAIResponseWithFile(
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
+      */
     } else if (modelType === "csv-local") {
       // Use CSV Local Cloud backend
       try {
@@ -896,6 +992,9 @@ async function generateAIResponseWithPDF(
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
+      // COMMENTED OUT: Local Cloud backend processing now handled client-side
+      return "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.";
+      /*
       // Use Local Cloud backend
       try {
         // Get PDF file path and app URL
@@ -923,6 +1022,7 @@ async function generateAIResponseWithPDF(
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
+      */
     }
   } catch (error) {
     console.error("Error accessing AI services:", error);
@@ -985,6 +1085,9 @@ async function generateAIResponse(
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
+      // COMMENTED OUT: Local Cloud backend processing now handled client-side
+      return "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.";
+      /*
       // Use Local Cloud backend
       try {
         const chat = chatId ? DataManager.getChatById(chatId) : null;
@@ -1001,6 +1104,7 @@ async function generateAIResponse(
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
+      */
     } else if (modelType === "csv-local") {
       // Use Local Cloud backend
       try {
