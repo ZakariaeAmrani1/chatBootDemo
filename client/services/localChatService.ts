@@ -206,6 +206,18 @@ export class LocalChatService {
       timestamp: now,
     };
 
+    // Save user message to backend
+    try {
+      const { apiService } = await import('./api');
+      await apiService.sendMessage({
+        chatId: this.state.currentChat.id,
+        message: message,
+      });
+    } catch (saveError) {
+      console.error('Failed to save user message to backend:', saveError);
+      // Continue anyway
+    }
+
     this.setState({
       messages: [...this.state.messages, userMessage],
       isThinking: true,
