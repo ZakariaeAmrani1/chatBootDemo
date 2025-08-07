@@ -175,6 +175,14 @@
       "type": "application/pdf",
       "url": "/api/files/9de4d4be-a57e-4ac3-a14a-292b894fc710.pdf",
       "uploadedAt": "2025-08-07T15:08:49.580Z"
+    },
+    {
+      "id": "478eb84a-935e-45f5-9502-baa00fe03bc9",
+      "name": "Script actualisÃ©.pdf",
+      "size": 371131,
+      "type": "application/pdf",
+      "url": "/api/files/a862a866-6121-40bb-b93c-cff039b4cd31.pdf",
+      "uploadedAt": "2025-08-07T15:10:50.612Z"
     }
   ]
 }

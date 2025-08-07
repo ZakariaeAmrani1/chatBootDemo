@@ -485,8 +485,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           onChange={(e) => handleFileSelect(e.target.files)}
         />
 
-        {/* Footer Text */}
-        <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-2">
+        {/* <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-2">
           <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"
@@ -495,7 +494,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
             />
           </svg>
           ChatNova can make mistakes. Check important info.
-        </p>
+        </p> */}
       </div>
     </div>
   );
