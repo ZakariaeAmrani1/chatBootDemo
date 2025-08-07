@@ -92,6 +92,7 @@ const Library: React.FC = () => {
       icon: <FileText className="w-5 h-5" />,
       tags: ["pdf", "document"],
       downloadUrl: pdf.url,
+      badge: "PDF",
     })),
     // AI Models
     ...models.map((model) => ({
