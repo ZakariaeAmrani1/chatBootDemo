@@ -64,11 +64,26 @@ export class LocalChatService {
         return null;
       }
 
-      const chatId = uuidv4();
+      // First, create a regular backend chat to ensure persistence
+      const { apiService } = await import('./api');
+
+      const createChatRequest = {
+        title: title,
+        model: "local-cloud",
+        chatbootVersion: "ChatNova V3",
+        pdfFile: pdfFile,
+      };
+
+      const response = await apiService.createChat(createChatRequest);
+      if (!response.success || !response.data) {
+        throw new Error(response.error || 'Failed to create chat');
+      }
+
+      const backendChat = response.data;
       const now = new Date().toISOString();
 
-      // Create file attachment object
-      const pdfAttachment: FileAttachment = {
+      // Create file attachment object (use the one from backend if available)
+      const pdfAttachment: FileAttachment = backendChat.pdfFile || {
         id: uuidv4(),
         name: pdfFile.name,
         size: pdfFile.size,
@@ -77,24 +92,16 @@ export class LocalChatService {
         uploadedAt: now,
       };
 
-      // Create the chat
+      // Use the chat from backend
       const chat: Chat = {
-        id: chatId,
-        title: title,
-        model: "local-cloud",
-        chatbootVersion: "ChatNova V3",
-        createdAt: now,
-        updatedAt: now,
-        messageCount: 0,
-        userId: user.id,
+        ...backendChat,
         pdfFile: pdfAttachment,
-        isDraft: false,
       };
 
       // Add user message showing file upload
       const userMessage: Message = {
         id: uuidv4(),
-        chatId: chatId,
+        chatId: chat.id,
         type: "user",
         content: `📄 Uploaded PDF document for analysis: ${pdfFile.name}`,
         timestamp: now,
