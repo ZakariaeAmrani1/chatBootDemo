@@ -39,7 +39,16 @@ export const geminiProxy: RequestHandler = async (req, res) => {
 
     clearTimeout(timeoutId);
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch (parseError) {
+      console.error("Failed to parse Gemini response as JSON:", parseError);
+      return res.status(500).json({
+        success: false,
+        error: "Invalid JSON response from Gemini API",
+      });
+    }
 
     if (!response.ok) {
       console.error(`Gemini API error ${response.status}:`, data);
