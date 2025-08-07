@@ -478,18 +478,20 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Generate AI response
-      setTimeout(async () => {
-        const aiMessage: Message = {
-          id: uuidv4(),
-          chatId: chatId,
-          type: "assistant",
-          content: await generateAIResponse(message, userId, chatId),
-          timestamp: new Date().toISOString(),
-        };
+      // Generate AI response (skip for local-cloud model as it's handled client-side)
+      if (model !== "local-cloud") {
+        setTimeout(async () => {
+          const aiMessage: Message = {
+            id: uuidv4(),
+            chatId: chatId,
+            type: "assistant",
+            content: await generateAIResponse(message, userId, chatId),
+            timestamp: new Date().toISOString(),
+          };
 
-        DataManager.addMessage(aiMessage);
-      }, 3000); // 3 second delay to allow for processing
+          DataManager.addMessage(aiMessage);
+        }, 3000); // 3 second delay to allow for processing
+      }
     } else if (attachedFile) {
       // If no initial message but file is uploaded, create a user message showing the file upload
       const fileIcon = attachedFile.type === "text/csv" ? "📊" : "📄";
