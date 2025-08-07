@@ -167,6 +167,14 @@
       "type": "application/pdf",
       "url": "/api/files/3a385a95-0635-46b3-bf45-e3f5ffa9b959.pdf",
       "uploadedAt": "2025-08-07T14:50:58.819Z"
+    },
+    {
+      "id": "98448cfd-0d11-4511-9ce4-1a6c36e876f7",
+      "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+      "size": 4651108,
+      "type": "application/pdf",
+      "url": "/api/files/9de4d4be-a57e-4ac3-a14a-292b894fc710.pdf",
+      "uploadedAt": "2025-08-07T15:08:49.580Z"
     }
   ]
 }
