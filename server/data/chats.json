@@ -168,24 +168,6 @@
         "url": "/api/files/07876e42-bc9b-439b-8418-5dd09027b782.pdf",
         "uploadedAt": "2025-08-07T14:34:55.225Z"
       }
-    },
-    {
-      "id": "2e2aab80-2fb5-4d49-896f-3370a1226657",
-      "title": "PDF: Cahier_de_charges.pdf",
-      "model": "local-cloud",
-      "chatbootVersion": "ChatNova V3",
-      "createdAt": "2025-08-07T14:36:19.014Z",
-      "updatedAt": "2025-08-07T14:36:19.892Z",
-      "messageCount": 2,
-      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
-      "pdfFile": {
-        "id": "a2458475-ea31-4347-91c1-ffc49d49bdb5",
-        "name": "Cahier_de_charges.pdf",
-        "size": 622676,
-        "type": "application/pdf",
-        "url": "/api/files/c789e9b0-a730-4ca3-b3f6-57988682ca62.pdf",
-        "uploadedAt": "2025-08-07T14:36:19.014Z"
-      }
     }
   ],
   "messages": [
@@ -426,30 +408,6 @@
       "type": "assistant",
       "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
       "timestamp": "2025-08-07T14:34:56.305Z"
-    },
-    {
-      "id": "f5041ec5-fa25-4060-b570-d6fdcf144217",
-      "chatId": "2e2aab80-2fb5-4d49-896f-3370a1226657",
-      "type": "user",
-      "content": "📄 Uploaded document for analysis",
-      "timestamp": "2025-08-07T14:36:19.014Z",
-      "attachments": [
-        {
-          "id": "a2458475-ea31-4347-91c1-ffc49d49bdb5",
-          "name": "Cahier_de_charges.pdf",
-          "size": 622676,
-          "type": "application/pdf",
-          "url": "/api/files/c789e9b0-a730-4ca3-b3f6-57988682ca62.pdf",
-          "uploadedAt": "2025-08-07T14:36:19.014Z"
-        }
-      ]
-    },
-    {
-      "id": "bdd2eb83-a260-460c-9589-29c57713073c",
-      "chatId": "2e2aab80-2fb5-4d49-896f-3370a1226657",
-      "type": "assistant",
-      "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
-      "timestamp": "2025-08-07T14:36:19.892Z"
     }
   ]
 }
