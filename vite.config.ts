@@ -14,7 +14,15 @@ export default defineConfig(() => ({
   },
   build: {
     outDir: "dist",
-    sourcemap: true,
+    sourcemap: false, // Disable sourcemaps to avoid build issues
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+        },
+      },
+    },
   },
   plugins: [react()],
   resolve: {
@@ -24,7 +32,9 @@ export default defineConfig(() => ({
     },
   },
   define: {
-    // Define any environment variables needed for client
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+  },
+  optimizeDeps: {
+    exclude: ['@types/node'],
   },
 }));
