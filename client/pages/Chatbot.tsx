@@ -799,30 +799,27 @@ const Chatbot = () => {
         {/* Chat area - Scrollable */}
         <div className="flex-1 overflow-hidden">
           <ChatArea
-            messages={localChatState.currentChat ? localChatState.messages : chatState.messages}
+            messages={chatState.messages}
             selectedModel={selectedModel}
             onModelChange={handleModelChange}
-            isThinking={localChatState.currentChat ? localChatState.isThinking : chatState.isThinking}
-            isLoading={localChatState.currentChat ? localChatState.isLoading : chatState.isLoading}
-            error={localChatState.currentChat ? localChatState.error : chatState.error}
+            isThinking={chatState.isThinking}
+            isLoading={chatState.isLoading}
+            error={chatState.error}
             onMessageUpdate={handleMessageUpdate}
             onStartChat={handleStartChat}
             user={user}
-            hasActiveChat={!!(localChatState.currentChat || chatState.currentChat)}
-            currentChatHasPdf={!!(localChatState.currentChat?.pdfFile || chatState.currentChat?.pdfFile)}
-            currentChatHasCsv={!!(localChatState.currentChat?.csvFile || chatState.currentChat?.csvFile)}
+            hasActiveChat={!!chatState.currentChat}
+            currentChatHasPdf={!!chatState.currentChat?.pdfFile}
+            currentChatHasCsv={!!chatState.currentChat?.csvFile}
           />
         </div>
 
         {/* Chat Input - Fixed at bottom - Only show when chat is active */}
-        {(chatState.currentChat || localChatState.currentChat) && (
+        {chatState.currentChat && (
           <div className="sticky bottom-0 z-10">
             <ChatInput
               onSendMessage={addMessage}
-              disabled={
-                (localChatState.currentChat ? localChatState.isLoading || localChatState.isThinking : false) ||
-                (chatState.currentChat ? chatState.isLoading || chatState.isThinking : false)
-              }
+              disabled={chatState.isLoading || chatState.isThinking}
             />
           </div>
         )}
