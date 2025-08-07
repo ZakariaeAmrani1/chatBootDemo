@@ -493,6 +493,8 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             // Refresh messages to show the error
             await chatService.loadChatMessages(chatState.currentChat.id);
+            // Stop thinking state
+            chatService.stopThinking();
             return;
           }
         } else {
