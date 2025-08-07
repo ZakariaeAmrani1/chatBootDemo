@@ -267,15 +267,50 @@ const Chatbot = () => {
 
       // Handle different models and file types
       if (model === "local-cloud" && file.type === "application/pdf") {
-        // Clear regular chat service state
-        chatService.clearCurrentChat();
+        // Create chat with backend but handle PDF processing locally
+        const createChatRequest: any = {
+          title: `PDF: ${file.name}`,
+          model: model,
+          chatbootVersion: selectedVersion,
+          pdfFile: file,
+        };
 
-        // Use local Gemini processing for PDF files
-        await localChatService.createLocalPDFChat(
-          file,
-          user,
-          `PDF: ${file.name}`
-        );
+        const newChat = await chatService.createChat(createChatRequest, user.id);
+
+        if (newChat && user?.settings?.geminiApiKey) {
+          // Process PDF with local Gemini after chat is created
+          try {
+            const { GeminiService } = await import('@/services/geminiService');
+            const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+            const geminiService = new GeminiService(user.settings.geminiApiKey, geminiModel);
+
+            const initialPrompt = `I've uploaded a PDF document (${file.name}). Please analyze this document and provide a summary of its content. Tell me what the document is about and what key information it contains.`;
+
+            const aiResponse = await geminiService.processPDFWithPrompt(
+              file,
+              initialPrompt,
+              []
+            );
+
+            // Save the AI response using our new endpoint
+            await fetch('/api/chats/add-assistant-message', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chatId: newChat.id,
+                content: aiResponse,
+              }),
+            });
+
+            // Refresh chat messages to show the AI response
+            await chatService.loadChatMessages(newChat.id);
+
+          } catch (error) {
+            console.error('Failed to process PDF with Gemini:', error);
+          }
+        }
       } else if (model === "csv-local" && file.type === "text/csv") {
         // Keep existing backend processing for CSV files
         const createChatRequest: any = {
