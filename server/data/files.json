@@ -215,22 +215,6 @@
       "type": "application/pdf",
       "url": "/api/files/c789e9b0-a730-4ca3-b3f6-57988682ca62.pdf",
       "uploadedAt": "2025-08-07T14:36:19.014Z"
-    },
-    {
-      "id": "d618ee2a-bb36-4ccb-8bef-0f5f1a6aa8a7",
-      "name": "Cahier_de_charges.pdf",
-      "size": 622676,
-      "type": "application/pdf",
-      "url": "/api/files/5a2b83f9-e8da-4a31-9d93-1c33f76256c7.pdf",
-      "uploadedAt": "2025-08-07T14:37:59.391Z"
-    },
-    {
-      "id": "11c52554-06dd-418c-bc3a-98a450a44447",
-      "name": "Cahier_de_charges.pdf",
-      "size": 622676,
-      "type": "application/pdf",
-      "url": "/api/files/5b1d3558-ae00-4878-ade1-33f217f499f5.pdf",
-      "uploadedAt": "2025-08-07T14:38:36.875Z"
     }
   ]
 }
