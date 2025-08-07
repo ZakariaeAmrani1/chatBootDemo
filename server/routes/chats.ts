@@ -525,7 +525,7 @@ export const createChat: RequestHandler = (req, res) => {
             analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
           } else {
             fileContent = await extractPDFText(filePath);
-            analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
+            analysisPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.\n\nUtilise exclusivement les informations présentes dans ce document.\n\nN'ajoute aucune information externe, même si tu en as connaissance.\n\nSi une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."\nSois clair, précis et factuel dans tes réponses.\n\nAnalyse ce document PDF et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
           }
 
           const aiMessage: Message = {
