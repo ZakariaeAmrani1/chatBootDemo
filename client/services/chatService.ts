@@ -267,6 +267,13 @@ class ChatService {
     });
   }
 
+  // Helper method to stop thinking state
+  stopThinking(): void {
+    this.setState({
+      isThinking: false,
+    });
+  }
+
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
 
