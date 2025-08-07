@@ -88,7 +88,6 @@ const Chatbot = () => {
     return unsubscribe;
   }, []);
 
-
   // Remove the periodic refresh interval as it conflicts with polling
   // The chat service now handles all polling internally
 
@@ -217,7 +216,6 @@ const Chatbot = () => {
   const createNewChat = async (message?: string) => {
     if (!user) return;
 
-
     if (message && message.trim()) {
       // Create a saved chat immediately if there's an initial message
       await chatService.createChat(
@@ -259,14 +257,21 @@ const Chatbot = () => {
           pdfFile: file,
         };
 
-        const newChat = await chatService.createChat(createChatRequest, user.id);
+        const newChat = await chatService.createChat(
+          createChatRequest,
+          user.id,
+        );
 
         if (newChat && user?.settings?.geminiApiKey) {
           // Process PDF with local Gemini after chat is created
           try {
-            const { GeminiService } = await import('../services/geminiService');
-            const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
-            const geminiService = new GeminiService(user.settings.geminiApiKey, geminiModel);
+            const { GeminiService } = await import("../services/geminiService");
+            const geminiModel =
+              user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+            const geminiService = new GeminiService(
+              user.settings.geminiApiKey,
+              geminiModel,
+            );
 
             const initialPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.
 
@@ -282,14 +287,14 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             const aiResponse = await geminiService.processPDFWithPrompt(
               file,
               initialPrompt,
-              []
+              [],
             );
 
             // Save the AI response using our new endpoint
-            await fetch('/api/chats/add-assistant-message', {
-              method: 'POST',
+            await fetch("/api/chats/add-assistant-message", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 chatId: newChat.id,
@@ -299,9 +304,8 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             // Refresh chat messages to show the AI response
             await chatService.loadChatMessages(newChat.id);
-
           } catch (error) {
-            console.error('Failed to process PDF with Gemini:', error);
+            console.error("Failed to process PDF with Gemini:", error);
           }
         }
       } else if (model === "csv-local" && file.type === "text/csv") {
@@ -367,19 +371,21 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
-
       // Handle existing backend chat with local-cloud model - use local processing
-      if (chatState.currentChat && chatState.currentChat.model === "local-cloud") {
+      if (
+        chatState.currentChat &&
+        chatState.currentChat.model === "local-cloud"
+      ) {
         if (!user) return;
 
         // Check if user has Gemini API key
         const geminiApiKey = user?.settings?.geminiApiKey;
         if (!geminiApiKey || !geminiApiKey.trim()) {
           // Save user message to backend first
-          await fetch('/api/chats/add-user-message', {
-            method: 'POST',
+          await fetch("/api/chats/add-user-message", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               chatId: chatState.currentChat.id,
@@ -388,14 +394,15 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
           });
 
           // Save error response
-          await fetch('/api/chats/add-assistant-message', {
-            method: 'POST',
+          await fetch("/api/chats/add-assistant-message", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               chatId: chatState.currentChat.id,
-              content: "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+              content:
+                "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
             }),
           });
 
@@ -408,10 +415,10 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
         if (chatState.currentChat.pdfFile) {
           try {
             // Save user message first
-            await fetch('/api/chats/add-user-message', {
-              method: 'POST',
+            await fetch("/api/chats/add-user-message", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 chatId: chatState.currentChat.id,
@@ -422,11 +429,16 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             // Get the PDF file from the attachment URL
             const pdfResponse = await fetch(chatState.currentChat.pdfFile.url);
             const pdfBlob = await pdfResponse.blob();
-            const pdfFile = new File([pdfBlob], chatState.currentChat.pdfFile.name, { type: 'application/pdf' });
+            const pdfFile = new File(
+              [pdfBlob],
+              chatState.currentChat.pdfFile.name,
+              { type: "application/pdf" },
+            );
 
             // Process with Gemini
-            const { GeminiService } = await import('../services/geminiService');
-            const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+            const { GeminiService } = await import("../services/geminiService");
+            const geminiModel =
+              user?.settings?.geminiModel || "gemini-1.5-flash-latest";
             const geminiService = new GeminiService(geminiApiKey, geminiModel);
 
             // Get chat history for context
@@ -435,14 +447,14 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             const aiResponse = await geminiService.processPDFWithPrompt(
               pdfFile,
               content,
-              chatHistory
+              chatHistory,
             );
 
             // Save AI response
-            await fetch('/api/chats/add-assistant-message', {
-              method: 'POST',
+            await fetch("/api/chats/add-assistant-message", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 chatId: chatState.currentChat.id,
@@ -453,19 +465,19 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             // Refresh messages to show the new messages
             await chatService.loadChatMessages(chatState.currentChat.id);
             return;
-
           } catch (error) {
-            console.error('Failed to process with Gemini:', error);
+            console.error("Failed to process with Gemini:", error);
 
             // Save error response
-            await fetch('/api/chats/add-assistant-message', {
-              method: 'POST',
+            await fetch("/api/chats/add-assistant-message", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 chatId: chatState.currentChat.id,
-                content: "❌ **Error**: Failed to process PDF with Gemini. Please try again.",
+                content:
+                  "❌ **Error**: Failed to process PDF with Gemini. Please try again.",
               }),
             });
 
@@ -475,10 +487,10 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
           }
         } else {
           // Save user message first
-          await fetch('/api/chats/add-user-message', {
-            method: 'POST',
+          await fetch("/api/chats/add-user-message", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               chatId: chatState.currentChat.id,
@@ -487,14 +499,15 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
           });
 
           // Save error response
-          await fetch('/api/chats/add-assistant-message', {
-            method: 'POST',
+          await fetch("/api/chats/add-assistant-message", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               chatId: chatState.currentChat.id,
-              content: "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
+              content:
+                "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
             }),
           });
 

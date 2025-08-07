@@ -34,7 +34,7 @@ export const geminiProxy: RequestHandler = async (req, res) => {
             maxOutputTokens: 2048,
           },
         }),
-      }
+      },
     );
 
     clearTimeout(timeoutId);
@@ -49,7 +49,7 @@ export const geminiProxy: RequestHandler = async (req, res) => {
     }
 
     const data = await response.json();
-    
+
     const apiResponse: ApiResponse<any> = {
       success: true,
       data: data,
@@ -58,14 +58,14 @@ export const geminiProxy: RequestHandler = async (req, res) => {
     res.json(apiResponse);
   } catch (error) {
     console.error("Gemini proxy error:", error);
-    
+
     if (error.name === "AbortError") {
       return res.status(408).json({
         success: false,
         error: "Request timeout",
       });
     }
-    
+
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : "Gemini proxy error",

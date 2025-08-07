@@ -24,7 +24,7 @@ export class GeminiService {
   async processPDFWithPrompt(
     pdfFile: File,
     prompt: string,
-    chatHistory: Message[] = []
+    chatHistory: Message[] = [],
   ): Promise<string> {
     try {
       // Convert PDF to base64
@@ -65,7 +65,7 @@ export class GeminiService {
       });
 
       // Use our backend proxy to avoid CORS issues
-      const response = await fetch('/api/gemini-proxy', {
+      const response = await fetch("/api/gemini-proxy", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,13 +87,13 @@ export class GeminiService {
         const errorText = await response.text();
         console.error(`Gemini proxy error ${response.status}:`, errorText);
         throw new Error(
-          `Gemini proxy error: ${response.status} ${response.statusText}`
+          `Gemini proxy error: ${response.status} ${response.statusText}`,
         );
       }
 
       const proxyResponse = await response.json();
       if (!proxyResponse.success) {
-        throw new Error(proxyResponse.error || 'Gemini proxy request failed');
+        throw new Error(proxyResponse.error || "Gemini proxy request failed");
       }
 
       const data: GeminiAPIResponse = proxyResponse.data;
@@ -142,7 +142,7 @@ export class GeminiService {
    */
   async sendMessage(
     message: string,
-    chatHistory: Message[] = []
+    chatHistory: Message[] = [],
   ): Promise<string> {
     try {
       // Format chat history for Gemini API
@@ -170,7 +170,7 @@ export class GeminiService {
       });
 
       // Use our backend proxy to avoid CORS issues
-      const response = await fetch('/api/gemini-proxy', {
+      const response = await fetch("/api/gemini-proxy", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -192,13 +192,13 @@ export class GeminiService {
         const errorText = await response.text();
         console.error(`Gemini proxy error ${response.status}:`, errorText);
         throw new Error(
-          `Gemini proxy error: ${response.status} ${response.statusText}`
+          `Gemini proxy error: ${response.status} ${response.statusText}`,
         );
       }
 
       const proxyResponse = await response.json();
       if (!proxyResponse.success) {
-        throw new Error(proxyResponse.error || 'Gemini proxy request failed');
+        throw new Error(proxyResponse.error || "Gemini proxy request failed");
       }
 
       const data: GeminiAPIResponse = proxyResponse.data;
