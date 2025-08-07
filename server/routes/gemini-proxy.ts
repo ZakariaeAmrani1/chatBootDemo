@@ -10,7 +10,7 @@ export const geminiProxy: RequestHandler = async (req, res) => {
     console.log("🤖 Gemini proxy request:", {
       model,
       contentsLength: contents?.length,
-      hasApiKey: !!apiKey
+      hasApiKey: !!apiKey,
     });
 
     if (!apiKey || !model || !contents) {
