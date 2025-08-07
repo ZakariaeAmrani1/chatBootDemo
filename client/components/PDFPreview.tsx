@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, FileText, Download, Eye, EyeOff, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { FileAttachment } from "@shared/types";
+import { ClientFileService } from "@/services/clientFileService";
 
 interface PDFPreviewProps {
   pdfFile: FileAttachment;
@@ -25,14 +26,80 @@ export function PDFPreview({
   const [isResizing, setIsResizing] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startWidth, setStartWidth] = useState(width);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = pdfFile.url;
-    link.download = pdfFile.name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Load the file from IndexedDB and create a blob URL
+  useEffect(() => {
+    const loadFile = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        // Extract file ID from the URL (format: blob:fileId)
+        const fileId = pdfFile.url.replace('blob:', '');
+        
+        // Get the file blob from IndexedDB
+        const fileBlob = await ClientFileService.serveFile(fileId);
+        
+        if (fileBlob) {
+          // Create a proper blob URL
+          const url = URL.createObjectURL(fileBlob);
+          setBlobUrl(url);
+        } else {
+          setError('File not found in storage');
+        }
+      } catch (err) {
+        console.error('Error loading PDF:', err);
+        setError('Failed to load PDF file');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (isOpen && pdfFile.url.startsWith('blob:')) {
+      loadFile();
+    } else if (isOpen) {
+      // If it's already a proper URL, use it directly
+      setBlobUrl(pdfFile.url);
+      setIsLoading(false);
+    }
+
+    // Cleanup blob URL when component unmounts or file changes
+    return () => {
+      if (blobUrl && blobUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(blobUrl);
+      }
+    };
+  }, [pdfFile.url, isOpen]);
+
+  const handleDownload = async () => {
+    try {
+      if (blobUrl) {
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = pdfFile.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        // Fallback: load file and download
+        const fileId = pdfFile.url.replace('blob:', '');
+        const fileBlob = await ClientFileService.serveFile(fileId);
+        if (fileBlob) {
+          const url = URL.createObjectURL(fileBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = pdfFile.name;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }
+    } catch (err) {
+      console.error('Error downloading file:', err);
+    }
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -152,7 +219,7 @@ export function PDFPreview({
       {/* PDF Viewer */}
       <div className="flex-1 relative bg-gray-50 dark:bg-gray-900">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-10">
             <div className="flex flex-col items-center gap-2">
               <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               <p className="text-sm text-muted-foreground">Loading PDF...</p>
@@ -160,31 +227,58 @@ export function PDFPreview({
           </div>
         )}
 
-        <iframe
-          src={`${pdfFile.url}#toolbar=1&navpanes=0&scrollbar=1`}
-          className="w-full h-full border-none"
-          title={`PDF Preview: ${pdfFile.name}`}
-          onLoad={() => setIsLoading(false)}
-          onError={() => setIsLoading(false)}
-        />
+        {error && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-10">
+            <div className="flex flex-col items-center gap-4 p-4 text-center">
+              <FileText className="h-12 w-12 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium text-foreground mb-1">Cannot load PDF</p>
+                <p className="text-xs text-muted-foreground">{error}</p>
+              </div>
+              <Button
+                onClick={handleDownload}
+                variant="outline"
+                size="sm"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download instead
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {blobUrl && !error && (
+          <iframe
+            src={`${blobUrl}#toolbar=1&navpanes=0&scrollbar=1`}
+            className="w-full h-full border-none"
+            title={`PDF Preview: ${pdfFile.name}`}
+            onLoad={() => setIsLoading(false)}
+            onError={() => {
+              setIsLoading(false);
+              setError('Failed to display PDF');
+            }}
+          />
+        )}
 
         {/* Fallback for browsers that don't support PDF viewing */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="bg-background/90 backdrop-blur-sm border border-border rounded-lg p-3">
-            <p className="text-xs text-muted-foreground mb-2">
-              Can't view PDF inline?
-            </p>
-            <Button
-              onClick={handleDownload}
-              variant="outline"
-              size="sm"
-              className="w-full"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Download to view
-            </Button>
+        {!isLoading && !error && blobUrl && (
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className="bg-background/90 backdrop-blur-sm border border-border rounded-lg p-3">
+              <p className="text-xs text-muted-foreground mb-2">
+                Can't view PDF inline?
+              </p>
+              <Button
+                onClick={handleDownload}
+                variant="outline"
+                size="sm"
+                className="w-full"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download to view
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
