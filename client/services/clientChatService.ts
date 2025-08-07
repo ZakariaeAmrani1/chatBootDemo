@@ -239,9 +239,7 @@ export class ClientChatService {
 
   static async sendMessage(messageData: SendMessageRequest): Promise<ApiResponse<Message>> {
     try {
-      // This would integrate with your AI service (Gemini, etc.)
-      // For now, we'll just add the user message and a placeholder assistant response
-      
+      // Add the user message first
       const userMessageResult = await this.addUserMessage(
         messageData.chatId,
         messageData.content,
@@ -252,10 +250,52 @@ export class ClientChatService {
         return userMessageResult;
       }
 
-      // Here you would call your AI service
-      // For demo purposes, we'll add a placeholder response
-      const assistantResponse = "I apologize, but I couldn't generate a response. Please try again.";
-      
+      // Get AI response
+      let assistantResponse = "I apologize, but I couldn't generate a response. Please try again.";
+
+      try {
+        // Import here to avoid circular dependencies
+        const { ClientGeminiService } = await import('./clientGeminiService');
+        const { StorageManager } = await import('./storageManager');
+
+        // Get user settings for model selection
+        const currentUser = StorageManager.getCurrentUser();
+        const selectedModel = currentUser?.settings?.selectedModel || 'cloud';
+
+        if (selectedModel === 'cloud' || selectedModel === 'local-cloud') {
+          // Use Gemini API
+          const geminiModel = currentUser?.settings?.geminiModel || 'gemini-1.5-flash-latest';
+
+          // Prepare context with chat history
+          const chatMessages = StorageManager.getMessagesByChatId(messageData.chatId);
+          const recentMessages = chatMessages
+            .slice(-10) // Last 10 messages for context
+            .map(msg => `${msg.type === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
+            .join('\n');
+
+          const contextPrompt = recentMessages
+            ? `Previous conversation:\n${recentMessages}\n\nUser: ${messageData.content}\n\nAssistant:`
+            : messageData.content;
+
+          const geminiResult = await ClientGeminiService.generateContent(
+            contextPrompt,
+            geminiModel
+          );
+
+          if (geminiResult.content && !geminiResult.error) {
+            assistantResponse = geminiResult.content;
+          } else if (geminiResult.error) {
+            assistantResponse = `Error: ${geminiResult.error}`;
+          }
+        } else {
+          // For other models, provide a helpful message
+          assistantResponse = `I'm currently configured to use ${selectedModel}, but this requires server integration. Please configure Gemini API in your settings to get AI responses, or contact your administrator to set up the ${selectedModel} integration.`;
+        }
+      } catch (aiError) {
+        console.error('AI service error:', aiError);
+        assistantResponse = "I encountered an error while generating a response. Please try again.";
+      }
+
       const assistantMessageResult = await this.addAssistantMessage(
         messageData.chatId,
         assistantResponse
