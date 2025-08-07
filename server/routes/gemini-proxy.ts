@@ -7,6 +7,12 @@ export const geminiProxy: RequestHandler = async (req, res) => {
   try {
     const { apiKey, model, contents, generationConfig } = req.body;
 
+    console.log("🤖 Gemini proxy request:", {
+      model,
+      contentsLength: contents?.length,
+      hasApiKey: !!apiKey
+    });
+
     if (!apiKey || !model || !contents) {
       return res.status(400).json({
         success: false,
