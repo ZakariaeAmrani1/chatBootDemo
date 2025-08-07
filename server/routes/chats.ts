@@ -506,42 +506,44 @@ export const createChat: RequestHandler = (req, res) => {
 
       DataManager.addMessage(userMessage);
 
-      // Process the file and generate AI response
-      setTimeout(async () => {
-        const filePath = path.join(
-          process.cwd(),
-          "server/uploads",
-          path.basename(attachedFile.url),
-        );
+      // Process the file and generate AI response (skip for local-cloud model as it's handled client-side)
+      if (model !== "local-cloud") {
+        setTimeout(async () => {
+          const filePath = path.join(
+            process.cwd(),
+            "server/uploads",
+            path.basename(attachedFile.url),
+          );
 
-        let fileContent: string;
-        let analysisPrompt: string;
+          let fileContent: string;
+          let analysisPrompt: string;
 
-        if (attachedFile.type === "text/csv") {
-          fileContent = await extractCSVData(filePath);
-          analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
-        } else {
-          fileContent = await extractPDFText(filePath);
-          analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
-        }
+          if (attachedFile.type === "text/csv") {
+            fileContent = await extractCSVData(filePath);
+            analysisPrompt = `You are an expert data analyst assistant. Analyze the provided CSV dataset and provide insights.`;
+          } else {
+            fileContent = await extractPDFText(filePath);
+            analysisPrompt = `Tu es un assistant expert qui répond aux questions en se basant sur le pdf fourni.`;
+          }
 
-        const aiMessage: Message = {
-          id: uuidv4(),
-          chatId: chatId,
-          type: "assistant",
-          content: await generateAIResponseWithFile(
-            analysisPrompt,
-            userId,
-            chatId,
-            fileContent,
-            attachedFile,
-            true, // This is the initial file setup
-          ),
-          timestamp: new Date().toISOString(),
-        };
+          const aiMessage: Message = {
+            id: uuidv4(),
+            chatId: chatId,
+            type: "assistant",
+            content: await generateAIResponseWithFile(
+              analysisPrompt,
+              userId,
+              chatId,
+              fileContent,
+              attachedFile,
+              true, // This is the initial file setup
+            ),
+            timestamp: new Date().toISOString(),
+          };
 
-        DataManager.addMessage(aiMessage);
-      }, 2000); // 2 second delay for file processing
+          DataManager.addMessage(aiMessage);
+        }, 2000); // 2 second delay for file processing
+      }
     }
 
     const response: ApiResponse<Chat> = {
