@@ -27,7 +27,6 @@ import { ModelDropdown } from "@/components/ModelDropdown";
 
 import SettingsPage from "@/pages/Settings";
 import { chatService, ChatState } from "@/services/chatService";
-import { localChatService } from "@/services/localChatService";
 import { apiService } from "@/services/api";
 import { Chat, Message, FileAttachment, User } from "@shared/types";
 import { useTheme } from "@/components/ThemeProvider";
@@ -35,14 +34,6 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const Chatbot = () => {
   const [chatState, setChatState] = useState<ChatState>({
-    chats: [],
-    currentChat: null,
-    messages: [],
-    isLoading: false,
-    isThinking: false,
-    error: null,
-  });
-  const [localChatState, setLocalChatState] = useState({
     chats: [],
     currentChat: null,
     messages: [],
@@ -97,11 +88,6 @@ const Chatbot = () => {
     return unsubscribe;
   }, []);
 
-  // Subscribe to local chat service state changes
-  useEffect(() => {
-    const unsubscribe = localChatService.subscribe(setLocalChatState);
-    return unsubscribe;
-  }, []);
 
   // Remove the periodic refresh interval as it conflicts with polling
   // The chat service now handles all polling internally
@@ -231,8 +217,6 @@ const Chatbot = () => {
   const createNewChat = async (message?: string) => {
     if (!user) return;
 
-    // Clear both local and regular chat state
-    localChatService.clearCurrentChat();
 
     if (message && message.trim()) {
       // Create a saved chat immediately if there's an initial message
@@ -374,15 +358,6 @@ const Chatbot = () => {
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
-      // Check if we're in a local PDF chat (either from local service or regular chat with local-cloud model)
-      const localState = localChatService.getState();
-
-      // Handle local PDF chat from local service
-      if (localState.currentChat && localState.currentChat.model === "local-cloud") {
-        if (!user) return;
-        await localChatService.sendMessageToLocalChat(content, user);
-        return;
-      }
 
       // Handle existing backend chat with local-cloud model - use local processing
       if (chatState.currentChat && chatState.currentChat.model === "local-cloud") {
