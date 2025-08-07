@@ -451,10 +451,10 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             // Get chat history for context
             const chatHistory = chatState.messages;
 
-            const aiResponse = await geminiService.processPDFWithPrompt(
-              pdfFile,
-              content,
-              chatHistory,
+            // For now, just use simple text processing since ClientGeminiService doesn't have PDF processing yet
+            const aiResponse = await ClientGeminiService.generateContent(
+              `Analyze this message in context: ${content}`,
+              geminiModel
             );
 
             // Save AI response
