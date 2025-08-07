@@ -133,11 +133,22 @@ export class LocalChatService {
         // Add AI response message
         const aiMessage: Message = {
           id: uuidv4(),
-          chatId: chatId,
+          chatId: chat.id,
           type: "assistant",
           content: aiResponse,
           timestamp: new Date().toISOString(),
         };
+
+        // Save the AI message to backend for persistence
+        try {
+          await apiService.sendMessage({
+            chatId: chat.id,
+            message: aiResponse,
+          });
+        } catch (saveError) {
+          console.error('Failed to save AI message to backend:', saveError);
+          // Continue anyway, the message will still be shown in UI
+        }
 
         this.setState({
           messages: [...this.state.messages, aiMessage],
