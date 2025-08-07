@@ -280,7 +280,7 @@ const Chatbot = () => {
         if (newChat && user?.settings?.geminiApiKey) {
           // Process PDF with local Gemini after chat is created
           try {
-            const { GeminiService } = await import('@/services/geminiService');
+            const { GeminiService } = await import('../services/geminiService');
             const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
             const geminiService = new GeminiService(user.settings.geminiApiKey, geminiModel);
 
@@ -441,7 +441,7 @@ const Chatbot = () => {
             const pdfFile = new File([pdfBlob], chatState.currentChat.pdfFile.name, { type: 'application/pdf' });
 
             // Process with Gemini
-            const { GeminiService } = await import('@/services/geminiService');
+            const { GeminiService } = await import('../services/geminiService');
             const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
             const geminiService = new GeminiService(geminiApiKey, geminiModel);
 
