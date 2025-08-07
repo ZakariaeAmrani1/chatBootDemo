@@ -268,7 +268,16 @@ const Chatbot = () => {
             const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
             const geminiService = new GeminiService(user.settings.geminiApiKey, geminiModel);
 
-            const initialPrompt = `I've uploaded a PDF document (${file.name}). Please analyze this document and provide a summary of its content. Tell me what the document is about and what key information it contains.`;
+            const initialPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.
+
+Utilise exclusivement les informations présentes dans ce document.
+
+N'ajoute aucune information externe, même si tu en as connaissance.
+
+Si une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."
+Sois clair, précis et factuel dans tes réponses.
+
+J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
 
             const aiResponse = await geminiService.processPDFWithPrompt(
               file,
