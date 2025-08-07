@@ -265,13 +265,9 @@ const Chatbot = () => {
         if (newChat && user?.settings?.geminiApiKey) {
           // Process PDF with local Gemini after chat is created
           try {
-            const { GeminiService } = await import("../services/geminiService");
+            const { ClientGeminiService } = await import("../services/clientGeminiService");
             const geminiModel =
               user?.settings?.geminiModel || "gemini-1.5-flash-latest";
-            const geminiService = new GeminiService(
-              user.settings.geminiApiKey,
-              geminiModel,
-            );
 
             const initialPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.
 
@@ -284,22 +280,17 @@ Sois clair, précis et factuel dans tes réponses.
 
 J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
 
-            const aiResponse = await geminiService.processPDFWithPrompt(
-              file,
+            const result = await ClientGeminiService.generateContent(
               initialPrompt,
-              [],
+              geminiModel
             );
 
-            // Save the AI response using our new endpoint
-            await fetch("/api/chats/add-assistant-message", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                chatId: newChat.id,
-                content: aiResponse,
-              }),
+            const aiResponse = result.content || "Je n'ai pas pu analyser le document. Veuillez réessayer.";
+
+            // Save the AI response using client services
+            await apiService.sendMessage({
+              chatId: newChat.id,
+              content: aiResponse,
             });
 
             // Refresh chat messages to show the AI response
