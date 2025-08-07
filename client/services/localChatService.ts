@@ -108,6 +108,28 @@ export class LocalChatService {
         attachments: [pdfAttachment],
       };
 
+      // Save the initial user message to backend
+      try {
+        const response = await fetch('/api/chats/add-user-message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chatId: chat.id,
+            content: userMessage.content,
+            attachments: userMessage.attachments,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to save initial user message');
+        }
+      } catch (saveError) {
+        console.error('Failed to save initial user message to backend:', saveError);
+        // Continue anyway
+      }
+
       // Add to state
       this.setState({
         chats: [chat, ...this.state.chats],
