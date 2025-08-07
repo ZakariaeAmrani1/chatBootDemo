@@ -674,13 +674,13 @@ const Chatbot = () => {
             let margin = 0;
 
             if (
-              (chatState.currentChat?.pdfFile || localChatState.currentChat?.pdfFile) &&
+              chatState.currentChat?.pdfFile &&
               pdfPreviewOpen &&
               window.innerWidth >= 640
             ) {
               margin = pdfPreviewWidth;
             } else if (
-              (chatState.currentChat?.csvFile || localChatState.currentChat?.csvFile) &&
+              chatState.currentChat?.csvFile &&
               csvPreviewOpen &&
               window.innerWidth >= 640
             ) {
@@ -716,7 +716,7 @@ const Chatbot = () => {
 
           <div className="flex items-center gap-2">
             {/* PDF Preview Toggle */}
-            {(chatState.currentChat?.pdfFile || localChatState.currentChat?.pdfFile) && (
+            {chatState.currentChat?.pdfFile && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -736,7 +736,7 @@ const Chatbot = () => {
             )}
 
             {/* CSV Preview Toggle */}
-            {(chatState.currentChat?.csvFile || localChatState.currentChat?.csvFile) && (
+            {chatState.currentChat?.csvFile && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -760,7 +760,7 @@ const Chatbot = () => {
               size="sm"
               className="hidden sm:flex"
               onClick={handleShareClick}
-              disabled={!(chatState.currentChat || localChatState.currentChat)}
+              disabled={!chatState.currentChat}
             >
               <Share2 className="h-4 w-4" />
               <span className="ml-1 hidden md:inline text-xs">Share</span>
@@ -811,13 +811,13 @@ const Chatbot = () => {
       <ShareModal
         open={shareModalOpen}
         onOpenChange={setShareModalOpen}
-        chat={localChatState.currentChat || chatState.currentChat}
+        chat={chatState.currentChat}
         appUrl={user?.settings?.appUrl || "http://localhost:8080"}
       />
 
       {/* Mobile file overlay */}
-      {(((chatState.currentChat?.pdfFile || localChatState.currentChat?.pdfFile) && pdfPreviewOpen) ||
-        ((chatState.currentChat?.csvFile || localChatState.currentChat?.csvFile) && csvPreviewOpen)) && (
+      {((chatState.currentChat?.pdfFile && pdfPreviewOpen) ||
+        (chatState.currentChat?.csvFile && csvPreviewOpen)) && (
         <div
           className="sm:hidden fixed inset-0 bg-black/50 z-10"
           onClick={() => {
@@ -828,9 +828,9 @@ const Chatbot = () => {
       )}
 
       {/* PDF Preview */}
-      {(chatState.currentChat?.pdfFile || localChatState.currentChat?.pdfFile) && (
+      {chatState.currentChat?.pdfFile && (
         <PDFPreview
-          pdfFile={localChatState.currentChat?.pdfFile || chatState.currentChat?.pdfFile}
+          pdfFile={chatState.currentChat?.pdfFile}
           isOpen={pdfPreviewOpen}
           onToggle={() => setPdfPreviewOpen(!pdfPreviewOpen)}
           width={pdfPreviewWidth}
@@ -839,9 +839,9 @@ const Chatbot = () => {
       )}
 
       {/* CSV Preview */}
-      {(chatState.currentChat?.csvFile || localChatState.currentChat?.csvFile) && (
+      {chatState.currentChat?.csvFile && (
         <CSVPreview
-          csvFile={localChatState.currentChat?.csvFile || chatState.currentChat?.csvFile}
+          csvFile={chatState.currentChat?.csvFile}
           isOpen={csvPreviewOpen}
           onToggle={() => setCsvPreviewOpen(!csvPreviewOpen)}
           width={csvPreviewWidth}
