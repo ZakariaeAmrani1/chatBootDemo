@@ -78,6 +78,42 @@
         "url": "/api/files/a67b0129-9cb8-4380-a08b-16bd8d495870.pdf",
         "uploadedAt": "2025-08-07T14:24:08.402Z"
       }
+    },
+    {
+      "id": "8d0db4f7-8a4d-4ea9-847d-ab3a0d6d0d15",
+      "title": "PDF: BoviClouds L'IA au Service de la Traçabilité Raciale Bovine (2).pdf",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-07T14:40:04.596Z",
+      "updatedAt": "2025-08-07T14:40:16.947Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "da7f13c2-7829-4e5f-9feb-94090d31a072",
+        "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+        "size": 4651108,
+        "type": "application/pdf",
+        "url": "/api/files/eedf28bf-fb90-407a-abf3-aee45065aa8a.pdf",
+        "uploadedAt": "2025-08-07T14:40:04.596Z"
+      }
+    },
+    {
+      "id": "843c320e-8fb4-4e5f-9483-20a8980bbbf3",
+      "title": "PDF: BoviClouds L'IA au Service de la Traçabilité Raciale Bovine (2).pdf",
+      "model": "local-cloud",
+      "chatbootVersion": "ChatNova V3",
+      "createdAt": "2025-08-07T14:40:34.602Z",
+      "updatedAt": "2025-08-07T14:41:18.337Z",
+      "messageCount": 4,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "pdfFile": {
+        "id": "732aa8f3-d236-4e66-a811-354f0b7132c5",
+        "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+        "size": 4651108,
+        "type": "application/pdf",
+        "url": "/api/files/ce96ea36-47ab-438d-ab78-c2c07c1cd767.pdf",
+        "uploadedAt": "2025-08-07T14:40:34.602Z"
+      }
     }
   ],
   "messages": [
@@ -205,6 +241,68 @@
       "type": "assistant",
       "content": "This document, titled \"Cahier de charges minimales : Système de gestion d'abonnement pour les employés OCP\" (Minimal Requirements Specification: Subscription Management System for OCP Employees), is a detailed specification for developing a digital platform.\n\n**What the document is about:**\nThe document outlines the requirements for a new digital system at OCP (Office Chérifien des Phosphates, a Moroccan state-owned phosphate company) to manage employee subscriptions. The core idea is to allow employees to access various internal services (like beverages, printing, meeting room reservations, and games) using a system of allocated credits.\n\n**Key information it contains:**\n\n1.  **Project Context and Objectives:**\n    *   **Context:** OCP wants a digital subscription system to provide employees access to internal services via allocated credits.\n    *   **Objectives:** Offer an intuitive",
       "timestamp": "2025-08-07T14:24:21.823Z"
+    },
+    {
+      "id": "bac34922-e749-4bf3-ade5-8ebf31818c85",
+      "chatId": "8d0db4f7-8a4d-4ea9-847d-ab3a0d6d0d15",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-07T14:40:04.596Z",
+      "attachments": [
+        {
+          "id": "da7f13c2-7829-4e5f-9feb-94090d31a072",
+          "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+          "size": 4651108,
+          "type": "application/pdf",
+          "url": "/api/files/eedf28bf-fb90-407a-abf3-aee45065aa8a.pdf",
+          "uploadedAt": "2025-08-07T14:40:04.596Z"
+        }
+      ]
+    },
+    {
+      "id": "6edee3ba-6c35-4f03-8563-28129f91e47f",
+      "chatId": "8d0db4f7-8a4d-4ea9-847d-ab3a0d6d0d15",
+      "type": "assistant",
+      "content": "Le document présente BoviClouds, une solution d'intelligence artificielle (IA) pour la traçabilité raciale bovine au Maroc.  Il souligne le défi de la production laitière marocaine, où les races locales ont une production limitée et les races importées nécessitent un suivi rigoureux.  Sans traçabilité précise, il est impossible de maintenir la pureté des lignées, d'optimiser la reproduction, de garantir la qualité du lait et de lutter contre la fraude.\n\nBoviClouds offre une solution avec trois composants principaux : l'identification par IA via reconnaissance morphologique, un passeport numérique de pureté et un arbre généalogique interactif.  Techniquement, le système utilise des caméras fixes pour des mesures morphologiques, l'IA pour l'identification et le suivi du comportement des vaches.\n\nLe plan d'expansion se déroule en trois phases : une phase pilote dans la région Souss-Massa, une expansion nationale au Maroc et un développement vers l'Afrique du Nord.  Le marché cible comprend les coopératives agricoles, les éleveurs individuels, les services vétérinaires et les consommateurs.  BoviClouds met en avant ses avantages, notamment l'adaptation locale, un modèle B2B2C inclusif et le renforcement de la filière bovine. Les sources de revenus proviennent des abonnements des coopératives, des offres modulaires pour les éleveurs, des services à la demande et des partenariats stratégiques.  Le document inclut des projections financières et présente l'équipe BoviClouds.  Enfin, une feuille de route est présentée avec des étapes clés pour les années 2025, 2026 et 2027.\n",
+      "timestamp": "2025-08-07T14:40:16.947Z"
+    },
+    {
+      "id": "3de318cc-582e-4e43-94ab-2cd0c67fa7c4",
+      "chatId": "843c320e-8fb4-4e5f-9483-20a8980bbbf3",
+      "type": "user",
+      "content": "📄 Uploaded document for analysis",
+      "timestamp": "2025-08-07T14:40:34.602Z",
+      "attachments": [
+        {
+          "id": "732aa8f3-d236-4e66-a811-354f0b7132c5",
+          "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+          "size": 4651108,
+          "type": "application/pdf",
+          "url": "/api/files/ce96ea36-47ab-438d-ab78-c2c07c1cd767.pdf",
+          "uploadedAt": "2025-08-07T14:40:34.602Z"
+        }
+      ]
+    },
+    {
+      "id": "d74a0db3-3b36-4531-8933-989169305fc1",
+      "chatId": "843c320e-8fb4-4e5f-9483-20a8980bbbf3",
+      "type": "assistant",
+      "content": "Le document PDF \"BoviClouds L'IA au Service de la Traçabilité Raciale Bovine\" présente une solution basée sur l'intelligence artificielle (IA) pour la traçabilité raciale bovine.\n\n**De quoi traite le document :**\nLe document traite du défi de la production laitière au Maroc, où les races locales ont une production limitée et les races importées, bien que productives, nécessitent un suivi rigoureux. L'absence de traçabilité raciale précise rend difficile le maintien de la pureté des lignées importées, l'optimisation de la reproduction et de l'amélioration génétique, la garantie de la qualité et de la provenance du lait, et la lutte contre la fraude. Le document propose BoviClouds comme solution à cette problématique.\n\n**Informations clés qu'il contient :**\n\n1.  **Problématique :** La difficulté de la production laitière au Maroc due à une production laitière limitée des races locales et au besoin de suivi rigoureux des races importées. L'absence de traçabilité raciale précise empêche la pureté des lignées, l'optimisation génétique, la garantie de qualité du lait et la lutte contre la fraude.\n2.  **Solution (BoviClouds : La Généalogie Numérique) :**\n    *   **Identification par l'IA :** Reconnaissance morphologique unique via smartphone.\n    *   **Passeport Numérique de Pureté :** Profil digital incluant race, parents et performances laitières.\n    *   **Arbre Généalogique Interactif :** Visualisation des lignées sur plusieurs générations.\n3.  **Schéma Technique :** Le système IA est dédié au suivi des vaches, intégrant :\n    *   **Mesures morphologiques :** Photos via caméras fixes, détection de points clés, extraction de mesures et rapport de performance.\n    *   **Identification par museau :** Prise de photos, identification via IA et enregistrement automatique.\n    *   **Suivi de comportement :** Vidéo en temps réel, analyse des actions et enregistrement de l'état.\n4.  **Marché Cible et Stratégie d'Expansion :**\n    *   Le marché cible initial est le Maroc (3,3 millions de bovins), avec un focus sur la région Souss-Massa (150 000 bovins).\n    *   La stratégie d'expansion est en trois phases : Phase 1 (Pilote Souss-Massa - 50 coopératives), Phase 2 (Expansion nationale au Maroc), Phase 3 (Développement vers l'Afrique du Nord et au-delà).\n    *   Les cibles sont les coopératives agricoles, les éleveurs individuels, les services vétérinaires et les consommateurs.\n5.  **Avantages :** L'IA au cœur de la traçabilité raciale, adaptation locale, modèle B2B2C inclusif et renforcement de la filière bovine nationale.\n6.  **Sources de revenus :** Abonnement des coopératives, offres modulaires pour les éleveurs, services à la demande et partenariats stratégiques.\n7.  **Équipe :** Présentation des membres de l'équipe avec leurs rôles (Fondateur, Marketer, Hardware, Développement back-end, DATA & IA, Développement mobile).\n8.  **Roadmap :**\n    *   **2025 :** Lancement du projet pilote à Souss-Massa.\n    *   **2026 :** Lancement national de BoviClouds.\n    *   **2027+ :** Expansion internationale vers les marchés africains et développement de nouvelles fonctionnalités basées sur l'IA et la blockchain.\n9.  **Vision :** \"La Traçabilité, la Fierté, l'Avenir du Lait\".",
+      "timestamp": "2025-08-07T14:40:48.631Z"
+    },
+    {
+      "id": "6086aa04-ddb5-48ec-8907-da8fb9edc12c",
+      "chatId": "843c320e-8fb4-4e5f-9483-20a8980bbbf3",
+      "type": "user",
+      "content": "d'accord c'est quoi le nom du projet ?",
+      "timestamp": "2025-08-07T14:41:12.105Z"
+    },
+    {
+      "id": "76a5ca33-8c22-42b4-8f47-151c42940029",
+      "chatId": "843c320e-8fb4-4e5f-9483-20a8980bbbf3",
+      "type": "assistant",
+      "content": "Le nom du projet est **BoviClouds**.",
+      "timestamp": "2025-08-07T14:41:18.337Z"
     }
   ]
 }

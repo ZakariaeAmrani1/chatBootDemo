@@ -167,6 +167,22 @@
       "type": "application/pdf",
       "url": "/api/files/a67b0129-9cb8-4380-a08b-16bd8d495870.pdf",
       "uploadedAt": "2025-08-07T14:24:08.402Z"
+    },
+    {
+      "id": "da7f13c2-7829-4e5f-9feb-94090d31a072",
+      "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+      "size": 4651108,
+      "type": "application/pdf",
+      "url": "/api/files/eedf28bf-fb90-407a-abf3-aee45065aa8a.pdf",
+      "uploadedAt": "2025-08-07T14:40:04.596Z"
+    },
+    {
+      "id": "732aa8f3-d236-4e66-a811-354f0b7132c5",
+      "name": "BoviClouds L'IA au Service de la TraÃ§abilitÃ© Raciale Bovine (2).pdf",
+      "size": 4651108,
+      "type": "application/pdf",
+      "url": "/api/files/ce96ea36-47ab-438d-ab78-c2c07c1cd767.pdf",
+      "uploadedAt": "2025-08-07T14:40:34.602Z"
     }
   ]
 }
