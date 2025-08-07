@@ -384,106 +384,138 @@ const Chatbot = () => {
         return;
       }
 
-      // Handle existing backend chat with local-cloud model - convert to local processing
+      // Handle existing backend chat with local-cloud model - use local processing
       if (chatState.currentChat && chatState.currentChat.model === "local-cloud") {
         if (!user) return;
 
         // Check if user has Gemini API key
         const geminiApiKey = user?.settings?.geminiApiKey;
         if (!geminiApiKey || !geminiApiKey.trim()) {
-          // Add user message first
-          const userMessage = {
-            id: Date.now().toString(),
-            chatId: chatState.currentChat.id,
-            type: "user" as const,
-            content: content,
-            timestamp: new Date().toISOString(),
-          };
+          // Save user message to backend first
+          await fetch('/api/chats/add-user-message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content: content,
+            }),
+          });
 
-          // Add error response
-          const errorMessage = {
-            id: (Date.now() + 1).toString(),
-            chatId: chatState.currentChat.id,
-            type: "assistant" as const,
-            content: "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
-            timestamp: new Date().toISOString(),
-          };
+          // Save error response
+          await fetch('/api/chats/add-assistant-message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content: "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+            }),
+          });
 
-          // Add messages to current chat
-          chatService.addMessageToCurrentChat(userMessage);
-          chatService.addMessageToCurrentChat(errorMessage);
+          // Refresh messages to show the new messages
+          await chatService.loadChatMessages(chatState.currentChat.id);
           return;
         }
 
-        // If the chat has a PDF file, we need to handle it with local processing
+        // If the chat has a PDF file, process with Gemini
         if (chatState.currentChat.pdfFile) {
-          // Convert to local chat and process with Gemini
           try {
+            // Save user message first
+            await fetch('/api/chats/add-user-message', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chatId: chatState.currentChat.id,
+                content: content,
+              }),
+            });
+
             // Get the PDF file from the attachment URL
             const pdfResponse = await fetch(chatState.currentChat.pdfFile.url);
             const pdfBlob = await pdfResponse.blob();
             const pdfFile = new File([pdfBlob], chatState.currentChat.pdfFile.name, { type: 'application/pdf' });
 
-            // Create a local chat with existing messages
-            await localChatService.createLocalPDFChat(
+            // Process with Gemini
+            const { GeminiService } = await import('@/services/geminiService');
+            const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+            const geminiService = new GeminiService(geminiApiKey, geminiModel);
+
+            // Get chat history for context
+            const chatHistory = chatState.messages;
+
+            const aiResponse = await geminiService.processPDFWithPrompt(
               pdfFile,
-              user,
-              chatState.currentChat.title
+              content,
+              chatHistory
             );
 
-            // Clear the backend chat
-            chatService.clearCurrentChat();
+            // Save AI response
+            await fetch('/api/chats/add-assistant-message', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chatId: chatState.currentChat.id,
+                content: aiResponse,
+              }),
+            });
 
-            // Send the message to the new local chat
-            await localChatService.sendMessageToLocalChat(content, user);
+            // Refresh messages to show the new messages
+            await chatService.loadChatMessages(chatState.currentChat.id);
             return;
+
           } catch (error) {
-            console.error('Failed to convert to local chat:', error);
-            // Add user message first
-            const userMessage = {
-              id: Date.now().toString(),
-              chatId: chatState.currentChat.id,
-              type: "user" as const,
-              content: content,
-              timestamp: new Date().toISOString(),
-            };
+            console.error('Failed to process with Gemini:', error);
 
-            // Fall back to showing error message
-            const errorMessage = {
-              id: (Date.now() + 1).toString(),
-              chatId: chatState.currentChat.id,
-              type: "assistant" as const,
-              content: "❌ **Error**: Failed to process PDF with local chat. Please try uploading the PDF again with a new chat.",
-              timestamp: new Date().toISOString(),
-            };
+            // Save error response
+            await fetch('/api/chats/add-assistant-message', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chatId: chatState.currentChat.id,
+                content: "❌ **Error**: Failed to process PDF with Gemini. Please try again.",
+              }),
+            });
 
-            // Add messages to current chat
-            chatService.addMessageToCurrentChat(userMessage);
-            chatService.addMessageToCurrentChat(errorMessage);
+            // Refresh messages to show the error
+            await chatService.loadChatMessages(chatState.currentChat.id);
             return;
           }
         } else {
-          // Add user message first
-          const userMessage = {
-            id: Date.now().toString(),
-            chatId: chatState.currentChat.id,
-            type: "user" as const,
-            content: content,
-            timestamp: new Date().toISOString(),
-          };
+          // Save user message first
+          await fetch('/api/chats/add-user-message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content: content,
+            }),
+          });
 
-          // No PDF file in the chat - show error
-          const errorMessage = {
-            id: (Date.now() + 1).toString(),
-            chatId: chatState.currentChat.id,
-            type: "assistant" as const,
-            content: "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
-            timestamp: new Date().toISOString(),
-          };
+          // Save error response
+          await fetch('/api/chats/add-assistant-message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatId: chatState.currentChat.id,
+              content: "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
+            }),
+          });
 
-          // Add messages to current chat
-          chatService.addMessageToCurrentChat(userMessage);
-          chatService.addMessageToCurrentChat(errorMessage);
+          // Refresh messages to show the error
+          await chatService.loadChatMessages(chatState.currentChat.id);
           return;
         }
       }
