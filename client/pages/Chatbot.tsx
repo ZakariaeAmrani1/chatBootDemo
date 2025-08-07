@@ -492,6 +492,9 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             return;
           }
         } else {
+          // Add user message to UI immediately
+          chatService.addUserMessageToUI(chatState.currentChat.id, content);
+
           // Save user message first
           await fetch("/api/chats/add-user-message", {
             method: "POST",
