@@ -139,15 +139,17 @@ export class LocalChatService {
           timestamp: new Date().toISOString(),
         };
 
-        // Directly add the assistant message to backend storage
+        // Save the assistant message to backend storage
         try {
-          // Import DataManager to directly add the message
           const response = await fetch('/api/chats/add-assistant-message', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(aiMessage),
+            body: JSON.stringify({
+              chatId: chat.id,
+              content: aiResponse,
+            }),
           });
 
           if (!response.ok) {
@@ -216,11 +218,20 @@ export class LocalChatService {
 
     // Save user message to backend
     try {
-      const { apiService } = await import('./api');
-      await apiService.sendMessage({
-        chatId: this.state.currentChat.id,
-        message: message,
+      const response = await fetch('/api/chats/add-user-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chatId: this.state.currentChat.id,
+          content: message,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to save user message');
+      }
     } catch (saveError) {
       console.error('Failed to save user message to backend:', saveError);
       // Continue anyway
@@ -266,11 +277,20 @@ export class LocalChatService {
 
       // Save AI response to backend
       try {
-        const { apiService } = await import('./api');
-        await apiService.sendMessage({
-          chatId: this.state.currentChat.id,
-          message: aiResponse,
+        const response = await fetch('/api/chats/add-assistant-message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chatId: this.state.currentChat.id,
+            content: aiResponse,
+          }),
         });
+
+        if (!response.ok) {
+          throw new Error('Failed to save AI response');
+        }
       } catch (saveError) {
         console.error('Failed to save AI response to backend:', saveError);
         // Continue anyway
