@@ -336,13 +336,84 @@ const Chatbot = () => {
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
-      // Check if we're in a local PDF chat
+      // Check if we're in a local PDF chat (either from local service or regular chat with local-cloud model)
       const localState = localChatService.getState();
+
+      // Handle local PDF chat from local service
       if (localState.currentChat && localState.currentChat.model === "local-cloud") {
-        // Use local chat service for PDF chats
         if (!user) return;
         await localChatService.sendMessageToLocalChat(content, user);
         return;
+      }
+
+      // Handle existing backend chat with local-cloud model - convert to local processing
+      if (chatState.currentChat && chatState.currentChat.model === "local-cloud") {
+        if (!user) return;
+
+        // Check if user has Gemini API key
+        const geminiApiKey = user?.settings?.geminiApiKey;
+        if (!geminiApiKey || !geminiApiKey.trim()) {
+          // Show error in the current chat
+          const errorMessage = {
+            id: Date.now().toString(),
+            chatId: chatState.currentChat.id,
+            type: "assistant" as const,
+            content: "❌ **API Key Required**: To use the local PDF model, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).",
+            timestamp: new Date().toISOString(),
+          };
+
+          // Add error message to current chat
+          chatService.updateMessage(errorMessage.id, errorMessage);
+          return;
+        }
+
+        // If the chat has a PDF file, we need to handle it with local processing
+        if (chatState.currentChat.pdfFile) {
+          // Convert to local chat and process with Gemini
+          try {
+            // Get the PDF file from the attachment URL
+            const pdfResponse = await fetch(chatState.currentChat.pdfFile.url);
+            const pdfBlob = await pdfResponse.blob();
+            const pdfFile = new File([pdfBlob], chatState.currentChat.pdfFile.name, { type: 'application/pdf' });
+
+            // Create a local chat with existing messages
+            await localChatService.createLocalPDFChat(
+              pdfFile,
+              user,
+              chatState.currentChat.title
+            );
+
+            // Clear the backend chat
+            chatService.clearCurrentChat();
+
+            // Send the message to the new local chat
+            await localChatService.sendMessageToLocalChat(content, user);
+            return;
+          } catch (error) {
+            console.error('Failed to convert to local chat:', error);
+            // Fall back to showing error message
+            const errorMessage = {
+              id: Date.now().toString(),
+              chatId: chatState.currentChat.id,
+              type: "assistant" as const,
+              content: "❌ **Error**: Failed to process PDF with local chat. Please try uploading the PDF again with a new chat.",
+              timestamp: new Date().toISOString(),
+            };
+            chatService.updateMessage(errorMessage.id, errorMessage);
+            return;
+          }
+        } else {
+          // No PDF file in the chat - show error
+          const errorMessage = {
+            id: Date.now().toString(),
+            chatId: chatState.currentChat.id,
+            type: "assistant" as const,
+            content: "❌ **No PDF Found**: This local PDF chat doesn't have an associated PDF file. Please create a new chat and upload a PDF document.",
+            timestamp: new Date().toISOString(),
+          };
+          chatService.updateMessage(errorMessage.id, errorMessage);
+          return;
+        }
       }
 
       if (!chatState.currentChat) {

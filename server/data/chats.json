@@ -9,6 +9,28 @@
       "updatedAt": "2025-08-05T14:05:01.847Z",
       "messageCount": 4,
       "userId": "user-1"
+    },
+    {
+      "id": "fb5e5805-e6a1-4133-bcea-4435490d5060",
+      "title": "New chat",
+      "model": "local-cloud",
+      "chatbootVersion": "1.0",
+      "createdAt": "2025-08-07T13:43:39.658Z",
+      "updatedAt": "2025-08-07T13:43:42.046Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
+    },
+    {
+      "id": "075fe715-9818-4150-84d6-1d51d740de86",
+      "title": "New chat",
+      "model": "cloud",
+      "chatbootVersion": "1.0",
+      "createdAt": "2025-08-07T13:44:36.240Z",
+      "updatedAt": "2025-08-07T13:44:39.353Z",
+      "messageCount": 2,
+      "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
+      "categoryId": "default-general-0b7e4a81-f031-4fe1-b19a-23fe05fc6f66"
     }
   ],
   "messages": [
@@ -39,6 +61,34 @@
       "type": "assistant",
       "content": "Bonjour !\n\nConcernant votre question précédente sur l'analyse d'un PDF, je dois vous rappeler qu'en tant qu'intelligence artificielle, je n'ai pas la capacité d'ouvrir, de lire ou d'analyser directement des fichiers (comme les PDF) qui se trouvent sur votre appareil ou via un lien.\n\nMon fonctionnement est basé sur le texte. Si vous souhaitez que je vous aide avec le contenu de votre PDF, vous pouvez :\n\n1.  **Copier et coller** les passages spécifiques ou le texte que vous voulez que j'analyse directement ici dans notre conversation.\n2.  **Décrire** le contenu du PDF ou poser des questions précises à son sujet.\n\nN'hésitez pas si vous avez d'autres questions ou si vous souhaitez procéder de cette manière !",
       "timestamp": "2025-08-05T14:05:01.847Z"
+    },
+    {
+      "id": "deb787bb-346c-4594-8643-12a0b0ef884c",
+      "chatId": "fb5e5805-e6a1-4133-bcea-4435490d5060",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-07T13:43:40.045Z"
+    },
+    {
+      "id": "fcad9abe-2ffd-4f9c-9475-f6d8ad3f4936",
+      "chatId": "fb5e5805-e6a1-4133-bcea-4435490d5060",
+      "type": "assistant",
+      "content": "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.",
+      "timestamp": "2025-08-07T13:43:42.046Z"
+    },
+    {
+      "id": "4ff49f83-5ad4-4229-85db-7be73a927051",
+      "chatId": "075fe715-9818-4150-84d6-1d51d740de86",
+      "type": "user",
+      "content": "hello",
+      "timestamp": "2025-08-07T13:44:36.620Z"
+    },
+    {
+      "id": "b2d08b86-4d46-486d-b054-eb8d338c40ce",
+      "chatId": "075fe715-9818-4150-84d6-1d51d740de86",
+      "type": "assistant",
+      "content": "Hello there! How can I help you today?",
+      "timestamp": "2025-08-07T13:44:39.353Z"
     }
   ]
 }
