@@ -267,6 +267,9 @@ const Chatbot = () => {
 
       // Handle different models and file types
       if (model === "local-cloud" && file.type === "application/pdf") {
+        // Clear regular chat service state
+        chatService.clearCurrentChat();
+
         // Use local Gemini processing for PDF files
         await localChatService.createLocalPDFChat(
           file,
