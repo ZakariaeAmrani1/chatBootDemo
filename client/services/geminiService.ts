@@ -64,40 +64,39 @@ export class GeminiService {
         parts: parts,
       });
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent?key=${this.apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      // Use our backend proxy to avoid CORS issues
+      const response = await fetch('/api/gemini-proxy', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          apiKey: this.apiKey,
+          model: this.model,
+          contents: contents,
+          generationConfig: {
+            temperature: 0.7,
+            topK: 1,
+            topP: 1,
+            maxOutputTokens: 2048,
           },
-          signal: controller.signal,
-          body: JSON.stringify({
-            contents: contents,
-            generationConfig: {
-              temperature: 0.7,
-              topK: 1,
-              topP: 1,
-              maxOutputTokens: 2048,
-            },
-          }),
-        }
-      );
-
-      clearTimeout(timeoutId);
+        }),
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Gemini API error ${response.status}:`, errorText);
+        console.error(`Gemini proxy error ${response.status}:`, errorText);
         throw new Error(
-          `Gemini API error: ${response.status} ${response.statusText}`
+          `Gemini proxy error: ${response.status} ${response.statusText}`
         );
       }
 
-      const data: GeminiAPIResponse = await response.json();
+      const proxyResponse = await response.json();
+      if (!proxyResponse.success) {
+        throw new Error(proxyResponse.error || 'Gemini proxy request failed');
+      }
+
+      const data: GeminiAPIResponse = proxyResponse.data;
       console.log("Gemini API full response:", JSON.stringify(data, null, 2));
 
       // Check if we have a valid response structure
@@ -170,40 +169,39 @@ export class GeminiService {
         parts: [{ text: message }],
       });
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent?key=${this.apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      // Use our backend proxy to avoid CORS issues
+      const response = await fetch('/api/gemini-proxy', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          apiKey: this.apiKey,
+          model: this.model,
+          contents: contents,
+          generationConfig: {
+            temperature: 0.7,
+            topK: 1,
+            topP: 1,
+            maxOutputTokens: 2048,
           },
-          signal: controller.signal,
-          body: JSON.stringify({
-            contents: contents,
-            generationConfig: {
-              temperature: 0.7,
-              topK: 1,
-              topP: 1,
-              maxOutputTokens: 2048,
-            },
-          }),
-        }
-      );
-
-      clearTimeout(timeoutId);
+        }),
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Gemini API error ${response.status}:`, errorText);
+        console.error(`Gemini proxy error ${response.status}:`, errorText);
         throw new Error(
-          `Gemini API error: ${response.status} ${response.statusText}`
+          `Gemini proxy error: ${response.status} ${response.statusText}`
         );
       }
 
-      const data: GeminiAPIResponse = await response.json();
+      const proxyResponse = await response.json();
+      if (!proxyResponse.success) {
+        throw new Error(proxyResponse.error || 'Gemini proxy request failed');
+      }
+
+      const data: GeminiAPIResponse = proxyResponse.data;
 
       // Check if we have a valid response structure
       if (data.candidates && data.candidates.length > 0) {
