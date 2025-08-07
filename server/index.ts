@@ -44,6 +44,7 @@ import {
   deleteCategory,
   updateChatCategory,
 } from "./routes/categories";
+import { geminiProxy } from "./routes/gemini-proxy";
 
 export function createServer() {
   const app = express();
@@ -110,6 +111,9 @@ export function createServer() {
   // Models API routes
   app.get("/api/models", getModels);
   app.post("/api/models", addModel);
+
+  // Gemini API proxy route
+  app.post("/api/gemini-proxy", geminiProxy);
 
   // Authentication API routes
   app.post("/api/auth/login", loginUser);
