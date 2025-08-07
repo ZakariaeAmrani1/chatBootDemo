@@ -1,14 +1,14 @@
-import { User, Chat, Message, Category, FileAttachment } from '@shared/types';
+import { User, Chat, Message, Category, FileAttachment } from "@shared/types";
 
 export class StorageManager {
   private static KEYS = {
-    USERS: 'chatnova_users',
-    CHATS: 'chatnova_chats',
-    MESSAGES: 'chatnova_messages',
-    CATEGORIES: 'chatnova_categories',
-    FILES: 'chatnova_files',
-    CURRENT_USER: 'chatnova_current_user',
-    AUTH_TOKEN: 'chatnova_auth_token'
+    USERS: "chatnova_users",
+    CHATS: "chatnova_chats",
+    MESSAGES: "chatnova_messages",
+    CATEGORIES: "chatnova_categories",
+    FILES: "chatnova_files",
+    CURRENT_USER: "chatnova_current_user",
+    AUTH_TOKEN: "chatnova_auth_token",
   };
 
   // User Management
@@ -23,7 +23,7 @@ export class StorageManager {
 
   static getUserById(userId: string): User | null {
     const users = this.getAllUsers();
-    return users.find(user => user.id === userId) || null;
+    return users.find((user) => user.id === userId) || null;
   }
 
   static createUser(user: User): User {
@@ -35,10 +35,10 @@ export class StorageManager {
 
   static updateUser(userId: string, updates: Partial<User>): User | null {
     const users = this.getAllUsers();
-    const userIndex = users.findIndex(user => user.id === userId);
-    
+    const userIndex = users.findIndex((user) => user.id === userId);
+
     if (userIndex === -1) return null;
-    
+
     users[userIndex] = { ...users[userIndex], ...updates };
     this.saveUsers(users);
     return users[userIndex];
@@ -82,12 +82,12 @@ export class StorageManager {
 
   static getChatsByUserId(userId: string): Chat[] {
     const chats = this.getAllChats();
-    return chats.filter(chat => chat.userId === userId);
+    return chats.filter((chat) => chat.userId === userId);
   }
 
   static getChatById(chatId: string): Chat | null {
     const chats = this.getAllChats();
-    return chats.find(chat => chat.id === chatId) || null;
+    return chats.find((chat) => chat.id === chatId) || null;
   }
 
   static createChat(chat: Chat): Chat {
@@ -99,10 +99,10 @@ export class StorageManager {
 
   static updateChat(chatId: string, updates: Partial<Chat>): Chat | null {
     const chats = this.getAllChats();
-    const chatIndex = chats.findIndex(chat => chat.id === chatId);
-    
+    const chatIndex = chats.findIndex((chat) => chat.id === chatId);
+
     if (chatIndex === -1) return null;
-    
+
     chats[chatIndex] = { ...chats[chatIndex], ...updates };
     this.saveChats(chats);
     return chats[chatIndex];
@@ -110,17 +110,19 @@ export class StorageManager {
 
   static deleteChat(chatId: string): boolean {
     const chats = this.getAllChats();
-    const filteredChats = chats.filter(chat => chat.id !== chatId);
-    
+    const filteredChats = chats.filter((chat) => chat.id !== chatId);
+
     if (filteredChats.length === chats.length) return false;
-    
+
     this.saveChats(filteredChats);
-    
+
     // Also delete messages for this chat
     const messages = this.getAllMessages();
-    const filteredMessages = messages.filter(message => message.chatId !== chatId);
+    const filteredMessages = messages.filter(
+      (message) => message.chatId !== chatId,
+    );
     this.saveMessages(filteredMessages);
-    
+
     return true;
   }
 
@@ -136,7 +138,7 @@ export class StorageManager {
 
   static getMessagesByChatId(chatId: string): Message[] {
     const messages = this.getAllMessages();
-    return messages.filter(message => message.chatId === chatId);
+    return messages.filter((message) => message.chatId === chatId);
   }
 
   static addMessage(message: Message): Message {
@@ -146,12 +148,17 @@ export class StorageManager {
     return message;
   }
 
-  static updateMessage(messageId: string, updates: Partial<Message>): Message | null {
+  static updateMessage(
+    messageId: string,
+    updates: Partial<Message>,
+  ): Message | null {
     const messages = this.getAllMessages();
-    const messageIndex = messages.findIndex(message => message.id === messageId);
-    
+    const messageIndex = messages.findIndex(
+      (message) => message.id === messageId,
+    );
+
     if (messageIndex === -1) return null;
-    
+
     messages[messageIndex] = { ...messages[messageIndex], ...updates };
     this.saveMessages(messages);
     return messages[messageIndex];
@@ -169,12 +176,12 @@ export class StorageManager {
 
   static getCategoriesByUserId(userId: string): Category[] {
     const categories = this.getAllCategories();
-    return categories.filter(category => category.userId === userId);
+    return categories.filter((category) => category.userId === userId);
   }
 
   static getCategoryById(categoryId: string): Category | null {
     const categories = this.getAllCategories();
-    return categories.find(category => category.id === categoryId) || null;
+    return categories.find((category) => category.id === categoryId) || null;
   }
 
   static createCategory(category: Category): Category {
@@ -184,12 +191,17 @@ export class StorageManager {
     return category;
   }
 
-  static updateCategory(categoryId: string, updates: Partial<Category>): Category | null {
+  static updateCategory(
+    categoryId: string,
+    updates: Partial<Category>,
+  ): Category | null {
     const categories = this.getAllCategories();
-    const categoryIndex = categories.findIndex(category => category.id === categoryId);
-    
+    const categoryIndex = categories.findIndex(
+      (category) => category.id === categoryId,
+    );
+
     if (categoryIndex === -1) return null;
-    
+
     categories[categoryIndex] = { ...categories[categoryIndex], ...updates };
     this.saveCategories(categories);
     return categories[categoryIndex];
@@ -197,10 +209,12 @@ export class StorageManager {
 
   static deleteCategory(categoryId: string): boolean {
     const categories = this.getAllCategories();
-    const filteredCategories = categories.filter(category => category.id !== categoryId);
-    
+    const filteredCategories = categories.filter(
+      (category) => category.id !== categoryId,
+    );
+
     if (filteredCategories.length === categories.length) return false;
-    
+
     this.saveCategories(filteredCategories);
     return true;
   }
@@ -210,18 +224,18 @@ export class StorageManager {
 
   static async initFileDB(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open('ChatNovaFiles', 1);
-      
+      const request = indexedDB.open("ChatNovaFiles", 1);
+
       request.onerror = () => reject(request.error);
       request.onsuccess = () => {
         this.fileDB = request.result;
         resolve();
       };
-      
+
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
-        if (!db.objectStoreNames.contains('files')) {
-          db.createObjectStore('files', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains("files")) {
+          db.createObjectStore("files", { keyPath: "id" });
         }
       };
     });
@@ -229,12 +243,12 @@ export class StorageManager {
 
   static async saveFile(fileId: string, fileData: Blob): Promise<void> {
     if (!this.fileDB) await this.initFileDB();
-    
+
     return new Promise((resolve, reject) => {
-      const transaction = this.fileDB!.transaction(['files'], 'readwrite');
-      const store = transaction.objectStore('files');
+      const transaction = this.fileDB!.transaction(["files"], "readwrite");
+      const store = transaction.objectStore("files");
       const request = store.put({ id: fileId, data: fileData });
-      
+
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve();
     });
@@ -242,12 +256,12 @@ export class StorageManager {
 
   static async getFile(fileId: string): Promise<Blob | null> {
     if (!this.fileDB) await this.initFileDB();
-    
+
     return new Promise((resolve, reject) => {
-      const transaction = this.fileDB!.transaction(['files'], 'readonly');
-      const store = transaction.objectStore('files');
+      const transaction = this.fileDB!.transaction(["files"], "readonly");
+      const store = transaction.objectStore("files");
       const request = store.get(fileId);
-      
+
       request.onerror = () => reject(request.error);
       request.onsuccess = () => {
         const result = request.result;
@@ -258,12 +272,12 @@ export class StorageManager {
 
   static async deleteFile(fileId: string): Promise<void> {
     if (!this.fileDB) await this.initFileDB();
-    
+
     return new Promise((resolve, reject) => {
-      const transaction = this.fileDB!.transaction(['files'], 'readwrite');
-      const store = transaction.objectStore('files');
+      const transaction = this.fileDB!.transaction(["files"], "readwrite");
+      const store = transaction.objectStore("files");
       const request = store.delete(fileId);
-      
+
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve();
     });
@@ -281,7 +295,7 @@ export class StorageManager {
 
   static getFileAttachmentById(fileId: string): FileAttachment | null {
     const files = this.getAllFileAttachments();
-    return files.find(file => file.id === fileId) || null;
+    return files.find((file) => file.id === fileId) || null;
   }
 
   static createFileAttachment(file: FileAttachment): FileAttachment {
@@ -293,10 +307,10 @@ export class StorageManager {
 
   static deleteFileAttachment(fileId: string): boolean {
     const files = this.getAllFileAttachments();
-    const filteredFiles = files.filter(file => file.id !== fileId);
-    
+    const filteredFiles = files.filter((file) => file.id !== fileId);
+
     if (filteredFiles.length === files.length) return false;
-    
+
     this.saveFileAttachments(filteredFiles);
     return true;
   }
@@ -311,8 +325,8 @@ export class StorageManager {
     localStorage.removeItem(this.KEYS.FILES);
     // Clear IndexedDB files
     if (this.fileDB) {
-      const transaction = this.fileDB.transaction(['files'], 'readwrite');
-      const store = transaction.objectStore('files');
+      const transaction = this.fileDB.transaction(["files"], "readwrite");
+      const store = transaction.objectStore("files");
       store.clear();
     }
   }
@@ -355,11 +369,11 @@ export class StorageManager {
       if (categories.length === 0) {
         const defaultCategory: Category = {
           id: `default-general-${currentUser.id}`,
-          name: 'General',
+          name: "General",
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           userId: currentUser.id,
-          isDefault: true
+          isDefault: true,
         };
         this.createCategory(defaultCategory);
       }

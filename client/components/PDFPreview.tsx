@@ -37,27 +37,27 @@ export function PDFPreview({
         setError(null);
 
         // Extract file ID from the URL (format: blob:fileId)
-        const fileId = pdfFile.url.replace('blob:', '');
-        
+        const fileId = pdfFile.url.replace("blob:", "");
+
         // Get the file blob from IndexedDB
         const fileBlob = await ClientFileService.serveFile(fileId);
-        
+
         if (fileBlob) {
           // Create a proper blob URL
           const url = URL.createObjectURL(fileBlob);
           setBlobUrl(url);
         } else {
-          setError('File not found in storage');
+          setError("File not found in storage");
         }
       } catch (err) {
-        console.error('Error loading PDF:', err);
-        setError('Failed to load PDF file');
+        console.error("Error loading PDF:", err);
+        setError("Failed to load PDF file");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (isOpen && pdfFile.url.startsWith('blob:')) {
+    if (isOpen && pdfFile.url.startsWith("blob:")) {
       loadFile();
     } else if (isOpen) {
       // If it's already a proper URL, use it directly
@@ -67,7 +67,7 @@ export function PDFPreview({
 
     // Cleanup blob URL when component unmounts or file changes
     return () => {
-      if (blobUrl && blobUrl.startsWith('blob:')) {
+      if (blobUrl && blobUrl.startsWith("blob:")) {
         URL.revokeObjectURL(blobUrl);
       }
     };
@@ -84,7 +84,7 @@ export function PDFPreview({
         document.body.removeChild(link);
       } else {
         // Fallback: load file and download
-        const fileId = pdfFile.url.replace('blob:', '');
+        const fileId = pdfFile.url.replace("blob:", "");
         const fileBlob = await ClientFileService.serveFile(fileId);
         if (fileBlob) {
           const url = URL.createObjectURL(fileBlob);
@@ -98,7 +98,7 @@ export function PDFPreview({
         }
       }
     } catch (err) {
-      console.error('Error downloading file:', err);
+      console.error("Error downloading file:", err);
     }
   };
 
@@ -232,14 +232,12 @@ export function PDFPreview({
             <div className="flex flex-col items-center gap-4 p-4 text-center">
               <FileText className="h-12 w-12 text-muted-foreground" />
               <div>
-                <p className="text-sm font-medium text-foreground mb-1">Cannot load PDF</p>
+                <p className="text-sm font-medium text-foreground mb-1">
+                  Cannot load PDF
+                </p>
                 <p className="text-xs text-muted-foreground">{error}</p>
               </div>
-              <Button
-                onClick={handleDownload}
-                variant="outline"
-                size="sm"
-              >
+              <Button onClick={handleDownload} variant="outline" size="sm">
                 <Download className="h-4 w-4 mr-2" />
                 Download instead
               </Button>
@@ -255,7 +253,7 @@ export function PDFPreview({
             onLoad={() => setIsLoading(false)}
             onError={() => {
               setIsLoading(false);
-              setError('Failed to display PDF');
+              setError("Failed to display PDF");
             }}
           />
         )}

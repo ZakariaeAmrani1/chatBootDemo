@@ -1,15 +1,17 @@
-import { User, ApiResponse } from '@shared/types';
-import { StorageManager } from './storageManager';
+import { User, ApiResponse } from "@shared/types";
+import { StorageManager } from "./storageManager";
 
 export class ClientUserService {
-  static async getCurrentUser(): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+  static async getCurrentUser(): Promise<
+    ApiResponse<Omit<User, "passwordHash">>
+  > {
     try {
       const user = StorageManager.getCurrentUser();
 
       if (!user) {
         return {
           success: false,
-          error: 'No user logged in',
+          error: "No user logged in",
         };
       }
 
@@ -21,25 +23,25 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error getting current user:', error);
+      console.error("Error getting current user:", error);
       return {
         success: false,
-        error: 'Failed to get current user',
+        error: "Failed to get current user",
       };
     }
   }
 
   static async updateUser(
     userId: string,
-    updates: Partial<Omit<User, 'id' | 'passwordHash' | 'createdAt'>>
-  ): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+    updates: Partial<Omit<User, "id" | "passwordHash" | "createdAt">>,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       // Validate the user exists and we're updating the correct user
       const currentUser = StorageManager.getCurrentUser();
       if (!currentUser || currentUser.id !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to update this user',
+          error: "Unauthorized to update this user",
         };
       }
 
@@ -49,20 +51,22 @@ export class ClientUserService {
         if (!emailRegex.test(updates.email)) {
           return {
             success: false,
-            error: 'Invalid email format',
+            error: "Invalid email format",
           };
         }
 
         // Check if email is already taken by another user
         const users = StorageManager.getAllUsers();
         const existingUser = users.find(
-          u => u.id !== userId && u.email.toLowerCase() === updates.email!.toLowerCase()
+          (u) =>
+            u.id !== userId &&
+            u.email.toLowerCase() === updates.email!.toLowerCase(),
         );
 
         if (existingUser) {
           return {
             success: false,
-            error: 'Email is already taken',
+            error: "Email is already taken",
           };
         }
 
@@ -79,7 +83,7 @@ export class ClientUserService {
       if (!updatedUser) {
         return {
           success: false,
-          error: 'Failed to update user',
+          error: "Failed to update user",
         };
       }
 
@@ -94,25 +98,25 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error("Error updating user:", error);
       return {
         success: false,
-        error: 'Failed to update user',
+        error: "Failed to update user",
       };
     }
   }
 
   static async updateUserSettings(
     userId: string,
-    settings: Partial<User['settings']>
-  ): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+    settings: Partial<User["settings"]>,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       // Validate the user exists and we're updating the correct user
       const currentUser = StorageManager.getCurrentUser();
       if (!currentUser || currentUser.id !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to update this user',
+          error: "Unauthorized to update this user",
         };
       }
 
@@ -129,7 +133,7 @@ export class ClientUserService {
       if (!updatedUser) {
         return {
           success: false,
-          error: 'Failed to update user settings',
+          error: "Failed to update user settings",
         };
       }
 
@@ -144,33 +148,33 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error updating user settings:', error);
+      console.error("Error updating user settings:", error);
       return {
         success: false,
-        error: 'Failed to update user settings',
+        error: "Failed to update user settings",
       };
     }
   }
 
   static async uploadAvatar(
     userId: string,
-    avatarFile: File
-  ): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+    avatarFile: File,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       // Validate the user exists and we're updating the correct user
       const currentUser = StorageManager.getCurrentUser();
       if (!currentUser || currentUser.id !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to update this user',
+          error: "Unauthorized to update this user",
         };
       }
 
       // Validate file type
-      if (!avatarFile.type.startsWith('image/')) {
+      if (!avatarFile.type.startsWith("image/")) {
         return {
           success: false,
-          error: 'Avatar must be an image file',
+          error: "Avatar must be an image file",
         };
       }
 
@@ -179,7 +183,7 @@ export class ClientUserService {
       if (avatarFile.size > maxSize) {
         return {
           success: false,
-          error: 'Avatar file size must be less than 5MB',
+          error: "Avatar file size must be less than 5MB",
         };
       }
 
@@ -193,7 +197,7 @@ export class ClientUserService {
       if (!updatedUser) {
         return {
           success: false,
-          error: 'Failed to upload avatar',
+          error: "Failed to upload avatar",
         };
       }
 
@@ -208,33 +212,33 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error uploading avatar:', error);
+      console.error("Error uploading avatar:", error);
       return {
         success: false,
-        error: 'Failed to upload avatar',
+        error: "Failed to upload avatar",
       };
     }
   }
 
   static async uploadLightLogo(
     userId: string,
-    logoFile: File
-  ): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+    logoFile: File,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       // Validate the user exists and we're updating the correct user
       const currentUser = StorageManager.getCurrentUser();
       if (!currentUser || currentUser.id !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to update this user',
+          error: "Unauthorized to update this user",
         };
       }
 
       // Validate file type
-      if (!logoFile.type.startsWith('image/')) {
+      if (!logoFile.type.startsWith("image/")) {
         return {
           success: false,
-          error: 'Logo must be an image file',
+          error: "Logo must be an image file",
         };
       }
 
@@ -248,7 +252,7 @@ export class ClientUserService {
       if (!updatedUser) {
         return {
           success: false,
-          error: 'Failed to upload light logo',
+          error: "Failed to upload light logo",
         };
       }
 
@@ -263,33 +267,33 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error uploading light logo:', error);
+      console.error("Error uploading light logo:", error);
       return {
         success: false,
-        error: 'Failed to upload light logo',
+        error: "Failed to upload light logo",
       };
     }
   }
 
   static async uploadDarkLogo(
     userId: string,
-    logoFile: File
-  ): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+    logoFile: File,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       // Validate the user exists and we're updating the correct user
       const currentUser = StorageManager.getCurrentUser();
       if (!currentUser || currentUser.id !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to update this user',
+          error: "Unauthorized to update this user",
         };
       }
 
       // Validate file type
-      if (!logoFile.type.startsWith('image/')) {
+      if (!logoFile.type.startsWith("image/")) {
         return {
           success: false,
-          error: 'Logo must be an image file',
+          error: "Logo must be an image file",
         };
       }
 
@@ -303,7 +307,7 @@ export class ClientUserService {
       if (!updatedUser) {
         return {
           success: false,
-          error: 'Failed to upload dark logo',
+          error: "Failed to upload dark logo",
         };
       }
 
@@ -318,30 +322,32 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error uploading dark logo:', error);
+      console.error("Error uploading dark logo:", error);
       return {
         success: false,
-        error: 'Failed to upload dark logo',
+        error: "Failed to upload dark logo",
       };
     }
   }
 
-  static async resetUserSettings(userId: string): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+  static async resetUserSettings(
+    userId: string,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       // Validate the user exists and we're updating the correct user
       const currentUser = StorageManager.getCurrentUser();
       if (!currentUser || currentUser.id !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to reset settings for this user',
+          error: "Unauthorized to reset settings for this user",
         };
       }
 
       // Default settings
       const defaultSettings = {
-        theme: 'light' as const,
-        fontSize: 'medium' as const,
-        density: 'comfortable' as const,
+        theme: "light" as const,
+        fontSize: "medium" as const,
+        density: "comfortable" as const,
         emailNotifications: true,
         pushNotifications: true,
         soundEnabled: true,
@@ -352,15 +358,15 @@ export class ClientUserService {
         messageHistory: true,
         showTimestamps: true,
         enterToSend: true,
-        language: 'english',
-        region: 'us',
+        language: "english",
+        region: "us",
         voiceEnabled: false,
-        voiceModel: 'natural',
+        voiceModel: "natural",
         speechRate: [1],
         highContrast: false,
         reducedMotion: false,
         screenReader: false,
-        selectedModel: 'gpt-4',
+        selectedModel: "gpt-4",
       };
 
       const updatedUser = StorageManager.updateUser(userId, {
@@ -370,7 +376,7 @@ export class ClientUserService {
       if (!updatedUser) {
         return {
           success: false,
-          error: 'Failed to reset user settings',
+          error: "Failed to reset user settings",
         };
       }
 
@@ -385,10 +391,10 @@ export class ClientUserService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Error resetting user settings:', error);
+      console.error("Error resetting user settings:", error);
       return {
         success: false,
-        error: 'Failed to reset user settings',
+        error: "Failed to reset user settings",
       };
     }
   }

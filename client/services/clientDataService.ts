@@ -1,5 +1,5 @@
-import { ApiResponse } from '@shared/types';
-import { StorageManager } from './storageManager';
+import { ApiResponse } from "@shared/types";
+import { StorageManager } from "./storageManager";
 
 interface DataStats {
   totalChats: number;
@@ -19,10 +19,10 @@ export class ClientDataService {
         data: stats,
       };
     } catch (error) {
-      console.error('Error getting data stats:', error);
+      console.error("Error getting data stats:", error);
       return {
         success: false,
-        error: 'Failed to get data statistics',
+        error: "Failed to get data statistics",
       };
     }
   }
@@ -36,15 +36,17 @@ export class ClientDataService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error clearing chat history:', error);
+      console.error("Error clearing chat history:", error);
       return {
         success: false,
-        error: 'Failed to clear chat history',
+        error: "Failed to clear chat history",
       };
     }
   }
 
-  static async clearUploadedFiles(): Promise<ApiResponse<{ success: boolean }>> {
+  static async clearUploadedFiles(): Promise<
+    ApiResponse<{ success: boolean }>
+  > {
     try {
       StorageManager.clearAllFiles();
 
@@ -53,10 +55,10 @@ export class ClientDataService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error clearing uploaded files:', error);
+      console.error("Error clearing uploaded files:", error);
       return {
         success: false,
-        error: 'Failed to clear uploaded files',
+        error: "Failed to clear uploaded files",
       };
     }
   }
@@ -70,10 +72,10 @@ export class ClientDataService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error clearing categories:', error);
+      console.error("Error clearing categories:", error);
       return {
         success: false,
-        error: 'Failed to clear categories',
+        error: "Failed to clear categories",
       };
     }
   }
@@ -81,7 +83,7 @@ export class ClientDataService {
   static async exportAllData(): Promise<ApiResponse<string>> {
     try {
       const data = {
-        users: StorageManager.getAllUsers().map(user => {
+        users: StorageManager.getAllUsers().map((user) => {
           // Remove password hash from export
           const { passwordHash, ...userWithoutPassword } = user;
           return userWithoutPassword;
@@ -100,15 +102,17 @@ export class ClientDataService {
         data: jsonData,
       };
     } catch (error) {
-      console.error('Error exporting data:', error);
+      console.error("Error exporting data:", error);
       return {
         success: false,
-        error: 'Failed to export data',
+        error: "Failed to export data",
       };
     }
   }
 
-  static async importData(jsonData: string): Promise<ApiResponse<{ success: boolean }>> {
+  static async importData(
+    jsonData: string,
+  ): Promise<ApiResponse<{ success: boolean }>> {
     try {
       const data = JSON.parse(jsonData);
 
@@ -116,21 +120,21 @@ export class ClientDataService {
       if (!data.users || !Array.isArray(data.users)) {
         return {
           success: false,
-          error: 'Invalid data format: users array is required',
+          error: "Invalid data format: users array is required",
         };
       }
 
       // Import users (but don't overwrite existing ones)
       const existingUsers = StorageManager.getAllUsers();
-      const existingUserIds = new Set(existingUsers.map(u => u.id));
-      
+      const existingUserIds = new Set(existingUsers.map((u) => u.id));
+
       if (data.users) {
         data.users.forEach((user: any) => {
           if (!existingUserIds.has(user.id)) {
             // Add a default password hash for imported users
             const userWithPassword = {
               ...user,
-              passwordHash: 'imported_user_needs_password_reset',
+              passwordHash: "imported_user_needs_password_reset",
             };
             StorageManager.createUser(userWithPassword);
           }
@@ -159,29 +163,32 @@ export class ClientDataService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error importing data:', error);
+      console.error("Error importing data:", error);
       return {
         success: false,
-        error: 'Failed to import data: ' + (error as Error).message,
+        error: "Failed to import data: " + (error as Error).message,
       };
     }
   }
 
-  static downloadDataAsFile(jsonData: string, filename: string = 'chatnova-data.json'): void {
+  static downloadDataAsFile(
+    jsonData: string,
+    filename: string = "chatnova-data.json",
+  ): void {
     try {
-      const blob = new Blob([jsonData], { type: 'application/json' });
+      const blob = new Blob([jsonData], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
+
+      const a = document.createElement("a");
       a.href = url;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      
+
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading data file:', error);
+      console.error("Error downloading data file:", error);
     }
   }
 
@@ -201,7 +208,7 @@ export class ClientDataService {
       StorageManager.clearAllChats();
       StorageManager.clearAllFiles();
       StorageManager.clearAllCategories();
-      
+
       // Don't clear users as that would log out the current user
       // Instead, just reset their settings if needed
 
@@ -210,22 +217,24 @@ export class ClientDataService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error resetting all data:', error);
+      console.error("Error resetting all data:", error);
       return {
         success: false,
-        error: 'Failed to reset application data',
+        error: "Failed to reset application data",
       };
     }
   }
 
   // Get storage usage information
-  static async getStorageInfo(): Promise<ApiResponse<{
-    used: number;
-    quota: number;
-    percentage: number;
-  }>> {
+  static async getStorageInfo(): Promise<
+    ApiResponse<{
+      used: number;
+      quota: number;
+      percentage: number;
+    }>
+  > {
     try {
-      if ('storage' in navigator && 'estimate' in navigator.storage) {
+      if ("storage" in navigator && "estimate" in navigator.storage) {
         const estimate = await navigator.storage.estimate();
         const used = estimate.usage || 0;
         const quota = estimate.quota || 0;
@@ -242,25 +251,25 @@ export class ClientDataService {
       } else {
         return {
           success: false,
-          error: 'Storage estimation not supported',
+          error: "Storage estimation not supported",
         };
       }
     } catch (error) {
-      console.error('Error getting storage info:', error);
+      console.error("Error getting storage info:", error);
       return {
         success: false,
-        error: 'Failed to get storage information',
+        error: "Failed to get storage information",
       };
     }
   }
 
   static formatBytes(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    
+    if (bytes === 0) return "0 Bytes";
+
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   }
 }

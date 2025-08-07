@@ -1,5 +1,11 @@
 // Quick fix script to test new addMessage function logic
-const addMessage = async (content, attachments, chatState, chatService, selectedModel) => {
+const addMessage = async (
+  content,
+  attachments,
+  chatState,
+  chatService,
+  selectedModel,
+) => {
   if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
   try {

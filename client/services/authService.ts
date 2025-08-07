@@ -1,28 +1,37 @@
-import { User, LoginRequest, RegisterRequest, AuthResponse, ApiResponse } from '@shared/types';
-import { StorageManager } from './storageManager';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  User,
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
+  ApiResponse,
+} from "@shared/types";
+import { StorageManager } from "./storageManager";
+import { v4 as uuidv4 } from "uuid";
 
 // Simple hash function for passwords (same as server)
 const hashPassword = (password: string): string => {
   // Using a simple hash for demo purposes
   // In production, use proper bcrypt or similar
   const encoder = new TextEncoder();
-  const data = encoder.encode(password + 'salt_key_2024');
-  
-  return crypto.subtle.digest('SHA-256', data).then(hash => {
-    return Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-  }).catch(() => {
-    // Fallback for older browsers
-    let hash = 0;
-    for (let i = 0; i < (password + 'salt_key_2024').length; i++) {
-      const char = (password + 'salt_key_2024').charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return Math.abs(hash).toString(16);
-  });
+  const data = encoder.encode(password + "salt_key_2024");
+
+  return crypto.subtle
+    .digest("SHA-256", data)
+    .then((hash) => {
+      return Array.from(new Uint8Array(hash))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+    })
+    .catch(() => {
+      // Fallback for older browsers
+      let hash = 0;
+      for (let i = 0; i < (password + "salt_key_2024").length; i++) {
+        const char = (password + "salt_key_2024").charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash = hash & hash; // Convert to 32-bit integer
+      }
+      return Math.abs(hash).toString(16);
+    });
 };
 
 // Generate simple token
@@ -50,9 +59,9 @@ export const verifyToken = (token: string): { userId: string } | null => {
 
 // Default user settings
 const getDefaultSettings = () => ({
-  theme: 'light' as const,
-  fontSize: 'medium' as const,
-  density: 'comfortable' as const,
+  theme: "light" as const,
+  fontSize: "medium" as const,
+  density: "comfortable" as const,
   emailNotifications: true,
   pushNotifications: true,
   soundEnabled: true,
@@ -63,26 +72,28 @@ const getDefaultSettings = () => ({
   messageHistory: true,
   showTimestamps: true,
   enterToSend: true,
-  language: 'english',
-  region: 'us',
+  language: "english",
+  region: "us",
   voiceEnabled: false,
-  voiceModel: 'natural',
+  voiceModel: "natural",
   speechRate: [1],
   highContrast: false,
   reducedMotion: false,
   screenReader: false,
-  selectedModel: 'gpt-4',
+  selectedModel: "gpt-4",
 });
 
 export class AuthService {
-  static async login(loginData: LoginRequest): Promise<ApiResponse<AuthResponse>> {
+  static async login(
+    loginData: LoginRequest,
+  ): Promise<ApiResponse<AuthResponse>> {
     try {
       const { email, password } = loginData;
 
       if (!email || !password) {
         return {
           success: false,
-          error: 'Email and password are required',
+          error: "Email and password are required",
         };
       }
 
@@ -95,7 +106,7 @@ export class AuthService {
       if (!user) {
         return {
           success: false,
-          error: 'Invalid email or password',
+          error: "Invalid email or password",
         };
       }
 
@@ -104,7 +115,7 @@ export class AuthService {
       if (user.passwordHash !== hashedPassword) {
         return {
           success: false,
-          error: 'Invalid email or password',
+          error: "Invalid email or password",
         };
       }
 
@@ -126,22 +137,24 @@ export class AuthService {
         },
       };
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       return {
         success: false,
-        error: 'Login failed',
+        error: "Login failed",
       };
     }
   }
 
-  static async register(registerData: RegisterRequest): Promise<ApiResponse<AuthResponse>> {
+  static async register(
+    registerData: RegisterRequest,
+  ): Promise<ApiResponse<AuthResponse>> {
     try {
       const { displayName, email, password } = registerData;
 
       if (!displayName || !email || !password) {
         return {
           success: false,
-          error: 'Display name, email, and password are required',
+          error: "Display name, email, and password are required",
         };
       }
 
@@ -150,7 +163,7 @@ export class AuthService {
       if (!emailRegex.test(email)) {
         return {
           success: false,
-          error: 'Invalid email format',
+          error: "Invalid email format",
         };
       }
 
@@ -158,7 +171,7 @@ export class AuthService {
       if (password.length < 6) {
         return {
           success: false,
-          error: 'Password must be at least 6 characters long',
+          error: "Password must be at least 6 characters long",
         };
       }
 
@@ -171,7 +184,7 @@ export class AuthService {
       if (existingUser) {
         return {
           success: false,
-          error: 'An account with this email already exists',
+          error: "An account with this email already exists",
         };
       }
 
@@ -183,7 +196,7 @@ export class AuthService {
         id: userId,
         displayName: displayName.trim(),
         email: email.toLowerCase().trim(),
-        bio: '',
+        bio: "",
         createdAt: new Date().toISOString(),
         settings: getDefaultSettings(),
         passwordHash: hashedPassword,
@@ -195,7 +208,7 @@ export class AuthService {
       if (!savedUser) {
         return {
           success: false,
-          error: 'Failed to create user account',
+          error: "Failed to create user account",
         };
       }
 
@@ -209,11 +222,11 @@ export class AuthService {
       // Create default category for the user
       const defaultCategory = {
         id: `default-general-${userId}`,
-        name: 'General',
+        name: "General",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         userId: userId,
-        isDefault: true
+        isDefault: true,
       };
       StorageManager.createCategory(defaultCategory);
 
@@ -228,22 +241,24 @@ export class AuthService {
         },
       };
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error("Registration error:", error);
       return {
         success: false,
-        error: 'Registration failed',
+        error: "Registration failed",
       };
     }
   }
 
-  static async verifyToken(token?: string): Promise<ApiResponse<Omit<User, 'passwordHash'>>> {
+  static async verifyToken(
+    token?: string,
+  ): Promise<ApiResponse<Omit<User, "passwordHash">>> {
     try {
       const authToken = token || StorageManager.getAuthToken();
 
       if (!authToken) {
         return {
           success: false,
-          error: 'No token provided',
+          error: "No token provided",
         };
       }
 
@@ -251,7 +266,7 @@ export class AuthService {
       if (!payload) {
         return {
           success: false,
-          error: 'Invalid or expired token',
+          error: "Invalid or expired token",
         };
       }
 
@@ -259,7 +274,7 @@ export class AuthService {
       if (!user) {
         return {
           success: false,
-          error: 'User not found',
+          error: "User not found",
         };
       }
 
@@ -271,10 +286,10 @@ export class AuthService {
         data: userWithoutPassword,
       };
     } catch (error) {
-      console.error('Token verification error:', error);
+      console.error("Token verification error:", error);
       return {
         success: false,
-        error: 'Token verification failed',
+        error: "Token verification failed",
       };
     }
   }
@@ -291,9 +306,9 @@ export class AuthService {
   static isAuthenticated(): boolean {
     const token = StorageManager.getAuthToken();
     const user = StorageManager.getCurrentUser();
-    
+
     if (!token || !user) return false;
-    
+
     const payload = verifyToken(token);
     return payload !== null;
   }

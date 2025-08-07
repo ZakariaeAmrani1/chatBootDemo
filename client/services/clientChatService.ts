@@ -1,15 +1,23 @@
-import { Chat, Message, CreateChatRequest, SendMessageRequest, ApiResponse, FileAttachment } from '@shared/types';
-import { StorageManager } from './storageManager';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  Chat,
+  Message,
+  CreateChatRequest,
+  SendMessageRequest,
+  ApiResponse,
+  FileAttachment,
+} from "@shared/types";
+import { StorageManager } from "./storageManager";
+import { v4 as uuidv4 } from "uuid";
 
 export class ClientChatService {
   static async getChats(userId: string): Promise<ApiResponse<Chat[]>> {
     try {
       const chats = StorageManager.getChatsByUserId(userId);
-      
+
       // Sort by updatedAt descending
-      const sortedChats = chats.sort((a, b) => 
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      const sortedChats = chats.sort(
+        (a, b) =>
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
       );
 
       return {
@@ -17,21 +25,24 @@ export class ClientChatService {
         data: sortedChats,
       };
     } catch (error) {
-      console.error('Error getting chats:', error);
+      console.error("Error getting chats:", error);
       return {
         success: false,
-        error: 'Failed to get chats',
+        error: "Failed to get chats",
       };
     }
   }
 
-  static async getChatMessages(chatId: string): Promise<ApiResponse<Message[]>> {
+  static async getChatMessages(
+    chatId: string,
+  ): Promise<ApiResponse<Message[]>> {
     try {
       const messages = StorageManager.getMessagesByChatId(chatId);
-      
+
       // Sort by timestamp ascending
-      const sortedMessages = messages.sort((a, b) => 
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      const sortedMessages = messages.sort(
+        (a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
       );
 
       return {
@@ -39,10 +50,10 @@ export class ClientChatService {
         data: sortedMessages,
       };
     } catch (error) {
-      console.error('Error getting chat messages:', error);
+      console.error("Error getting chat messages:", error);
       return {
         success: false,
-        error: 'Failed to get chat messages',
+        error: "Failed to get chat messages",
       };
     }
   }
@@ -50,7 +61,7 @@ export class ClientChatService {
   static async createChat(
     chatData: CreateChatRequest,
     userId: string,
-    file?: File
+    file?: File,
   ): Promise<ApiResponse<Chat>> {
     try {
       const chatId = uuidv4();
@@ -73,7 +84,7 @@ export class ClientChatService {
         // Store file in IndexedDB
         await StorageManager.saveFile(fileId, file);
         StorageManager.createFileAttachment(fileAttachment);
-        
+
         pdfFile = fileAttachment;
       }
 
@@ -81,7 +92,7 @@ export class ClientChatService {
         id: chatId,
         title: chatData.title,
         model: chatData.model,
-        chatbootVersion: 'ChatNova V3',
+        chatbootVersion: "ChatNova V3",
         createdAt: now,
         updatedAt: now,
         messageCount: 0,
@@ -96,15 +107,18 @@ export class ClientChatService {
         data: savedChat,
       };
     } catch (error) {
-      console.error('Error creating chat:', error);
+      console.error("Error creating chat:", error);
       return {
         success: false,
-        error: 'Failed to create chat',
+        error: "Failed to create chat",
       };
     }
   }
 
-  static async updateChat(chatId: string, updates: Partial<Chat>): Promise<ApiResponse<Chat>> {
+  static async updateChat(
+    chatId: string,
+    updates: Partial<Chat>,
+  ): Promise<ApiResponse<Chat>> {
     try {
       const updatedChat = StorageManager.updateChat(chatId, {
         ...updates,
@@ -114,7 +128,7 @@ export class ClientChatService {
       if (!updatedChat) {
         return {
           success: false,
-          error: 'Chat not found',
+          error: "Chat not found",
         };
       }
 
@@ -123,22 +137,24 @@ export class ClientChatService {
         data: updatedChat,
       };
     } catch (error) {
-      console.error('Error updating chat:', error);
+      console.error("Error updating chat:", error);
       return {
         success: false,
-        error: 'Failed to update chat',
+        error: "Failed to update chat",
       };
     }
   }
 
-  static async deleteChat(chatId: string): Promise<ApiResponse<{ success: boolean }>> {
+  static async deleteChat(
+    chatId: string,
+  ): Promise<ApiResponse<{ success: boolean }>> {
     try {
       const deleted = StorageManager.deleteChat(chatId);
 
       if (!deleted) {
         return {
           success: false,
-          error: 'Chat not found',
+          error: "Chat not found",
         };
       }
 
@@ -147,10 +163,10 @@ export class ClientChatService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error deleting chat:', error);
+      console.error("Error deleting chat:", error);
       return {
         success: false,
-        error: 'Failed to delete chat',
+        error: "Failed to delete chat",
       };
     }
   }
@@ -158,7 +174,7 @@ export class ClientChatService {
   static async addUserMessage(
     chatId: string,
     content: string,
-    attachments?: FileAttachment[]
+    attachments?: FileAttachment[],
   ): Promise<ApiResponse<Message>> {
     try {
       const messageId = uuidv4();
@@ -167,7 +183,7 @@ export class ClientChatService {
       const message: Message = {
         id: messageId,
         chatId: chatId,
-        type: 'user',
+        type: "user",
         content: content,
         timestamp: now,
         ...(attachments && { attachments }),
@@ -189,17 +205,17 @@ export class ClientChatService {
         data: savedMessage,
       };
     } catch (error) {
-      console.error('Error adding user message:', error);
+      console.error("Error adding user message:", error);
       return {
         success: false,
-        error: 'Failed to add user message',
+        error: "Failed to add user message",
       };
     }
   }
 
   static async addAssistantMessage(
     chatId: string,
-    content: string
+    content: string,
   ): Promise<ApiResponse<Message>> {
     try {
       const messageId = uuidv4();
@@ -208,7 +224,7 @@ export class ClientChatService {
       const message: Message = {
         id: messageId,
         chatId: chatId,
-        type: 'assistant',
+        type: "assistant",
         content: content,
         timestamp: now,
       };
@@ -229,21 +245,23 @@ export class ClientChatService {
         data: savedMessage,
       };
     } catch (error) {
-      console.error('Error adding assistant message:', error);
+      console.error("Error adding assistant message:", error);
       return {
         success: false,
-        error: 'Failed to add assistant message',
+        error: "Failed to add assistant message",
       };
     }
   }
 
-  static async sendMessage(messageData: SendMessageRequest): Promise<ApiResponse<Message>> {
+  static async sendMessage(
+    messageData: SendMessageRequest,
+  ): Promise<ApiResponse<Message>> {
     try {
       // Add the user message first
       const userMessageResult = await this.addUserMessage(
         messageData.chatId,
         messageData.content,
-        messageData.attachments
+        messageData.attachments,
       );
 
       if (!userMessageResult.success) {
@@ -251,27 +269,34 @@ export class ClientChatService {
       }
 
       // Get AI response
-      let assistantResponse = "I apologize, but I couldn't generate a response. Please try again.";
+      let assistantResponse =
+        "I apologize, but I couldn't generate a response. Please try again.";
 
       try {
         // Import here to avoid circular dependencies
-        const { ClientGeminiService } = await import('./clientGeminiService');
-        const { StorageManager } = await import('./storageManager');
+        const { ClientGeminiService } = await import("./clientGeminiService");
+        const { StorageManager } = await import("./storageManager");
 
         // Get user settings for model selection
         const currentUser = StorageManager.getCurrentUser();
-        const selectedModel = currentUser?.settings?.selectedModel || 'cloud';
+        const selectedModel = currentUser?.settings?.selectedModel || "cloud";
 
-        if (selectedModel === 'cloud' || selectedModel === 'local-cloud') {
+        if (selectedModel === "cloud" || selectedModel === "local-cloud") {
           // Use Gemini API
-          const geminiModel = currentUser?.settings?.geminiModel || 'gemini-1.5-flash-latest';
+          const geminiModel =
+            currentUser?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
           // Prepare context with chat history
-          const chatMessages = StorageManager.getMessagesByChatId(messageData.chatId);
+          const chatMessages = StorageManager.getMessagesByChatId(
+            messageData.chatId,
+          );
           const recentMessages = chatMessages
             .slice(-10) // Last 10 messages for context
-            .map(msg => `${msg.type === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
-            .join('\n');
+            .map(
+              (msg) =>
+                `${msg.type === "user" ? "User" : "Assistant"}: ${msg.content}`,
+            )
+            .join("\n");
 
           const contextPrompt = recentMessages
             ? `Previous conversation:\n${recentMessages}\n\nUser: ${messageData.content}\n\nAssistant:`
@@ -279,7 +304,7 @@ export class ClientChatService {
 
           const geminiResult = await ClientGeminiService.generateContent(
             contextPrompt,
-            geminiModel
+            geminiModel,
           );
 
           if (geminiResult.content && !geminiResult.error) {
@@ -292,26 +317,30 @@ export class ClientChatService {
           assistantResponse = `I'm currently configured to use ${selectedModel}, but this requires server integration. Please configure Gemini API in your settings to get AI responses, or contact your administrator to set up the ${selectedModel} integration.`;
         }
       } catch (aiError) {
-        console.error('AI service error:', aiError);
-        assistantResponse = "I encountered an error while generating a response. Please try again.";
+        console.error("AI service error:", aiError);
+        assistantResponse =
+          "I encountered an error while generating a response. Please try again.";
       }
 
       const assistantMessageResult = await this.addAssistantMessage(
         messageData.chatId,
-        assistantResponse
+        assistantResponse,
       );
 
       return assistantMessageResult;
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
       return {
         success: false,
-        error: 'Failed to send message',
+        error: "Failed to send message",
       };
     }
   }
 
-  static async updateChatCategory(chatId: string, categoryId: string): Promise<ApiResponse<Chat>> {
+  static async updateChatCategory(
+    chatId: string,
+    categoryId: string,
+  ): Promise<ApiResponse<Chat>> {
     try {
       const updatedChat = StorageManager.updateChat(chatId, {
         categoryId: categoryId,
@@ -321,7 +350,7 @@ export class ClientChatService {
       if (!updatedChat) {
         return {
           success: false,
-          error: 'Chat not found',
+          error: "Chat not found",
         };
       }
 
@@ -330,10 +359,10 @@ export class ClientChatService {
         data: updatedChat,
       };
     } catch (error) {
-      console.error('Error updating chat category:', error);
+      console.error("Error updating chat category:", error);
       return {
         success: false,
-        error: 'Failed to update chat category',
+        error: "Failed to update chat category",
       };
     }
   }
@@ -342,7 +371,7 @@ export class ClientChatService {
     try {
       return await StorageManager.getFile(fileId);
     } catch (error) {
-      console.error('Error getting file content:', error);
+      console.error("Error getting file content:", error);
       return null;
     }
   }

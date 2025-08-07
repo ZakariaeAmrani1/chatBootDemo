@@ -1,19 +1,21 @@
-import { Category, ApiResponse } from '@shared/types';
-import { StorageManager } from './storageManager';
-import { v4 as uuidv4 } from 'uuid';
+import { Category, ApiResponse } from "@shared/types";
+import { StorageManager } from "./storageManager";
+import { v4 as uuidv4 } from "uuid";
 
 export class ClientCategoryService {
   static async getCategories(userId: string): Promise<ApiResponse<Category[]>> {
     try {
       const categories = StorageManager.getCategoriesByUserId(userId);
-      
+
       // Sort by createdAt ascending (default category first)
       const sortedCategories = categories.sort((a, b) => {
         // Put default category first
         if (a.isDefault && !b.isDefault) return -1;
         if (!a.isDefault && b.isDefault) return 1;
-        
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
       });
 
       return {
@@ -21,36 +23,36 @@ export class ClientCategoryService {
         data: sortedCategories,
       };
     } catch (error) {
-      console.error('Error getting categories:', error);
+      console.error("Error getting categories:", error);
       return {
         success: false,
-        error: 'Failed to get categories',
+        error: "Failed to get categories",
       };
     }
   }
 
   static async createCategory(
     name: string,
-    userId: string
+    userId: string,
   ): Promise<ApiResponse<Category>> {
     try {
       if (!name.trim()) {
         return {
           success: false,
-          error: 'Category name is required',
+          error: "Category name is required",
         };
       }
 
       // Check if category name already exists for this user
       const existingCategories = StorageManager.getCategoriesByUserId(userId);
       const nameExists = existingCategories.some(
-        (category) => category.name.toLowerCase() === name.trim().toLowerCase()
+        (category) => category.name.toLowerCase() === name.trim().toLowerCase(),
       );
 
       if (nameExists) {
         return {
           success: false,
-          error: 'A category with this name already exists',
+          error: "A category with this name already exists",
         };
       }
 
@@ -73,10 +75,10 @@ export class ClientCategoryService {
         data: savedCategory,
       };
     } catch (error) {
-      console.error('Error creating category:', error);
+      console.error("Error creating category:", error);
       return {
         success: false,
-        error: 'Failed to create category',
+        error: "Failed to create category",
       };
     }
   }
@@ -84,13 +86,13 @@ export class ClientCategoryService {
   static async updateCategory(
     categoryId: string,
     name: string,
-    userId: string
+    userId: string,
   ): Promise<ApiResponse<Category>> {
     try {
       if (!name.trim()) {
         return {
           success: false,
-          error: 'Category name is required',
+          error: "Category name is required",
         };
       }
 
@@ -99,29 +101,29 @@ export class ClientCategoryService {
       if (!category) {
         return {
           success: false,
-          error: 'Category not found',
+          error: "Category not found",
         };
       }
 
       if (category.userId !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to update this category',
+          error: "Unauthorized to update this category",
         };
       }
 
       // Check if category name already exists for this user (excluding current category)
       const existingCategories = StorageManager.getCategoriesByUserId(userId);
       const nameExists = existingCategories.some(
-        (cat) => 
-          cat.id !== categoryId && 
-          cat.name.toLowerCase() === name.trim().toLowerCase()
+        (cat) =>
+          cat.id !== categoryId &&
+          cat.name.toLowerCase() === name.trim().toLowerCase(),
       );
 
       if (nameExists) {
         return {
           success: false,
-          error: 'A category with this name already exists',
+          error: "A category with this name already exists",
         };
       }
 
@@ -133,7 +135,7 @@ export class ClientCategoryService {
       if (!updatedCategory) {
         return {
           success: false,
-          error: 'Failed to update category',
+          error: "Failed to update category",
         };
       }
 
@@ -142,17 +144,17 @@ export class ClientCategoryService {
         data: updatedCategory,
       };
     } catch (error) {
-      console.error('Error updating category:', error);
+      console.error("Error updating category:", error);
       return {
         success: false,
-        error: 'Failed to update category',
+        error: "Failed to update category",
       };
     }
   }
 
   static async deleteCategory(
     categoryId: string,
-    userId: string
+    userId: string,
   ): Promise<ApiResponse<{ success: boolean }>> {
     try {
       // Check if the category exists and belongs to the user
@@ -160,14 +162,14 @@ export class ClientCategoryService {
       if (!category) {
         return {
           success: false,
-          error: 'Category not found',
+          error: "Category not found",
         };
       }
 
       if (category.userId !== userId) {
         return {
           success: false,
-          error: 'Unauthorized to delete this category',
+          error: "Unauthorized to delete this category",
         };
       }
 
@@ -175,21 +177,24 @@ export class ClientCategoryService {
       if (category.isDefault) {
         return {
           success: false,
-          error: 'Cannot delete the default category',
+          error: "Cannot delete the default category",
         };
       }
 
       // Check if there are chats using this category
       const userChats = StorageManager.getChatsByUserId(userId);
-      const chatsUsingCategory = userChats.filter(chat => chat.categoryId === categoryId);
+      const chatsUsingCategory = userChats.filter(
+        (chat) => chat.categoryId === categoryId,
+      );
 
       if (chatsUsingCategory.length > 0) {
         // Move chats to default category
-        const defaultCategory = StorageManager.getCategoriesByUserId(userId)
-          .find(cat => cat.isDefault);
+        const defaultCategory = StorageManager.getCategoriesByUserId(
+          userId,
+        ).find((cat) => cat.isDefault);
 
         if (defaultCategory) {
-          chatsUsingCategory.forEach(chat => {
+          chatsUsingCategory.forEach((chat) => {
             StorageManager.updateChat(chat.id, {
               categoryId: defaultCategory.id,
               updatedAt: new Date().toISOString(),
@@ -203,7 +208,7 @@ export class ClientCategoryService {
       if (!deleted) {
         return {
           success: false,
-          error: 'Failed to delete category',
+          error: "Failed to delete category",
         };
       }
 
@@ -212,22 +217,24 @@ export class ClientCategoryService {
         data: { success: true },
       };
     } catch (error) {
-      console.error('Error deleting category:', error);
+      console.error("Error deleting category:", error);
       return {
         success: false,
-        error: 'Failed to delete category',
+        error: "Failed to delete category",
       };
     }
   }
 
-  static async getCategoryById(categoryId: string): Promise<ApiResponse<Category>> {
+  static async getCategoryById(
+    categoryId: string,
+  ): Promise<ApiResponse<Category>> {
     try {
       const category = StorageManager.getCategoryById(categoryId);
 
       if (!category) {
         return {
           success: false,
-          error: 'Category not found',
+          error: "Category not found",
         };
       }
 
@@ -236,17 +243,17 @@ export class ClientCategoryService {
         data: category,
       };
     } catch (error) {
-      console.error('Error getting category:', error);
+      console.error("Error getting category:", error);
       return {
         success: false,
-        error: 'Failed to get category',
+        error: "Failed to get category",
       };
     }
   }
 
   static async ensureDefaultCategory(userId: string): Promise<Category> {
     const categories = StorageManager.getCategoriesByUserId(userId);
-    let defaultCategory = categories.find(cat => cat.isDefault);
+    let defaultCategory = categories.find((cat) => cat.isDefault);
 
     if (!defaultCategory) {
       const categoryId = `default-general-${userId}`;
@@ -254,7 +261,7 @@ export class ClientCategoryService {
 
       defaultCategory = {
         id: categoryId,
-        name: 'General',
+        name: "General",
         createdAt: now,
         updatedAt: now,
         userId: userId,

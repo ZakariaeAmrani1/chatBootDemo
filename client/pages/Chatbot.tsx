@@ -265,7 +265,9 @@ const Chatbot = () => {
         if (newChat && user?.settings?.geminiApiKey) {
           // Process PDF with local Gemini after chat is created
           try {
-            const { ClientGeminiService } = await import("../services/clientGeminiService");
+            const { ClientGeminiService } = await import(
+              "../services/clientGeminiService"
+            );
             const geminiModel =
               user?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
@@ -282,10 +284,12 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             const result = await ClientGeminiService.generateContent(
               initialPrompt,
-              geminiModel
+              geminiModel,
             );
 
-            const aiResponse = result.content || "Je n'ai pas pu analyser le document. Veuillez réessayer.";
+            const aiResponse =
+              result.content ||
+              "Je n'ai pas pu analyser le document. Veuillez réessayer.";
 
             // Save the AI response using client services
             await apiService.sendMessage({
@@ -363,7 +367,8 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
     try {
       // Handle existing backend chat with local-cloud model - use local processing
-      if (false && // Temporarily disabled
+      if (
+        false && // Temporarily disabled
         chatState.currentChat &&
         chatState.currentChat.model === "local-cloud"
       ) {
@@ -435,7 +440,9 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             );
 
             // Process with Gemini using new client service
-            const { ClientGeminiService } = await import("../services/clientGeminiService");
+            const { ClientGeminiService } = await import(
+              "../services/clientGeminiService"
+            );
             const geminiModel =
               user?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
@@ -445,7 +452,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             // For now, just use simple text processing since ClientGeminiService doesn't have PDF processing yet
             const aiResponse = await ClientGeminiService.generateContent(
               `Analyze this message in context: ${content}`,
-              geminiModel
+              geminiModel,
             );
 
             // Save AI response

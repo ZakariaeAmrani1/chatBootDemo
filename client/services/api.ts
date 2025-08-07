@@ -18,13 +18,13 @@ import {
 } from "@shared/types";
 
 // Import client services
-import { AuthService } from './authService';
-import { ClientChatService } from './clientChatService';
-import { ClientFileService } from './clientFileService';
-import { ClientCategoryService } from './clientCategoryService';
-import { ClientUserService } from './clientUserService';
-import { ClientDataService } from './clientDataService';
-import { StorageManager } from './storageManager';
+import { AuthService } from "./authService";
+import { ClientChatService } from "./clientChatService";
+import { ClientFileService } from "./clientFileService";
+import { ClientCategoryService } from "./clientCategoryService";
+import { ClientUserService } from "./clientUserService";
+import { ClientDataService } from "./clientDataService";
+import { StorageManager } from "./storageManager";
 
 class ApiService {
   constructor() {
@@ -40,7 +40,7 @@ class ApiService {
   private requireAuth(): string {
     const userId = this.getCurrentUserId();
     if (!userId) {
-      throw new Error('User not authenticated');
+      throw new Error("User not authenticated");
     }
     return userId;
   }
@@ -53,7 +53,7 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get chats',
+        error: error instanceof Error ? error.message : "Failed to get chats",
       };
     }
   }
@@ -64,7 +64,10 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get chat messages',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to get chat messages",
       };
     }
   }
@@ -72,7 +75,7 @@ class ApiService {
   async createChat(request: CreateChatRequest): Promise<ApiResponse<Chat>> {
     try {
       const userId = this.requireAuth();
-      
+
       let file: File | undefined;
       if (request.pdfFile) {
         file = request.pdfFile;
@@ -84,29 +87,35 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to create chat',
+        error: error instanceof Error ? error.message : "Failed to create chat",
       };
     }
   }
 
-  async sendMessage(request: SendMessageRequest): Promise<ApiResponse<Message>> {
+  async sendMessage(
+    request: SendMessageRequest,
+  ): Promise<ApiResponse<Message>> {
     try {
       return await ClientChatService.sendMessage(request);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to send message',
+        error:
+          error instanceof Error ? error.message : "Failed to send message",
       };
     }
   }
 
-  async updateChat(chatId: string, updates: Partial<Chat>): Promise<ApiResponse<Chat>> {
+  async updateChat(
+    chatId: string,
+    updates: Partial<Chat>,
+  ): Promise<ApiResponse<Chat>> {
     try {
       return await ClientChatService.updateChat(chatId, updates);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to update chat',
+        error: error instanceof Error ? error.message : "Failed to update chat",
       };
     }
   }
@@ -122,21 +131,25 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to delete chat',
+        error: error instanceof Error ? error.message : "Failed to delete chat",
       };
     }
   }
 
   async sendMessageFeedback(
     request: MessageFeedbackRequest,
-  ): Promise<ApiResponse<{ messageId: string; liked: boolean; disliked: boolean }>> {
+  ): Promise<
+    ApiResponse<{ messageId: string; liked: boolean; disliked: boolean }>
+  > {
     try {
       // For client-side implementation, we'll just store feedback in message metadata
-      const message = StorageManager.getAllMessages().find(m => m.id === request.messageId);
+      const message = StorageManager.getAllMessages().find(
+        (m) => m.id === request.messageId,
+      );
       if (!message) {
         return {
           success: false,
-          error: 'Message not found',
+          error: "Message not found",
         };
       }
 
@@ -144,13 +157,13 @@ class ApiService {
         feedback: {
           liked: request.liked,
           disliked: request.disliked,
-        }
+        },
       });
 
       if (!updatedMessage) {
         return {
           success: false,
-          error: 'Failed to update message feedback',
+          error: "Failed to update message feedback",
         };
       }
 
@@ -165,7 +178,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to send feedback',
+        error:
+          error instanceof Error ? error.message : "Failed to send feedback",
       };
     }
   }
@@ -177,62 +191,86 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get current user',
+        error:
+          error instanceof Error ? error.message : "Failed to get current user",
       };
     }
   }
 
-  async updateUser(userId: string, updates: Partial<User>): Promise<ApiResponse<User>> {
+  async updateUser(
+    userId: string,
+    updates: Partial<User>,
+  ): Promise<ApiResponse<User>> {
     try {
       return await ClientUserService.updateUser(userId, updates);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to update user',
+        error: error instanceof Error ? error.message : "Failed to update user",
       };
     }
   }
 
-  async updateUserSettings(userId: string, settings: any): Promise<ApiResponse<User>> {
+  async updateUserSettings(
+    userId: string,
+    settings: any,
+  ): Promise<ApiResponse<User>> {
     try {
       return await ClientUserService.updateUserSettings(userId, settings);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to update user settings',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update user settings",
       };
     }
   }
 
-  async uploadUserAvatar(userId: string, avatarFile: File): Promise<ApiResponse<User>> {
+  async uploadUserAvatar(
+    userId: string,
+    avatarFile: File,
+  ): Promise<ApiResponse<User>> {
     try {
       return await ClientUserService.uploadAvatar(userId, avatarFile);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to upload avatar',
+        error:
+          error instanceof Error ? error.message : "Failed to upload avatar",
       };
     }
   }
 
-  async uploadLightLogo(userId: string, logoFile: File): Promise<ApiResponse<User>> {
+  async uploadLightLogo(
+    userId: string,
+    logoFile: File,
+  ): Promise<ApiResponse<User>> {
     try {
       return await ClientUserService.uploadLightLogo(userId, logoFile);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to upload light logo',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to upload light logo",
       };
     }
   }
 
-  async uploadDarkLogo(userId: string, logoFile: File): Promise<ApiResponse<User>> {
+  async uploadDarkLogo(
+    userId: string,
+    logoFile: File,
+  ): Promise<ApiResponse<User>> {
     try {
       return await ClientUserService.uploadDarkLogo(userId, logoFile);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to upload dark logo',
+        error:
+          error instanceof Error ? error.message : "Failed to upload dark logo",
       };
     }
   }
@@ -244,7 +282,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to upload files',
+        error:
+          error instanceof Error ? error.message : "Failed to upload files",
       };
     }
   }
@@ -255,7 +294,7 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get files',
+        error: error instanceof Error ? error.message : "Failed to get files",
       };
     }
   }
@@ -266,7 +305,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get file info',
+        error:
+          error instanceof Error ? error.message : "Failed to get file info",
       };
     }
   }
@@ -279,7 +319,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get data stats',
+        error:
+          error instanceof Error ? error.message : "Failed to get data stats",
       };
     }
   }
@@ -295,7 +336,10 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to clear chat history',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to clear chat history",
       };
     }
   }
@@ -311,7 +355,10 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to clear uploaded files',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to clear uploaded files",
       };
     }
   }
@@ -327,7 +374,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to clear categories',
+        error:
+          error instanceof Error ? error.message : "Failed to clear categories",
       };
     }
   }
@@ -344,19 +392,25 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to reset user settings',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to reset user settings",
       };
     }
   }
 
   // Authentication operations
-  async login(email: string, password: string): Promise<ApiResponse<AuthResponse>> {
+  async login(
+    email: string,
+    password: string,
+  ): Promise<ApiResponse<AuthResponse>> {
     try {
       return await AuthService.login({ email, password });
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Login failed',
+        error: error instanceof Error ? error.message : "Login failed",
       };
     }
   }
@@ -367,7 +421,7 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Registration failed',
+        error: error instanceof Error ? error.message : "Registration failed",
       };
     }
   }
@@ -380,7 +434,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Token verification failed',
+        error:
+          error instanceof Error ? error.message : "Token verification failed",
       };
     }
   }
@@ -394,12 +449,12 @@ class ApiService {
     try {
       // Return some default models since we don't have a server
       const models = [
-        { id: 'gpt-4', name: 'GPT-4', provider: 'openai' },
-        { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', provider: 'openai' },
-        { id: 'gemini-pro', name: 'Gemini Pro', provider: 'google' },
-        { id: 'claude-3', name: 'Claude 3', provider: 'anthropic' },
-        { id: 'local-cloud', name: 'Local Cloud', provider: 'local' },
-        { id: 'cloud', name: 'Cloud', provider: 'cloud' },
+        { id: "gpt-4", name: "GPT-4", provider: "openai" },
+        { id: "gpt-3.5-turbo", name: "GPT-3.5 Turbo", provider: "openai" },
+        { id: "gemini-pro", name: "Gemini Pro", provider: "google" },
+        { id: "claude-3", name: "Claude 3", provider: "anthropic" },
+        { id: "local-cloud", name: "Local Cloud", provider: "local" },
+        { id: "cloud", name: "Cloud", provider: "cloud" },
       ];
 
       return {
@@ -409,7 +464,7 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get models',
+        error: error instanceof Error ? error.message : "Failed to get models",
       };
     }
   }
@@ -422,19 +477,23 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get categories',
+        error:
+          error instanceof Error ? error.message : "Failed to get categories",
       };
     }
   }
 
-  async createCategory(request: CreateCategoryRequest): Promise<ApiResponse<Category>> {
+  async createCategory(
+    request: CreateCategoryRequest,
+  ): Promise<ApiResponse<Category>> {
     try {
       const userId = this.requireAuth();
       return await ClientCategoryService.createCategory(request.name, userId);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to create category',
+        error:
+          error instanceof Error ? error.message : "Failed to create category",
       };
     }
   }
@@ -445,11 +504,16 @@ class ApiService {
   ): Promise<ApiResponse<Category>> {
     try {
       const userId = this.requireAuth();
-      return await ClientCategoryService.updateCategory(categoryId, updates.name, userId);
+      return await ClientCategoryService.updateCategory(
+        categoryId,
+        updates.name,
+        userId,
+      );
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to update category',
+        error:
+          error instanceof Error ? error.message : "Failed to update category",
       };
     }
   }
@@ -457,7 +521,10 @@ class ApiService {
   async deleteCategory(categoryId: string): Promise<ApiResponse<null>> {
     try {
       const userId = this.requireAuth();
-      const result = await ClientCategoryService.deleteCategory(categoryId, userId);
+      const result = await ClientCategoryService.deleteCategory(
+        categoryId,
+        userId,
+      );
       return {
         success: result.success,
         data: null,
@@ -466,7 +533,8 @@ class ApiService {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to delete category',
+        error:
+          error instanceof Error ? error.message : "Failed to delete category",
       };
     }
   }
@@ -479,15 +547,19 @@ class ApiService {
       if (!categoryId) {
         // If no category provided, use default category
         const userId = this.requireAuth();
-        const defaultCategory = await ClientCategoryService.ensureDefaultCategory(userId);
+        const defaultCategory =
+          await ClientCategoryService.ensureDefaultCategory(userId);
         categoryId = defaultCategory.id;
       }
-      
+
       return await ClientChatService.updateChatCategory(chatId, categoryId);
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to update chat category',
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update chat category",
       };
     }
   }
@@ -501,7 +573,7 @@ class ApiService {
       }
       return null;
     } catch (error) {
-      console.error('Error getting file URL:', error);
+      console.error("Error getting file URL:", error);
       return null;
     }
   }
