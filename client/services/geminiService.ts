@@ -83,15 +83,15 @@ export class GeminiService {
         }),
       });
 
+      const proxyResponse = await response.json();
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`Gemini proxy error ${response.status}:`, errorText);
+        console.error(`Gemini proxy error ${response.status}:`, proxyResponse);
         throw new Error(
           `Gemini proxy error: ${response.status} ${response.statusText}`,
         );
       }
 
-      const proxyResponse = await response.json();
       if (!proxyResponse.success) {
         throw new Error(proxyResponse.error || "Gemini proxy request failed");
       }
@@ -188,15 +188,15 @@ export class GeminiService {
         }),
       });
 
+      const proxyResponse = await response.json();
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`Gemini proxy error ${response.status}:`, errorText);
+        console.error(`Gemini proxy error ${response.status}:`, proxyResponse);
         throw new Error(
           `Gemini proxy error: ${response.status} ${response.statusText}`,
         );
       }
 
-      const proxyResponse = await response.json();
       if (!proxyResponse.success) {
         throw new Error(proxyResponse.error || "Gemini proxy request failed");
       }
