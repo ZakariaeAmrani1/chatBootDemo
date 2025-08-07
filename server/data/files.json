@@ -199,6 +199,14 @@
       "type": "application/pdf",
       "url": "/api/files/6e4d8802-6245-4bb1-9d5d-50f42be96e44.pdf",
       "uploadedAt": "2025-08-07T14:34:07.087Z"
+    },
+    {
+      "id": "364b02e2-3194-4a2e-a5c3-0feb2867b155",
+      "name": "Cahier_de_charges.pdf",
+      "size": 622676,
+      "type": "application/pdf",
+      "url": "/api/files/07876e42-bc9b-439b-8418-5dd09027b782.pdf",
+      "uploadedAt": "2025-08-07T14:34:55.225Z"
     }
   ]
 }
