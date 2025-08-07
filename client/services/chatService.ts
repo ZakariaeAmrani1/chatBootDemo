@@ -251,6 +251,22 @@ class ChatService {
     }
   }
 
+  // Helper method to add user message to UI immediately
+  addUserMessageToUI(chatId: string, content: string): void {
+    const userMessage: Message = {
+      id: Date.now().toString(), // Temporary ID
+      chatId: chatId,
+      type: "user",
+      content: content,
+      timestamp: new Date().toISOString(),
+    };
+
+    this.setState({
+      messages: [...this.state.messages, userMessage],
+      isThinking: true,
+    });
+  }
+
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
 
