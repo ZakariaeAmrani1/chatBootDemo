@@ -493,8 +493,13 @@ const Chatbot = () => {
     messageId: string,
     updates: Partial<Message>,
   ) => {
-    // Update the message in the chatService state
-    chatService.updateMessage(messageId, updates);
+    // Check if we're in a local chat and update accordingly
+    if (localChatState.currentChat) {
+      localChatService.updateMessage(messageId, updates);
+    } else {
+      // Update the message in the chatService state
+      chatService.updateMessage(messageId, updates);
+    }
   };
 
   const handleShareClick = () => {
