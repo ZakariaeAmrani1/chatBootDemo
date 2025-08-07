@@ -17,6 +17,7 @@ import Library from "./pages/Library";
 import HelpFAQ from "./pages/HelpFAQ";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { StorageManager } from "@/services/storageManager";
 
 const queryClient = new QueryClient();
 
