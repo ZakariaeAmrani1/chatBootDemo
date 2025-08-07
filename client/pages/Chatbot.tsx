@@ -470,6 +470,8 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             // Refresh messages to show the new messages
             await chatService.loadChatMessages(chatState.currentChat.id);
+            // Stop thinking state
+            chatService.stopThinking();
             return;
           } catch (error) {
             console.error("Failed to process with Gemini:", error);
