@@ -371,10 +371,9 @@ const Chatbot = () => {
             timestamp: new Date().toISOString(),
           };
 
-          // Update chat state directly
-          chatService.setState({
-            messages: [...chatState.messages, userMessage, errorMessage]
-          });
+          // Add messages to current chat
+          chatService.addMessageToCurrentChat(userMessage);
+          chatService.addMessageToCurrentChat(errorMessage);
           return;
         }
 
@@ -420,10 +419,9 @@ const Chatbot = () => {
               timestamp: new Date().toISOString(),
             };
 
-            // Update chat state directly
-            chatService.setState({
-              messages: [...chatState.messages, userMessage, errorMessage]
-            });
+            // Add messages to current chat
+            chatService.addMessageToCurrentChat(userMessage);
+            chatService.addMessageToCurrentChat(errorMessage);
             return;
           }
         } else {
@@ -445,10 +443,9 @@ const Chatbot = () => {
             timestamp: new Date().toISOString(),
           };
 
-          // Update chat state directly
-          chatService.setState({
-            messages: [...chatState.messages, userMessage, errorMessage]
-          });
+          // Add messages to current chat
+          chatService.addMessageToCurrentChat(userMessage);
+          chatService.addMessageToCurrentChat(errorMessage);
           return;
         }
       }
