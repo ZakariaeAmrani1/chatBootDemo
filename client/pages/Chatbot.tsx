@@ -372,7 +372,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
     try {
       // Handle existing backend chat with local-cloud model - use local processing
-      if (
+      if (false && // Temporarily disabled
         chatState.currentChat &&
         chatState.currentChat.model === "local-cloud"
       ) {
