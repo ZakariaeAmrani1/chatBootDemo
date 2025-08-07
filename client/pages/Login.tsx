@@ -62,6 +62,25 @@ const Login: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
+  // Auto-login when component mounts
+  useEffect(() => {
+    const autoLogin = async () => {
+      setLoading(true);
+      setError("");
+
+      const result = await login(formData.email, formData.password);
+
+      if (!result.success) {
+        setError(result.error || "Auto-login failed");
+      }
+      // If successful, AuthContext will handle the redirect
+
+      setLoading(false);
+    };
+
+    autoLogin();
+  }, [login, formData.email, formData.password]);
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
