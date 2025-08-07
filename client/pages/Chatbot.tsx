@@ -282,7 +282,7 @@ N'ajoute aucune information externe, même si tu en as connaissance.
 Si une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."
 Sois clair, précis et factuel dans tes réponses.
 
-J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résum�� de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
+J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
 
             const aiResponse = await geminiService.processPDFWithPrompt(
               file,
@@ -381,6 +381,9 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
         // Check if user has Gemini API key
         const geminiApiKey = user?.settings?.geminiApiKey;
         if (!geminiApiKey || !geminiApiKey.trim()) {
+          // Add user message to UI immediately
+          chatService.addUserMessageToUI(chatState.currentChat.id, content);
+
           // Save user message to backend first
           await fetch("/api/chats/add-user-message", {
             method: "POST",
