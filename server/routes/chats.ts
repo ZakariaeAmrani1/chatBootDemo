@@ -709,6 +709,91 @@ export const deleteChat: RequestHandler = (req, res) => {
   }
 };
 
+// Add assistant message directly (for local PDF processing)
+export const addAssistantMessage: RequestHandler = (req, res) => {
+  try {
+    const { chatId, content } = req.body;
+    const now = new Date().toISOString();
+
+    // Check if chat exists
+    const chat = DataManager.getChatById(chatId);
+    if (!chat) {
+      const response: ApiResponse<Message> = {
+        success: false,
+        error: "Chat not found",
+      };
+      return res.status(404).json(response);
+    }
+
+    // Create assistant message
+    const assistantMessage: Message = {
+      id: uuidv4(),
+      chatId: chatId,
+      type: "assistant",
+      content: content,
+      timestamp: now,
+    };
+
+    const addedMessage = DataManager.addMessage(assistantMessage);
+
+    const response: ApiResponse<Message> = {
+      success: true,
+      data: addedMessage,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<Message> = {
+      success: false,
+      error: "Failed to add assistant message",
+    };
+    res.status(500).json(response);
+  }
+};
+
+// Add user message directly (for local PDF processing)
+export const addUserMessage: RequestHandler = (req, res) => {
+  try {
+    const { chatId, content, attachments } = req.body;
+    const now = new Date().toISOString();
+
+    // Check if chat exists
+    const chat = DataManager.getChatById(chatId);
+    if (!chat) {
+      const response: ApiResponse<Message> = {
+        success: false,
+        error: "Chat not found",
+      };
+      return res.status(404).json(response);
+    }
+
+    // Create user message
+    const userMessage: Message = {
+      id: uuidv4(),
+      chatId: chatId,
+      type: "user",
+      content: content,
+      timestamp: now,
+      attachments: attachments,
+    };
+
+    const addedMessage = DataManager.addMessage(userMessage);
+
+    const response: ApiResponse<Message> = {
+      success: true,
+      data: addedMessage,
+    };
+
+    res.json(response);
+  } catch (error) {
+    const response: ApiResponse<Message> = {
+      success: false,
+      error: "Failed to add user message",
+    };
+    res.status(500).json(response);
+  }
+};
+
 // AI response generator with file content support (PDF or CSV)
 async function generateAIResponseWithFile(
   userMessage: string,
