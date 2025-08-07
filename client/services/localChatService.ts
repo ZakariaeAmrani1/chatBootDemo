@@ -1,4 +1,4 @@
-import { Chat, Message, User, FileAttachment } from "@shared/types";
+import { Chat, Message, User, FileAttachment } from "../../shared/types";
 import { v4 as uuidv4 } from "uuid";
 import { GeminiService } from "./geminiService";
 
