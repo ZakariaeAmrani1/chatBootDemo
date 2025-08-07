@@ -530,31 +530,8 @@ const Chatbot = () => {
   };
 
   const handleChatSelect = async (chatId: string) => {
-    // Check if it's a local chat first
-    const localChat = localChatState.chats.find((c) => c.id === chatId);
-    if (localChat) {
-      localChatService.selectChat(localChat);
-      // Clear regular chat service current chat
-      chatService.clearCurrentChat();
-      // Auto-open file preview if chat has files
-      if (localChat.pdfFile) {
-        setPdfPreviewOpen(true);
-        setCsvPreviewOpen(false);
-      } else if (localChat.csvFile) {
-        setCsvPreviewOpen(true);
-        setPdfPreviewOpen(false);
-      } else {
-        setPdfPreviewOpen(false);
-        setCsvPreviewOpen(false);
-      }
-      return;
-    }
-
-    // Otherwise, check regular chats
     const chat = chatState.chats.find((c) => c.id === chatId);
     if (chat) {
-      // Clear local chat service current chat
-      localChatService.clearCurrentChat();
       await chatService.selectChat(chat);
       // Auto-open file preview if chat has files, close other previews
       if (chat.pdfFile) {
@@ -643,17 +620,12 @@ const Chatbot = () => {
     messageId: string,
     updates: Partial<Message>,
   ) => {
-    // Check if we're in a local chat and update accordingly
-    if (localChatState.currentChat) {
-      localChatService.updateMessage(messageId, updates);
-    } else {
-      // Update the message in the chatService state
-      chatService.updateMessage(messageId, updates);
-    }
+    // Update the message in the chatService state
+    chatService.updateMessage(messageId, updates);
   };
 
   const handleShareClick = () => {
-    if (chatState.currentChat || localChatState.currentChat) {
+    if (chatState.currentChat) {
       setShareModalOpen(true);
     }
   };
@@ -677,8 +649,8 @@ const Chatbot = () => {
         )}
       >
         <ChatSidebar
-          chats={[...localChatState.chats, ...chatState.chats]}
-          currentChatId={(localChatState.currentChat?.id || chatState.currentChat?.id) || ""}
+          chats={chatState.chats}
+          currentChatId={chatState.currentChat?.id || ""}
           onChatSelect={handleChatSelect}
           onNewChat={createNewChat}
           onCloseSidebar={() => setSidebarOpen(false)}
@@ -687,7 +659,7 @@ const Chatbot = () => {
           onOpenSettings={() => setSettingsOpen(true)}
           onDeleteChat={handleDeleteChat}
           onUpdateChat={handleUpdateChat}
-          isLoading={chatState.isLoading || localChatState.isLoading}
+          isLoading={chatState.isLoading}
           user={user}
           selectedModel={selectedModel}
         />
