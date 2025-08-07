@@ -193,8 +193,8 @@
       "model": "local-cloud",
       "chatbootVersion": "ChatNova V3",
       "createdAt": "2025-08-07T14:37:59.391Z",
-      "updatedAt": "2025-08-07T14:37:59.391Z",
-      "messageCount": 1,
+      "updatedAt": "2025-08-07T14:38:00.039Z",
+      "messageCount": 2,
       "userId": "0b7e4a81-f031-4fe1-b19a-23fe05fc6f66",
       "pdfFile": {
         "id": "d618ee2a-bb36-4ccb-8bef-0f5f1a6aa8a7",
@@ -485,6 +485,13 @@
           "uploadedAt": "2025-08-07T14:37:59.391Z"
         }
       ]
+    },
+    {
+      "id": "b229c223-b38e-4ab1-b1b4-819ab3e1a810",
+      "chatId": "bc45ca74-e409-494b-8658-71f9bfbe5757",
+      "type": "assistant",
+      "content": "I'm currently unable to connect to the AI service. Please check your API key or try again later.",
+      "timestamp": "2025-08-07T14:38:00.039Z"
     }
   ]
 }
