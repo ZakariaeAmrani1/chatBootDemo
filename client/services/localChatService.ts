@@ -121,30 +121,38 @@ export class LocalChatService {
       try {
         const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
         const geminiService = new GeminiService(geminiApiKey, geminiModel);
-        
+
         const initialPrompt = `I've uploaded a PDF document (${pdfFile.name}). Please analyze this document and provide a summary of its content. Tell me what the document is about and what key information it contains.`;
-        
+
         const aiResponse = await geminiService.processPDFWithPrompt(
           pdfFile,
           initialPrompt,
           []
         );
 
-        // Add AI response message
-        const aiMessage: Message = {
+        // Create assistant message directly in the backend data store
+        const aiMessage = {
           id: uuidv4(),
           chatId: chat.id,
-          type: "assistant",
+          type: "assistant" as const,
           content: aiResponse,
           timestamp: new Date().toISOString(),
         };
 
-        // Save the AI message to backend for persistence
+        // Directly add the assistant message to backend storage
         try {
-          await apiService.sendMessage({
-            chatId: chat.id,
-            message: aiResponse,
+          // Import DataManager to directly add the message
+          const response = await fetch('/api/chats/add-assistant-message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(aiMessage),
           });
+
+          if (!response.ok) {
+            throw new Error('Failed to save assistant message');
+          }
         } catch (saveError) {
           console.error('Failed to save AI message to backend:', saveError);
           // Continue anyway, the message will still be shown in UI
