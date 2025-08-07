@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,8 +20,8 @@ const Login: React.FC = () => {
   const { login } = useAuth();
   const { resolvedTheme } = useTheme();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "zaki@gmail.com",
+    password: "Alexo1235",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -61,6 +61,25 @@ const Login: React.FC = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  // Auto-login when component mounts
+  useEffect(() => {
+    const autoLogin = async () => {
+      setLoading(true);
+      setError("");
+
+      const result = await login(formData.email, formData.password);
+
+      if (!result.success) {
+        setError(result.error || "Auto-login failed");
+      }
+      // If successful, AuthContext will handle the redirect
+
+      setLoading(false);
+    };
+
+    autoLogin();
+  }, [login, formData.email, formData.password]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
