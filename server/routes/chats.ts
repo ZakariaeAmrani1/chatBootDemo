@@ -220,7 +220,9 @@ async function callGeminiAPI(
   }
 }
 
-// Function to call Local Cloud backend with PDF file
+// COMMENTED OUT: Function to call Local Cloud backend with PDF file
+// This functionality has been moved to client-side Gemini processing
+/*
 async function callLocalCloudAPI(
   userMessage: string,
   pdfFilePath?: string,
@@ -301,6 +303,7 @@ async function callLocalCloudAPI(
     return `I'm currently unable to connect to the local AI service at ${baseUrl}. Please ensure your local backend is running. ${error instanceof Error ? error.message : "Unknown error"}`;
   }
 }
+*/
 
 // Function to call Local Cloud backend with CSV file
 async function callCSVLocalCloudAPI(
@@ -772,6 +775,9 @@ async function generateAIResponseWithFile(
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
+      // COMMENTED OUT: Local Cloud backend processing now handled client-side
+      return "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.";
+      /*
       // Use Local Cloud backend for PDF
       try {
         let filePath: string | undefined;
@@ -795,6 +801,7 @@ async function generateAIResponseWithFile(
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
+      */
     } else if (modelType === "csv-local") {
       // Use CSV Local Cloud backend
       try {
@@ -896,6 +903,9 @@ async function generateAIResponseWithPDF(
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
+      // COMMENTED OUT: Local Cloud backend processing now handled client-side
+      return "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.";
+      /*
       // Use Local Cloud backend
       try {
         // Get PDF file path and app URL
@@ -923,6 +933,7 @@ async function generateAIResponseWithPDF(
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running and the App URL is correctly configured in settings. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
+      */
     }
   } catch (error) {
     console.error("Error accessing AI services:", error);
@@ -985,6 +996,9 @@ async function generateAIResponse(
         return `❌ **API Error**: Failed to connect to Gemini API. Please check your API key or try again later. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
     } else if (modelType === "local-cloud") {
+      // COMMENTED OUT: Local Cloud backend processing now handled client-side
+      return "❌ **Local PDF processing is now handled client-side with Gemini API**. Please ensure you have configured your Gemini API key in settings.";
+      /*
       // Use Local Cloud backend
       try {
         const chat = chatId ? DataManager.getChatById(chatId) : null;
@@ -1001,6 +1015,7 @@ async function generateAIResponse(
         console.error("Local Cloud API error:", error);
         return `❌ **Local Service Error**: Failed to connect to local AI service. Please ensure your local backend is running at http://localhost:3001/api/chat. Error: ${error instanceof Error ? error.message : "Unknown error"}`;
       }
+      */
     } else if (modelType === "csv-local") {
       // Use Local Cloud backend
       try {
