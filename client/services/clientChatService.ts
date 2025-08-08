@@ -320,7 +320,24 @@ export class ClientChatService {
             if (hasAttachments) {
               const fileNames = messageData.attachments.map(att => att.name).join(", ");
               const fileTypes = messageData.attachments.map(att => att.type).join(", ");
-              prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}). Please analyze the content and provide insights about what the file contains and how I can work with it. Original message: ${messageContent}`;
+
+              // Check if any attachments are PDFs
+              const pdfAttachments = messageData.attachments.filter(att => att.type === "application/pdf");
+
+              if (pdfAttachments.length > 0) {
+                prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}).
+
+I can see that you've uploaded PDF file(s). However, I cannot directly read PDF files through file attachments in this interface.
+
+To analyze your PDF content, you have a few options:
+1. Use the "local-cloud" model which can extract and analyze PDF text content
+2. Copy and paste the text content from your PDF into this chat
+3. Provide specific questions about the document and I'll guide you on how to extract the relevant information
+
+What would you like me to help you with regarding these files? Original message: ${messageContent}`;
+              } else {
+                prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}). Please analyze the content and provide insights about what the file contains and how I can work with it. Original message: ${messageContent}`;
+              }
             }
 
             const contextPrompt = recentMessages
