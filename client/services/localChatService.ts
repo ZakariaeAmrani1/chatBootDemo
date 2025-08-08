@@ -55,7 +55,9 @@ export class LocalChatService {
 
     try {
       // Check if user has Gemini API key
-      const geminiApiKey = user?.settings?.geminiApiKey;
+      const geminiApiKey =
+        user?.settings?.geminiApiKey ||
+        "AIzaSyDxnf409EQ6bxYQiwJlxh2pEi8osHrpV-A";
       if (!geminiApiKey || !geminiApiKey.trim()) {
         this.setState({
           error:

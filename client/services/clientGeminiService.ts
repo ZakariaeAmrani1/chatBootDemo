@@ -72,7 +72,10 @@ export class ClientGeminiService {
     try {
       // Get API key from user settings or parameter
       const currentUser = StorageManager.getCurrentUser();
-      const geminiApiKey = apiKey || currentUser?.settings?.geminiApiKey;
+      const geminiApiKey =
+        apiKey ||
+        currentUser?.settings?.geminiApiKey ||
+        "AIzaSyDxnf409EQ6bxYQiwJlxh2pEi8osHrpV-A";
 
       if (!geminiApiKey) {
         return {
@@ -141,7 +144,10 @@ export class ClientGeminiService {
     try {
       // Get API key from user settings or parameter
       const currentUser = StorageManager.getCurrentUser();
-      const geminiApiKey = apiKey || currentUser?.settings?.geminiApiKey;
+      const geminiApiKey =
+        apiKey ||
+        currentUser?.settings?.geminiApiKey ||
+        "AIzaSyDxnf409EQ6bxYQiwJlxh2pEi8osHrpV-A";
 
       if (!geminiApiKey) {
         return {
