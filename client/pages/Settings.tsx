@@ -1156,7 +1156,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     User Settings (
-                    {dataStats?.userSettings.sizeFormatted || "Loading..."})
+                    {dataStats?.userSettings?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
