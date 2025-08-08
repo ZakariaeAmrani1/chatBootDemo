@@ -1066,25 +1066,25 @@ const Settings: React.FC<SettingsProps> = ({
               <div className="flex justify-between text-sm">
                 <span>Chat History</span>
                 <span>
-                  {dataStats?.chatHistory.sizeFormatted || "Loading..."}
+                  {dataStats?.chatHistory?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>File Metadata</span>
                 <span>
-                  {dataStats?.uploadedFiles.sizeFormatted || "Loading..."}
+                  {dataStats?.uploadedFiles?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>User Settings</span>
                 <span>
-                  {dataStats?.userSettings.sizeFormatted || "Loading..."}
+                  {dataStats?.userSettings?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Categories</span>
                 <span>
-                  {dataStats?.categories.sizeFormatted || "Loading..."}
+                  {dataStats?.categories?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <Separator className="my-2" />
@@ -1124,7 +1124,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     Chat History (
-                    {dataStats?.chatHistory.sizeFormatted || "Loading..."})
+                    {dataStats?.chatHistory?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -1140,7 +1140,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     Uploaded Files (
-                    {dataStats?.uploadedFiles.sizeFormatted || "Loading..."})
+                    {dataStats?.uploadedFiles?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -1156,7 +1156,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     User Settings (
-                    {dataStats?.userSettings.sizeFormatted || "Loading..."})
+                    {dataStats?.userSettings?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -1172,7 +1172,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     Categories (
-                    {dataStats?.categories.sizeFormatted || "Loading..."})
+                    {dataStats?.categories?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
               </div>

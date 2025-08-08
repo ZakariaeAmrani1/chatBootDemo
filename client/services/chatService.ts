@@ -253,6 +253,11 @@ class ChatService {
 
   // Helper method to add user message to UI immediately
   addUserMessageToUI(chatId: string, content: string): void {
+    // Don't add empty or whitespace-only messages
+    if (!content || !content.trim()) {
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
       chatId: chatId,
@@ -276,6 +281,15 @@ class ChatService {
 
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
+
+    // Don't send empty messages without attachments
+    const messageContent = request.message || "";
+    if (
+      !messageContent.trim() &&
+      (!request.attachments || request.attachments.length === 0)
+    ) {
+      return;
+    }
 
     // Check if this is a draft chat
     const currentChat = this.state.chats.find(
@@ -305,7 +319,7 @@ class ChatService {
       id: Date.now().toString(), // Temporary ID
       chatId: finalChatId,
       type: "user",
-      content: request.message,
+      content: messageContent,
       timestamp: new Date().toISOString(),
       attachments: request.attachments,
     };

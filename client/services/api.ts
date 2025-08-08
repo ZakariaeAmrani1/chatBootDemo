@@ -17,119 +17,123 @@ import {
   UpdateChatCategoryRequest,
 } from "@shared/types";
 
-const API_BASE = "/api";
+// Import client services
+import { AuthService } from "./authService";
+import { ClientChatService } from "./clientChatService";
+import { ClientFileService } from "./clientFileService";
+import { ClientCategoryService } from "./clientCategoryService";
+import { ClientUserService } from "./clientUserService";
+import { ClientDataService } from "./clientDataService";
+import { StorageManager } from "./storageManager";
 
 class ApiService {
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {},
-  ): Promise<ApiResponse<T>> {
-    const url = `${API_BASE}${endpoint}`;
+  constructor() {
+    // Initialize storage manager when API service is created
+    StorageManager.initializeDefaultData();
+  }
 
-    const config: RequestInit = {
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-      ...options,
-    };
+  private getCurrentUserId(): string | null {
+    const user = StorageManager.getCurrentUser();
+    return user ? user.id : null;
+  }
 
-    // Don't set content-type for FormData (let browser set it with boundary)
-    if (options.body instanceof FormData) {
-      delete config.headers!["Content-Type"];
+  private requireAuth(): string {
+    const userId = this.getCurrentUserId();
+    if (!userId) {
+      throw new Error("User not authenticated");
     }
-
-    try {
-      const response = await fetch(url, config);
-
-      if (!response.ok) {
-        return {
-          success: false,
-          error: `HTTP ${response.status}: ${response.statusText}`,
-        };
-      }
-
-      const data = await response.json();
-      return data as ApiResponse<T>;
-    } catch (error) {
-      console.error(`API request failed for ${url}:`, error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Network error",
-      };
-    }
+    return userId;
   }
 
   // Chat operations
   async getChats(userId?: string): Promise<ApiResponse<Chat[]>> {
-    const query = userId ? `?userId=${userId}` : "";
-    return this.request<Chat[]>(`/chats${query}`);
+    try {
+      const targetUserId = userId || this.requireAuth();
+      return await ClientChatService.getChats(targetUserId);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to get chats",
+      };
+    }
   }
 
   async getChatMessages(chatId: string): Promise<ApiResponse<Message[]>> {
-    return this.request<Message[]>(`/chats/${chatId}/messages`);
+    try {
+      return await ClientChatService.getChatMessages(chatId);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to get chat messages",
+      };
+    }
   }
 
   async createChat(request: CreateChatRequest): Promise<ApiResponse<Chat>> {
-    // Get the current user ID from localStorage or use default
-    const currentUser = localStorage.getItem("currentUser");
-    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+    try {
+      const userId = this.requireAuth();
 
-    if (request.pdfFile || request.csvFile) {
-      // Use FormData for file upload
-      const formData = new FormData();
-      formData.append("title", request.title || "New Chat");
-      formData.append("model", request.model);
-      formData.append("chatbootVersion", request.chatbootVersion || "");
-      formData.append("userId", userId);
-      if (request.message) {
-        formData.append("message", request.message);
-      }
-
-      // Append the appropriate file type
+      let file: File | undefined;
       if (request.pdfFile) {
-        formData.append("pdfFile", request.pdfFile);
+        file = request.pdfFile;
       } else if (request.csvFile) {
-        formData.append("csvFile", request.csvFile);
+        file = request.csvFile;
       }
 
-      return this.request<Chat>("/chats", {
-        method: "POST",
-        body: formData,
-      });
-    } else {
-      // Regular JSON request without file
-      const requestWithUserId = { ...request, userId };
-      return this.request<Chat>("/chats", {
-        method: "POST",
-        body: JSON.stringify(requestWithUserId),
-      });
+      return await ClientChatService.createChat(request, userId, file);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to create chat",
+      };
     }
   }
 
   async sendMessage(
     request: SendMessageRequest,
   ): Promise<ApiResponse<Message>> {
-    return this.request<Message>("/chats/message", {
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+    try {
+      return await ClientChatService.sendMessage(request);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to send message",
+      };
+    }
   }
 
   async updateChat(
     chatId: string,
     updates: Partial<Chat>,
   ): Promise<ApiResponse<Chat>> {
-    return this.request<Chat>(`/chats/${chatId}`, {
-      method: "PUT",
-      body: JSON.stringify(updates),
-    });
+    try {
+      return await ClientChatService.updateChat(chatId, updates);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to update chat",
+      };
+    }
   }
 
   async deleteChat(chatId: string): Promise<ApiResponse<null>> {
-    return this.request<null>(`/chats/${chatId}`, {
-      method: "DELETE",
-    });
+    try {
+      const result = await ClientChatService.deleteChat(chatId);
+      return {
+        success: result.success,
+        data: null,
+        error: result.error,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to delete chat",
+      };
+    }
   }
 
   async sendMessageFeedback(
@@ -137,129 +141,282 @@ class ApiService {
   ): Promise<
     ApiResponse<{ messageId: string; liked: boolean; disliked: boolean }>
   > {
-    return this.request<{
-      messageId: string;
-      liked: boolean;
-      disliked: boolean;
-    }>("/messages/feedback", {
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+    try {
+      // For client-side implementation, we'll just store feedback in message metadata
+      const message = StorageManager.getAllMessages().find(
+        (m) => m.id === request.messageId,
+      );
+      if (!message) {
+        return {
+          success: false,
+          error: "Message not found",
+        };
+      }
+
+      // Calculate feedback state based on action
+      let liked = message.liked || false;
+      let disliked = message.disliked || false;
+
+      switch (request.action) {
+        case "like":
+          liked = true;
+          disliked = false;
+          break;
+        case "removelike":
+          liked = false;
+          break;
+        case "dislike":
+          disliked = true;
+          liked = false;
+          break;
+        case "removedislike":
+          disliked = false;
+          break;
+      }
+
+      const updatedMessage = StorageManager.updateMessage(request.messageId, {
+        liked,
+        disliked,
+      });
+
+      if (!updatedMessage) {
+        return {
+          success: false,
+          error: "Failed to update message feedback",
+        };
+      }
+
+      return {
+        success: true,
+        data: {
+          messageId: request.messageId,
+          liked,
+          disliked,
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to send feedback",
+      };
+    }
   }
 
   // User operations
   async getCurrentUser(userId?: string): Promise<ApiResponse<User>> {
-    const query = userId ? `?userId=${userId}` : "";
-    return this.request<User>(`/user${query}`);
+    try {
+      return await ClientUserService.getCurrentUser();
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to get current user",
+      };
+    }
   }
 
   async updateUser(
     userId: string,
     updates: Partial<User>,
   ): Promise<ApiResponse<User>> {
-    return this.request<User>(`/user/${userId}`, {
-      method: "PUT",
-      body: JSON.stringify(updates),
-    });
+    try {
+      return await ClientUserService.updateUser(userId, updates);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to update user",
+      };
+    }
   }
 
   async updateUserSettings(
     userId: string,
     settings: any,
   ): Promise<ApiResponse<User>> {
-    return this.request<User>(`/user/${userId}/settings`, {
-      method: "PUT",
-      body: JSON.stringify(settings),
-    });
+    try {
+      return await ClientUserService.updateUserSettings(userId, settings);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update user settings",
+      };
+    }
   }
 
   async uploadUserAvatar(
     userId: string,
     avatarFile: File,
   ): Promise<ApiResponse<User>> {
-    const formData = new FormData();
-    formData.append("avatar", avatarFile);
-
-    return this.request<User>(`/user/${userId}/avatar`, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      return await ClientUserService.uploadAvatar(userId, avatarFile);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to upload avatar",
+      };
+    }
   }
 
   async uploadLightLogo(
     userId: string,
     logoFile: File,
   ): Promise<ApiResponse<User>> {
-    const formData = new FormData();
-    formData.append("lightLogo", logoFile);
-
-    return this.request<User>(`/user/${userId}/light-logo`, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      return await ClientUserService.uploadLightLogo(userId, logoFile);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to upload light logo",
+      };
+    }
   }
 
   async uploadDarkLogo(
     userId: string,
     logoFile: File,
   ): Promise<ApiResponse<User>> {
-    const formData = new FormData();
-    formData.append("darkLogo", logoFile);
-
-    return this.request<User>(`/user/${userId}/dark-logo`, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      return await ClientUserService.uploadDarkLogo(userId, logoFile);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to upload dark logo",
+      };
+    }
   }
 
   // File operations
   async uploadFiles(files: File[]): Promise<ApiResponse<FileAttachment[]>> {
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
-
-    return this.request<FileAttachment[]>("/files/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      return await ClientFileService.uploadFiles(files);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to upload files",
+      };
+    }
   }
 
   async getAllFiles(): Promise<ApiResponse<FileAttachment[]>> {
-    return this.request<FileAttachment[]>("/files");
+    try {
+      return await ClientFileService.getAllFiles();
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to get files",
+      };
+    }
   }
 
   async getFileInfo(fileId: string): Promise<ApiResponse<FileAttachment>> {
-    return this.request<FileAttachment>(`/files/info/${fileId}`);
+    try {
+      return await ClientFileService.getFileInfo(fileId);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to get file info",
+      };
+    }
   }
 
   // Data management operations
   async getDataStats(): Promise<ApiResponse<DataStats>> {
-    return this.request<DataStats>("/data/stats");
+    try {
+      const result = await ClientDataService.getDataStats();
+      return result as ApiResponse<DataStats>;
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to get data stats",
+      };
+    }
   }
 
   async clearChatHistory(): Promise<ApiResponse<null>> {
-    return this.request<null>("/data/clear-chats", {
-      method: "POST",
-    });
+    try {
+      const result = await ClientDataService.clearChatHistory();
+      return {
+        success: result.success,
+        data: null,
+        error: result.error,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to clear chat history",
+      };
+    }
   }
 
   async clearUploadedFiles(): Promise<ApiResponse<null>> {
-    return this.request<null>("/data/clear-files", {
-      method: "POST",
-    });
+    try {
+      const result = await ClientDataService.clearUploadedFiles();
+      return {
+        success: result.success,
+        data: null,
+        error: result.error,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to clear uploaded files",
+      };
+    }
   }
 
   async clearCategories(): Promise<ApiResponse<null>> {
-    return this.request<null>("/data/clear-categories", {
-      method: "POST",
-    });
+    try {
+      const result = await ClientDataService.clearCategories();
+      return {
+        success: result.success,
+        data: null,
+        error: result.error,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to clear categories",
+      };
+    }
   }
 
   async resetUserSettings(): Promise<ApiResponse<null>> {
-    return this.request<null>("/data/reset-settings", {
-      method: "POST",
-    });
+    try {
+      const userId = this.requireAuth();
+      const result = await ClientUserService.resetUserSettings(userId);
+      return {
+        success: result.success,
+        data: null,
+        error: result.error,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to reset user settings",
+      };
+    }
   }
 
   // Authentication operations
@@ -267,115 +424,177 @@ class ApiService {
     email: string,
     password: string,
   ): Promise<ApiResponse<AuthResponse>> {
-    return this.request<AuthResponse>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      return await AuthService.login({ email, password });
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Login failed",
+      };
+    }
   }
 
   async register(data: RegisterRequest): Promise<ApiResponse<AuthResponse>> {
-    return this.request<AuthResponse>("/auth/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    try {
+      return await AuthService.register(data);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Registration failed",
+      };
+    }
   }
 
   async verifyToken(): Promise<ApiResponse<User>> {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      return { success: false, error: "No token found" };
-    }
-
     try {
-      return await this.request<User>("/auth/verify", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = StorageManager.getAuthToken();
+      const result = await AuthService.verifyToken(token || undefined);
+      return result as ApiResponse<User>;
     } catch (error) {
-      // Return a more specific error for network issues
       return {
         success: false,
-        error: "Network error: Could not verify token",
+        error:
+          error instanceof Error ? error.message : "Token verification failed",
       };
     }
   }
 
   async logout(): Promise<void> {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("currentUser");
+    AuthService.logout();
   }
 
-  // Models operations
+  // Models operations (simplified for client-side)
   async getModels(): Promise<ApiResponse<any[]>> {
-    return this.request<any[]>("/models");
+    try {
+      // Return some default models since we don't have a server
+      const models = [
+        { id: "gpt-4", name: "GPT-4", provider: "openai" },
+        { id: "gpt-3.5-turbo", name: "GPT-3.5 Turbo", provider: "openai" },
+        { id: "gemini-pro", name: "Gemini Pro", provider: "google" },
+        { id: "claude-3", name: "Claude 3", provider: "anthropic" },
+        { id: "local-cloud", name: "Local Cloud", provider: "local" },
+        { id: "cloud", name: "Cloud", provider: "cloud" },
+      ];
+
+      return {
+        success: true,
+        data: models,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to get models",
+      };
+    }
   }
 
   // Category operations
   async getCategories(userId?: string): Promise<ApiResponse<Category[]>> {
-    const query = userId ? `?userId=${userId}` : "";
-    return this.request<Category[]>(`/categories${query}`);
+    try {
+      const targetUserId = userId || this.requireAuth();
+      return await ClientCategoryService.getCategories(targetUserId);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to get categories",
+      };
+    }
   }
 
   async createCategory(
     request: CreateCategoryRequest,
   ): Promise<ApiResponse<Category>> {
-    // Get the current user ID from localStorage
-    const currentUser = localStorage.getItem("currentUser");
-    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
-
-    const requestWithUserId = { ...request, userId };
-    return this.request<Category>("/categories", {
-      method: "POST",
-      body: JSON.stringify(requestWithUserId),
-    });
+    try {
+      const userId = this.requireAuth();
+      return await ClientCategoryService.createCategory(request.name, userId);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to create category",
+      };
+    }
   }
 
   async updateCategory(
     categoryId: string,
     updates: UpdateCategoryRequest,
   ): Promise<ApiResponse<Category>> {
-    // Get the current user ID from localStorage
-    const currentUser = localStorage.getItem("currentUser");
-    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
-
-    return this.request<Category>(
-      `/categories/${categoryId}?userId=${userId}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(updates),
-      },
-    );
+    try {
+      const userId = this.requireAuth();
+      return await ClientCategoryService.updateCategory(
+        categoryId,
+        updates.name,
+        userId,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to update category",
+      };
+    }
   }
 
   async deleteCategory(categoryId: string): Promise<ApiResponse<null>> {
-    // Get the current user ID from localStorage
-    const currentUser = localStorage.getItem("currentUser");
-    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
-
-    return this.request<null>(`/categories/${categoryId}?userId=${userId}`, {
-      method: "DELETE",
-    });
+    try {
+      const userId = this.requireAuth();
+      const result = await ClientCategoryService.deleteCategory(
+        categoryId,
+        userId,
+      );
+      return {
+        success: result.success,
+        data: null,
+        error: result.error,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to delete category",
+      };
+    }
   }
 
   async updateChatCategory(
     chatId: string,
     categoryId: string | null,
   ): Promise<ApiResponse<Chat>> {
-    // Get the current user ID from localStorage
-    const currentUser = localStorage.getItem("currentUser");
-    const userId = currentUser ? JSON.parse(currentUser).id : "user-1";
+    try {
+      if (!categoryId) {
+        // If no category provided, use default category
+        const userId = this.requireAuth();
+        const defaultCategory =
+          await ClientCategoryService.ensureDefaultCategory(userId);
+        categoryId = defaultCategory.id;
+      }
 
-    return this.request<Chat>(`/chats/${chatId}/category?userId=${userId}`, {
-      method: "PUT",
-      body: JSON.stringify({ categoryId }),
-    });
+      return await ClientChatService.updateChatCategory(chatId, categoryId);
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update chat category",
+      };
+    }
   }
 
-  // Utility method to get file URL
-  getFileUrl(filename: string): string {
-    return `${API_BASE}/files/${filename}`;
+  // Utility method to get file URL (now returns blob URLs)
+  async getFileUrl(fileId: string): Promise<string | null> {
+    try {
+      const file = await ClientFileService.serveFile(fileId);
+      if (file) {
+        return ClientFileService.createFileURL(file);
+      }
+      return null;
+    } catch (error) {
+      console.error("Error getting file URL:", error);
+      return null;
+    }
   }
 }
 
