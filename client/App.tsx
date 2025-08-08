@@ -22,40 +22,6 @@ import { StorageManager } from "@/services/storageManager";
 
 const queryClient = new QueryClient();
 
-// Protected Route Component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, isLoading, user, isOnline } = useAuth();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
-            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          </div>
-          <p className="text-muted-foreground">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Strict authentication check
-  const token = localStorage.getItem("authToken");
-  if (!isAuthenticated || !user || !token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return (
-    <>
-      {!isOnline && (
-        <div className="bg-yellow-500 text-yellow-900 px-4 py-2 text-center text-sm font-medium">
-          🔌 You're offline. Some features may not work properly.
-        </div>
-      )}
-      {children}
-    </>
-  );
-};
 
 // Root Route Component (redirect based on authentication state)
 const RootRoute = () => {
