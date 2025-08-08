@@ -308,6 +308,8 @@ Add your API key in Settings - you can get one from [Google AI Studio](https://a
             const geminiModel =
               currentUser?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
+            console.log(`🤖 Using Gemini model: ${geminiModel}`);
+
             // Prepare context with chat history
             const chatMessages = StorageManager.getMessagesByChatId(
               messageData.chatId,
