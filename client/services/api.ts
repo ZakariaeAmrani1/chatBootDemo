@@ -153,11 +153,30 @@ class ApiService {
         };
       }
 
+      // Calculate feedback state based on action
+      let liked = message.liked || false;
+      let disliked = message.disliked || false;
+
+      switch (request.action) {
+        case "like":
+          liked = true;
+          disliked = false;
+          break;
+        case "removelike":
+          liked = false;
+          break;
+        case "dislike":
+          disliked = true;
+          liked = false;
+          break;
+        case "removedislike":
+          disliked = false;
+          break;
+      }
+
       const updatedMessage = StorageManager.updateMessage(request.messageId, {
-        feedback: {
-          liked: request.liked,
-          disliked: request.disliked,
-        },
+        liked,
+        disliked,
       });
 
       if (!updatedMessage) {
@@ -171,8 +190,8 @@ class ApiService {
         success: true,
         data: {
           messageId: request.messageId,
-          liked: request.liked,
-          disliked: request.disliked,
+          liked,
+          disliked,
         },
       };
     } catch (error) {
