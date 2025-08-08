@@ -363,6 +363,10 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
     content: string,
     attachments?: FileAttachment[],
   ) => {
+    // Don't send if no content and no attachments
+    if (!content.trim() && (!attachments || attachments.length === 0)) return;
+
+    // Don't send if content is just whitespace
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
