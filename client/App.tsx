@@ -22,7 +22,6 @@ import { StorageManager } from "@/services/storageManager";
 
 const queryClient = new QueryClient();
 
-
 // Root Route Component (redirect based on authentication state)
 const RootRoute = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -42,7 +41,6 @@ const RootRoute = () => {
 
   return <Navigate to={isAuthenticated ? "/chat" : "/login"} replace />;
 };
-
 
 const AppRoutes = () => {
   // Protected Route Component - moved inside to ensure AuthProvider access
