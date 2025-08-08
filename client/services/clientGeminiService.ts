@@ -16,7 +16,7 @@ export class ClientGeminiService {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(requestBody),
-          mode: 'cors',
+          mode: "cors",
         },
       );
 
@@ -43,18 +43,22 @@ export class ClientGeminiService {
       }
     } catch (error) {
       console.error("Gemini API request error:", error);
-      
+
       // Check if it's a CORS or network error
       if (error instanceof TypeError && error.message.includes("fetch")) {
         return {
           content: "",
-          error: "Cannot connect to Gemini API directly from browser due to CORS restrictions. This is a known limitation. Please consider using a server-side proxy or try a different approach.",
+          error:
+            "Cannot connect to Gemini API directly from browser due to CORS restrictions. This is a known limitation. Please consider using a server-side proxy or try a different approach.",
         };
       }
-      
+
       return {
         content: "",
-        error: error instanceof Error ? error.message : "Failed to connect to Gemini API",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to connect to Gemini API",
       };
     }
   }
@@ -73,7 +77,8 @@ export class ClientGeminiService {
       if (!geminiApiKey) {
         return {
           content: "",
-          error: "Gemini API key not configured. Please add your API key in settings.",
+          error:
+            "Gemini API key not configured. Please add your API key in settings.",
         };
       }
 
@@ -83,10 +88,11 @@ export class ClientGeminiService {
         reader.onload = () => {
           const result = reader.result as string;
           // Remove the data URL prefix (e.g., "data:application/pdf;base64,")
-          const base64 = result.split(',')[1];
+          const base64 = result.split(",")[1];
           resolve(base64);
         };
-        reader.onerror = () => reject(new Error('Failed to convert file to base64'));
+        reader.onerror = () =>
+          reject(new Error("Failed to convert file to base64"));
         reader.readAsDataURL(file);
       });
 
@@ -119,7 +125,10 @@ export class ClientGeminiService {
       console.error("Gemini API file upload error:", error);
       return {
         content: "",
-        error: error instanceof Error ? error.message : "Failed to generate content with file",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to generate content with file",
       };
     }
   }
@@ -137,7 +146,8 @@ export class ClientGeminiService {
       if (!geminiApiKey) {
         return {
           content: "",
-          error: "Gemini API key not configured. Please add your API key in settings.",
+          error:
+            "Gemini API key not configured. Please add your API key in settings.",
         };
       }
 
@@ -164,7 +174,8 @@ export class ClientGeminiService {
       console.error("Gemini API error:", error);
       return {
         content: "",
-        error: error instanceof Error ? error.message : "Failed to generate content",
+        error:
+          error instanceof Error ? error.message : "Failed to generate content",
       };
     }
   }
@@ -212,7 +223,7 @@ export class ClientGeminiService {
   static getAvailableModels(): string[] {
     return [
       "gemini-2.5-flash",
-      "gemini-2.5-flash-latest", 
+      "gemini-2.5-flash-latest",
       "gemini-1.5-flash",
       "gemini-1.5-flash-latest",
       "gemini-1.5-pro",

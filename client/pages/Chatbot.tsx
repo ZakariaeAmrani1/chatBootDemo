@@ -266,7 +266,11 @@ const Chatbot = () => {
           // First, upload the file and create a proper file attachment
           const uploadedFiles = await apiService.uploadFiles([file]);
 
-          if (uploadedFiles.success && uploadedFiles.data && uploadedFiles.data.length > 0) {
+          if (
+            uploadedFiles.success &&
+            uploadedFiles.data &&
+            uploadedFiles.data.length > 0
+          ) {
             // Add a user message with the file attachment - this will automatically trigger AI response
             await chatService.sendMessage({
               chatId: newChat.id,
@@ -731,11 +735,13 @@ const Chatbot = () => {
                   chatState.messages.length > 0
                 }
               />
-              {user?.settings?.geminiModel && (selectedModel === "local-cloud" || selectedModel === "cloud") && (
-                <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
-                  {user.settings.geminiModel}
-                </div>
-              )}
+              {user?.settings?.geminiModel &&
+                (selectedModel === "local-cloud" ||
+                  selectedModel === "cloud") && (
+                  <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                    {user.settings.geminiModel}
+                  </div>
+                )}
             </div>
           </div>
 

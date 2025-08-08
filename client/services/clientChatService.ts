@@ -286,8 +286,15 @@ export class ClientChatService {
         const geminiApiKey = currentUser?.settings?.geminiApiKey;
 
         // Check if this is a file upload message
-        const hasAttachments = messageData.attachments && messageData.attachments.length > 0;
-        const isFileUploadMessage = hasAttachments || messageContent.includes("Uploaded") || messageContent.includes("file") || messageContent.includes(".pdf") || messageContent.includes(".csv") || messageContent.includes(".doc");
+        const hasAttachments =
+          messageData.attachments && messageData.attachments.length > 0;
+        const isFileUploadMessage =
+          hasAttachments ||
+          messageContent.includes("Uploaded") ||
+          messageContent.includes("file") ||
+          messageContent.includes(".pdf") ||
+          messageContent.includes(".csv") ||
+          messageContent.includes(".doc");
 
         if (selectedModel === "cloud" || selectedModel === "local-cloud") {
           // Check if Gemini API key is available
@@ -326,11 +333,17 @@ Add your API key in Settings - you can get one from [Google AI Studio](https://a
 
             // Handle file uploads with better prompting
             if (hasAttachments) {
-              const fileNames = messageData.attachments.map(att => att.name).join(", ");
-              const fileTypes = messageData.attachments.map(att => att.type).join(", ");
+              const fileNames = messageData.attachments
+                .map((att) => att.name)
+                .join(", ");
+              const fileTypes = messageData.attachments
+                .map((att) => att.type)
+                .join(", ");
 
               // Check if any attachments are PDFs
-              const pdfAttachments = messageData.attachments.filter(att => att.type === "application/pdf");
+              const pdfAttachments = messageData.attachments.filter(
+                (att) => att.type === "application/pdf",
+              );
 
               if (pdfAttachments.length > 0) {
                 prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}).
@@ -387,9 +400,11 @@ What would you like me to help you with regarding these files? Original message:
       } catch (aiError) {
         console.error("AI service error:", aiError);
         if (messageData.attachments && messageData.attachments.length > 0) {
-          assistantResponse = "I encountered an error while analyzing your file. Please try again or check your settings.";
+          assistantResponse =
+            "I encountered an error while analyzing your file. Please try again or check your settings.";
         } else {
-          assistantResponse = "I encountered an error while generating a response. Please try again.";
+          assistantResponse =
+            "I encountered an error while generating a response. Please try again.";
         }
       }
 
