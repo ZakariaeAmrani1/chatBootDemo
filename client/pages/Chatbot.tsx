@@ -262,20 +262,36 @@ const Chatbot = () => {
           user.id,
         );
 
-        if (newChat && user?.settings?.geminiApiKey) {
-          // Process PDF with local Gemini after chat is created
-          try {
-            // Extract text from PDF using our simple extraction service
-            const { PDFExtractor } = await import("../services/pdfExtractor");
-            const pdfText = await PDFExtractor.extractText(file);
+        if (newChat) {
+          // First, add a user message showing the PDF upload
+          await chatService.sendMessage({
+            chatId: newChat.id,
+            message: `📄 Uploaded PDF: ${file.name}`,
+          });
 
-            const { ClientGeminiService } = await import(
-              "../services/clientGeminiService"
-            );
-            const geminiModel =
-              user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+          if (user?.settings?.geminiApiKey) {
+            const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
-            const initialPrompt = `You are an expert assistant. I have uploaded a PDF document titled "${file.name}".
+            // Check if the model supports direct file uploads (Gemini 2.5 Flash and newer)
+            const supportsFileUploads = geminiModel.includes("2.5") || geminiModel.includes("2.0");
+
+            try {
+              const { ClientGeminiService } = await import("../services/clientGeminiService");
+              let result;
+
+              if (supportsFileUploads) {
+                // For Gemini 2.5 Flash, upload the file directly
+                result = await ClientGeminiService.generateContentWithFile(
+                  file,
+                  `Please analyze this PDF document titled "${file.name}" and provide a comprehensive summary. Tell me what the document is about, key information it contains, main topics, and any important findings.`,
+                  geminiModel
+                );
+              } else {
+                // For older models, extract text first
+                const { PDFExtractor } = await import("../services/pdfExtractor");
+                const pdfText = await PDFExtractor.extractText(file);
+
+                const prompt = `You are an expert assistant. I have uploaded a PDF document titled "${file.name}".
 
 Here is the extracted text content from the PDF:
 
@@ -289,42 +305,41 @@ Please analyze this document and provide a comprehensive summary in English. Tel
 
 If the text extraction failed or the content is unclear, please let me know and suggest alternatives.`;
 
-            const result = await ClientGeminiService.generateContent(
-              initialPrompt,
-              geminiModel,
+                result = await ClientGeminiService.generateContent(prompt, geminiModel);
+              }
+
+              const aiResponse = result.content ||
+                "I couldn't analyze the document. Please try uploading it again or check if the PDF contains readable text.";
+
+              // Add the AI response as an assistant message
+              const { ClientChatService } = await import("../services/clientChatService");
+              await ClientChatService.addAssistantMessage(newChat.id, aiResponse);
+
+              // Refresh chat messages to show both user upload and AI response
+              await chatService.loadChatMessages(newChat.id);
+
+            } catch (error) {
+              console.error("Failed to process PDF with Gemini:", error);
+
+              // Add an error message as assistant response
+              const { ClientChatService } = await import("../services/clientChatService");
+              await ClientChatService.addAssistantMessage(
+                newChat.id,
+                "I encountered an error while processing your PDF. Please try uploading the file again or ensure it contains readable text."
+              );
+
+              await chatService.loadChatMessages(newChat.id);
+            }
+          } else {
+            // If no API key, add helpful assistant message
+            const { ClientChatService } = await import("../services/clientChatService");
+            await ClientChatService.addAssistantMessage(
+              newChat.id,
+              `I can see you've uploaded the PDF file "${file.name}", but I need a Gemini API key to analyze it. Please add your API key in Settings to enable PDF analysis. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`
             );
-
-            const aiResponse =
-              result.content ||
-              "I couldn't analyze the document. Please try uploading it again or check if the PDF contains readable text.";
-
-            // Save the AI response using client services
-            await apiService.sendMessage({
-              chatId: newChat.id,
-              message: aiResponse,
-            });
-
-            // Refresh chat messages to show the AI response
-            await chatService.loadChatMessages(newChat.id);
-          } catch (error) {
-            console.error("Failed to process PDF with Gemini:", error);
-
-            // Send an error message to the chat
-            await apiService.sendMessage({
-              chatId: newChat.id,
-              message: "I encountered an error while processing your PDF. Please try uploading the file again or ensure it contains readable text.",
-            });
 
             await chatService.loadChatMessages(newChat.id);
           }
-        } else if (newChat && !user?.settings?.geminiApiKey) {
-          // If no API key, send helpful message
-          await apiService.sendMessage({
-            chatId: newChat.id,
-            message: `I can see you've uploaded a PDF file "${file.name}", but I need a Gemini API key to analyze it. Please add your API key in Settings to enable PDF analysis. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`,
-          });
-
-          await chatService.loadChatMessages(newChat.id);
         }
       } else if (model === "csv-local" && file.type === "text/csv") {
         // Keep existing backend processing for CSV files
