@@ -65,14 +65,14 @@ const Login: React.FC = () => {
   // Auto-login when component mounts
   useEffect(() => {
     const autoLogin = async () => {
-      setLoading(true);
-      setError("");
+      // setLoading(true);
+      // setError("");
 
-      const result = await login(formData.email, formData.password);
+      // const result = await login(formData.email, formData.password);
 
-      if (!result.success) {
-        setError(result.error || "Auto-login failed");
-      }
+      // if (!result.success) {
+      //   setError(result.error || "Auto-login failed");
+      // }
       // If successful, AuthContext will handle the redirect
 
       setLoading(false);
