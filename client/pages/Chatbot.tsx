@@ -265,22 +265,45 @@ const Chatbot = () => {
         if (newChat && user?.settings?.geminiApiKey) {
           // Process PDF with local Gemini after chat is created
           try {
+            // First, extract text from PDF using a web-based PDF reader
+            let pdfText = "";
+            try {
+              // Try to read PDF as text if it's a text-based PDF
+              const pdfjs = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+
+              const arrayBuffer = await file.arrayBuffer();
+              const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+
+              for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) { // Limit to first 10 pages
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map((item: any) => item.str).join(' ');
+                pdfText += pageText + '\n\n';
+              }
+            } catch (pdfError) {
+              console.error("PDF text extraction failed:", pdfError);
+              pdfText = "Unable to extract text from PDF. The file might be image-based or corrupted.";
+            }
+
             const { ClientGeminiService } = await import(
               "../services/clientGeminiService"
             );
             const geminiModel =
               user?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
-            const initialPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.
+            const initialPrompt = `You are an expert assistant. I have uploaded a PDF document titled "${file.name}".
 
-Utilise exclusivement les informations présentes dans ce document.
+Here is the extracted text content from the PDF:
 
-N'ajoute aucune information externe, même si tu en as connaissance.
+${pdfText}
 
-Si une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."
-Sois clair, précis et factuel dans tes réponses.
+Please analyze this document and provide a comprehensive summary in English. Tell me:
+1. What the document is about
+2. Key information it contains
+3. Main topics or sections
+4. Any important findings or conclusions
 
-J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
+If the text extraction failed or the content is unclear, please let me know and suggest alternatives.`;
 
             const result = await ClientGeminiService.generateContent(
               initialPrompt,
@@ -289,7 +312,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
 
             const aiResponse =
               result.content ||
-              "Je n'ai pas pu analyser le document. Veuillez réessayer.";
+              "I couldn't analyze the document. Please try uploading it again or check if the PDF contains readable text.";
 
             // Save the AI response using client services
             await apiService.sendMessage({
@@ -301,7 +324,23 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             await chatService.loadChatMessages(newChat.id);
           } catch (error) {
             console.error("Failed to process PDF with Gemini:", error);
+
+            // Send an error message to the chat
+            await apiService.sendMessage({
+              chatId: newChat.id,
+              message: "I encountered an error while processing your PDF. Please try uploading the file again or ensure it contains readable text.",
+            });
+
+            await chatService.loadChatMessages(newChat.id);
           }
+        } else if (newChat && !user?.settings?.geminiApiKey) {
+          // If no API key, send helpful message
+          await apiService.sendMessage({
+            chatId: newChat.id,
+            message: `I can see you've uploaded a PDF file "${file.name}", but I need a Gemini API key to analyze it. Please add your API key in Settings to enable PDF analysis. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`,
+          });
+
+          await chatService.loadChatMessages(newChat.id);
         }
       } else if (model === "csv-local" && file.type === "text/csv") {
         // Keep existing backend processing for CSV files
