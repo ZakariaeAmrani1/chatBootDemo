@@ -1066,7 +1066,7 @@ const Settings: React.FC<SettingsProps> = ({
               <div className="flex justify-between text-sm">
                 <span>Chat History</span>
                 <span>
-                  {dataStats?.chatHistory.sizeFormatted || "Loading..."}
+                  {dataStats?.chatHistory?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
