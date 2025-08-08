@@ -3,7 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:client": "vite build"
+    "dev": "vite",
+    "build": "npm run build:client",
+    "build:client": "vite build",
+    "build:server": "vite build --config vite.config.server.ts",
+    "start": "node dist/server/node-build.mjs",
+    "test": "vitest --run",
+    "format.fix": "prettier --write .",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "marked": "^16.1.2",
