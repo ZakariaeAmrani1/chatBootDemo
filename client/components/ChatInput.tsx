@@ -60,9 +60,16 @@ const ChatInput: React.FC<ChatInputProps> = ({
       }
 
       // Send the message with attachments
+      const messageContent = message.trim();
+      const hasFiles = attachedFiles.length > 0;
+
+      // If no text but has files, send a descriptive message
+      const finalContent = messageContent ||
+        (hasFiles ? `Uploaded ${attachedFiles.length} file${attachedFiles.length > 1 ? 's' : ''}: ${attachedFiles.map(f => f.name).join(', ')}` : "");
+
       onSendMessage(
-        message.trim() || (attachedFiles.length > 0 ? "" : ""),
-        attachedFiles.length > 0 ? attachedFiles : undefined,
+        finalContent,
+        hasFiles ? attachedFiles : undefined,
       );
 
       // Clear and reset
