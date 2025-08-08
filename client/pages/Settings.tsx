@@ -1084,7 +1084,7 @@ const Settings: React.FC<SettingsProps> = ({
               <div className="flex justify-between text-sm">
                 <span>Categories</span>
                 <span>
-                  {dataStats?.categories.sizeFormatted || "Loading..."}
+                  {dataStats?.categories?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <Separator className="my-2" />
