@@ -312,13 +312,13 @@ export class ClientChatService {
               )
               .join("\n");
 
-            let prompt = messageData.message;
+            let prompt = messageContent || "Hello";
 
             // Handle file uploads with better prompting
             if (hasAttachments) {
               const fileNames = messageData.attachments.map(att => att.name).join(", ");
               const fileTypes = messageData.attachments.map(att => att.type).join(", ");
-              prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}). Please analyze the content and provide insights about what the file contains and how I can work with it. Original message: ${messageData.message}`;
+              prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}). Please analyze the content and provide insights about what the file contains and how I can work with it. Original message: ${messageContent}`;
             }
 
             const contextPrompt = recentMessages
