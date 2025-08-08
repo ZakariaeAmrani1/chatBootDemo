@@ -257,10 +257,13 @@ export class ClientChatService {
     messageData: SendMessageRequest,
   ): Promise<ApiResponse<Message>> {
     try {
+      // Ensure message is a string
+      const messageContent = messageData.message || "";
+
       // Add the user message first
       const userMessageResult = await this.addUserMessage(
         messageData.chatId,
-        messageData.message,
+        messageContent,
         messageData.attachments,
       );
 
