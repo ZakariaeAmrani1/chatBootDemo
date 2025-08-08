@@ -117,6 +117,7 @@ export interface CreateChatRequest {
 export interface SendMessageRequest {
   chatId: string;
   message: string;
+  content: string; // Alias for message to support both field names
   attachments?: FileAttachment[];
 }
 
