@@ -282,6 +282,11 @@ class ChatService {
   async sendMessage(request: SendMessageRequest): Promise<void> {
     this.setState({ error: null });
 
+    // Don't send empty messages without attachments
+    if (!request.message.trim() && (!request.attachments || request.attachments.length === 0)) {
+      return;
+    }
+
     // Check if this is a draft chat
     const currentChat = this.state.chats.find(
       (chat) => chat.id === request.chatId,
@@ -304,11 +309,6 @@ class ChatService {
 
     // Stop any existing polling for this chat
     this.stopPollingForChat(finalChatId);
-
-    // Don't add empty messages without attachments
-    if (!request.message.trim() && (!request.attachments || request.attachments.length === 0)) {
-      return;
-    }
 
     // Add user message immediately to UI
     const userMessage: Message = {
