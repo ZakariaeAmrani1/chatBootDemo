@@ -735,13 +735,6 @@ const Chatbot = () => {
                   chatState.messages.length > 0
                 }
               />
-              {user?.settings?.geminiModel &&
-                (selectedModel === "local-cloud" ||
-                  selectedModel === "cloud") && (
-                  <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
-                    {user.settings.geminiModel}
-                  </div>
-                )}
             </div>
           </div>
 
