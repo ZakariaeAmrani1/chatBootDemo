@@ -19,9 +19,22 @@ export class ClientGeminiService {
         };
       }
 
-      // Convert file to base64 for upload
+      // Convert file to base64 for upload using a more efficient method
       const fileBuffer = await file.arrayBuffer();
-      const base64Data = btoa(String.fromCharCode(...new Uint8Array(fileBuffer)));
+      const uint8Array = new Uint8Array(fileBuffer);
+
+      // Use FileReader for more efficient base64 conversion to avoid stack overflow
+      const base64Data = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          // Remove the data URL prefix (e.g., "data:application/pdf;base64,")
+          const base64 = result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = () => reject(new Error('Failed to convert file to base64'));
+        reader.readAsDataURL(file);
+      });
 
       const requestBody = {
         contents: [
