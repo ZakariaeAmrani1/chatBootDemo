@@ -208,6 +208,8 @@ export class ClientGeminiService {
 
   static getAvailableModels(): string[] {
     return [
+      "gemini-2.5-flash",
+      "gemini-2.5-flash-latest",
       "gemini-1.5-flash",
       "gemini-1.5-flash-latest",
       "gemini-1.5-pro",
