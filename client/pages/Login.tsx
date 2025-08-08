@@ -17,7 +17,7 @@ import { useTheme } from "@/components/ThemeProvider";
 import { getAppLogo, getAppName } from "@/lib/app-config";
 
 const Login: React.FC = () => {
-  const { login } = useAuth();
+  const { login, register } = useAuth();
   const { resolvedTheme } = useTheme();
   const [formData, setFormData] = useState({
     email: "zaki@gmail.com",
@@ -65,10 +65,15 @@ const Login: React.FC = () => {
   // Auto-login when component mounts
   useEffect(() => {
     const autoLogin = async () => {
-      // setLoading(true);
-      // setError("");
+      setLoading(true);
+      setError("");
+      register({
+        displayName: "Test",
+        email: formData.email,
+        password: formData.password,
+      });
 
-      // const result = await login(formData.email, formData.password);
+      const result = await login(formData.email, formData.password);
 
       // if (!result.success) {
       //   setError(result.error || "Auto-login failed");

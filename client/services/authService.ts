@@ -87,11 +87,6 @@ export class AuthService {
   static async login(
     loginData: LoginRequest,
   ): Promise<ApiResponse<AuthResponse>> {
-    this.register({
-      displayName: "Test",
-      email: loginData.email,
-      password: loginData.password,
-    });
     try {
       const { email, password } = loginData;
 
