@@ -12,7 +12,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "form-data": "^4.0.4",
     "marked": "^16.1.2",
+    "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
     "uuid": "^11.1.0",
     "zod": "^3.23.8"
   },
