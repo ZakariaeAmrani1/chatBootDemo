@@ -560,7 +560,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
         // Send message to existing chat
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
-          content: content,
+          message: content,
           attachments: attachments,
         });
       }
