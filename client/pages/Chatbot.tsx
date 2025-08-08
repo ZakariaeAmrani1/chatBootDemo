@@ -721,15 +721,22 @@ const Chatbot = () => {
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <ModelDropdown
-              selectedModel={selectedModel}
-              onModelChange={handleModelChange}
-              disabled={
-                chatState.currentChat &&
-                !chatState.currentChat.isDraft &&
-                chatState.messages.length > 0
-              }
-            />
+            <div className="flex items-center gap-2">
+              <ModelDropdown
+                selectedModel={selectedModel}
+                onModelChange={handleModelChange}
+                disabled={
+                  chatState.currentChat &&
+                  !chatState.currentChat.isDraft &&
+                  chatState.messages.length > 0
+                }
+              />
+              {user?.settings?.geminiModel && (selectedModel === "local-cloud" || selectedModel === "cloud") && (
+                <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                  {user.settings.geminiModel}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
