@@ -305,6 +305,11 @@ class ChatService {
     // Stop any existing polling for this chat
     this.stopPollingForChat(finalChatId);
 
+    // Don't add empty messages without attachments
+    if (!request.message.trim() && (!request.attachments || request.attachments.length === 0)) {
+      return;
+    }
+
     // Add user message immediately to UI
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
