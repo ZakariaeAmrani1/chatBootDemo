@@ -253,6 +253,11 @@ class ChatService {
 
   // Helper method to add user message to UI immediately
   addUserMessageToUI(chatId: string, content: string): void {
+    // Don't add empty or whitespace-only messages
+    if (!content || !content.trim()) {
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(), // Temporary ID
       chatId: chatId,
