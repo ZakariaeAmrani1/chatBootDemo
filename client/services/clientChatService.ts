@@ -280,46 +280,80 @@ export class ClientChatService {
         // Get user settings for model selection
         const currentUser = StorageManager.getCurrentUser();
         const selectedModel = currentUser?.settings?.selectedModel || "cloud";
+        const geminiApiKey = currentUser?.settings?.geminiApiKey;
+
+        // Check if this is a file upload message
+        const hasAttachments = messageData.attachments && messageData.attachments.length > 0;
+        const isFileUploadMessage = hasAttachments || messageData.content.includes("Uploaded") || messageData.content.includes("file");
 
         if (selectedModel === "cloud" || selectedModel === "local-cloud") {
-          // Use Gemini API
-          const geminiModel =
-            currentUser?.settings?.geminiModel || "gemini-1.5-flash-latest";
+          // Check if Gemini API key is available
+          if (!geminiApiKey || !geminiApiKey.trim()) {
+            if (isFileUploadMessage) {
+              assistantResponse = `I can see you've uploaded a file, but I need a Gemini API key to analyze it. Please add your API key in Settings to enable file analysis. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`;
+            } else {
+              assistantResponse = `To use AI responses, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`;
+            }
+          } else {
+            // Use Gemini API
+            const geminiModel =
+              currentUser?.settings?.geminiModel || "gemini-1.5-flash-latest";
 
-          // Prepare context with chat history
-          const chatMessages = StorageManager.getMessagesByChatId(
-            messageData.chatId,
-          );
-          const recentMessages = chatMessages
-            .slice(-10) // Last 10 messages for context
-            .map(
-              (msg) =>
-                `${msg.type === "user" ? "User" : "Assistant"}: ${msg.content}`,
-            )
-            .join("\n");
+            // Prepare context with chat history
+            const chatMessages = StorageManager.getMessagesByChatId(
+              messageData.chatId,
+            );
+            const recentMessages = chatMessages
+              .slice(-10) // Last 10 messages for context
+              .map(
+                (msg) =>
+                  `${msg.type === "user" ? "User" : "Assistant"}: ${msg.content}`,
+              )
+              .join("\n");
 
-          const contextPrompt = recentMessages
-            ? `Previous conversation:\n${recentMessages}\n\nUser: ${messageData.content}\n\nAssistant:`
-            : messageData.content;
+            let prompt = messageData.content;
 
-          const geminiResult = await ClientGeminiService.generateContent(
-            contextPrompt,
-            geminiModel,
-          );
+            // Handle file uploads with better prompting
+            if (hasAttachments) {
+              const fileNames = messageData.attachments.map(att => att.name).join(", ");
+              const fileTypes = messageData.attachments.map(att => att.type).join(", ");
+              prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}). Please analyze the content and provide insights about what the file contains and how I can work with it. Original message: ${messageData.content}`;
+            }
 
-          if (geminiResult.content && !geminiResult.error) {
-            assistantResponse = geminiResult.content;
-          } else if (geminiResult.error) {
-            assistantResponse = `Error: ${geminiResult.error}`;
+            const contextPrompt = recentMessages
+              ? `Previous conversation:\n${recentMessages}\n\nUser: ${prompt}\n\nAssistant:`
+              : prompt;
+
+            const geminiResult = await ClientGeminiService.generateContent(
+              contextPrompt,
+              geminiModel,
+            );
+
+            if (geminiResult.content && !geminiResult.error) {
+              assistantResponse = geminiResult.content;
+            } else if (geminiResult.error) {
+              if (isFileUploadMessage) {
+                assistantResponse = `I can see you've uploaded a file, but I encountered an error analyzing it: ${geminiResult.error}. Please try uploading the file again or check your API key.`;
+              } else {
+                assistantResponse = `Error: ${geminiResult.error}`;
+              }
+            }
           }
         } else {
           // For other models, provide a helpful message
-          assistantResponse = `I'm currently configured to use ${selectedModel}, but this requires server integration. Please configure Gemini API in your settings to get AI responses, or contact your administrator to set up the ${selectedModel} integration.`;
+          if (isFileUploadMessage) {
+            assistantResponse = `I can see you've uploaded a file, but the ${selectedModel} model requires server integration. Please configure Gemini API in your settings to analyze files, or contact your administrator to set up the ${selectedModel} integration.`;
+          } else {
+            assistantResponse = `I'm currently configured to use ${selectedModel}, but this requires server integration. Please configure Gemini API in your settings to get AI responses, or contact your administrator to set up the ${selectedModel} integration.`;
+          }
         }
       } catch (aiError) {
         console.error("AI service error:", aiError);
-        assistantResponse =
-          "I encountered an error while generating a response. Please try again.";
+        if (messageData.attachments && messageData.attachments.length > 0) {
+          assistantResponse = "I encountered an error while analyzing your file. Please try again or check your settings.";
+        } else {
+          assistantResponse = "I encountered an error while generating a response. Please try again.";
+        }
       }
 
       const assistantMessageResult = await this.addAssistantMessage(
