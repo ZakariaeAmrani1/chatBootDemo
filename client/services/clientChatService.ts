@@ -287,7 +287,6 @@ export class ClientChatService {
 
         // Check if this is a file upload message
         const hasAttachments = messageData.attachments && messageData.attachments.length > 0;
-        const messageContent = messageData.message || "";
         const isFileUploadMessage = hasAttachments || messageContent.includes("Uploaded") || messageContent.includes("file") || messageContent.includes(".pdf") || messageContent.includes(".csv") || messageContent.includes(".doc");
 
         if (selectedModel === "cloud" || selectedModel === "local-cloud") {
