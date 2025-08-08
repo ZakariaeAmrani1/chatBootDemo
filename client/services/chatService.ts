@@ -316,7 +316,7 @@ class ChatService {
       id: Date.now().toString(), // Temporary ID
       chatId: finalChatId,
       type: "user",
-      content: request.message,
+      content: messageContent,
       timestamp: new Date().toISOString(),
       attachments: request.attachments,
     };
