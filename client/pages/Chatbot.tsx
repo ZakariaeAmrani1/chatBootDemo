@@ -294,7 +294,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             // Save the AI response using client services
             await apiService.sendMessage({
               chatId: newChat.id,
-              content: aiResponse,
+              message: aiResponse,
             });
 
             // Refresh chat messages to show the AI response
