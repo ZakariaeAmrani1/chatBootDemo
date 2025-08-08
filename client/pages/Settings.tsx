@@ -1172,7 +1172,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     Categories (
-                    {dataStats?.categories.sizeFormatted || "Loading..."})
+                    {dataStats?.categories?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
               </div>
