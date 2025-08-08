@@ -293,9 +293,15 @@ export class ClientChatService {
           // Check if Gemini API key is available
           if (!geminiApiKey || !geminiApiKey.trim()) {
             if (isFileUploadMessage) {
-              assistantResponse = `I can see you've uploaded a file, but I need a Gemini API key to analyze it. Please add your API key in Settings to enable file analysis. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`;
+              assistantResponse = `I can see you've uploaded a file, but I need a Gemini API key to analyze it.
+
+**Please note**: Due to browser security restrictions (CORS), direct API calls to Gemini may not work in all environments. If you encounter connection issues after adding your API key, try copying and pasting the file content directly instead.
+
+Add your API key in Settings - you can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).`;
             } else {
-              assistantResponse = `To use AI responses, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).`;
+              assistantResponse = `To use AI responses, please add your Gemini API key in Settings. You can get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+**Note**: Direct browser API calls may be limited due to CORS restrictions in some environments.`;
             }
           } else {
             // Use Gemini API
