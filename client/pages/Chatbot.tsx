@@ -265,25 +265,9 @@ const Chatbot = () => {
         if (newChat && user?.settings?.geminiApiKey) {
           // Process PDF with local Gemini after chat is created
           try {
-            // First, extract text from PDF using a web-based PDF reader
-            let pdfText = "";
-            try {
-              // Try to read PDF as text if it's a text-based PDF
-              const pdfjs = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
-
-              const arrayBuffer = await file.arrayBuffer();
-              const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
-
-              for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) { // Limit to first 10 pages
-                const page = await pdf.getPage(i);
-                const textContent = await page.getTextContent();
-                const pageText = textContent.items.map((item: any) => item.str).join(' ');
-                pdfText += pageText + '\n\n';
-              }
-            } catch (pdfError) {
-              console.error("PDF text extraction failed:", pdfError);
-              pdfText = "Unable to extract text from PDF. The file might be image-based or corrupted.";
-            }
+            // Extract text from PDF using our simple extraction service
+            const { PDFExtractor } = await import("../services/pdfExtractor");
+            const pdfText = await PDFExtractor.extractText(file);
 
             const { ClientGeminiService } = await import(
               "../services/clientGeminiService"
