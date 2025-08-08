@@ -3,13 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "npm run build:client",
-    "build:client": "vite build",
-    "preview": "vite preview",
-    "test": "vitest --run",
-    "format.fix": "prettier --write .",
-    "typecheck": "tsc"
+    "build:client": "vite build"
   },
   "dependencies": {
     "marked": "^16.1.2",
