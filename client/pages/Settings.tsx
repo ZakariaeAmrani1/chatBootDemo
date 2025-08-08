@@ -1078,7 +1078,7 @@ const Settings: React.FC<SettingsProps> = ({
               <div className="flex justify-between text-sm">
                 <span>User Settings</span>
                 <span>
-                  {dataStats?.userSettings.sizeFormatted || "Loading..."}
+                  {dataStats?.userSettings?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
