@@ -262,45 +262,27 @@ const Chatbot = () => {
           user.id,
         );
 
-        if (newChat && user?.settings?.geminiApiKey) {
-          // Process PDF with local Gemini after chat is created
-          try {
-            const { ClientGeminiService } = await import(
-              "../services/clientGeminiService"
-            );
-            const geminiModel =
-              user?.settings?.geminiModel || "gemini-1.5-flash-latest";
+        if (newChat) {
+          // First, upload the file and create a proper file attachment
+          const uploadedFiles = await apiService.uploadFiles([file]);
 
-            const initialPrompt = `Tu es un assistant expert chargé de répondre aux questions en te basant uniquement sur le contexte ou le document fourni.
-
-Utilise exclusivement les informations présentes dans ce document.
-
-N'ajoute aucune information externe, même si tu en as connaissance.
-
-Si une réponse ne peut pas être déduite du contenu fourni, indique simplement : "Je ne sais pas."
-Sois clair, précis et factuel dans tes réponses.
-
-J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fournis un résumé de son contenu. Dis-moi de quoi traite le document et quelles informations clés il contient.`;
-
-            const result = await ClientGeminiService.generateContent(
-              initialPrompt,
-              geminiModel,
-            );
-
-            const aiResponse =
-              result.content ||
-              "Je n'ai pas pu analyser le document. Veuillez réessayer.";
-
-            // Save the AI response using client services
-            await apiService.sendMessage({
+          if (
+            uploadedFiles.success &&
+            uploadedFiles.data &&
+            uploadedFiles.data.length > 0
+          ) {
+            // Add a user message with the file attachment - this will automatically trigger AI response
+            await chatService.sendMessage({
               chatId: newChat.id,
-              content: aiResponse,
+              message: `Please analyze this PDF document titled "${file.name}" and provide a comprehensive summary. Tell me what the document is about, key information it contains, main topics, and any important findings.`,
+              attachments: uploadedFiles.data,
             });
-
-            // Refresh chat messages to show the AI response
-            await chatService.loadChatMessages(newChat.id);
-          } catch (error) {
-            console.error("Failed to process PDF with Gemini:", error);
+          } else {
+            // Fallback to text message if upload fails
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `I uploaded a PDF file "${file.name}" but the upload failed. Can you help me understand how to proceed?`,
+            });
           }
         }
       } else if (model === "csv-local" && file.type === "text/csv") {
@@ -363,6 +345,10 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
     content: string,
     attachments?: FileAttachment[],
   ) => {
+    // Don't send if no content and no attachments
+    if (!content.trim() && (!attachments || attachments.length === 0)) return;
+
+    // Don't send if content is just whitespace
     if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
     try {
@@ -548,7 +534,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
           // Now send the message with attachments to the new chat
           await chatService.sendMessage({
             chatId: newChat.id,
-            content: content,
+            message: content,
             attachments: attachments,
           });
         }
@@ -556,7 +542,7 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
         // Send message to existing chat
         await chatService.sendMessage({
           chatId: chatState.currentChat.id,
-          content: content,
+          message: content,
           attachments: attachments,
         });
       }
@@ -739,15 +725,24 @@ J'ai téléchargé un document PDF (${file.name}). Analyse ce document et fourni
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <ModelDropdown
-              selectedModel={selectedModel}
-              onModelChange={handleModelChange}
-              disabled={
-                chatState.currentChat &&
-                !chatState.currentChat.isDraft &&
-                chatState.messages.length > 0
-              }
-            />
+            <div className="flex items-center gap-2">
+              <ModelDropdown
+                selectedModel={selectedModel}
+                onModelChange={handleModelChange}
+                disabled={
+                  chatState.currentChat &&
+                  !chatState.currentChat.isDraft &&
+                  chatState.messages.length > 0
+                }
+              />
+              {user?.settings?.geminiModel &&
+                (selectedModel === "local-cloud" ||
+                  selectedModel === "cloud") && (
+                  <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                    {user.settings.geminiModel}
+                  </div>
+                )}
+            </div>
           </div>
 
           <div className="flex items-center gap-2">

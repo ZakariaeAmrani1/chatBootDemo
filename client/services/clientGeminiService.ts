@@ -1,6 +1,138 @@
 import { StorageManager } from "./storageManager";
 
 export class ClientGeminiService {
+  // Helper method to make Gemini API calls with proper error handling
+  private static async makeGeminiRequest(
+    requestBody: any,
+    model: string,
+    apiKey: string,
+  ): Promise<{ content: string; error?: string }> {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+          mode: "cors",
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return {
+          content: "",
+          error: `Gemini API error: ${response.status} - ${errorData.error?.message || response.statusText}`,
+        };
+      }
+
+      const data = await response.json();
+
+      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+        const content = data.candidates[0].content.parts[0].text;
+        return {
+          content: content || "No response generated.",
+        };
+      } else {
+        return {
+          content: "",
+          error: "No valid response from Gemini API",
+        };
+      }
+    } catch (error) {
+      console.error("Gemini API request error:", error);
+
+      // Check if it's a CORS or network error
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        return {
+          content: "",
+          error:
+            "Cannot connect to Gemini API directly from browser due to CORS restrictions. This is a known limitation. Please consider using a server-side proxy or try a different approach.",
+        };
+      }
+
+      return {
+        content: "",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to connect to Gemini API",
+      };
+    }
+  }
+
+  static async generateContentWithFile(
+    file: File,
+    prompt: string,
+    model: string = "gemini-2.5-flash",
+    apiKey?: string,
+  ): Promise<{ content: string; error?: string }> {
+    try {
+      // Get API key from user settings or parameter
+      const currentUser = StorageManager.getCurrentUser();
+      const geminiApiKey = apiKey || currentUser?.settings?.geminiApiKey;
+
+      if (!geminiApiKey) {
+        return {
+          content: "",
+          error:
+            "Gemini API key not configured. Please add your API key in settings.",
+        };
+      }
+
+      // Convert file to base64 for upload using a more efficient method
+      const base64Data = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          // Remove the data URL prefix (e.g., "data:application/pdf;base64,")
+          const base64 = result.split(",")[1];
+          resolve(base64);
+        };
+        reader.onerror = () =>
+          reject(new Error("Failed to convert file to base64"));
+        reader.readAsDataURL(file);
+      });
+
+      const requestBody = {
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt,
+              },
+              {
+                inline_data: {
+                  mime_type: file.type,
+                  data: base64Data,
+                },
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 8192,
+        },
+      };
+
+      return await this.makeGeminiRequest(requestBody, model, geminiApiKey);
+    } catch (error) {
+      console.error("Gemini API file upload error:", error);
+      return {
+        content: "",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to generate content with file",
+      };
+    }
+  }
+
   static async generateContent(
     prompt: string,
     model: string = "gemini-1.5-flash-latest",
@@ -37,38 +169,7 @@ export class ClientGeminiService {
         },
       };
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        },
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        return {
-          content: "",
-          error: `Gemini API error: ${response.status} - ${errorData.error?.message || response.statusText}`,
-        };
-      }
-
-      const data = await response.json();
-
-      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-        const content = data.candidates[0].content.parts[0].text;
-        return {
-          content: content || "No response generated.",
-        };
-      } else {
-        return {
-          content: "",
-          error: "No valid response from Gemini API",
-        };
-      }
+      return await this.makeGeminiRequest(requestBody, model, geminiApiKey);
     } catch (error) {
       console.error("Gemini API error:", error);
       return {
@@ -121,6 +222,8 @@ export class ClientGeminiService {
 
   static getAvailableModels(): string[] {
     return [
+      "gemini-2.5-flash",
+      "gemini-2.5-flash-latest",
       "gemini-1.5-flash",
       "gemini-1.5-flash-latest",
       "gemini-1.5-pro",
