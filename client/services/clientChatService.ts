@@ -284,7 +284,7 @@ export class ClientChatService {
 
         // Check if this is a file upload message
         const hasAttachments = messageData.attachments && messageData.attachments.length > 0;
-        const isFileUploadMessage = hasAttachments || messageData.content.includes("Uploaded") || messageData.content.includes("file");
+        const isFileUploadMessage = hasAttachments || messageData.content.includes("Uploaded") || messageData.content.includes("file") || messageData.content.includes(".pdf") || messageData.content.includes(".csv") || messageData.content.includes(".doc");
 
         if (selectedModel === "cloud" || selectedModel === "local-cloud") {
           // Check if Gemini API key is available
