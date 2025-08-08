@@ -1072,7 +1072,7 @@ const Settings: React.FC<SettingsProps> = ({
               <div className="flex justify-between text-sm">
                 <span>File Metadata</span>
                 <span>
-                  {dataStats?.uploadedFiles.sizeFormatted || "Loading..."}
+                  {dataStats?.uploadedFiles?.sizeFormatted || "Loading..."}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
