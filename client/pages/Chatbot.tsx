@@ -263,11 +263,23 @@ const Chatbot = () => {
         );
 
         if (newChat) {
-          // First, add a user message showing the PDF upload
-          await chatService.sendMessage({
-            chatId: newChat.id,
-            message: `📄 Uploaded PDF: ${file.name}`,
-          });
+          // First, upload the file and create a proper file attachment
+          const uploadedFiles = await apiService.uploadFiles([file]);
+
+          if (uploadedFiles.success && uploadedFiles.data && uploadedFiles.data.length > 0) {
+            // Add a user message with the file attachment
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `Uploaded PDF for analysis`,
+              attachments: uploadedFiles.data,
+            });
+          } else {
+            // Fallback to text message if upload fails
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `📄 Uploaded PDF: ${file.name}`,
+            });
+          }
 
           if (user?.settings?.geminiApiKey) {
             const geminiModel = user?.settings?.geminiModel || "gemini-1.5-flash-latest";
