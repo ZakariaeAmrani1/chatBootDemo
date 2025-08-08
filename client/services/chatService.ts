@@ -283,7 +283,8 @@ class ChatService {
     this.setState({ error: null });
 
     // Don't send empty messages without attachments
-    if (!request.message.trim() && (!request.attachments || request.attachments.length === 0)) {
+    const messageContent = request.message || "";
+    if (!messageContent.trim() && (!request.attachments || request.attachments.length === 0)) {
       return;
     }
 
