@@ -260,7 +260,7 @@ export class ClientChatService {
       // Add the user message first
       const userMessageResult = await this.addUserMessage(
         messageData.chatId,
-        messageData.content,
+        messageData.message,
         messageData.attachments,
       );
 
