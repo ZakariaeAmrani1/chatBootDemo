@@ -352,7 +352,16 @@ What would you like me to help you with regarding these files? Original message:
             if (geminiResult.content && !geminiResult.error) {
               assistantResponse = geminiResult.content;
             } else if (geminiResult.error) {
-              if (isFileUploadMessage) {
+              if (geminiResult.error.includes("CORS")) {
+                assistantResponse = `⚠️ **API Connection Issue**: Direct browser connections to Gemini API are blocked due to CORS restrictions.
+
+**Alternative solutions:**
+1. **Use a browser extension** that disables CORS (for development only)
+2. **Copy/paste content**: Instead of uploading files, copy and paste the text content directly into this chat
+3. **Server integration**: Ask your administrator to set up a server-side proxy for Gemini API calls
+
+**For now, you can still chat with me by typing your questions directly!**`;
+              } else if (isFileUploadMessage) {
                 assistantResponse = `I can see you've uploaded a file, but I encountered an error analyzing it: ${geminiResult.error}. Please try uploading the file again or check your API key.`;
               } else {
                 assistantResponse = `Error: ${geminiResult.error}`;
