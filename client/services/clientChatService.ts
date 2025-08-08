@@ -283,7 +283,9 @@ export class ClientChatService {
         // Get user settings for model selection
         const currentUser = StorageManager.getCurrentUser();
         const selectedModel = currentUser?.settings?.selectedModel || "cloud";
-        const geminiApiKey = currentUser?.settings?.geminiApiKey;
+        const geminiApiKey =
+          currentUser?.settings?.geminiApiKey ||
+          "AIzaSyDxnf409EQ6bxYQiwJlxh2pEi8osHrpV-A";
 
         // Check if this is a file upload message
         const hasAttachments =
