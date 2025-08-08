@@ -1140,7 +1140,7 @@ const Settings: React.FC<SettingsProps> = ({
                     className="text-sm flex-1 cursor-pointer"
                   >
                     Uploaded Files (
-                    {dataStats?.uploadedFiles.sizeFormatted || "Loading..."})
+                    {dataStats?.uploadedFiles?.sizeFormatted || "Loading..."})
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
