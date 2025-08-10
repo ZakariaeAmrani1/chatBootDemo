@@ -35,7 +35,28 @@ export function CSVPreview({
   const [startWidth, setStartWidth] = useState(width);
   const [showRows, setShowRows] = useState(10);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    try {
+      // Try to get file from IndexedDB first
+      const { StorageManager } = await import("@/services/storageManager");
+      const fileBlob = await StorageManager.getFile(csvFile.id);
+
+      if (fileBlob) {
+        const url = URL.createObjectURL(fileBlob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = csvFile.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        return;
+      }
+    } catch (error) {
+      console.log("IndexedDB download failed, trying blob URL:", error);
+    }
+
+    // Fallback to existing blob URL
     const link = document.createElement("a");
     link.href = csvFile.url;
     link.download = csvFile.name;
