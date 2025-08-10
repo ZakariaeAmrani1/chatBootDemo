@@ -138,7 +138,7 @@ export function CSVUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept=".csv,text/csv"
+        accept=".csv,text/csv,application/csv,text/plain"
         onChange={handleFileChange}
         className="hidden"
       />
