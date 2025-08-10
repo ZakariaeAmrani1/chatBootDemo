@@ -9,7 +9,6 @@ const addMessage = async (
   if (!content.trim() && (!attachments || attachments.length === 0)) return;
 
   try {
-    // Handle creating new chat when no current chat exists
     if (!chatState.currentChat) {
       // Create new chat with message + attachments
       const newChat = await chatService.createChat({
