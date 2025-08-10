@@ -84,6 +84,11 @@ export class ClientChatService {
 
         // Store file in IndexedDB
         await StorageManager.saveFile(fileId, file);
+
+        // Create proper blob URL for the file
+        const blobUrl = URL.createObjectURL(file);
+        fileAttachment.url = blobUrl;
+
         StorageManager.createFileAttachment(fileAttachment);
 
         // Determine file type and assign to appropriate property
