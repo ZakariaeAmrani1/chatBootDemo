@@ -42,6 +42,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   const getFileIcon = () => {
     if (isImage) return <ImageIcon className="h-4 w-4" />;
     if (isPDF) return <FileText className="h-4 w-4" />;
+    if (isCSV) return <FileSpreadsheet className="h-4 w-4" />;
     if (isText) return <FileText className="h-4 w-4" />;
     if (isAudio) return <Volume2 className="h-4 w-4" />;
     return <FileArchive className="h-4 w-4" />;
@@ -50,6 +51,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   const getFileColor = () => {
     if (isImage) return "text-blue-500";
     if (isPDF) return "text-red-500";
+    if (isCSV) return "text-purple-500";
     if (isText) return "text-green-500";
     if (isAudio) return "text-purple-500";
     return "text-gray-500";
