@@ -19,7 +19,12 @@ export function CSVUpload({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type === "text/csv") {
+    if (
+      file &&
+      (file.type === "text/csv" ||
+        file.type === "application/csv" ||
+        file.name.toLowerCase().endsWith(".csv"))
+    ) {
       onFileSelect(file);
     } else if (file) {
       alert("Please select a CSV file only.");
@@ -42,7 +47,12 @@ export function CSVUpload({
     setIsDragOver(false);
 
     const file = event.dataTransfer.files[0];
-    if (file && file.type === "text/csv") {
+    if (
+      file &&
+      (file.type === "text/csv" ||
+        file.type === "application/csv" ||
+        file.name.toLowerCase().endsWith(".csv"))
+    ) {
       onFileSelect(file);
     } else if (file) {
       alert("Please select a CSV file only.");
@@ -138,7 +148,7 @@ export function CSVUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept=".csv,text/csv"
+        accept=".csv,text/csv,application/csv,text/plain"
         onChange={handleFileChange}
         className="hidden"
       />

@@ -285,15 +285,48 @@ const Chatbot = () => {
             });
           }
         }
-      } else if (model === "csv-local" && file.type === "text/csv") {
-        // Keep existing backend processing for CSV files
+      } else if (
+        model === "csv-local" &&
+        (file.type === "text/csv" ||
+          file.type === "application/csv" ||
+          file.name.toLowerCase().endsWith(".csv"))
+      ) {
+        // Create chat with client-side CSV processing like PDF model
         const createChatRequest: any = {
-          title: "New Chat",
+          title: `CSV: ${file.name}`,
           model: model,
           chatbootVersion: selectedVersion,
           csvFile: file,
         };
-        await chatService.createChat(createChatRequest, user.id);
+
+        const newChat = await chatService.createChat(
+          createChatRequest,
+          user.id,
+        );
+
+        if (newChat) {
+          // Upload the file and create a proper file attachment
+          const uploadedFiles = await apiService.uploadFiles([file]);
+
+          if (
+            uploadedFiles.success &&
+            uploadedFiles.data &&
+            uploadedFiles.data.length > 0
+          ) {
+            // Add a user message with the file attachment - this will automatically trigger AI response
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `Please analyze this CSV dataset titled "${file.name}" and provide a comprehensive summary. Tell me about the data structure, key columns, data patterns, and any interesting insights you can find.`,
+              attachments: uploadedFiles.data,
+            });
+          } else {
+            // Fallback to text message if upload fails
+            await chatService.sendMessage({
+              chatId: newChat.id,
+              message: `I uploaded a CSV file "${file.name}" but the upload failed. Can you help me understand how to proceed?`,
+            });
+          }
+        }
       } else if (model === "cloud") {
         // For cloud model, create chat first, then upload file as attachment
         const createChatRequest: any = {

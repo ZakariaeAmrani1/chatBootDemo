@@ -35,7 +35,28 @@ export function CSVPreview({
   const [startWidth, setStartWidth] = useState(width);
   const [showRows, setShowRows] = useState(10);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    try {
+      // Try to get file from IndexedDB first
+      const { StorageManager } = await import("@/services/storageManager");
+      const fileBlob = await StorageManager.getFile(csvFile.id);
+
+      if (fileBlob) {
+        const url = URL.createObjectURL(fileBlob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = csvFile.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        return;
+      }
+    } catch (error) {
+      console.log("IndexedDB download failed, trying blob URL:", error);
+    }
+
+    // Fallback to existing blob URL
     const link = document.createElement("a");
     link.href = csvFile.url;
     link.download = csvFile.name;
@@ -53,12 +74,20 @@ export function CSVPreview({
   };
 
   const parseCSV = (text: string): CSVData => {
-    const lines = text.trim().split("\n");
+    // Handle different line endings and clean the text
+    const normalizedText = text
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .trim();
+    const lines = normalizedText
+      .split("\n")
+      .filter((line) => line.trim().length > 0);
+
     if (lines.length === 0) {
       throw new Error("CSV file is empty");
     }
 
-    // Parse CSV considering potential commas in quoted values
+    // Parse CSV considering potential commas in quoted values and escaped quotes
     const parseCSVLine = (line: string): string[] => {
       const result = [];
       let current = "";
@@ -66,23 +95,42 @@ export function CSVPreview({
 
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
+        const nextChar = line[i + 1];
 
         if (char === '"') {
-          inQuotes = !inQuotes;
+          if (inQuotes && nextChar === '"') {
+            // Escaped quote within quoted field
+            current += '"';
+            i++; // Skip the next quote
+          } else {
+            // Start or end of quoted field
+            inQuotes = !inQuotes;
+          }
         } else if (char === "," && !inQuotes) {
-          result.push(current.trim());
+          result.push(current);
           current = "";
         } else {
           current += char;
         }
       }
 
-      result.push(current.trim());
-      return result.map((cell) => cell.replace(/^"(.*)"$/, "$1")); // Remove surrounding quotes
+      result.push(current);
+
+      // Clean up the cells - remove surrounding quotes and trim
+      return result.map((cell) => {
+        let cleanCell = cell.trim();
+        if (cleanCell.startsWith('"') && cleanCell.endsWith('"')) {
+          cleanCell = cleanCell.slice(1, -1);
+        }
+        return cleanCell;
+      });
     };
 
     const headers = parseCSVLine(lines[0]);
-    const rows = lines.slice(1).map((line) => parseCSVLine(line));
+    const rows = lines
+      .slice(1)
+      .map((line) => parseCSVLine(line))
+      .filter((row) => row.some((cell) => cell.trim().length > 0)); // Filter out empty rows
 
     return {
       headers,
@@ -96,13 +144,57 @@ export function CSVPreview({
       setIsLoading(true);
       setError(null);
 
+      console.log("Loading CSV file:", csvFile.name, "ID:", csvFile.id);
+
+      // Try to read the file directly from IndexedDB first
+      try {
+        const { StorageManager } = await import("@/services/storageManager");
+        console.log(
+          "Attempting to read file from IndexedDB with ID:",
+          csvFile.id,
+        );
+        const fileBlob = await StorageManager.getFile(csvFile.id);
+
+        if (fileBlob) {
+          console.log(
+            "✅ Found file in IndexedDB, size:",
+            fileBlob.size,
+            "type:",
+            fileBlob.type,
+          );
+          const text = await fileBlob.text();
+          console.log("✅ CSV text length:", text.length);
+          console.log("✅ CSV first 200 chars:", text.substring(0, 200));
+
+          const data = parseCSV(text);
+          console.log("✅ Parsed CSV data:", data);
+          setCsvData(data);
+          return;
+        } else {
+          console.log("❌ File not found in IndexedDB, will try blob URL");
+        }
+      } catch (indexedDBError) {
+        console.log(
+          "❌ IndexedDB read failed, trying blob URL:",
+          indexedDBError,
+        );
+      }
+
+      // Fallback to fetch if IndexedDB fails
+      console.log("Falling back to fetch from URL:", csvFile.url);
       const response = await fetch(csvFile.url);
       if (!response.ok) {
-        throw new Error("Failed to fetch CSV file");
+        throw new Error(
+          `Failed to fetch CSV file: ${response.status} ${response.statusText}`,
+        );
       }
 
       const text = await response.text();
+      console.log("CSV text length:", text.length);
+      console.log("CSV first 200 chars:", text.substring(0, 200));
+
       const data = parseCSV(text);
+      console.log("Parsed CSV data:", data);
       setCsvData(data);
     } catch (err) {
       console.error("Error loading CSV:", err);
@@ -241,10 +333,15 @@ export function CSVPreview({
             <div className="text-center">
               <p className="text-sm text-red-600 mb-2">Failed to load CSV</p>
               <p className="text-xs text-muted-foreground mb-4">{error}</p>
-              <Button onClick={handleDownload} variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download to view
-              </Button>
+              <div className="space-y-2">
+                <Button onClick={loadCSVData} variant="outline" size="sm">
+                  Try Again
+                </Button>
+                <Button onClick={handleDownload} variant="outline" size="sm">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download to view
+                </Button>
+              </div>
             </div>
           </div>
         )}
