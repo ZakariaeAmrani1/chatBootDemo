@@ -268,10 +268,15 @@ export function CSVPreview({
             <div className="text-center">
               <p className="text-sm text-red-600 mb-2">Failed to load CSV</p>
               <p className="text-xs text-muted-foreground mb-4">{error}</p>
-              <Button onClick={handleDownload} variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download to view
-              </Button>
+              <div className="space-y-2">
+                <Button onClick={loadCSVData} variant="outline" size="sm">
+                  Try Again
+                </Button>
+                <Button onClick={handleDownload} variant="outline" size="sm">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download to view
+                </Button>
+              </div>
             </div>
           </div>
         )}
