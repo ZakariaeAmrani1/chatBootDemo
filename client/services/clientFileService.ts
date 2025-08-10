@@ -177,6 +177,7 @@ export class ClientFileService {
       "application/pdf",
       "text/plain",
       "text/csv",
+      "application/csv",
       "application/json",
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
