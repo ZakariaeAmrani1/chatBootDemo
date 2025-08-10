@@ -129,9 +129,7 @@ const Register: React.FC = () => {
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto flex items-center justify-center mb-4">
-            <h1 className="text-4xl font-bold text-primary">
-              CSV ChatBot
-            </h1>
+            <h1 className="text-4xl font-bold text-primary">CSV ChatBot</h1>
           </div>
           <h1 className="text-3xl font-bold text-foreground">Create account</h1>
           <p className="text-muted-foreground mt-2">

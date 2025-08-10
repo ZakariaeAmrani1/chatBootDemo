@@ -337,9 +337,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           >
             {!collapsed && (
               <div className="flex items-center justify-center w-full py-3 px-3">
-                <h1 className="text-xl font-bold text-primary">
-                  CSV ChatBot
-                </h1>
+                <h1 className="text-xl font-bold text-primary">CSV ChatBot</h1>
               </div>
             )}
             <div className="flex items-center gap-1">
