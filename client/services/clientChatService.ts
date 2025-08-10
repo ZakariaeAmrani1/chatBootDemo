@@ -68,6 +68,7 @@ export class ClientChatService {
       const now = new Date().toISOString();
 
       let pdfFile: FileAttachment | undefined;
+      let csvFile: FileAttachment | undefined;
 
       // Handle file upload if provided
       if (file) {
@@ -85,7 +86,12 @@ export class ClientChatService {
         await StorageManager.saveFile(fileId, file);
         StorageManager.createFileAttachment(fileAttachment);
 
-        pdfFile = fileAttachment;
+        // Determine file type and assign to appropriate property
+        if (file.type === "text/csv" || file.type === "application/csv" || file.name.toLowerCase().endsWith('.csv')) {
+          csvFile = fileAttachment;
+        } else {
+          pdfFile = fileAttachment;
+        }
       }
 
       const newChat: Chat = {
