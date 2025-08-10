@@ -27,7 +27,8 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
 }) => {
   const isImage = attachment.type.startsWith("image/");
   const isPDF = attachment.type === "application/pdf";
-  const isText = attachment.type.startsWith("text/");
+  const isCSV = attachment.type === "text/csv" || attachment.type === "application/csv" || attachment.name.toLowerCase().endsWith('.csv');
+  const isText = attachment.type.startsWith("text/") && !isCSV;
   const isAudio = attachment.type.startsWith("audio/");
 
   const formatFileSize = (bytes: number) => {
