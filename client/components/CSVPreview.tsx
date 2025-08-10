@@ -53,12 +53,15 @@ export function CSVPreview({
   };
 
   const parseCSV = (text: string): CSVData => {
-    const lines = text.trim().split("\n");
+    // Handle different line endings and clean the text
+    const normalizedText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+    const lines = normalizedText.split("\n").filter(line => line.trim().length > 0);
+
     if (lines.length === 0) {
       throw new Error("CSV file is empty");
     }
 
-    // Parse CSV considering potential commas in quoted values
+    // Parse CSV considering potential commas in quoted values and escaped quotes
     const parseCSVLine = (line: string): string[] => {
       const result = [];
       let current = "";
@@ -66,23 +69,41 @@ export function CSVPreview({
 
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
+        const nextChar = line[i + 1];
 
         if (char === '"') {
-          inQuotes = !inQuotes;
+          if (inQuotes && nextChar === '"') {
+            // Escaped quote within quoted field
+            current += '"';
+            i++; // Skip the next quote
+          } else {
+            // Start or end of quoted field
+            inQuotes = !inQuotes;
+          }
         } else if (char === "," && !inQuotes) {
-          result.push(current.trim());
+          result.push(current);
           current = "";
         } else {
           current += char;
         }
       }
 
-      result.push(current.trim());
-      return result.map((cell) => cell.replace(/^"(.*)"$/, "$1")); // Remove surrounding quotes
+      result.push(current);
+
+      // Clean up the cells - remove surrounding quotes and trim
+      return result.map((cell) => {
+        let cleanCell = cell.trim();
+        if (cleanCell.startsWith('"') && cleanCell.endsWith('"')) {
+          cleanCell = cleanCell.slice(1, -1);
+        }
+        return cleanCell;
+      });
     };
 
     const headers = parseCSVLine(lines[0]);
-    const rows = lines.slice(1).map((line) => parseCSVLine(line));
+    const rows = lines.slice(1)
+      .map((line) => parseCSVLine(line))
+      .filter(row => row.some(cell => cell.trim().length > 0)); // Filter out empty rows
 
     return {
       headers,
