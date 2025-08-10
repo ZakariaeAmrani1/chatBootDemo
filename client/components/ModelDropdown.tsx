@@ -63,18 +63,18 @@ const getFallbackModels = (): ModelOption[] => [
     badge: "PDF",
     price: "",
   },
-  // {
-  //   id: "csv-local",
-  //   name: "CSV Local Model",
-  //   description: "Local processing for CSV data",
-  //   features: ["CSV Processing", "Data analysis"],
-  //   color: "text-purple-600 dark:text-purple-400",
-  //   bgColor: "bg-purple-50 dark:bg-purple-950/30",
-  //   borderColor: "border-purple-200 dark:border-purple-800",
-  //   icon: "Brain",
-  //   badge: "CSV",
-  //   price: "",
-  // },
+  {
+    id: "csv-local",
+    name: "CSV Local Model",
+    description: "Local processing for CSV data analysis",
+    features: ["CSV Processing", "Data analysis", "Client-side preview"],
+    color: "text-purple-600 dark:text-purple-400",
+    bgColor: "bg-purple-50 dark:bg-purple-950/30",
+    borderColor: "border-purple-200 dark:border-purple-800",
+    icon: "Brain",
+    badge: "CSV",
+    price: "",
+  },
 ];
 
 export function ModelDropdown({
