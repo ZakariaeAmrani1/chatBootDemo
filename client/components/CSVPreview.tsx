@@ -149,11 +149,19 @@ export function CSVPreview({
       // Try to read the file directly from IndexedDB first
       try {
         const { StorageManager } = await import("@/services/storageManager");
-        console.log("Attempting to read file from IndexedDB with ID:", csvFile.id);
+        console.log(
+          "Attempting to read file from IndexedDB with ID:",
+          csvFile.id,
+        );
         const fileBlob = await StorageManager.getFile(csvFile.id);
 
         if (fileBlob) {
-          console.log("✅ Found file in IndexedDB, size:", fileBlob.size, "type:", fileBlob.type);
+          console.log(
+            "✅ Found file in IndexedDB, size:",
+            fileBlob.size,
+            "type:",
+            fileBlob.type,
+          );
           const text = await fileBlob.text();
           console.log("✅ CSV text length:", text.length);
           console.log("✅ CSV first 200 chars:", text.substring(0, 200));
@@ -166,7 +174,10 @@ export function CSVPreview({
           console.log("❌ File not found in IndexedDB, will try blob URL");
         }
       } catch (indexedDBError) {
-        console.log("❌ IndexedDB read failed, trying blob URL:", indexedDBError);
+        console.log(
+          "❌ IndexedDB read failed, trying blob URL:",
+          indexedDBError,
+        );
       }
 
       // Fallback to fetch if IndexedDB fails
