@@ -123,8 +123,30 @@ export function CSVPreview({
       setIsLoading(true);
       setError(null);
 
-      console.log("Loading CSV from URL:", csvFile.url);
+      console.log("Loading CSV file:", csvFile.name, "ID:", csvFile.id);
 
+      // Try to read the file directly from IndexedDB first
+      try {
+        const { StorageManager } = await import("@/services/storageManager");
+        const fileBlob = await StorageManager.getFile(csvFile.id);
+
+        if (fileBlob) {
+          console.log("Found file in IndexedDB, size:", fileBlob.size);
+          const text = await fileBlob.text();
+          console.log("CSV text length:", text.length);
+          console.log("CSV first 200 chars:", text.substring(0, 200));
+
+          const data = parseCSV(text);
+          console.log("Parsed CSV data:", data);
+          setCsvData(data);
+          return;
+        }
+      } catch (indexedDBError) {
+        console.log("IndexedDB read failed, trying blob URL:", indexedDBError);
+      }
+
+      // Fallback to fetch if IndexedDB fails
+      console.log("Falling back to fetch from URL:", csvFile.url);
       const response = await fetch(csvFile.url);
       if (!response.ok) {
         throw new Error(
