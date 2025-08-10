@@ -69,7 +69,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   };
 
   const handlePreview = () => {
-    if (attachment.url && (isImage || isPDF)) {
+    if (attachment.url && (isImage || isPDF || isCSV)) {
       window.open(attachment.url, "_blank");
     }
   };
