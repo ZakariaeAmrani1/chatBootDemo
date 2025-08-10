@@ -42,7 +42,7 @@ export function CSVUpload({
     setIsDragOver(false);
 
     const file = event.dataTransfer.files[0];
-    if (file && file.type === "text/csv") {
+    if (file && (file.type === "text/csv" || file.type === "application/csv" || file.name.toLowerCase().endsWith('.csv'))) {
       onFileSelect(file);
     } else if (file) {
       alert("Please select a CSV file only.");
