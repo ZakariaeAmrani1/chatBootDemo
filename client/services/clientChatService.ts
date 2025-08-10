@@ -104,6 +104,7 @@ export class ClientChatService {
         messageCount: 0,
         userId: userId,
         ...(pdfFile && { pdfFile }),
+        ...(csvFile && { csvFile }),
       };
 
       const savedChat = StorageManager.createChat(newChat);
