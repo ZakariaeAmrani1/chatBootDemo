@@ -19,7 +19,7 @@ export function CSVUpload({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type === "text/csv") {
+    if (file && (file.type === "text/csv" || file.type === "application/csv" || file.name.toLowerCase().endsWith('.csv'))) {
       onFileSelect(file);
     } else if (file) {
       alert("Please select a CSV file only.");
