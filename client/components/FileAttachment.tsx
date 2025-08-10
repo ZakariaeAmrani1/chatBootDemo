@@ -8,6 +8,7 @@ import {
   Volume2,
   Play,
   Pause,
+  FileSpreadsheet,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -26,7 +27,11 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
 }) => {
   const isImage = attachment.type.startsWith("image/");
   const isPDF = attachment.type === "application/pdf";
-  const isText = attachment.type.startsWith("text/");
+  const isCSV =
+    attachment.type === "text/csv" ||
+    attachment.type === "application/csv" ||
+    attachment.name.toLowerCase().endsWith(".csv");
+  const isText = attachment.type.startsWith("text/") && !isCSV;
   const isAudio = attachment.type.startsWith("audio/");
 
   const formatFileSize = (bytes: number) => {
@@ -40,6 +45,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   const getFileIcon = () => {
     if (isImage) return <ImageIcon className="h-4 w-4" />;
     if (isPDF) return <FileText className="h-4 w-4" />;
+    if (isCSV) return <FileSpreadsheet className="h-4 w-4" />;
     if (isText) return <FileText className="h-4 w-4" />;
     if (isAudio) return <Volume2 className="h-4 w-4" />;
     return <FileArchive className="h-4 w-4" />;
@@ -48,12 +54,36 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   const getFileColor = () => {
     if (isImage) return "text-blue-500";
     if (isPDF) return "text-red-500";
+    if (isCSV) return "text-purple-500";
     if (isText) return "text-green-500";
     if (isAudio) return "text-purple-500";
     return "text-gray-500";
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    try {
+      // Try to get file from IndexedDB first if it has an ID
+      if (attachment.id) {
+        const { StorageManager } = await import("@/services/storageManager");
+        const fileBlob = await StorageManager.getFile(attachment.id);
+
+        if (fileBlob) {
+          const url = URL.createObjectURL(fileBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = attachment.name;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          return;
+        }
+      }
+    } catch (error) {
+      console.log("IndexedDB download failed, trying direct URL:", error);
+    }
+
+    // Fallback to existing URL
     if (attachment.url) {
       const link = document.createElement("a");
       link.href = attachment.url;
@@ -65,7 +95,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
   };
 
   const handlePreview = () => {
-    if (attachment.url && (isImage || isPDF)) {
+    if (attachment.url && (isImage || isPDF || isCSV)) {
       window.open(attachment.url, "_blank");
     }
   };
@@ -170,7 +200,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
           </p>
         </div>
         <div className="flex gap-1">
-          {(isPDF || isText) && (
+          {(isPDF || isText || isCSV) && (
             <Button
               variant="ghost"
               size="sm"
