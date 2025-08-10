@@ -128,15 +128,12 @@ const Register: React.FC = () => {
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto flex items-center justify-center mb-4">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-primary mb-2">
-                CSV ChatBot
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Your AI Data Assistant
-              </p>
-            </div>
+          <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mb-4">
+            <img
+              src={getAppLogo(resolvedTheme)}
+              alt={`${getAppName()} Logo`}
+              className="w-16 h-16 rounded-2xl"
+            />
           </div>
           <h1 className="text-3xl font-bold text-foreground">Create account</h1>
           <p className="text-muted-foreground mt-2">

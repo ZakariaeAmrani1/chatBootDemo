@@ -337,14 +337,11 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
           >
             {!collapsed && (
               <div className="flex items-center justify-center w-full py-3 px-3">
-                <div className="text-center">
-                  <h1 className="text-xl font-bold text-primary">
-                    CSV ChatBot
-                  </h1>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Your AI Data Assistant
-                  </p>
-                </div>
+                <img
+                  src={getAppLogo(resolvedTheme, user)}
+                  alt={`${getAppName(user)} Logo`}
+                  className="h-12 w-auto max-w-full object-contain"
+                />
               </div>
             )}
             <div className="flex items-center gap-1">
