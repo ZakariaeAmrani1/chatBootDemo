@@ -174,7 +174,7 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
           </p>
         </div>
         <div className="flex gap-1">
-          {(isPDF || isText) && (
+          {(isPDF || isText || isCSV) && (
             <Button
               variant="ghost"
               size="sm"
