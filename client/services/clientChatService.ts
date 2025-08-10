@@ -310,7 +310,7 @@ export class ClientChatService {
           messageContent.includes(".csv") ||
           messageContent.includes(".doc");
 
-        if (selectedModel === "cloud" || selectedModel === "local-cloud") {
+        if (selectedModel === "cloud" || selectedModel === "local-cloud" || selectedModel === "csv-local") {
           // Check if Gemini API key is available
           if (!geminiApiKey || !geminiApiKey.trim()) {
             if (isFileUploadMessage) {
