@@ -18,7 +18,7 @@ export class ClientFileService {
           name: file.name,
           size: file.size,
           type: file.type,
-          url: `blob:${fileId}`,
+          url: URL.createObjectURL(file),
           uploadedAt: now,
         };
 
