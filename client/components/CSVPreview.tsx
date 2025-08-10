@@ -96,13 +96,19 @@ export function CSVPreview({
       setIsLoading(true);
       setError(null);
 
+      console.log("Loading CSV from URL:", csvFile.url);
+
       const response = await fetch(csvFile.url);
       if (!response.ok) {
-        throw new Error("Failed to fetch CSV file");
+        throw new Error(`Failed to fetch CSV file: ${response.status} ${response.statusText}`);
       }
 
       const text = await response.text();
+      console.log("CSV text length:", text.length);
+      console.log("CSV first 200 chars:", text.substring(0, 200));
+
       const data = parseCSV(text);
+      console.log("Parsed CSV data:", data);
       setCsvData(data);
     } catch (err) {
       console.error("Error loading CSV:", err);
