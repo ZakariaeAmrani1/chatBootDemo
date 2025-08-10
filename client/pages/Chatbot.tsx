@@ -285,7 +285,12 @@ const Chatbot = () => {
             });
           }
         }
-      } else if (model === "csv-local" && (file.type === "text/csv" || file.type === "application/csv" || file.name.toLowerCase().endsWith('.csv'))) {
+      } else if (
+        model === "csv-local" &&
+        (file.type === "text/csv" ||
+          file.type === "application/csv" ||
+          file.name.toLowerCase().endsWith(".csv"))
+      ) {
         // Create chat with client-side CSV processing like PDF model
         const createChatRequest: any = {
           title: `CSV: ${file.name}`,

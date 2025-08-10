@@ -54,8 +54,13 @@ export function CSVPreview({
 
   const parseCSV = (text: string): CSVData => {
     // Handle different line endings and clean the text
-    const normalizedText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
-    const lines = normalizedText.split("\n").filter(line => line.trim().length > 0);
+    const normalizedText = text
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .trim();
+    const lines = normalizedText
+      .split("\n")
+      .filter((line) => line.trim().length > 0);
 
     if (lines.length === 0) {
       throw new Error("CSV file is empty");
@@ -101,9 +106,10 @@ export function CSVPreview({
     };
 
     const headers = parseCSVLine(lines[0]);
-    const rows = lines.slice(1)
+    const rows = lines
+      .slice(1)
       .map((line) => parseCSVLine(line))
-      .filter(row => row.some(cell => cell.trim().length > 0)); // Filter out empty rows
+      .filter((row) => row.some((cell) => cell.trim().length > 0)); // Filter out empty rows
 
     return {
       headers,
@@ -121,7 +127,9 @@ export function CSVPreview({
 
       const response = await fetch(csvFile.url);
       if (!response.ok) {
-        throw new Error(`Failed to fetch CSV file: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch CSV file: ${response.status} ${response.statusText}`,
+        );
       }
 
       const text = await response.text();

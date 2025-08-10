@@ -92,7 +92,11 @@ export class ClientChatService {
         StorageManager.createFileAttachment(fileAttachment);
 
         // Determine file type and assign to appropriate property
-        if (file.type === "text/csv" || file.type === "application/csv" || file.name.toLowerCase().endsWith('.csv')) {
+        if (
+          file.type === "text/csv" ||
+          file.type === "application/csv" ||
+          file.name.toLowerCase().endsWith(".csv")
+        ) {
           csvFile = fileAttachment;
         } else {
           pdfFile = fileAttachment;
@@ -310,7 +314,11 @@ export class ClientChatService {
           messageContent.includes(".csv") ||
           messageContent.includes(".doc");
 
-        if (selectedModel === "cloud" || selectedModel === "local-cloud" || selectedModel === "csv-local") {
+        if (
+          selectedModel === "cloud" ||
+          selectedModel === "local-cloud" ||
+          selectedModel === "csv-local"
+        ) {
           // Check if Gemini API key is available
           if (!geminiApiKey || !geminiApiKey.trim()) {
             if (isFileUploadMessage) {
@@ -361,7 +369,10 @@ Add your API key in Settings - you can get one from [Google AI Studio](https://a
 
               // Check if any attachments are CSVs
               const csvAttachments = messageData.attachments.filter(
-                (att) => att.type === "text/csv" || att.type === "application/csv" || att.name.toLowerCase().endsWith('.csv'),
+                (att) =>
+                  att.type === "text/csv" ||
+                  att.type === "application/csv" ||
+                  att.name.toLowerCase().endsWith(".csv"),
               );
 
               if (pdfAttachments.length > 0) {
