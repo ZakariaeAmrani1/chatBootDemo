@@ -359,6 +359,11 @@ Add your API key in Settings - you can get one from [Google AI Studio](https://a
                 (att) => att.type === "application/pdf",
               );
 
+              // Check if any attachments are CSVs
+              const csvAttachments = messageData.attachments.filter(
+                (att) => att.type === "text/csv" || att.type === "application/csv" || att.name.toLowerCase().endsWith('.csv'),
+              );
+
               if (pdfAttachments.length > 0) {
                 prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}).
 
@@ -370,6 +375,21 @@ To analyze your PDF content, you have a few options:
 3. Provide specific questions about the document and I'll guide you on how to extract the relevant information
 
 What would you like me to help you with regarding these files? Original message: ${messageContent}`;
+              } else if (csvAttachments.length > 0) {
+                prompt = `I have uploaded ${messageData.attachments.length} CSV file(s): ${fileNames}.
+
+I can see that you've uploaded CSV data file(s). I can help you analyze the data, understand the structure, identify patterns, and provide insights.
+
+Here's what I can help you with:
+1. **Data Structure Analysis**: Understand the columns, data types, and overall structure
+2. **Data Quality Assessment**: Identify missing values, duplicates, and data inconsistencies
+3. **Statistical Summary**: Provide basic statistics and distributions
+4. **Data Insights**: Find patterns, trends, and interesting relationships
+5. **Recommendations**: Suggest data cleaning steps or analysis approaches
+
+The CSV data is available for preview in the side panel. What specific analysis or insights would you like me to provide about your data?
+
+Original message: ${messageContent}`;
               } else {
                 prompt = `I have uploaded ${messageData.attachments.length} file(s): ${fileNames} (${fileTypes}). Please analyze the content and provide insights about what the file contains and how I can work with it. Original message: ${messageContent}`;
               }
