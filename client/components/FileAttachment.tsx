@@ -60,7 +60,30 @@ const FileAttachmentDisplay: React.FC<FileAttachmentProps> = ({
     return "text-gray-500";
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    try {
+      // Try to get file from IndexedDB first if it has an ID
+      if (attachment.id) {
+        const { StorageManager } = await import("@/services/storageManager");
+        const fileBlob = await StorageManager.getFile(attachment.id);
+
+        if (fileBlob) {
+          const url = URL.createObjectURL(fileBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = attachment.name;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          return;
+        }
+      }
+    } catch (error) {
+      console.log("IndexedDB download failed, trying direct URL:", error);
+    }
+
+    // Fallback to existing URL
     if (attachment.url) {
       const link = document.createElement("a");
       link.href = attachment.url;
